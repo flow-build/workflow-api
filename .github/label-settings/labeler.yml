@@ -1,0 +1,26 @@
+js: 
+  - 'src/**/*.js'
+test:
+  - '**/tests'
+  - '**/_tests_'
+  - '**/*.spec.js'
+  - '**/*.test.js'
+
+documentation:
+  - '**/*.md'
+
+configuration:
+  - '**/*.yml'
+  - '**/*.json'
+  - '**/.env'
+  - '**/.env.**'
+  - '**/knexfile.js'
+  - '**/jest.config.js'
+
+dependencies:
+  - '**/package.json'
+  - '**/build.gradle'
+  - '**/.*ignore'
+
+github-actions:
+  - '**/.github/workflows/**'

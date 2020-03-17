@@ -1,0 +1,47 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  pull_request:
+    branches:
+      - master
+      - development
+
+jobs:
+  test:
+    name: start on node ${{ matrix.node_version }} in ${{ matrix.os }}, lint and test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: ["12"]
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: install dependencies
+        run:
+          npm ci
+          # npm run lint
+      - name: start database
+        run: docker-compose up -d postgres
+
+      - name: run migrations
+        run: |
+          npm install -g knex
+          knex --env docker migrate:latest
+
+      - name: start tests
+        run: npm run tests
+        env: 
+          NODE_ENV: docker
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
