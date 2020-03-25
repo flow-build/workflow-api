@@ -1,4 +1,4 @@
-js: 
+js:
   - 'src/**/*.js'
 test:
   - '**/tests'
@@ -6,7 +6,7 @@ test:
   - '**/*.spec.js'
   - '**/*.test.js'
 
-documentation:
+doc:
   - '**/*.md'
 
 configuration:

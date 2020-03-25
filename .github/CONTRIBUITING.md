@@ -1,9 +1,9 @@
-# Contributing to flow-build/engine
+# Contributing to flow-build/workflow
 
-We'd love for you to contribute to our source code and to flowbuild-core even better than it is
+We'd love for you to contribute to our source code and to flowbuild-workflow even better than it is
 today!
 
-Check out the Developer's Guide on the [documentation](https://flow-build.gitpage.io) for setup instructions.
+Check out the Developer's Guide on the [documentation](https://flow-build.github.io/#/) for setup instructions.
 
 Here are the guidelines we'd like you to follow:
 
@@ -37,20 +37,20 @@ quickly:
 ### Submitting a Pull Request
 Before you submit your pull request consider the following guidelines:
 
-- Search [GitHub](https://github.com/runelite/runelite/pulls) for an open or closed Pull Request
+- Search [GitHub](https://github.com/flow-build/workflow/pulls) for an open or closed Pull Request
   that relates to your submission. You don't want to duplicate effort.
 - [Fork](https://help.github.com/articles/fork-a-repo/) this repo.
 - [Clone](https://help.github.com/articles/cloning-a-repository/) your copy.
 
 ```shell
-git clone https://github.com/YOUR_USERNAME/engine.git -o flow-build-engine
-cd flow-build-engine/
+git clone https://github.com/YOUR_USERNAME/workflow.git -o flow-build-workflow
+cd flow-build-workflow/
 ```
 
 - After cloning, set a new remote [upstream](https://help.github.com/articles/configuring-a-remote-for-a-fork/) (this helps to keep your fork up to date)
 
 ```shell
-git remote add upstream https://github.com/flow-build/engine.git
+git remote add upstream https://github.com/flow-build/workflow.git
 ```
 
 - Make your changes in a new git branch:
@@ -77,11 +77,11 @@ Note: the optional commit `-a` command line option will automatically "add" and 
 git push origin my-fix-branch
 ```
 
-In GitHub, send a pull request to `engine:master`.
+In GitHub, send a pull request to `workflow:master`.
 If we suggest changes, then:
 
 - Make the required updates.
-- Re-run flow-build/engine and make sure any and all tests are still passing.
+- Re-run flow-build/workflow and make sure any and all tests are still passing.
 - Commit your changes to your branch (e.g. `my-fix-branch`).
 - Push the changes to your GitHub repository (this will update your Pull Request).
 
@@ -129,4 +129,4 @@ from the main (upstream) repository:
 To ensure consistency throughout the source code, review our [code conventions](https://github.com/flow-build/flow-build/wiki/Branch-Pattern).
 
 
-[github]: https://github.com/runelite/runelite
+[github]: https://github.com/flow-build/flow=build
