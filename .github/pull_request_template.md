@@ -41,7 +41,7 @@ For more information on release notes see: https://github.com/fdte-dsd/community
 
 ```
 
-**Additional documentation e.g., KEPs (Kubernetes Enhancement Proposals), usage docs, etc.**:
+**Additional documentation e.g., usage docs, etc.**:
 
 <!--
 This section can be blank if this pull request does not require a release note.
