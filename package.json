@@ -1,5 +1,5 @@
 {
-  "name": "@flow-build/workflow",
+  "name": "@flowbuild/workflow",
   "version": "2.0.0",
   "description": "",
   "main": "index.js",
