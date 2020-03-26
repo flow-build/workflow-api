@@ -1,10 +1,10 @@
 ---
 name: "Bug report"
 about: Create a report to help us improve
-labels: kind/bug
+labels: bug
 ---
-
-Please check if your issue is not a duplicate by [searching existing issues](https://github.com/flowbuilder/core/search?type=Issues)
+<!-- Please read our Rules of Conduct: https://github.com/flow-build/community -->
+<!-- Please check if your issue is not a duplicate by [searching existing issues](https://github.com/flow-builder/workflow/search?type=Issues) -->
 
 **What happened**:
 
@@ -16,9 +16,8 @@ Please check if your issue is not a duplicate by [searching existing issues](htt
 
 **Environment**:
 
-- CORE - WORKFLOW - COCKPIT version:
-- OS FlowBuilder is installed on:
+- version:
+- OS installed on:
 - User OS & Browser or mobile:
-- FlowBuilder plugins:
+- Plugins:
 - Others:
-  

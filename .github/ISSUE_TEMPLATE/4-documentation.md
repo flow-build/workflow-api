@@ -1,13 +1,15 @@
 ---
-name: Failing Test
-about: Report failing tests
-labels: kind/failing-test
+name: Documentation
+about: reporting a documentation error
+labels: doc
 ---
 
 **What part of docs are missing out**:
+<!-- Please add a 'x' between the brackets, this will help us to know what is the important things to go to
+site documentation -->
 
 **We need to cover up de doc with**:
-<!-- Please add a 'x' between the brackets, this will help us to know what is the important things to go to 
+<!-- Please add a 'x' between the brackets, this will help us to know what is the important things to go to
 site documentation -->
 
 - [] especification
@@ -15,4 +17,4 @@ site documentation -->
 - [] grossary
 - [] organization
 
-**Has any extra information to explain**:
+**Anything else we need to know**:

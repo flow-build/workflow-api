@@ -1,7 +1,7 @@
 ---
 name: Failing Test
 about: Report failing tests
-labels: kind/failing-test
+labels: test
 ---
 
 **Which jobs are failing**:
