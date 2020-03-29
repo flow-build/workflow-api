@@ -36,7 +36,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://jruivofdte@bitbucket.org/fieldlink/koa-workflow.git"
+    "url": "https://bitbucket.org/fieldlink/koa-workflow.git"
   },
   "homepage": "https://bitbucket.org/fieldlink/koa-workflow#readme"
 }
