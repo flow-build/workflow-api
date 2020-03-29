@@ -32,13 +32,6 @@
                     "CHANGELOG.md"
                 ]
             }
-        ],
-        [
-            "semantic-release-slack-bot",
-            {
-                "notifyOnSuccess": false,
-                "notifyOnFail": true
-            }
         ]
     ]
 }
