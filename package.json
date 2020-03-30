@@ -44,7 +44,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.org/flow-build/workflow.git"
+    "url": "https://github.com/flow-build/workflow.git"
   },
-  "homepage": "https://github.org/flow-build/workflow#readme"
+  "homepage": "https://github.com/flow-build/workflow#readme"
 }
