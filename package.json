@@ -44,7 +44,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.org/fieldlink/koa-workflow.git"
+    "url": "https://github.org/flow-build/workflow.git"
   },
-  "homepage": "https://bitbucket.org/fieldlink/koa-workflow#readme"
+  "homepage": "https://github.org/flow-build/workflow#readme"
 }
