@@ -1,6 +1,6 @@
 {
   "name": "@flowbuild/workflow",
-  "version": "2.0.0",
+  "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,13 +8,20 @@
     "tests": "npm -- test -i",
     "seeds": "knex --env ${NODE_ENV} --knexfile knexfile.js seed:run",
     "migrations": "knex --env ${NODE_ENV} --knexfile knexfile.js migrate:latest",
-    "start": "nodemon src/server.js"
+    "start": "nodemon src/server.js",
+    "get-version": "echo $npm_package_version",
+    "release": "semantic-release"
   },
   "devDependencies": {
-    "@fieldlink/workflow-engine": "^3.1.0",
+    "@flowbuild/engine": "^1.1.0",
     "jest": "^24.8.0",
     "nodemon": "^1.19.4",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "semantic-release": "^17.0.4",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/npm": "^7.0.5",
+    "conventional-changelog-conventionalcommits": "^4.2.3"
   },
   "dependencies": {
     "ajv": "^6.10.2",
@@ -32,9 +39,12 @@
   "keywords": [],
   "author": "FDTE-DSD",
   "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://jruivofdte@bitbucket.org/fieldlink/koa-workflow.git"
+    "url": "https://bitbucket.org/fieldlink/koa-workflow.git"
   },
   "homepage": "https://bitbucket.org/fieldlink/koa-workflow#readme"
 }
