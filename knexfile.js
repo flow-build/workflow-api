@@ -1,35 +1,37 @@
 const path = require('path');
-const BASE_PATH = __dirname;
+const BASE_PATH = path.join(__dirname, 'db');
 
 module.exports = {
   test: {
     client: 'pg',
     connection: {
-      host: "127.0.0.1",
-      user: "postgres",
-      password: "postgres",
-      database: "koa_workflow"
+      host: process.env.POSTGRES_HOST || '0.0.0.0',
+      port: process.env.POSTGRES_PORT || '5432',
+      user: process.env.POSTGRES_USER || 'postgres',
+      password: process.env.POSTGRES_PASSWORD || 'postgres',
+      database: process.env.POSTGRES_DATABASE || 'workflow'
     },
     migrations: {
-      directory: path.join(BASE_PATH, 'db/migrations')
+      directory: path.join(BASE_PATH, 'migrations')
     },
     seeds: {
-      directory: path.join(BASE_PATH, 'db/seeds')
+      directory: path.join(BASE_PATH, 'seeds')
     }
   },
   docker: {
     client: 'pg',
     connection: {
-      host: "koa-workflow_postgres",
-      user: "postgres",
-      password: "postgres",
-      database: "workflow"
+      host: process.env.POSTGRES_HOST || '0.0.0.0',
+      port: process.env.POSTGRES_PORT || '5432',
+      user: process.env.POSTGRES_USER || 'postgres',
+      password: process.env.POSTGRES_PASSWORD || 'postgres',
+      database: process.env.POSTGRES_DATABASE || 'workflow'
     },
     migrations: {
-      directory: path.join(BASE_PATH, 'db/migrations')
+      directory: path.join(BASE_PATH, 'migrations')
     },
     seeds: {
-      directory: path.join(BASE_PATH, 'db/seeds')
+      directory: path.join(BASE_PATH, 'seeds')
     }
   }
 }
