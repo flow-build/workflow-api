@@ -5,10 +5,8 @@ services:
     image: postgres:11.4
     container_name: workflow_postgres
     restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: workflow
+    env_file:
+      - ./.env.docker
     ports:
       - 5432:5432
 
@@ -16,8 +14,8 @@ services:
     image: node:lts
     deploy:
       replicas: 1
-    environment:
-       NODE_ENV: docker
+    env_file:
+      - ./.env.docker
     container_name: koa-workflow_app
     restart: on-failure:10 # necessary due to possibility of postgres not being ready when service runs
     depends_on:
