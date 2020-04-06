@@ -3,7 +3,7 @@ const router = require("./router");
 const cors = require('koa2-cors');
 const jwt = require("koa-jwt");
 const { setEngine, getEngine, setCockpit, getCockpit } = require("./engine");
-const { Engine, Cockpit } = require("@flowuibld/engine");
+const { Engine, Cockpit } = require("@flowbuild/engine");
 const { db } = require("./tests/utils/db");
 
 const startServer = (port) => {

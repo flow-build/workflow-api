@@ -3,7 +3,7 @@ const uuid = require("uuid/v1");
 const { setEngine,
   setCockpit } = require("../engine");
 const { Engine,
-  Cockpit } = require('@flowuibld/engine');
+  Cockpit } = require('@flowbuild/engine');
 const { db_config, db } = require("./utils/db");
 const { startServer } = require("../app");
 const { valid_token } = require("./utils/samples");
