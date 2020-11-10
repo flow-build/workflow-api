@@ -21,11 +21,10 @@ module.exports = {
   docker: {
     client: 'pg',
     connection: {
-      host: process.env.POSTGRES_HOST || '0.0.0.0',
-      port: process.env.POSTGRES_PORT || '5432',
-      user: process.env.POSTGRES_USER || 'postgres',
-      password: process.env.POSTGRES_PASSWORD || 'postgres',
-      database: process.env.POSTGRES_DATABASE || 'workflow'
+      host: "workflow_postgres",
+      user: "postgres",
+      password: "postgres",
+      database: "workflow"
     },
     migrations: {
       directory: path.join(BASE_PATH, 'migrations')
