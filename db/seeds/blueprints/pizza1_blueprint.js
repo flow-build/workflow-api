@@ -21,6 +21,7 @@ module.exports = {
         "lane_id": "1",
         "parameters": {
           "input": {
+            "client": { "$ref": "actor_data.name" },
             "pizzas": {
               "qty": 2,
               "flavors": [
@@ -65,7 +66,7 @@ module.exports = {
         "lane_id": "1",
         "parameters": {
           "input": {
-            "comment": { "$mustache": "check if there are {{bag.pizzas.qty}} pizzas on the bag" }
+            "comment": { "$mustache": "check if there are {{bag.pizzas.qty}} pizzas in the bag" }
           }
         }
       },
