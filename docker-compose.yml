@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 
 services:
   postgres:
@@ -11,7 +11,7 @@ services:
       - 5432:5432
 
   app:
-    image: node:lts
+    image: node:12
     deploy:
       replicas: 1
     env_file:
@@ -27,4 +27,4 @@ services:
       - .:/usr/app
       - /usr/app/node_modules
     working_dir: /usr/app
-    command: ./scripts/start_dev.sh
+    command: 'bash -c ./scripts/start_dev.sh'
