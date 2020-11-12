@@ -26,6 +26,12 @@ To run the tests, you may use the command below:
 docker-compose run -T app ./scripts/run_tests.sh
 ```
 
+Para usuários Windows, altere o command do arquivo docker-compose.yml para 
+
+```
+bash -c " npm update && npm install knex -g && npm install nodemon -g && npm install && npm rebuild && npm run migrations && npm run seeds && npm run start "
+```
+
 ## Bibliografy
 
 ### how to prepare for windows

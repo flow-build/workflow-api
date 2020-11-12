@@ -11,7 +11,7 @@ services:
       - 5432:5432
 
   app:
-    image: node:12
+    image: node:lts
     deploy:
       replicas: 1
     env_file:
@@ -27,4 +27,5 @@ services:
       - .:/usr/app
       - /usr/app/node_modules
     working_dir: /usr/app
-    command: 'bash -c ./scripts/start_dev.sh'
+    command: bash -c "./scripts/start_dev.sh"
+    #command: bash -c " npm update && npm install knex -g && npm install nodemon -g && npm install && npm rebuild && npm run migrations && npm run seeds && npm run start "
