@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "ajv": "^6.10.2",
+    "jsrsasign": "^10.0.5",
     "knex": "^0.19.5",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
