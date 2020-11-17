@@ -1,10 +1,14 @@
-samples = {};
+const { createJWTToken } = require("../../utils/token_generator");
+const { jwtSecret } = require("../../utils/jwt_secret");
 
-samples.valid_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwibmFtZSI6ImNoZXNoaXJlIGdyaW4iLCJpYXQiOjE1MTYyMzkwMjIsImFjdG9yX2lkIjoxLCJjbGFpbXMiOltdfQ.ujLJkTD3V0sViQbz5JkCe86gI5WBJEmVKjeeTKICKS8";
+samples = {};
 
 samples.actor_data = {
   actor_id: 1,
   claims: []
 }
+
+samples.valid_token = createJWTToken(samples.actor_data, jwtSecret, 3600);
+
 
 module.exports = samples;

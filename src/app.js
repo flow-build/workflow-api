@@ -6,7 +6,7 @@ const { setEngine, getEngine, setCockpit, getCockpit } = require("./engine");
 const { Engine, Cockpit } = require("@flowbuild/engine");
 const { db } = require("./tests/utils/db");
 
-const jwtSecret = process.env.JWT_TOKEN || "1234";
+const { jwtSecret } = require("./utils/jwt_secret");
 
 const startServer = (port) => {
   let engine = getEngine();

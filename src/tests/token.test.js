@@ -1,5 +1,6 @@
 const { startServer } = require("../app");
 const request = require("supertest");
+const rs = require("jsrsasign");
 
 let server;
 
@@ -12,29 +13,32 @@ afterAll(() => {
 });
 
 describe("token endpoint", () => {
-  let cachedEnvJwtSecret;
-  beforeAll(() => {
-    cachedEnvJwtSecret = process.env.JWT_TOKEN;
-    process.env.JWT_TOKEN = null;
-  });
-
-  afterAll(() => {
-    process.env.JWT_TOKEN = cachedEnvJwtSecret;
-  });
-
-  test("should return 200 with correct secret", async () => {
+  test("should return 200 and token should be valid", async () => {
+    const secret = process.env.JWT_KEY || "1234";
     const res = await request(server)
           .post("/token");
 
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("jwtToken");
-    expect(res.body.payload).toHaveProperty("actor_id");
-    expect(res.body.payload).toHaveProperty("claim");
+    expect(res.body).toHaveProperty("payload");
+
+    const { jwtToken, payload } = res.body;
+
+    expect(payload).toHaveProperty("actor_id");
+    expect(payload).toHaveProperty("claims");
+    expect(payload).toHaveProperty("iat");
+    expect(payload).toHaveProperty("exp");
+    expect(payload.exp - payload.iat).toEqual(3600);
 
     // Taken from uuid package code
     const uuidRegex = /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i;
-    expect(res.body.payload.actor_id).toMatch(uuidRegex);
-    expect(Array.isArray(res.body.payload.claim)).toBe(true);
+    expect(payload.actor_id).toMatch(uuidRegex);
+    expect(Array.isArray(payload.claims)).toBe(true);
+
+    const isValid = rs.KJUR.jws.JWS.verifyJWT(jwtToken,
+                                              { utf8: secret },
+                                              { alg: ["HS256"] });
+    expect(isValid).toBe(true);
   });
 
   test("should return different tokens for different secrets", async () => {
@@ -68,5 +72,84 @@ describe("token endpoint", () => {
     expect(res.statusCode).toBe(200);
     expect(res.body.payload.actor_id).toBe(actor_id);
     expect(res.body.payload.claims).toEqual(claims);
+  });
+
+  test("when specified, should change token duration", async () => {
+    const duration = 1000000;
+    const res = await request(server)
+          .post("/token")
+          .set({ "x-duration": duration })
+
+    expect(res.statusCode).toBe(200);
+
+    const { iat, exp } = res.body.payload;
+
+    expect(exp - iat).toEqual(duration);
   })
+
+});
+
+describe("token environment variable", () => {
+  const OLD_ENV = process.env;
+  let newServer;
+
+  beforeEach(() => {
+    jest.resetModules();
+    process.env = { ...OLD_ENV };
+    delete process.env.JWT_KEY;
+  });
+
+  afterEach(() => {
+    if (newServer) {
+      newServer.close();
+    }
+  });
+
+  afterAll(() => {
+    process.env = OLD_ENV;
+  });
+
+  test("without variable, default should be 1234", async () => {
+    const secret = "1234";
+
+    // has to be reimported to load environment variable
+    const { startServer: newStartServer } = require("../app");
+    newServer = newStartServer(3002);
+
+    const res = await request(newServer)
+          .post("/token");
+
+    expect(res.statusCode).toBe(200);
+
+    const { jwtToken } = res.body;
+    const isValid = rs.KJUR.jws.JWS.verifyJWT(jwtToken,
+                                              { utf8: secret },
+                                              { alg: ["HS256"] });
+    expect(isValid).toBe(true);
+  });
+
+  test("changing variable should change token", async () => {
+    const originalSecret = "1234";
+    const newSecret = "test4321";
+
+    process.env.JWT_KEY = newSecret;
+
+    const { startServer: newStartServer } = require("../app");
+    newServer = newStartServer(3002);
+    const res = await request(newServer)
+          .post("/token");
+
+    expect(res.statusCode).toBe(200);
+
+    const { jwtToken } = res.body;
+    const isOriginalValid = rs.KJUR.jws.JWS.verifyJWT(jwtToken,
+                                                      { utf8: originalSecret },
+                                                      { alg: ["HS256"] });
+    expect(isOriginalValid).toBe(false);
+
+    const isNewValid = rs.KJUR.jws.JWS.verifyJWT(jwtToken,
+                                                 { utf8: newSecret },
+                                                 { alg: ["HS256"] });
+    expect(isNewValid).toBe(true);
+  });
 });

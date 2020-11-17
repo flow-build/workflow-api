@@ -1,16 +1,11 @@
 const uuid = require("uuid/v1");
-const rs = require("jsrsasign");
 
-const jwtSecret = process.env.JWT_TOKEN || "1234";
+const { createJWTToken } = require("../utils/token_generator");
+const { jwtSecret } = require("../utils/jwt_secret");
 
 const getToken = (ctx, next) => {
-  let secret;
-  try {
-    secret = ctx.get('x-secret');
-  }
-  catch (err) {
-    secret = jwtSecret;
-  }
+  const secret = ctx.get("x-secret") || jwtSecret;
+  const duration = parseInt(ctx.get("x-duration")) || 3600; // default is 1 hour
 
   const body = ctx.request.body;
   if (!body.actor_id) {
@@ -20,7 +15,7 @@ const getToken = (ctx, next) => {
     body.claims = [];
   }
 
-  const jwtToken = createJWTToken(body, secret);
+  const jwtToken = createJWTToken(body, secret, duration);
   ctx.status = 200;
   ctx.body = {
     jwtToken,
@@ -28,10 +23,6 @@ const getToken = (ctx, next) => {
   };
 }
 
-const createJWTToken = (payload, secret) => {
-  const jwtHeader = { alg: "HS256", typ: "JWT" };
-  return rs.KJUR.jws.JWS.sign("HS256", jwtHeader, payload, { utf8: secret })
-}
 
 module.exports = {
   getToken
