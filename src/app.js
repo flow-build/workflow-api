@@ -6,6 +6,8 @@ const { setEngine, getEngine, setCockpit, getCockpit } = require("./engine");
 const { Engine, Cockpit } = require("@flowbuild/engine");
 const { db } = require("./tests/utils/db");
 
+const { jwtSecret } = require("./utils/jwt_secret");
+
 const startServer = (port) => {
   let engine = getEngine();
   if (!engine) {
@@ -28,7 +30,7 @@ const startServer = (port) => {
   app.use(router({
     corsOptions: corsOptions,
     middlewares: [
-      jwt({ secret: "1234", debug: true })
+      jwt({ secret: jwtSecret, debug: true })
     ]
   }).routes());
   return app.listen(port, function () {
