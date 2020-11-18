@@ -1,0 +1,278 @@
+openapi: 3.0.1
+info:
+  title: Koa Workflow
+  description: "Routes for accessing workflow methods"
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- name: Token
+  description: "Token for authentication and authorization"
+paths:
+  /token:
+    post:
+      tags:
+      - Token
+      summary: "Get valid JWT token"
+      security: []
+      parameters:
+      - name: "x-duration"
+        in: "header"
+        description: "Token duration in seconds"
+        schema:
+          type: "integer"
+      - name: "x-secret"
+        in: "header"
+        description: "Use another JWT secret"
+        schema:
+          type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
+        required: false
+      responses:
+        '200':
+          description: "Valid token"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+  /workflows:
+    get:
+      tags:
+      - Workflow
+      summary: "Get all workflows for actor"
+      responses:
+        '200':
+          description: "Workflows for actor"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Workflows"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+    post:
+      tags:
+      - Workflow
+      summary: "Save workflow"
+      responses:
+        '200':
+          description: "Workflow saved successfully"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  workflow_id:
+                    type: "string"
+                    example: "59e11731-040e-4fb7-9e54-9c9befecbf7e"
+                  workflow_url:
+                    type: "string"
+                    example: "localhost:3000/workflows/59e11731-040e-4fb7-9e54-9c9befecbf7e"
+        '400':
+          description: "Error saving"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  error:
+                    type: "string"
+                    example: "error message"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+  /workflows/{id}:
+    get:
+      tags:
+      - Workflow
+      summary: "Fetch workflow by id"
+      description: "Returns a single workflow"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "Workflow with desired id found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Workflow"
+        '404':
+          description: "Workflow not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      tags:
+      - Workflow
+      summary: "Fetch workflow by id"
+      description: "Returns a single workflow"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '204':
+          description: "Workflow deleted successfully"
+        '404':
+          description: "Workflow not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+  # routes after here need to be reviewed
+  /workflows/{id}/processes:
+    get:
+      tags:
+      - Proccess
+      summary: "Fetch workflow by id"
+      description: "Returns a single workflow"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "Workflow with desired id found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Workflow"
+        '404':
+          description: "Workflow not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: "http"
+      scheme: "bearer"
+      bearerFormat: JWT
+
+  responses:
+    UnauthorizedError:
+      description: "Unauthorized. Missing Bearer token"
+
+  schemas:
+    TokenRequest:
+      type: "object"
+      properties:
+        actor_id:
+          type: "string"
+          example: "6844da36-aacf-40e7-aedc-576a51dd9046"
+        claims:
+          type: "array"
+          items:
+            type: "string"
+            example: "user"
+    TokenResponse:
+      required:
+      - actor_id
+      - claims
+      type: "object"
+      properties:
+        actor_id:
+          type: "string"
+          example: "6844da36-aacf-40e7-aedc-576a51dd9046"
+        claims:
+          type: "array"
+          items:
+            type: "string"
+            example: "user"
+    Timestamp:
+      type: "string"
+      example: "2020-11-17T20:25:44.188Z"
+    Workflows:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/Workflow"
+    Workflow:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          example: "dd349511-3b6b-4271-8a0b-69e47d34c1e4"
+        name:
+          type: "string"
+          example: "Example workflow"
+        description:
+          type: "string"
+          example: "Description of what the workflow does"
+        blueprint_spec:
+          $ref: "#/components/schemas/BlueprintSpec"
+        created_at:
+          $ref: "#/components/schemas/Timestamp"
+        version:
+          type: "integer"
+          example: 1
+    BlueprintSpec:
+      type: "object"
+      properties:
+        lanes:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Lane"
+        nodes:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Node"
+        prepare:
+          type: "array"
+          items:
+              type: "string"
+              example: "prepare"
+        environment:
+          type: "object"
+        requirements:
+          type: "array"
+          items:
+              type: "string"
+              example: "core"
+    Lane:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          example: "1"
+        name:
+          type: "string"
+          example: "the_only_lane"
+        rule:
+          type: "array"
+          items:
+            oneOf:
+            - type: "string"
+              example: "fn"
+            - type: "array"
+              example: ["&", "args"]
+            - type: "boolean"
+    Node:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          example: "1"
+        name:
+          type: "string"
+          example: "Start Node"
+        type:
+          type: "string"
+          example: "Start"
+        lane_id:
+          type: "string"
+          example: "1"
+        parameters:
+          type: "object"
+          properties:
+            input_schema:
+              type: "object"
+
+security:
+  - BearerAuth: []
