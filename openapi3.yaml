@@ -4,7 +4,7 @@ info:
   description: "Routes for accessing workflow methods"
   version: 1.0.0
 servers:
-- url: localhost:3000
+- url: http://localhost:3000
 tags:
 - name: Token
   description: "Token for authentication and authorization"

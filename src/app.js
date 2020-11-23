@@ -12,7 +12,7 @@ const { db } = require("./tests/utils/db");
 const { jwtSecret } = require("./utils/jwt_secret");
 
 // At execution time, the current folder is the root, that is why src is needed
-const swaggerDocument = swagger.loadDocumentSync("src/openapi3.yaml");
+const swaggerDocument = swagger.loadDocumentSync("openapi3.yaml");
 
 
 const startServer = (port) => {

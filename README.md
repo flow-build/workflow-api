@@ -34,11 +34,19 @@ To run the tests, you may use the command below:
 docker-compose run -T app ./scripts/run_tests.sh
 ```
 
-Para usuários Windows, altere o command do arquivo docker-compose.yml para 
+For Windows users, change the `command` in the docker-compose.yml file to:
 
 ```
 bash -c " npm update && npm install knex -g && npm install nodemon -g && npm install && npm rebuild && npm run migrations && npm run seeds && npm run start "
 ```
+
+## Exploring and executing the API
+
+To explore all possible routes, go to http://localhost:3000/swagger
+
+If you change the base url, change it as well in the openapi3.yaml file.
+
+If you wish to use a third-party program, such as Insomnia or Postman, just import the openapi3.yaml file and all the routes will be shown. If you use Postman, I would recommend changing the Folder organization to Tags after selecting the file to be imported.
 
 ## Bibliography
 
