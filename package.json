@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm run seeds && jest --coverage",
+    "test": "npm run seeds && jest --watch --coverage",
+    "test:debug": "npm run seeds && node --inspect=0.0.0.0 node_modules/.bin/jest -i --watch --coverage src/tests/token.test.js",
     "tests": "npm -- test -i",
     "seeds": "knex --env docker --knexfile knexfile.js seed:run",
     "migrations": "knex --env docker --knexfile knexfile.js migrate:latest",
@@ -16,16 +17,16 @@
     "@flowbuild/engine": "^1.1.2",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
-    "@semantic-release/npm": "^7.0.6",
+    "@semantic-release/npm": "^7.0.8",
     "conventional-changelog-conventionalcommits": "^4.5.0",
     "jest": "^24.8.0",
     "nodemon": "^1.19.4",
-    "semantic-release": "^17.2.2",
+    "semantic-release": "^17.3.0",
     "supertest": "^4.0.2"
   },
   "dependencies": {
     "ajv": "^6.10.2",
-    "jsrsasign": "^10.0.5",
+    "jsrsasign": "^10.1.4",
     "knex": "^0.19.5",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
@@ -35,6 +36,8 @@
     "koa-router": "^7.4.0",
     "koa2-cors": "^2.0.6",
     "pg": "^7.14.0",
+    "swagger2": "^2.0.0",
+    "swagger2-koa": "^2.0.0",
     "uuid": "^3.3.3"
   },
   "keywords": [],
