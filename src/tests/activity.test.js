@@ -1,9 +1,9 @@
 const _ = require("lodash");
-const uuid = require("uuid/v1");
+const { v1:uuid } = require("uuid");
 const { setEngine,
   setCockpit } = require("../engine");
 const { Engine,
-  Cockpit } = require('@fieldlink/workflow-engine');
+  Cockpit } = require("@flowbuild/engine");
 const { db_config, db } = require("./utils/db");
 const { startServer } = require("../app");
 const { valid_token, actor_data } = require("./utils/samples");
