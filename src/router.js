@@ -8,12 +8,16 @@ const pc = require("./controllers/process");
 const pkc = require("./controllers/package");
 const wv = require("./validators/workflow");
 const pv = require("./validators/process");
+const tc = require("./controllers/token");
+const hc = require("./controllers/health-check");
 const cors = require('koa2-cors');
 
 module.exports = (opts = {}) => {
      const router = new Router();
 
      router.use(bodyParser());
+     router.get("/healthcheck", hc.healthCheck);
+     router.post("/token", tc.getToken);
 
      for (let middleware of opts.middlewares) {
           router.use(middleware);
@@ -22,6 +26,12 @@ module.exports = (opts = {}) => {
      router.use(captureActorData);
 
      router.use(cors(opts.corsOptions));
+
+     if (opts.routes) {
+          for (let route of opts.routes) {
+               router[route.verb](route.path, ...route.methods);
+          }
+     }
 
      router
           .post("/workflows",
@@ -32,9 +42,8 @@ module.exports = (opts = {}) => {
           .get("/workflows/:id",
                validateUUID,
                wc.fetchWorkflow)
-          .get("/workflows/:id/status",
-               validateUUID,
-               wc.fetchWorkflowsWithProcessStatusCount)
+          .get("/workflows/name/:name",
+               wc.fetchWorkflowByName)
           .get("/workflows/:id/processes",
                validateUUID,
                wc.fetchWorkflowProcessList)
@@ -84,10 +93,6 @@ module.exports = (opts = {}) => {
           .post("/processes/:id/abort",
                validateUUID,
                pc.abortProcess)
-          .post("/processes/:id/state",
-               validateUUID,
-               pv.setProcessState,
-               pc.setProcessState)
           .post("/packages",
                pkc.savePackage)
           .get("/packages/:id",
@@ -99,8 +104,10 @@ module.exports = (opts = {}) => {
 
           .post("/activity_manager/:activity_manager_id/submit",
                validateUUID,
-               ac.submitByActivityManagerId
-          )
+               ac.submitByActivityManagerId)
+          .post("/activity_manager/:activity_manager_id/commit",
+               validateUUID,
+               ac.commitByActivityManagerId)
 
      return router;
 };

@@ -25,6 +25,7 @@
   "dependencies": {
     "@flowbuild/engine": "^1.1.2",
     "ajv": "^7.1.1",
+    "jsrsasign": "^10.1.12",
     "knex": "^0.21.18",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",

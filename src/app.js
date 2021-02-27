@@ -1,9 +1,10 @@
 const Koa = require("koa");
 const router = require("./router");
+const cockpit_router = require("./cockpit_router");
 const cors = require('koa2-cors');
 const jwt = require("koa-jwt");
 const { setEngine, getEngine, setCockpit, getCockpit } = require("./engine");
-const { Engine, Cockpit } = require("@flowbuild/engine");
+const { Engine, Cockpit } = require("@fieldlink/workflow-engine");
 const { db } = require("./tests/utils/db");
 
 const startServer = (port) => {
@@ -30,6 +31,13 @@ const startServer = (port) => {
                      jwt({ secret: "1234", debug: true })
                    ]
                  }).routes());
+  const cockpit_routes = cockpit_router({
+    corsOptions: corsOptions,
+    middlewares: [
+      jwt({ secret: "1234", debug: true })
+    ]
+  }).prefix('/cockpit').routes()
+  app.use(cockpit_routes);
   return app.listen(port, function () {
     console.log("Server running")
   });

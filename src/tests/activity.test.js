@@ -1,8 +1,9 @@
 const _ = require("lodash");
-const { v1: uuid } = require("uuid");
+const uuid = require("uuid/v1");
 const { setEngine,
   setCockpit } = require("../engine");
-const { Engine, Cockpit } = require("@flowbuild/engine");
+const { Engine,
+  Cockpit } = require('@fieldlink/workflow-engine');
 const { db_config, db } = require("./utils/db");
 const { startServer } = require("../app");
 const { valid_token, actor_data } = require("./utils/samples");
@@ -316,6 +317,31 @@ describe("submitByActivityManagerId endpoint", () => {
     activity_manager = fetch_response.body;
     expect(activity_manager.activity_status).toEqual("started");
     expect(activity_manager.activities).toHaveLength(0);
+  });
+
+  test("commit activity manager", async () => {
+    const { commit_activity_manager, notify_activity_manager } = await getAndValidateActivityManagers();
+
+    let commit_response = await task_requests.commitActivityByActivityManager(commit_activity_manager.id, { commitData: "first" });
+    expect(commit_response.status).toEqual(200);
+
+    let fetch_response = await task_requests.getActivityById(commit_activity_manager.id);
+    expect(fetch_response.status).toEqual(200);
+    let activity_manager = fetch_response.body;
+    expect(activity_manager.activity_status).toEqual("started");
+    expect(activity_manager.activities).toHaveLength(1);
+    expect(activity_manager.activities[0].data).toEqual({ commitData: "first" });
+
+    commit_response = await task_requests.commitActivityByActivityManager(commit_activity_manager.id, { commitData: "second" });
+    expect(commit_response.status).toEqual(200);
+
+    fetch_response = await task_requests.getActivityById(commit_activity_manager.id);
+    expect(fetch_response.status).toEqual(200);
+    activity_manager = fetch_response.body;
+    expect(activity_manager.activity_status).toEqual("started");
+    expect(activity_manager.activities).toHaveLength(2);
+    expect(activity_manager.activities[0].data).toEqual({ commitData: "second" });
+
   });
 
   test("submit commit activity manager", async () => {
