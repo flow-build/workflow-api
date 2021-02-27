@@ -1,15 +1,15 @@
 const _ = require("lodash");
 const uuid = require("uuid/v1");
 const { setEngine,
-  setCockpit } = require("../engine");
+        setCockpit } = require("../engine");
 const { Engine,
-  Cockpit } = require('@flowbuild/engine');
+        Cockpit } = require('@fieldlink/workflow-engine');
 const { db_config, db } = require("./utils/db");
 const { startServer } = require("../app");
 const { valid_token,
-  actor_data } = require("./utils/samples");
+        actor_data } = require("./utils/samples");
 const { workflow_dtos,
-  workflowRequests } = require("./utils/workflow_requests");
+        workflowRequests } = require("./utils/workflow_requests");
 const { processRequests } = require("./utils/process_request");
 const extra_nodes = require("../utils/extra_nodes");
 
@@ -32,15 +32,15 @@ let workflow_requests;
 let process_requests;
 
 const continue_request = {
-  keyword: "continue",
-  n_js: 2,
-  n_interp: 2
+    keyword: "continue",
+    n_js: 2,
+    n_interp: 2
 }
 
 const end_request = {
-  keyword: "end",
-  n_js: 2,
-  n_interp: 2
+    keyword: "end",
+    n_js: 2,
+    n_interp: 2
 }
 
 beforeAll(() => {
@@ -66,7 +66,7 @@ test("workflow should go back to 2º node correctly", async () => {
   response = await workflow_requests.createProcess(wf_id, null);
   const process_id = response.body.process_id;
 
-  await process_requests.runProcess(process_id, { input: {} });
+  await process_requests.runProcess(process_id, {input: {}});
   response = await process_requests.fetchState(process_id);
   expect(response.body.state.status).toBe("waiting");
 
@@ -93,7 +93,7 @@ test("workflow should run as many times as it's desired", async () => {
   const wf_id = response.body.workflow_id;
   response = await workflow_requests.createProcess(wf_id, null);
   const process_id = response.body.process_id;
-  for (let i = 0; i < 3; i++) {
+  for(let i=0; i<3; i++){
     await process_requests.runProcess(process_id, {});
     await process_requests.runProcess(process_id, continue_request);
     response = await process_requests.fetchState(process_id);

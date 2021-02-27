@@ -34,7 +34,7 @@ module.exports = (opts = {}) => {
                wc.fetchWorkflow)
           .get("/workflows/:id/status",
                validateUUID,
-               pc.fetchProcessCountFromStatus)
+               wc.fetchWorkflowsWithProcessStatusCount)
           .get("/workflows/:id/processes",
                validateUUID,
                wc.fetchWorkflowProcessList)
@@ -47,6 +47,9 @@ module.exports = (opts = {}) => {
                wc.createProcess)
           .post("/workflows/name/:name/create",
                wc.createProcessByName)
+          .post("/workflows/name/:workflowName/start",
+               wc.createAndRunProcessByName
+          )
 
           .get("/processes/activityManager/:id",
                validateUUID,

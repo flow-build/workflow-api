@@ -1,18 +1,18 @@
 const _ = require("lodash");
 const uuid = require("uuid/v1");
 const { setEngine,
-  setCockpit } = require("../engine");
+        setCockpit } = require("../engine");
 const { Engine,
-  Cockpit } = require('@flowbuild/engine');
+        Cockpit } = require('@fieldlink/workflow-engine');
 const { db_config, db } = require("./utils/db");
 const { startServer } = require("../app");
 const { valid_token,
-  actor_data } = require("./utils/samples");
+        actor_data } = require("./utils/samples");
 const { workflow_dtos,
-  workflowRequests } = require("./utils/workflow_requests");
+        workflowRequests } = require("./utils/workflow_requests");
 const { validateWorkflow,
-  validateProcess,
-  validateProcessState } = require("./utils/auxiliar");
+        validateProcess,
+        validateProcessState } = require("./utils/auxiliar");
 
 const engine = new Engine("knex", db);
 const cockpit = new Cockpit("knex", db);
@@ -47,22 +47,24 @@ describe("saveWorkflow endpoint should work", () => {
     expect(workflow.workflow_url).toBeDefined();
   });
 
-  test("should return 400 for repeated input", async () => {
+  test("should return 201 for repeated input", async () => {
     let res = await requests.saveSystemTask();
     expect(res.statusCode).toBe(201);
-    const workflow = res.body;
+    let workflow = res.body;
     expect(workflow.workflow_id).toBeDefined();
     expect(workflow.workflow_url).toBeDefined();
     res = await requests.saveSystemTask();
-    expect(res.statusCode).toBe(400);
-    expect(res.body.error).toBeDefined();
+    expect(res.statusCode).toBe(201);
+    workflow = res.body;
+    expect(workflow.workflow_id).toBeDefined();
+    expect(workflow.workflow_url).toBeDefined();
   });
 
   test("should return 400 for invalid requests", async () => {
     const dto = workflow_dtos.save.system_task_workflow;
     const required_fields = _.keys(dto);
     for (const field of required_fields) {
-      const dto_ = { ...dto };
+      const dto_ = { ...dto};
       delete dto_[field];
       const res = await requests.save(dto_);
       expect(res.statusCode).toBe(400);
@@ -147,7 +149,7 @@ describe("createProcess endpoint should work", () => {
     const save_res = await requests.saveSystemTask();
     const workflow_id = save_res.body.workflow_id;
     const start_res = await requests.createProcess(workflow_id,
-      workflow_dtos.start_process);
+                                                   workflow_dtos.start_process);
     expect(start_res.statusCode).toBe(201);
     const process = start_res.body;
     expect(process.process_id).toBeDefined();
@@ -157,7 +159,7 @@ describe("createProcess endpoint should work", () => {
   test("should return 404 for non existing workflow", async () => {
     const random_id = uuid();
     const res = await requests.createProcess(random_id,
-      workflow_dtos.start_process);
+                                            workflow_dtos.start_process);
     expect(res.statusCode).toBe(404);
   });
 });
@@ -168,7 +170,7 @@ describe("createProcessByWorkflowName endpoint should work", () => {
     const save_res = await requests.saveSystemTask();
     const workflow_name = workflow_dtos.save.system_task_workflow.name;
     const start_res = await requests.createProcessByWorkflowName(workflow_name,
-      workflow_dtos.start_process);
+                                                   workflow_dtos.start_process);
     expect(start_res.statusCode).toBe(201);
     const process = start_res.body;
     expect(process.process_id).toBeDefined();
@@ -181,12 +183,12 @@ describe("fetchWorkflowProcessList endpoint should work", () => {
   const num_processes_per_workflow = 2;
   let process_workflow_map;
 
-  beforeEach(async () => {
+  beforeEach( async () => {
     const dto = workflow_dtos.start_process;
     const blueprint_spec = workflow_dtos
-      .save
-      .system_task_workflow
-      .blueprint_spec;
+          .save
+          .system_task_workflow
+          .blueprint_spec;
     process_workflow_map = await requests.createManyProcesses(
       dto, blueprint_spec, num_workflows, num_processes_per_workflow);
   });
@@ -214,7 +216,7 @@ describe("fetchWorkflowProcessList endpoint should work", () => {
       const step_number = 1;
       const status = "unstarted";
       validateProcessState(state, process_id, step_number, first_node.id,
-        first_node.id, {}, {}, {}, null, status);
+                            first_node.id, {}, {}, {}, null, status);
     }
   });
 });

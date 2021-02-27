@@ -1,6 +1,6 @@
 const test_workflow_blueprint = require("./blueprints/test_workflow_blueprint");
 
-exports.seed = function (knex, Promise) {
+exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
   return knex('workflow').del()
     .then(function () {
@@ -11,8 +11,8 @@ exports.seed = function (knex, Promise) {
           created_at: new Date(),
           name: "test_workflow",
           description: "Workflow para rodar testes sobre a aplicação",
+          blueprint_spec: test_workflow_blueprint,
           version: 1,
-          blueprint_spec: test_workflow_blueprint
         }
       ]);
     });

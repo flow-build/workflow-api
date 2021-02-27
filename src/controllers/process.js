@@ -14,20 +14,6 @@ const fetchProcess = async (ctx, next) => {
   }
 };
 
-const fetchProcessCountFromStatus = async (ctx, next) => {
-  const cockpit = getCockpit();
-  const workflow_id = ctx.params.id;
-  const status = ctx.request.query.status;
-  const processes = await cockpit.fetchProcessFromLastStatus(status, {workflow_id: workflow_id});
-  if (processes) {
-    ctx.status = 200;
-    ctx.body = { count: processes.length };
-  }
-  else {
-    ctx.status = 404;
-  }
-};
-
 const fetchProcessList = async (ctx, next) => {
   const cockpit = getCockpit();
   const query_params = ctx.request.query;
@@ -81,7 +67,6 @@ const setProcessState = async (ctx, next) => {
 module.exports = {
   fetchProcess,
   fetchProcessList,
-  fetchProcessCountFromStatus,
   fetchProcessStateHistory,
   runProcess,
   abortProcess,

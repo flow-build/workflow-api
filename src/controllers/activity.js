@@ -27,8 +27,12 @@ const fetchActivity = async (ctx, next) => {
   const actor_data = ctx.state.actor_data;
   const process_id = ctx.params.id;
   const tasks = await cockpit.fetchAvailableActivityForProcess(process_id, actor_data);
-  ctx.status = 200;
-  ctx.body = tasks;
+  if (tasks) {
+    ctx.status = 200;
+    ctx.body = tasks;
+  } else {
+    ctx.status = 404;
+  }
 };
 
 const fetchActivityByActivityManagerId = async (ctx, next) => {
@@ -36,8 +40,12 @@ const fetchActivityByActivityManagerId = async (ctx, next) => {
   const actor_data = ctx.state.actor_data;
   const activity_manager_id = ctx.params.id;
   const tasks = await engine.fetchActivityManager(activity_manager_id, actor_data);
-  ctx.status = 200;
-  ctx.body = tasks;
+  if (tasks) {
+    ctx.status = 200;
+    ctx.body = tasks;
+  } else {
+    ctx.status = 404;
+  }
 };
 
 const commitActivity = async (ctx, next) => {
@@ -54,9 +62,13 @@ const pushActivity = async (ctx, next) => {
   const cockpit = getCockpit();
   const actor_data = ctx.state.actor_data;
   const process_id = ctx.params.process_id;
-  const tasks = await cockpit.pushActivity(process_id, actor_data);
-  ctx.status = 200;
-  ctx.body = tasks;
+  const response = await cockpit.pushActivity(process_id, actor_data);
+  if (response && !response.error) {
+    ctx.status = 202;
+  } else {
+    ctx.status = 500;
+    ctx.body = response.error;
+  }
 };
 
 const submitByActivityManagerId = async (ctx, next) => {

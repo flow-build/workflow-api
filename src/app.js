@@ -3,7 +3,7 @@ const router = require("./router");
 const cors = require('koa2-cors');
 const jwt = require("koa-jwt");
 const { setEngine, getEngine, setCockpit, getCockpit } = require("./engine");
-const { Engine, Cockpit } = require("@flowbuild/engine");
+const { Engine, Cockpit } = require("@fieldlink/workflow-engine");
 const { db } = require("./tests/utils/db");
 
 const startServer = (port) => {
@@ -25,12 +25,11 @@ const startServer = (port) => {
     allowHeaders: ['Content-Type', 'Authorization', 'Accept']
   }
   app.use(cors(corsOptions));
-  app.use(router({
-    corsOptions: corsOptions,
-    middlewares: [
-      jwt({ secret: "1234", debug: true })
-    ]
-  }).routes());
+  app.use(router({ corsOptions: corsOptions,
+                   middlewares: [
+                     jwt({ secret: "1234", debug: true })
+                   ]
+                 }).routes());
   return app.listen(port, function () {
     console.log("Server running")
   });

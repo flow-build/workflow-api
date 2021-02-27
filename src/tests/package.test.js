@@ -1,15 +1,15 @@
 const _ = require("lodash");
 const uuid = require("uuid/v1");
 const { setEngine,
-  setCockpit } = require("../engine");
+        setCockpit } = require("../engine");
 const { Engine,
-  Cockpit } = require('@flowbuild/engine');
+        Cockpit } = require('@fieldlink/workflow-engine');
 const { db_config, db } = require("./utils/db");
 const { startServer } = require("../app");
 const { valid_token,
-  actor_data } = require("./utils/samples");
+        actor_data } = require("./utils/samples");
 const { package_dtos,
-  packageRequests } = require("./utils/package_requests");
+        packageRequests } = require("./utils/package_requests");
 
 const engine = new Engine("knex", db);
 const cockpit = new Cockpit("knex", db);
@@ -31,8 +31,8 @@ beforeEach(async () => {
 
 afterEach(async () => {
   await db.delete()
-    .from("packages")
-    .where("name", "package_test_1");
+          .from("packages")
+          .where("name", "package_test_1");
 });
 
 afterAll(async () => {
@@ -63,7 +63,7 @@ describe("savePackage endpoint should work", () => {
   });
 
   test("should return 400 for invalid requests", async () => {
-    const package_sample = { invalid: "any invalid input" }
+    const package_sample = {invalid: "any invalid input"}
     const res = await requests.savePackage(package_sample);
     expect(res.statusCode).toBe(400);
   });

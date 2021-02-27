@@ -3,10 +3,10 @@ const uuid = require("uuid/v1");
 const { setEngine,
   setCockpit } = require("../engine");
 const { Engine,
-  Cockpit } = require('@flowbuild/engine');
+  Cockpit } = require('@fieldlink/workflow-engine');
 const { db_config, db } = require("./utils/db");
 const { startServer } = require("../app");
-const { valid_token } = require("./utils/samples");
+const { valid_token, actor_data } = require("./utils/samples");
 const { workflow_dtos,
   workflowRequests } = require("./utils/workflow_requests");
 const { process_dtos,
@@ -134,7 +134,8 @@ describe("fetchDoneTasksForActor endpoint should work", () => {
       let process_id = pair[0];
       await process_requests.runProcess(process_id, continue_process_dto);
       await task_requests.commitActivity(process_id, continue_process_dto);
-      await task_requests.pushActivity(process_id);
+      const push_response = await engine.pushActivity(process_id, actor_data);
+      await push_response.processPromise;
     }
   });
 
@@ -199,6 +200,57 @@ describe("fetchActivity endpoint should work", () => {
     validateTaskWithWorkflow(task, workflow, status);
   });
 });
+
+describe("pushActivity endpoint", () => {
+  const number_workflows = 1;
+  const number_processes_per_workflow = 1;
+  let process_workflow_map;
+  let target_process_id;
+  async function getAndValidateActivityManagers() {
+    const activities_response = await task_requests.getAvailableForActor();
+    const activities = activities_response.body;
+    expect(activities).toHaveLength(1);
+    const commit_activity_manager = activities[0];
+    expect(commit_activity_manager.node_id).toEqual("2");
+    expect(commit_activity_manager.process_status).toEqual("waiting");
+
+    return {
+      commit_activity_manager,
+    };
+  }
+
+  beforeEach(async () => {
+    const initial_bag = {};
+    const blueprint_spec = workflow_dtos.save.user_task_workflow.blueprint_spec;
+    process_workflow_map = await workflow_requests.createManyProcesses(
+      initial_bag,
+      blueprint_spec,
+      number_workflows,
+      number_processes_per_workflow
+    );
+    for (const process_id of Object.keys(process_workflow_map)) {
+      target_process_id = process_id;
+      await process_requests.runProcess(process_id, {});
+    }
+  });
+
+  test("pushActivity response", async () => {
+    const { commit_activity_manager } = await getAndValidateActivityManagers();
+
+    const push_response = await task_requests.pushActivity(target_process_id);
+    expect(push_response.status).toEqual(202);
+
+    let count = 0;
+    const max_count = 5;
+    let process;
+    do {
+      const process_response = await process_requests.fetch(target_process_id);
+      process = process_response.body;
+    } while (count < max_count && process.state.status !== 'finished')
+    expect(process.state).toBeDefined();
+    expect(process.state.status).toEqual("finished");
+  })
+})
 
 describe("submitByActivityManagerId endpoint", () => {
   const number_workflows = 1;

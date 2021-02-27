@@ -39,6 +39,19 @@ const fetchWorkflow = async (ctx, next) => {
   }
 };
 
+const fetchWorkflowsWithProcessStatusCount = async (ctx, next) => {
+  const cockpit = getCockpit();
+  const actor_data = ctx.state.actor_data;
+  const workflows = await cockpit.fetchWorkflowsWithProcessStatusCount(actor_data);
+  if (workflows) {
+    ctx.status = 200;
+    ctx.body = workflows;
+  }
+  else {
+    ctx.status = 404;
+  }
+};
+
 const deleteWorkflow = async (ctx, next) => {
   const engine = getEngine();
   const workflow_id = ctx.params.id;
@@ -96,6 +109,25 @@ const createProcessByName = async (ctx, next) => {
   }
 };
 
+const createAndRunProcessByName = async (ctx, next) => {
+  const engine = getEngine();
+  const workflow_name = ctx.params.workflowName;
+  const actor_data = ctx.state.actor_data;
+  const input = ctx.request.body;
+  const process = await engine.createProcessByWorkflowName(workflow_name, actor_data, input);
+  if (process && process.id) {
+    engine.runProcess(process.id, actor_data);
+    ctx.status = 201;
+    ctx.body = {
+      process_id: process.id,
+      process_url: `${ctx.header.host}${ctx.url}/${process.id}`
+    };
+  }
+  else {
+    ctx.status = 404;
+  }
+}
+
 module.exports = {
   saveWorkflow,
   getWorkflowsForActor,
@@ -103,5 +135,7 @@ module.exports = {
   fetchWorkflowProcessList,
   deleteWorkflow,
   createProcess,
-  createProcessByName
+  createProcessByName,
+  createAndRunProcessByName,
+  fetchWorkflowsWithProcessStatusCount
 };
