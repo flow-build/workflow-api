@@ -1,5 +1,5 @@
 const { v1:uuid } = require("uuid");
-const { Nodes } = require("@fieldlink/workflow-engine");
+const { Nodes } = require("@flowbuild/engine");
 
 const SystemTaskNode = Nodes.SystemTaskNode;
 
