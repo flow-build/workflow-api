@@ -54,12 +54,6 @@ const processRequests = (server, auth_header) => {
         .post(`/processes/${process_id}/abort`)
         .set(...auth_header);
     },
-    setState: async (process_id, body) => {
-      return await request(server)
-        .post(`/processes/${process_id}/state`)
-        .send(body)
-        .set(...auth_header);
-    }
   };
 };
 

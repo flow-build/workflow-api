@@ -1,19 +1,19 @@
 const _ = require("lodash");
-const uuid = require("uuid/v1");
+const { v1:uuid } = require("uuid");
 const { setEngine,
-  setCockpit } = require("../engine");
+        setCockpit } = require("../engine");
 const { Engine,
-  Cockpit } = require('@flowbuild/engine');
+        Cockpit } = require("@flowbuild/engine");
 const { db_config, db } = require("./utils/db");
 const { startServer } = require("../app");
 const { valid_token,
-  actor_data } = require("./utils/samples");
+        actor_data } = require("./utils/samples");
 const { workflow_dtos,
-  workflowRequests } = require("./utils/workflow_requests");
+        workflowRequests } = require("./utils/workflow_requests");
 const { process_dtos,
-  processRequests } = require("./utils/process_request");
+        processRequests} = require("./utils/process_request");
 const { validateProcess,
-  validateProcessState } = require("./utils/auxiliar");
+        validateProcessState } = require("./utils/auxiliar");
 
 const engine = new Engine("knex", db);
 const cockpit = new Cockpit("knex", db);
@@ -65,11 +65,11 @@ describe("fetchProcess endpoint should work", () => {
     const step_number = 1;
     const status = "unstarted";
     validateProcessState(state, process_id, step_number, first_node.id,
-      first_node.id, {}, {}, {}, null, status,
-      actor_data);
+                            first_node.id, {}, {}, {}, null, status,
+                            actor_data);
   });
 
-  test("should return 404 for non existing process", async () => {
+  test ("should return 404 for non existing process", async () => {
     const random_id = uuid();
     const res = await process_requests.fetch(random_id);
     expect(res.statusCode).toBe(404);
@@ -81,12 +81,12 @@ describe("fetchProcessList endpoint should work", () => {
   const num_processes_per_workflow = 2;
   let process_workflow_map;
 
-  beforeEach(async () => {
+  beforeEach( async () => {
     const dto = workflow_dtos.start_process;
     const blueprint_spec = workflow_dtos
-      .save
-      .system_task_workflow
-      .blueprint_spec;
+          .save
+          .system_task_workflow
+          .blueprint_spec;
     process_workflow_map = await workflow_requests.createManyProcesses(
       dto, blueprint_spec, num_workflows, num_processes_per_workflow);
   });
@@ -97,7 +97,7 @@ describe("fetchProcessList endpoint should work", () => {
 
     const processes = res.body;
     expect(processes).toHaveLength(num_workflows *
-      num_processes_per_workflow);
+                                   num_processes_per_workflow);
 
     for (const process of processes) {
       const process_id = process.id;
@@ -112,8 +112,8 @@ describe("fetchProcessList endpoint should work", () => {
       const step_number = 1;
       const status = "unstarted";
       validateProcessState(state, process_id, step_number, first_node.id,
-        first_node.id, {}, {}, {}, null, status,
-        actor_data);
+                            first_node.id, {}, {}, {}, null, status,
+                            actor_data);
     }
   });
 
@@ -141,32 +141,9 @@ describe("fetchProcessList endpoint should work", () => {
       const step_number = 1;
       const status = "unstarted";
       validateProcessState(state, process_id, step_number, first_node.id,
-        first_node.id, {}, {}, {}, null, status,
-        actor_data);
+                            first_node.id, {}, {}, {}, null, status,
+                            actor_data);
     }
-  });
-});
-
-describe("fetchProcessCountFromStatus endpoint should work", () => {
-  const num_workflows = 2;
-  const num_processes_per_workflow = 2;
-  let process_workflow_map;
-
-  beforeEach(async () => {
-    const dto = workflow_dtos.start_process;
-    const blueprint_spec = workflow_dtos
-      .save
-      .system_task_workflow
-      .blueprint_spec;
-    process_workflow_map = await workflow_requests.createManyProcesses(
-      dto, blueprint_spec, num_workflows, num_processes_per_workflow);
-  });
-
-  test("should return 200", async () => {
-    const workflow_id = Object.entries(process_workflow_map)[0][1].id;
-    const res = await workflow_requests.fetchProcessCountFromStatus(workflow_id, { status: "unstarted" });
-    expect(res.statusCode).toBe(200);
-    expect(res.body.count).toBe(2);
   });
 });
 
@@ -193,10 +170,10 @@ describe("fetchProcessStateHistory endpoint should work", () => {
     const step_number = 1;
     const status = "unstarted";
     validateProcessState(states[0], process_id, step_number, first_node.id,
-      first_node.id, {}, {}, {}, null, status);
+                            first_node.id, {}, {}, {}, null, status);
   });
 
-  test("should return 404 for non existing process", async () => {
+  test ("should return 404 for non existing process", async () => {
     const random_id = uuid();
     const res = await process_requests.fetchStateHistory(random_id);
     expect(res.statusCode).toBe(404);
@@ -221,7 +198,7 @@ describe("runProcess endpoint should work", () => {
 
     const continue_process_dto = process_dtos.continue;
     let res = await process_requests.runProcess(process_id,
-      continue_process_dto);
+                                                continue_process_dto);
     expect(res.statusCode).toBe(200);
 
     fetch_state_history_res = await process_requests.fetchStateHistory(
@@ -230,7 +207,7 @@ describe("runProcess endpoint should work", () => {
     expect(states[0].status).toBe("waiting");
 
     res = await process_requests.runProcess(process_id,
-      continue_process_dto);
+                                            continue_process_dto);
     expect(res.statusCode).toBe(200);
 
     fetch_state_history_res = await process_requests.fetchStateHistory(
@@ -239,7 +216,7 @@ describe("runProcess endpoint should work", () => {
     expect(states[0].status).toBe("finished")
   });
 
-  test("should return 404 for non existing process", async () => {
+  test ("should return 404 for non existing process", async () => {
     const random_id = uuid();
     const dto = process_dtos.continue;
     const res = await process_requests.runProcess(random_id, dto);
@@ -272,7 +249,7 @@ describe("abortProcess endpoint should work", () => {
     expect(states[0].status).toBe("interrupted");
   });
 
-  test("should return 404 for non existing process", async () => {
+  test ("should return 404 for non existing process", async () => {
     const random_id = uuid();
     const res = await process_requests.abort(random_id);
     expect(res.statusCode).toBe(404);
@@ -297,7 +274,7 @@ describe("runProcess endpoint should work", () => {
 
     const continue_process_dto = process_dtos.continue;
     const res = await process_requests.runProcess(process_id,
-      continue_process_dto);
+                                                  continue_process_dto);
     expect(res.statusCode).toBe(200);
 
     fetch_state_history_res = await process_requests.fetchStateHistory(
@@ -306,61 +283,10 @@ describe("runProcess endpoint should work", () => {
     expect(states[0].status).toBe("waiting");
   });
 
-  test("should return 404 for non existing process", async () => {
+  test ("should return 404 for non existing process", async () => {
     const random_id = uuid();
     const dto = process_dtos.continue;
     const res = await process_requests.runProcess(random_id, dto);
-    expect(res.statusCode).toBe(404);
-  });
-});
-
-describe("setProcessState endpoint should work", () => {
-
-  test("should return 200 for existing process", async () => {
-    const save_workflow_res = await workflow_requests.saveUserTask();
-    const workflow_id = save_workflow_res.body.workflow_id;
-
-    const start_process_dto = workflow_dtos.startProcess;
-    const start_process_res = await workflow_requests.createProcess(
-      workflow_id, start_process_dto);
-    const process_id = start_process_res.body.process_id;
-
-    const set_process_state_dto = process_dtos.set_state;
-    const res = await process_requests.setState(process_id,
-      set_process_state_dto);
-    expect(res.statusCode).toBe(200);
-
-    const fetch_state_history_res = await process_requests.fetchStateHistory(
-      process_id);
-    const states = fetch_state_history_res.body;
-    const last_state = states[0];
-    const base_state = set_process_state_dto.process_state;
-    validateProcessState(last_state, process_id, base_state.step_number,
-      base_state.node_id, base_state.next_node_id,
-      base_state.bag, base_state.external_input,
-      base_state.result, base_state.error,
-      base_state.status, actor_data);
-  });
-
-  test("should return 400 for invalid requests", async () => {
-    const random_id = uuid();
-    const dto = process_dtos.set_state;
-    const required_fields = _.keys(dto);
-    for (const field of required_fields) {
-      const dto_ = { ...dto };
-      delete dto_[field];
-      const res = await process_requests.setState(random_id, dto_);
-      expect(res.statusCode).toBe(400);
-    }
-    const dto_ = { ...dto, x: "y" };
-    const res = await process_requests.setState(random_id, dto_);
-    expect(res.statusCode).toBe(400);
-  });
-
-  test("should return 404 for non existing process", async () => {
-    const random_id = uuid();
-    const dto = process_dtos.set_state;
-    const res = await process_requests.setState(random_id, dto);
     expect(res.statusCode).toBe(404);
   });
 });
@@ -382,9 +308,9 @@ describe('Workflow with requirements and prepare works', () => {
     let process_res = await process_requests.fetch(process_id);
     expect(process_res.body.state.status).toStrictEqual("waiting");
     const continue_process_res = await process_requests.runProcess(
-      process_id, { any: "any" });
+      process_id, {any: "any"});
     process_res = await process_requests.fetch(process_id);
-    expect(process_res.body.state.bag).toStrictEqual({ any: "any" });
+    expect(process_res.body.state.bag).toStrictEqual({any: "any"});
   });
 });
 
