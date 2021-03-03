@@ -7,8 +7,9 @@
     "test": "npm run seeds && jest --coverage",
     "tests": "npm -- test -i",
     "seeds": "knex --env docker --knexfile knexfile.js seed:run",
-    "migrations": "knex --env docker --knexfile knexfile.js migrate:latest",
-    "start": "nodemon src/server.js",
+    "migrations": "node scripts/migrate_database.js docker",
+    "start": "node src/server.js",
+    "watch": "nodemon --inspect=0.0.0.0 src/server.js",
     "get-version": "echo $npm_package_version",
     "release": "semantic-release"
   },
@@ -23,7 +24,7 @@
     "supertest": "^6.1.3"
   },
   "dependencies": {
-    "@flowbuild/engine": "^1.1.2",
+    "@flowbuild/engine": "^2.2.0",
     "ajv": "^7.1.1",
     "jsrsasign": "^10.1.12",
     "knex": "^0.21.18",
