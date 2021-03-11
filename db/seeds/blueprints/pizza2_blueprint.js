@@ -28,19 +28,19 @@ module.exports = {
       "type": "SystemTask",
       "name": "Take the order",
       "category": "HTTP",
-      "next": "4",
+      "next": "3A",
       "lane_id": "1",
       "parameters": {
         "input": {
           "status": "pending",
           "qty": {
-            "$ref": "result.activities[0]._data.qty"
+            "$ref": "result.activities[0].data.qty"
           },
           "flavors": {
-            "$ref": "result.activities[0]._data.flavors"
+            "$ref": "result.activities[0].data.flavors"
           },
           "comments": {
-            "$ref": "result.activities[0]._data.comments"
+            "$ref": "result.activities[0].data.comments"
           }
         },
         "request": {
@@ -48,6 +48,25 @@ module.exports = {
           "verb": "POST",
           "headers": {
             "ContentType": "application/json"
+          }
+        }
+      }
+    },
+    {
+      "id": "3A",
+      "type": "Flow",
+      "name": "Resposta ok?",
+      "next": {
+        "500": "9A",
+        "201": "4",
+        "400": "10A",
+        "default": "4"
+      },
+      "lane_id": "1",
+      "parameters": {
+        "input": {
+          "ok": {
+            "$ref": "result.status"
           }
         }
       }
@@ -107,7 +126,7 @@ module.exports = {
       "type": "UserTask",
       "name": "Receive Pizza",
       "next": "8",
-      "lane_id": "1",
+      "lane_id": "3",
       "parameters": {
         "action": "RECEIVE_PIZZA",
         "input": {}
@@ -198,6 +217,17 @@ module.exports = {
       "rule": ["fn", ["actor_data", "bag"],
         ["eval", ["apply", "or", ["map", ["fn", ["v"],
             ["=", "v", ["`", "restaurant"]]
+          ],
+          ["get", "actor_data", ["`", "claims"]]
+        ]]]
+      ]
+    },
+    {
+      "id": "3",
+      "name": "user lane",
+      "rule": ["fn", ["actor_data", "bag"],
+        ["eval", ["apply", "or", ["map", ["fn", ["v"],
+            ["=", "v", ["`", "user"]]
           ],
           ["get", "actor_data", ["`", "claims"]]
         ]]]

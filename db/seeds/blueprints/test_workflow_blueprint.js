@@ -74,22 +74,9 @@ module.exports = {
       {
         "id": "6",
         "type": "SystemTask",
-        "category": "JsTestTask",
-        "name": "JS task node",
-        "next": "7",
-        "lane_id": "1",
-        "parameters": {
-          "input": {
-            "n_js": {"$ref": "bag.n_js"}
-          }
-        }
-      },
-      {
-        "id": "7",
-        "type": "SystemTask",
         "category": "SetToBag",
         "name": "Set To Bag Task",
-        "next": "8",
+        "next": "7",
         "lane_id": "1",
         "parameters": {
           "input": {
@@ -98,12 +85,12 @@ module.exports = {
         }
       },
       {
-        "id": "8",
+        "id": "7",
         "type": "Flow",
         "name": "Flow node",
         "next": {
           "default": "2",
-          "end": "9"
+          "end": "8"
         },
         "lane_id": "1",
         "parameters": {
@@ -113,7 +100,7 @@ module.exports = {
         }
       },
       {
-        "id": "9",
+        "id": "8",
         "type": "Finish",
         "name": "Finish node",
         "next": null,
