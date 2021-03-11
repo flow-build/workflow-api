@@ -31,7 +31,7 @@
         "type": "SystemTask",
         "name": "Take the order",
         "category": "HTTP",
-        "next": "3A",
+        "next": "4",
         "lane_id": "1",
         "parameters": {
           "input": {
@@ -51,25 +51,6 @@
             "verb": "POST",
             "headers": {
               "ContentType": "application/json"
-            }
-          }
-        }
-      },
-      {
-        "id": "3A",
-        "type": "Flow",
-        "name": "Resposta ok?",
-        "next": {
-          "500": "9A",
-          "201": "4",
-          "400": "10A",
-          "default": "4"
-        },
-        "lane_id": "1",
-        "parameters": {
-          "input": {
-            "ok": {
-              "$ref": "result.status"
             }
           }
         }
@@ -146,7 +127,7 @@
           "no": "9",
           "default": "10"
         },
-        "lane_id": "1",
+        "lane_id": "3",
         "parameters": {
           "input": {
             "ok": {
@@ -161,7 +142,7 @@
         "category": "HTTP",
         "name": "Complaim",
         "next": "9A",
-        "lane_id": "2",
+        "lane_id": "3",
         "parameters": {
           "input": {
             "status": "complaim"
@@ -183,7 +164,7 @@
         "category": "HTTP",
         "name": "Praise",
         "next": "10A",
-        "lane_id": "2",
+        "lane_id": "3",
         "parameters": {
           "input": {
             "status": "praise"
@@ -204,20 +185,20 @@
         "type": "Finish",
         "name": "Finish Complaim",
         "next": null,
-        "lane_id": "1"
+        "lane_id": "3"
       },
       {
         "id": "10A",
         "type": "Finish",
         "name": "Finish Praise",
         "next": null,
-        "lane_id": "1"
+        "lane_id": "3"
       }
     ],
     "lanes": [
       {
         "id": "1",
-        "name": "client lane",
+        "name": "free lane",
         "rule": ["fn", ["&", "args"], true]
       },
       {

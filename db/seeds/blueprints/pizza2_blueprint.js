@@ -28,7 +28,7 @@ module.exports = {
       "type": "SystemTask",
       "name": "Take the order",
       "category": "HTTP",
-      "next": "3A",
+      "next": "4",
       "lane_id": "1",
       "parameters": {
         "input": {
@@ -48,25 +48,6 @@ module.exports = {
           "verb": "POST",
           "headers": {
             "ContentType": "application/json"
-          }
-        }
-      }
-    },
-    {
-      "id": "3A",
-      "type": "Flow",
-      "name": "Resposta ok?",
-      "next": {
-        "500": "9A",
-        "201": "4",
-        "400": "10A",
-        "default": "4"
-      },
-      "lane_id": "1",
-      "parameters": {
-        "input": {
-          "ok": {
-            "$ref": "result.status"
           }
         }
       }
