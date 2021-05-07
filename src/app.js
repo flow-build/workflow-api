@@ -4,7 +4,7 @@ const cockpit_router = require("./cockpit_router");
 const cors = require('koa2-cors');
 const jwt = require("koa-jwt");
 const { setEngine, getEngine, setCockpit, getCockpit } = require("./engine");
-const { Engine, Cockpit } = require("@flowbuild/engine");
+const { Engine, Cockpit } = require("@fieldlink/workflow-engine");
 const { db } = require("./tests/utils/db");
 
 const startServer = (port) => {

@@ -1,4 +1,4 @@
-const { Nodes } = require("@flowbuild/engine");
+const { Nodes } = require("@fieldlink/workflow-engine");
 
 const SystemTaskNode = Nodes.SystemTaskNode;
 
