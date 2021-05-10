@@ -35,14 +35,14 @@ module.exports = {
       user: "postgres",
       password: "postgres",
       database: "workflow",
-      port: 5434,
+      port: 5432,
     },
     pool: { min: 10, max: 40 },
     migrations: {
-      directory: path.join(BASE_PATH, "db/migrations"),
+      directory: path.join(BASE_PATH, "migrations"),
     },
     seeds: {
-      directory: path.join(BASE_PATH, "db/seeds"),
+      directory: path.join(BASE_PATH, "seeds"),
     },
   }
 }
