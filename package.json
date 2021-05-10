@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npm run seeds && jest --coverage",
+    "test": "jest --coverage",
     "tests": "npm -- test -i",
     "seeds": "knex --env docker --knexfile knexfile.js seed:run",
     "migrations": "node scripts/migrate_database.js docker",
