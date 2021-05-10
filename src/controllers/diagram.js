@@ -1,5 +1,5 @@
 const { getEngine } = require('../engine');
-const buildXmlDiagram = require('@fieldlink/nodejs-diagram-builder');
+const buildXmlDiagram = require('@flowbuild/nodejs-diagram-builder');
 
 const buildDiagram = async (ctx, next) => {
 	console.log('[KW] Called buildDiagram');
