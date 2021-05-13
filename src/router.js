@@ -6,6 +6,7 @@ const wc = require("./controllers/workflow");
 const ac = require("./controllers/activity");
 const pc = require("./controllers/process");
 const pkc = require("./controllers/package");
+const tc = require("./controllers/token");
 const wv = require("./validators/workflow");
 const pv = require("./validators/process");
 const cors = require('koa2-cors');
@@ -14,6 +15,9 @@ module.exports = (opts = {}) => {
      const router = new Router();
 
      router.use(bodyParser());
+
+     router.post("/token",
+                 tc.getToken)
 
      for (let middleware of opts.middlewares) {
           router.use(middleware);

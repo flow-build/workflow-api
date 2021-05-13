@@ -1,0 +1,1013 @@
+{
+	"info": {
+		"_postman_id": "6a126b76-137a-42cc-940b-04892683876f",
+		"name": "flowBuild-workflow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Workflows",
+			"item": [
+				{
+					"name": "Criar Workflow",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "content",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/workflows",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows"
+							]
+						},
+						"description": "Esse endpoint permite criar ou atualizar um workflow no FlowBuild.\r\n\r\nA definição para criação ou atualização de um workflow é o campo *name*.\r\nO campo *name* é case-sensitive.\r\n\r\nNo evento de atualização de um workflow, é criado uma nova versão para o mesmo *name*."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar workflows",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/workflows",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows"
+							]
+						},
+						"description": "Esse endpoint permite obter uma lista dos workflows cadastrados.\r\n\r\nO endpoint considera somente os workflows cujo nó inicial pode ser acessado com o token informado.\r\n\r\nEste endpoint retorna a versão mais recente para cada *name*.\r\n\r\nSe nenhum workflow foi compatível for localizado, será retornada uma lista vazia."
+					},
+					"response": [
+						{
+							"name": "401",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.1"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 18 Oct 2020 12:49:47 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "12"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "Unauthorized"
+						},
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.1"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 18 Oct 2020 12:52:55 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"uuid\",\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"blueprint_spec\": {\n            \"lanes\": [\n                {}\n            ],\n            \"nodes\": [\n                {}\n            ],\n            \"prepare\": [],\n            \"environment\": {},\n            \"requirements\": []\n        },\n        \"version\": \"integer\",\n        \"created_at\": \"date-time\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Ver Workflow",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/workflows/:workflow_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows",
+								":workflow_id"
+							],
+							"variable": [
+								{
+									"key": "workflow_id",
+									"value": "{{workflow_id}}"
+								}
+							]
+						},
+						"description": "Esse endpoint permite consultar um workflow pelo id.\r\n\r\nEste endpoint valida ser o token enviado pode acessar o nó inicial do workflow informado, caso o token não tenha a permissão necessária, será retornada uma resposta 404."
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:workflow_id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":workflow_id"
+									],
+									"variable": [
+										{
+											"key": "workflow_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.1"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 18 Oct 2020 12:56:15 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"uuid\",\n    \"created_at\": \"date-time\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"blueprint_spec\": {\n        \"lanes\": [{}],\n        \"nodes\": [{}],\n        \"prepare\": [],\n        \"environment\": {},\n        \"requirements\": []\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Remover Workflow",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/workflows/:workflow_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows",
+								":workflow_id"
+							],
+							"variable": [
+								{
+									"key": "workflow_id",
+									"value": ""
+								}
+							]
+						},
+						"description": "Esse endpoint permite remover um workflow.\r\n\r\nA remoção do workflow só é possível se o token informado permite acesso ao nó inicial do fluxo.\r\n\r\nO workflow só poderá removido caso não existam processos criados para este workflow."
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Processos",
+			"item": [
+				{
+					"name": "Criar processo por WorkflowId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "efd21fc1-13eb-49a1-9d1c-2b8574156b80",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"process_id\",response.process_id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/workflows/:workflow_id/create",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows",
+								":workflow_id",
+								"create"
+							],
+							"variable": [
+								{
+									"key": "workflow_id",
+									"value": "{{workflow_id}}"
+								}
+							]
+						},
+						"description": "Esse endpoint permite criar um processo de um determinado workflow.\r\n\r\nO endpoint avalia se o token enviado permite acesso a um nó inicial do workflow informado.\r\n\r\nAo final dessa chamada o processo estará no estado *unstarted*.\r\n\r\nA avaliação de parâmetros iniciais do processo (inputSchema) não é feita nessa chamada."
+					},
+					"response": []
+				},
+				{
+					"name": "Criar processo por WorkflowName",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/workflows/name/:workflow_name/create",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows",
+								"name",
+								":workflow_name",
+								"create"
+							],
+							"variable": [
+								{
+									"key": "workflow_name",
+									"value": ""
+								}
+							]
+						},
+						"description": "Esse endpoint permite criar um processo de um determinado workflow, usando o workflow_name. \r\n\r\nO endpoint localiza a versão mais recente para o workflow informado e avalia se o token enviado permite acesso a um nó inicial deste workflow.\r\n\r\nAo final dessa chamada o processo estará no estado *unstarted*.\r\n\r\nA avaliação de parâmetros iniciais do processo (inputSchema) não é feita nessa chamada."
+					},
+					"response": []
+				},
+				{
+					"name": "Executar processo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes/:process_id/run",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								":process_id",
+								"run"
+							],
+							"variable": [
+								{
+									"key": "process_id",
+									"value": "{{process_id}}"
+								}
+							]
+						},
+						"description": "Esse endpoint permite executar um processo já instanciado. Para execução é necessário informar o process_id.\r\n\r\nEm caso de processos recém-criados, o endpoint inicia um processo *unstarted*. É neste endpoint que será avaliado os parâmetros iniciais do processo (inputSchema), se enviados/necessários."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Processos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "66da0cb0-e937-11e9-8ce0-fb7b0e91da24",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Esse endpoint permite listar todos os processos do FlowBuild."
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/processes",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"processes"
+									],
+									"query": [
+										{
+											"key": "filter",
+											"value": "66da0cb0-e937-11e9-8ce0-fb7b0e91da24",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.1"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 18 Oct 2020 13:45:08 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"uuid\",\n        \"created_at\": \"date-time\",\n        \"workflow_id\": \"uuid\",\n        \"current_state_id\": \"uuid\",\n        \"current_status\": \"string\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Listar processos por workflowId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/workflows/:workflow_id/processes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows",
+								":workflow_id",
+								"processes"
+							],
+							"variable": [
+								{
+									"key": "workflow_id",
+									"value": "{{workflow_id}}"
+								}
+							]
+						},
+						"description": "Esse endpoint permite listar todos os processos criados para um determinado workflow."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar histórico de estados de um processo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes/:process_id/history",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								":process_id",
+								"history"
+							],
+							"variable": [
+								{
+									"key": "process_id",
+									"value": "{{process_id}}"
+								}
+							]
+						},
+						"description": "Esse endpoint permite listar o histórico dos estados gerados por um determinado processo."
+					},
+					"response": []
+				},
+				{
+					"name": "Consultar o estado atual de um processo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes/:process_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								":process_id"
+							],
+							"variable": [
+								{
+									"key": "process_id",
+									"value": "{{process_id}}"
+								}
+							]
+						},
+						"description": "Esse endpoint permite consultar o estado atual de um determinado processo."
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1bbfdd90-15a6-4a9a-87fb-292d9190e9c9",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a8e93535-1e75-49ed-92e7-94008bf6f645",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "ActivityManager",
+			"item": [
+				{
+					"name": "Salvar atividade",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"input\": {\n\n\t}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/processes/:process_id/commit",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								":process_id",
+								"commit"
+							],
+							"variable": [
+								{
+									"key": "process_id",
+									"value": "{{process_id}}"
+								}
+							]
+						},
+						"description": "Esse endpoint permite salvar o conteúdo do ActivityManager corrente do processo.\r\n\r\nPor utilizar do id do processo, o endpoint localiza o ActivityManager do processo, por esse motivo este endpoint não é recomendado para processos que tenham ActivityManagers do tipo notify, que possam resultar em múltiplas atividades em andamento para um mesmo processo.\r\n\r\nEste endpoint não resulta em alteração de estado do processo."
+					},
+					"response": []
+				},
+				{
+					"name": "Enviar atividade",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes/:process_id/push",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								":process_id",
+								"push"
+							],
+							"variable": [
+								{
+									"key": "process_id",
+									"value": "{{process_id}}"
+								}
+							]
+						},
+						"description": "Esse endpoint permite enviar o conteúdo do ActivityManager para o processo.\r\n\r\nPor utilizar do id do processo, o endpoint localiza o ActivityManager do processo, por esse motivo este endpoint não é recomendado para processos que tenham ActivityManagers do tipo notify, que possam resultar em múltiplas atividades em andamento para um mesmo processo.\r\n\r\nEste endpoint envia para o processo o conteúdo de todas as atividades salvas naquele ActivityManager, a atividade é fechada e o processo seguirá para o próximo estado."
+					},
+					"response": []
+				},
+				{
+					"name": "Submeter atividade",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/activity_manager/:activity_manager_id/submit",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"activity_manager",
+								":activity_manager_id",
+								"submit"
+							],
+							"variable": [
+								{
+									"key": "activity_manager_id",
+									"value": "{{activity_manager_id}}"
+								}
+							]
+						},
+						"description": "Esse endpoint consolida as chamadas de _Commit_ e _Push_ de uma atividade.\r\n\r\nEste endpoint utiliza o id do ActivityManager, sendo recomendado para fechar atividades de notify."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar atividades disponíveis de um processo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4eba5ad1-33fd-4c4b-9418-77ef2055b0a4",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"activity_manager_id\",response.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes/:process_id/activity",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								":process_id",
+								"activity"
+							],
+							"variable": [
+								{
+									"key": "process_id",
+									"value": "{{process_id}}"
+								}
+							]
+						},
+						"description": "Esse endpoint permite listar as atividades disponíveis para um determinado processo.\r\n\r\nSerão retornadas as atividades acessíveis para o token informando, retornando 404 caso não haja nenhuma atividade que cumpra os requisitos."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar UserTasks Finalizadas do Ator",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes/done",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								"done"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "66da0cb0-e937-11e9-8ce0-fb7b0e91da24",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Esse endpoint lista as atividades disponíveis - ActivityManagers finalizados - cujo acesso é permitido para o token enviado."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar UserTasks Disponíveis do Ator",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes/available",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								"available"
+							]
+						},
+						"description": "Esse endpoint lista as atividades disponíveis - ActivityManagers iniciados - cujo acesso é permitido para o token enviado."
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Cockpit",
+			"item": [
+				{
+					"name": "Abortar Processo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"input\":{}\n}"
+						},
+						"url": {
+							"raw": "{{host}}/processes/:id/abort",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								":id",
+								"abort"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"type": "string",
+									"value": "{{process_id}}"
+								}
+							]
+						},
+						"description": "Esse endpoint permite abortar um processo em execução."
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "72d28cf6-c22b-4e89-9d5c-9fb625597c63",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "effd0e4d-bc3a-4c34-b36e-06f6c06c097d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
