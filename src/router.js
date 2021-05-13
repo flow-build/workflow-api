@@ -9,12 +9,16 @@ const pkc = require("./controllers/package");
 const tc = require("./controllers/token");
 const wv = require("./validators/workflow");
 const pv = require("./validators/process");
+const tc = require("./controllers/token");
+const hc = require("./controllers/health-check");
 const cors = require('koa2-cors');
 
 module.exports = (opts = {}) => {
      const router = new Router();
 
      router.use(bodyParser());
+     router.get("/healthcheck", hc.healthCheck);
+     router.post("/token", tc.getToken);
 
      router.post("/token",
                  tc.getToken)
@@ -27,6 +31,12 @@ module.exports = (opts = {}) => {
 
      router.use(cors(opts.corsOptions));
 
+     if (opts.routes) {
+          for (let route of opts.routes) {
+               router[route.verb](route.path, ...route.methods);
+          }
+     }
+
      router
           .post("/workflows",
                wv.saveWorkflow,
@@ -36,9 +46,8 @@ module.exports = (opts = {}) => {
           .get("/workflows/:id",
                validateUUID,
                wc.fetchWorkflow)
-          .get("/workflows/:id/status",
-               validateUUID,
-               pc.fetchProcessCountFromStatus)
+          .get("/workflows/name/:name",
+               wc.fetchWorkflowByName)
           .get("/workflows/:id/processes",
                validateUUID,
                wc.fetchWorkflowProcessList)
@@ -51,6 +60,9 @@ module.exports = (opts = {}) => {
                wc.createProcess)
           .post("/workflows/name/:name/create",
                wc.createProcessByName)
+          .post("/workflows/name/:workflowName/start",
+               wc.createAndRunProcessByName
+          )
 
           .get("/processes/activityManager/:id",
                validateUUID,
@@ -85,10 +97,6 @@ module.exports = (opts = {}) => {
           .post("/processes/:id/abort",
                validateUUID,
                pc.abortProcess)
-          .post("/processes/:id/state",
-               validateUUID,
-               pv.setProcessState,
-               pc.setProcessState)
           .post("/packages",
                pkc.savePackage)
           .get("/packages/:id",
@@ -100,8 +108,10 @@ module.exports = (opts = {}) => {
 
           .post("/activity_manager/:activity_manager_id/submit",
                validateUUID,
-               ac.submitByActivityManagerId
-          )
+               ac.submitByActivityManagerId)
+          .post("/activity_manager/:activity_manager_id/commit",
+               validateUUID,
+               ac.commitByActivityManagerId)
 
      return router;
 };

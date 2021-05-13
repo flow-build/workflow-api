@@ -1,4 +1,4 @@
-var Ajv = require("ajv");
+var Ajv = require("ajv").default;
 const ajv = new Ajv();
 
 const validateBodyWithSchema = (schema) => {

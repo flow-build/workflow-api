@@ -1,5 +1,6 @@
 const Koa = require("koa");
 const router = require("./router");
+const cockpit_router = require("./cockpit_router");
 const cors = require('koa2-cors');
 const jwt = require("koa-jwt");
 const swagger = require("swagger2");
@@ -34,13 +35,20 @@ const startServer = (port) => {
     allowHeaders: ['Content-Type', 'Authorization', 'Accept']
   }
   app.use(cors(corsOptions));
-  app.use(router({
+  app.use(router({ corsOptions: corsOptions,
+                   middlewares: [
+                     jwt({ secret: "1234", debug: true })
+                   ]
+                 }).routes());
+  const cockpit_routes = cockpit_router({
     corsOptions: corsOptions,
     middlewares: [
       jwt({ secret: jwtSecret, debug: true })
     ]
-  }).routes());
+  }).prefix('/cockpit').routes()
+
   app.use(ui(swaggerDocument, "/swagger"))
+  app.use(cockpit_routes);
   return app.listen(port, function () {
     console.log("Server running")
   });

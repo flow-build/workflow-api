@@ -41,6 +41,12 @@ const taskRequests = (server, auth_header) => {
         .post(`/activity_manager/${activity_manager_id}/submit`)
         .send(external_input)
         .set(...auth_header);
+    },
+    commitActivityByActivityManager: async (activity_manager_id, external_input) => {
+      return await request(server)
+        .post(`/activity_manager/${activity_manager_id}/commit`)
+        .send(external_input)
+        .set(...auth_header);
     }
   };
 };

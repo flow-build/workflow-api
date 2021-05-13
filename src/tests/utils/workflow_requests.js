@@ -360,12 +360,6 @@ const workflowRequests = (server, auth_header) => {
         .get(`/workflows/${workflow_id}`)
         .set(...auth_header);
     },
-    fetchProcessCountFromStatus: async (workflow_id, filters = {}) => {
-      return await request(server)
-        .get(`/workflows/${workflow_id}/status`)
-        .query(filters)
-        .set(...auth_header);
-    },
     fetchForActor: async () => {
       return await request(server)
         .get("/workflows")

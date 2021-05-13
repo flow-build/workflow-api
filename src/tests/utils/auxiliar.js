@@ -13,7 +13,7 @@ const validateProcess = (
     expect(process.id).toBeDefined();
     expect(process.created_at).toBeDefined();
     expect(process.workflow_id).toBe(workflow_id);
-    expect(process.blueprint_spec).toMatchObject(blueprint_spec);
+    expect(process.blueprint_spec).toBeUndefined();
   };
 
 const validateProcessState = (
