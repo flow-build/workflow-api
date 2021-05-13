@@ -11,7 +11,7 @@ services:
       - 5432:5432
 
   app:
-    image: node:12
+    image: node:14.16.1
     deploy:
       replicas: 1
     env_file:

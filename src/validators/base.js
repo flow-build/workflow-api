@@ -1,12 +1,26 @@
-var Ajv = require("ajv").default;
-const ajv = new Ajv();
+var Ajv = require("ajv");
+const addFormats = require("ajv-formats");
+const ajv = new Ajv({allErrors: true});
+addFormats(ajv);
 
 const validateBodyWithSchema = (schema) => {
   return async (ctx, next) => {
-    const is_valid = await ajv.validate(schema, ctx.request.body);
+    const validateSchema = ajv.compile(schema);
+    const is_valid = await validateSchema(ctx.request.body);
     if (!is_valid) {
-      ctx.throw(400, "Invalid request payload.");
-    };
+      ctx.status = 400;
+      ctx.body = { 
+        message: "Invalid Request Body", 
+        error: validateSchema.errors.map(e => {
+          let response;
+          response = {
+            field: e.instancePath,
+            message: e.message
+          }
+          return response;
+        }) };
+      return;
+    }
     return await next();
   };
 };

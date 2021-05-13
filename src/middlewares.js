@@ -1,3 +1,5 @@
+const { validate } = require("uuid");
+
 const captureActorData = async (ctx, next) => {
   if (!ctx.state.user) {
     ctx.throw(401, "User data not found");
@@ -26,7 +28,7 @@ const captureActorData = async (ctx, next) => {
 const validateUUID = async (ctx, next) => {
   const id = ctx.params.id || ctx.request.query.workflow_id;
   if (id) {
-    const is_valid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
+    const is_valid = validate(id);
     if (!is_valid) {
       ctx.throw(404, "Invalid id");
     } else {
