@@ -9,7 +9,6 @@ const pkc = require("./controllers/package");
 const tc = require("./controllers/token");
 const wv = require("./validators/workflow");
 const pv = require("./validators/process");
-const tc = require("./controllers/token");
 const hc = require("./controllers/health-check");
 const cors = require('koa2-cors');
 
@@ -19,9 +18,6 @@ module.exports = (opts = {}) => {
      router.use(bodyParser());
      router.get("/healthcheck", hc.healthCheck);
      router.post("/token", tc.getToken);
-
-     router.post("/token",
-                 tc.getToken)
 
      for (let middleware of opts.middlewares) {
           router.use(middleware);
