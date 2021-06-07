@@ -1,0 +1,11 @@
+{
+    "id": "string",
+    "name": "string",
+    "next": "string",
+    "type": "start",
+    "lane_id": "string",
+    "parameters": {
+        "input_schema": {},
+        "timeout": 100
+    }
+}

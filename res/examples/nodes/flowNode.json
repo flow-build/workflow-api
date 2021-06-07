@@ -1,0 +1,15 @@
+{
+  "id": "any_string (system friendly recommended)",
+  "name": "any string",
+  "next": {
+    "string": "other_node_id",
+    "default": "other_node_id"
+  },
+  "type": "flow",
+  "lane_id": "any_lane_id",
+  "parameters": {
+    "input": {
+      "key": "string"
+    }
+  }
+}

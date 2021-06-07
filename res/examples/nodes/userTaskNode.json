@@ -1,0 +1,15 @@
+{
+  "id": "any_string (system friendly recommended)",
+  "name": "any string",
+  "next": "other_node_id",
+  "lane_id": "any_lane_id",
+  "type": "UserTask",
+  "parameters": {
+    "action": "ANY_STRING_HERE",
+    "input": {},
+    "activity_manager": "commit or notify",
+    "activity_schema": {},
+    "timeout": 60
+  },
+  "result_schema": {}
+}
