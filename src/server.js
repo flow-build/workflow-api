@@ -1,4 +1,6 @@
-const { startServer } = require('./app');
+require("dotenv").config();
+
+const { startServer } = require("./app");
 
 const server = startServer(3000);
 
