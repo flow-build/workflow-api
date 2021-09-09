@@ -1,323 +1,322 @@
-const _ = require("lodash");
-const { v1:uuid } = require("uuid");
-const { setEngine,
-        setCockpit } = require("../engine");
-const { Engine,
-        Cockpit } = require("@flowbuild/engine");
-const { db_config, db } = require("./utils/db");
+require("dotenv").config();
+const { v1: uuid } = require("uuid");
+const axios = require("axios");
+const { db } = require("./utils/db");
 const { startServer } = require("../app");
-const { valid_token,
-        actor_data } = require("./utils/samples");
-const { workflow_dtos,
-        workflowRequests } = require("./utils/workflow_requests");
-const { process_dtos,
-        processRequests} = require("./utils/process_request");
-const { validateProcess,
-        validateProcessState } = require("./utils/auxiliar");
+const workflowSamples = require("../samples/workflows");
+const { delay, cleanDb } = require("./utils/auxiliar");
+const { config } = require("./utils/requestConfig");
 
+const { setEngine, setCockpit } = require("../engine");
+const { Engine, Cockpit } = require("@flowbuild/engine");
 const engine = new Engine("knex", db);
 const cockpit = new Cockpit("knex", db);
 setEngine(engine);
 setCockpit(cockpit);
 
 let server;
-let workflow_requests;
-let process_requests;
+let basicWorkflowId;
+let singleUserTaskWorkflowId;
+const prefix = "/processes";
+const numProcesses = 2;
 
-beforeAll(() => {
+beforeAll(async () => {
   server = startServer(3001);
-  const auth_header = ["Authorization", "Bearer " + valid_token];
-  workflow_requests = workflowRequests(server, auth_header);
-  process_requests = processRequests(server, auth_header);
+  axios.defaults.baseURL = config.baseURL;
+  axios.defaults.headers = config.headers;
+  axios.defaults.validateStatus = config.validateStatus;
+  jest.setTimeout(30000);
+
+  await cleanDb();
+
+  let workflow = await axios.post("/workflows", workflowSamples.basicStartFinish);
+  basicWorkflowId = workflow.data.workflow_id;
+  workflow = await axios.post("/workflows", workflowSamples.singleUserTask);
+  singleUserTaskWorkflowId = workflow.data.workflow_id;
+  await axios.post("/workflows", workflowSamples.timerProcess);
+  for (let i = 0; i < numProcesses; i++) {
+    await axios.post(`/workflows/name/${workflowSamples.basicStartFinish.name}/start`, {});
+    await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
+  }
 });
 
 beforeEach(async () => {
-  await _clean();
+  await delay(500);
 });
 
 afterAll(async () => {
-  await _clean();
+  await cleanDb();
   await db.destroy();
   server.close();
 });
 
-describe("fetchProcess endpoint should work", () => {
+describe("GET /", () => {
+  const route = `${prefix}/`;
 
-  test("should return 200 for existing process", async () => {
-    const save_workflow_dto = workflow_dtos.save.system_task_workflow;
-    const save_workflow_res = await workflow_requests.save(save_workflow_dto);
-    const workflow_id = save_workflow_res.body.workflow_id;
-
-    const start_process_dto = workflow_dtos.start_process;
-    const start_process_res = await workflow_requests.createProcess(
-      workflow_id, start_process_dto);
-    const process_id = start_process_res.body.process_id;
-
-    const res = await process_requests.fetch(process_id);
-    expect(res.statusCode).toBe(200);
-    const process = res.body;
-    const blueprint_spec = save_workflow_dto.blueprint_spec;
-    validateProcess(process, workflow_id, blueprint_spec);
-
-    const nodes = save_workflow_dto.blueprint_spec.nodes;
-    const state = process.state;
-    const first_node = nodes[0];
-    const step_number = 1;
-    const status = "unstarted";
-    validateProcessState(state, process_id, step_number, first_node.id,
-                            first_node.id, {}, {}, {}, null, status,
-                            actor_data);
-  });
-
-  test ("should return 404 for non existing process", async () => {
-    const random_id = uuid();
-    const res = await process_requests.fetch(random_id);
-    expect(res.statusCode).toBe(404);
-  });
-});
-
-describe("fetchProcessList endpoint should work", () => {
-  const num_workflows = 2;
-  const num_processes_per_workflow = 2;
-  let process_workflow_map;
-
-  beforeEach( async () => {
-    const dto = workflow_dtos.start_process;
-    const blueprint_spec = workflow_dtos
-          .save
-          .system_task_workflow
-          .blueprint_spec;
-    process_workflow_map = await workflow_requests.createManyProcesses(
-      dto, blueprint_spec, num_workflows, num_processes_per_workflow);
-  });
-
-  test("should return 200", async () => {
-    const res = await process_requests.fetchList();
-    expect(res.statusCode).toBe(200);
-
-    const processes = res.body;
-    expect(processes).toHaveLength(num_workflows *
-                                   num_processes_per_workflow);
-
-    for (const process of processes) {
-      const process_id = process.id;
-      const workflow = process_workflow_map[process_id];
-      const workflow_id = workflow.id;
-      const blueprint_spec = workflow.blueprint_spec;
-      validateProcess(process, workflow_id, blueprint_spec);
-
-      const nodes = blueprint_spec.nodes;
-      const state = process.state;
-      const first_node = nodes[0];
-      const step_number = 1;
-      const status = "unstarted";
-      validateProcessState(state, process_id, step_number, first_node.id,
-                            first_node.id, {}, {}, {}, null, status,
-                            actor_data);
-    }
+  test("should return 200 and all processes", async () => {
+    const response = await axios.get(route);
+    expect(response.status).toBe(200);
+    expect(response.data).toHaveLength(2 * numProcesses);
   });
 
   test("should filter by workflow_id accordingly", async () => {
-    const workflow_ = _.values(process_workflow_map)[0];
-    const workflow_id_ = workflow_.id;
-    const filters = { workflow_id: workflow_id_ };
-    const res = await process_requests.fetchList(filters);
-    expect(res.statusCode).toBe(200);
+    const params = new URLSearchParams();
+    params.append("workflow_id", basicWorkflowId);
+    const response = await axios.get(`/processes/?workflow_id=${basicWorkflowId}`);
+    expect(response.status).toBe(200);
 
-    const processes = res.body;
-    expect(processes).toHaveLength(num_processes_per_workflow);
-
-    for (const process of processes) {
-      const process_id = process.id;
-      const workflow = process_workflow_map[process_id];
-      const workflow_id = workflow.id;
-      const blueprint_spec = workflow.blueprint_spec;
-      expect(workflow_id).toBe(workflow_id_);
-      validateProcess(process, workflow_id, blueprint_spec);
-
-      const nodes = blueprint_spec.nodes;
-      const state = process.state;
-      const first_node = nodes[0];
-      const step_number = 1;
-      const status = "unstarted";
-      validateProcessState(state, process_id, step_number, first_node.id,
-                            first_node.id, {}, {}, {}, null, status,
-                            actor_data);
-    }
+    const processes = response.data;
+    expect(processes).toHaveLength(numProcesses);
   });
 });
 
-describe("fetchProcessStateHistory endpoint should work", () => {
+describe("GET /available", () => {
+  const route = `${prefix}/available`;
+
+  test("should return 200", async () => {
+    const response = await axios.get(route);
+    expect(response.status).toBe(200);
+    expect(response.data).toHaveLength(numProcesses);
+  });
+});
+
+describe("GET /done", () => {
+  const route = `${prefix}/done`;
+
+  beforeEach(async () => {
+    const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
+    await delay(500);
+    processId = process.data.process_id;
+  });
+
+  test("should return 200 and no task", async () => {
+    const response = await axios.get(route);
+    expect(response.status).toBe(200);
+    expect(response.data).toHaveLength(0);
+  });
+
+  test("should return 200 and show 1 done task", async () => {
+    await axios.post(`${prefix}/${processId}/commit`);
+    await axios.post(`${prefix}/${processId}/push`);
+
+    const response = await axios.get(route);
+    expect(response.status).toBe(200);
+    expect(response.data).toHaveLength(1);
+  });
+});
+
+describe("GET /:id/state", () => {
+  let processId;
+
+  beforeEach(async () => {
+    const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
+    await delay(500);
+    processId = process.data.process_id;
+  });
 
   test("should return 200 for existing process", async () => {
-    const save_workflow_dto = workflow_dtos.save.system_task_workflow;
-    const save_workflow_res = await workflow_requests.save(save_workflow_dto);
-    const workflow_id = save_workflow_res.body.workflow_id;
-
-    const start_process_dto = workflow_dtos.start_process;
-    const start_process_res = await workflow_requests.createProcess(
-      workflow_id, start_process_dto);
-    const process_id = start_process_res.body.process_id;
-
-    const res = await process_requests.fetchStateHistory(process_id);
-    expect(res.statusCode).toBe(200);
-
-    const states = res.body;
-    const nodes = save_workflow_dto.blueprint_spec.nodes;
-    expect(states).toHaveLength(1);
-
-    first_node = nodes[0];
-    const step_number = 1;
-    const status = "unstarted";
-    validateProcessState(states[0], process_id, step_number, first_node.id,
-                            first_node.id, {}, {}, {}, null, status);
+    const response = await axios.get(`${prefix}/${processId}/state`);
+    expect(response.status).toBe(200);
+    expect(response.data).toBeDefined();
+    expect(response.data.workflow_id).toBe(singleUserTaskWorkflowId);
   });
 
-  test ("should return 404 for non existing process", async () => {
-    const random_id = uuid();
-    const res = await process_requests.fetchStateHistory(random_id);
-    expect(res.statusCode).toBe(404);
+  test("should return 404 for non existing process", async () => {
+    const randomId = uuid();
+    const response = await axios.get(`${prefix}/${randomId}/state`);
+    expect(response.status).toBe(404);
   });
 });
 
-describe("runProcess endpoint should work", () => {
+describe("GET /:id/history", () => {
+  let processId;
+
+  beforeEach(async () => {
+    const process = await axios.post(`/workflows/name/${workflowSamples.basicStartFinish.name}/start`, {});
+    await delay(500);
+    processId = process.data.process_id;
+  });
 
   test("should return 200 for existing process", async () => {
-    const save_workflow_res = await workflow_requests.saveUserTask();
-    const workflow_id = save_workflow_res.body.workflow_id;
-
-    const start_process_dto = workflow_dtos.start_process;
-    const start_process_res = await workflow_requests.createProcess(
-      workflow_id, start_process_dto);
-    const process_id = start_process_res.body.process_id;
-
-    let fetch_state_history_res = await process_requests.fetchStateHistory(
-      process_id);
-    let states = fetch_state_history_res.body;
-    expect(states[0].status).toBe("unstarted");
-
-    const continue_process_dto = process_dtos.continue;
-    let res = await process_requests.runProcess(process_id,
-                                                continue_process_dto);
-    expect(res.statusCode).toBe(200);
-
-    fetch_state_history_res = await process_requests.fetchStateHistory(
-      process_id);
-    states = fetch_state_history_res.body;
-    expect(states[0].status).toBe("waiting");
-
-    res = await process_requests.runProcess(process_id,
-                                            continue_process_dto);
-    expect(res.statusCode).toBe(200);
-
-    fetch_state_history_res = await process_requests.fetchStateHistory(
-      process_id);
-    states = fetch_state_history_res.body;
-    expect(states[0].status).toBe("finished")
+    const response = await axios.get(`${prefix}/${processId}/history`);
+    expect(response.status).toBe(200);
+    expect(response.data).toBeDefined();
+    expect(response.data).toHaveLength(3);
   });
 
-  test ("should return 404 for non existing process", async () => {
-    const random_id = uuid();
-    const dto = process_dtos.continue;
-    const res = await process_requests.runProcess(random_id, dto);
-    expect(res.statusCode).toBe(404);
+  test("should return 404 for non existing process", async () => {
+    const randomId = uuid();
+    const response = await axios.get(`${prefix}/${randomId}/history`);
+    expect(response.status).toBe(404);
   });
 });
 
-describe("abortProcess endpoint should work", () => {
+describe("GET /:id/activity", () => {
+  let processId;
+
+  beforeEach(async () => {
+    //INICIAR UM PROCESSO E GUARDAR O ID DO PROCESSO
+    const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
+    await delay(500);
+    processId = process.data.process_id;
+  });
+
+  test("should return 200 for existing id", async () => {
+    const call = await axios.get(`${prefix}/${processId}/activity`);
+    expect(call.status).toBe(200);
+    expect(call.data.id).toBeDefined();
+  });
+
+  test("should return 404 for a non-existing id", async () => {
+    const randomId = uuid();
+    const call = await axios.get(`${prefix}/${randomId}/activity`);
+    expect(call.status).toBe(404);
+  });
+
+  test("should return 204 for a non-waiting processId", async () => {
+    const process = await axios.post(`/workflows/name/${workflowSamples.timerProcess.name}/start`, {});
+    processId = process.data.process_id;
+    await delay(500);
+    const call = await axios.get(`${prefix}/${processId}/activity`);
+    expect(call.status).toBe(204);
+  });
+});
+
+describe("GET /activityManager/:id", () => {
+  let processId;
+  let activityManagerId;
+
+  beforeEach(async () => {
+    //INICIAR UM PROCESSO E GUARDAR O ID DO PROCESSO
+    const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
+    await delay(500);
+    processId = process.data.process_id;
+    //OBTER O ID DO ACTIVITY_MANAGER
+    const activityManager = await axios.get(`/processes/${processId}/activity`);
+    activityManagerId = activityManager.data.id;
+  });
+
+  test("should return 200 for existing id", async () => {
+    const call = await axios.get(`${prefix}/activityManager/${activityManagerId}`);
+    expect(call.status).toBe(200);
+    expect(call.data.id).toBeDefined();
+  });
+
+  test("should return 404 for a non-existing id", async () => {
+    const randomId = uuid();
+    const call = await axios.get(`${prefix}/activityManager/${randomId}`);
+    expect(call.status).toBe(404);
+  });
+});
+
+describe("POST /:id/run", () => {
+  let processId;
+
+  beforeEach(async () => {
+    const process = await axios.post(`/workflows/${singleUserTaskWorkflowId}/create`, {});
+    processId = process.data.process_id;
+  });
 
   test("should return 200 for existing process", async () => {
-    const save_workflow_res = await workflow_requests.saveUserTask();
-    const workflow_id = save_workflow_res.body.workflow_id;
+    const firstCall = await axios.get(`${prefix}/${processId}/state`);
+    expect(firstCall.data.current_status).toBe("unstarted");
 
-    const start_process_dto = workflow_dtos.startProcess;
-    const start_process_res = await workflow_requests.createProcess(
-      workflow_id, start_process_dto);
-    const process_id = start_process_res.body.process_id;
+    const firstRunCall = await axios.post(`${prefix}/${processId}/run`);
+    expect(firstRunCall.status).toBe(200);
 
-    let fetch_state_history_res = await process_requests.fetchStateHistory(
-      process_id);
-    let states = fetch_state_history_res.body;
-    expect(states[0].status).toBe("unstarted");
+    const secondCall = await axios.get(`${prefix}/${processId}/state`);
+    expect(secondCall.data.current_status).toBe("waiting");
 
-    const res = await process_requests.abort(process_id);
-    expect(res.statusCode).toBe(200);
+    const secondRunCall = await axios.post(`${prefix}/${processId}/run`);
+    expect(secondRunCall.status).toBe(200);
 
-    fetch_state_history_res = await process_requests.fetchStateHistory(
-      process_id);
-    states = fetch_state_history_res.body;
-    expect(states[0].status).toBe("interrupted");
+    const thirdCall = await axios.get(`${prefix}/${processId}/state`);
+    expect(thirdCall.data.current_status).toBe("finished");
   });
 
-  test ("should return 404 for non existing process", async () => {
-    const random_id = uuid();
-    const res = await process_requests.abort(random_id);
-    expect(res.statusCode).toBe(404);
+  test("should return 404 for non existing process", async () => {
+    const randomId = uuid();
+    const response = await axios.post(`${prefix}/${randomId}/run`);
+    expect(response.status).toBe(404);
   });
 });
 
-describe("runProcess endpoint should work", () => {
+describe("POST /:id/abort", () => {
+  let processId;
 
-  test("should return 200 for existing process", async () => {
-    const save_workflow_res = await workflow_requests.saveUserTask();
-    const workflow_id = save_workflow_res.body.workflow_id;
-
-    const start_process_dto = workflow_dtos.startProcess;
-    const start_process_res = await workflow_requests.createProcess(
-      workflow_id, start_process_dto);
-    const process_id = start_process_res.body.process_id;
-
-    let fetch_state_history_res = await process_requests.fetchStateHistory(
-      process_id);
-    let states = fetch_state_history_res.body;
-    expect(states[0].status).toBe("unstarted");
-
-    const continue_process_dto = process_dtos.continue;
-    const res = await process_requests.runProcess(process_id,
-                                                  continue_process_dto);
-    expect(res.statusCode).toBe(200);
-
-    fetch_state_history_res = await process_requests.fetchStateHistory(
-      process_id);
-    states = fetch_state_history_res.body;
-    expect(states[0].status).toBe("waiting");
+  beforeEach(async () => {
+    const process = await axios.post(`/workflows/${basicWorkflowId}/create`, {});
+    processId = process.data.process_id;
   });
 
-  test ("should return 404 for non existing process", async () => {
-    const random_id = uuid();
-    const dto = process_dtos.continue;
-    const res = await process_requests.runProcess(random_id, dto);
-    expect(res.statusCode).toBe(404);
+  test("should return 200 and the process should be interrupted", async () => {
+    const firstCall = await axios.get(`${prefix}/${processId}/state`);
+    expect(firstCall.data.current_status).toBe("unstarted");
+
+    const response = await axios.post(`${prefix}/${processId}/abort`);
+    expect(response.status).toBe(200);
+
+    const secondCall = await axios.get(`${prefix}/${processId}/state`);
+    expect(secondCall.data.current_status).toBe("interrupted");
+  });
+
+  test("should return 422 if the process is already stopped", async () => {});
+
+  test("should return 404 for non existing process", async () => {
+    const randomId = uuid();
+    const response = await axios.post(`${prefix}/${randomId}/abort`);
+    expect(response.status).toBe(404);
   });
 });
 
-describe('Workflow with requirements and prepare works', () => {
+describe("POST /:id/commit", () => {
+  let processId;
 
-  test("Workflow should run with valid packages", async () => {
-    const save_workflow_res = await workflow_requests.saveUserScriptTask();
-    const workflow_id = save_workflow_res.body.workflow_id;
+  beforeEach(async () => {
+    const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
+    await delay(500);
+    processId = process.data.process_id;
+  });
 
-    const start_process_dto = workflow_dtos.startProcess;
-    const start_process_res = await workflow_requests.createProcess(
-      workflow_id, start_process_dto);
+  test("should return 200 for existing process and should not affect the process status", async () => {
+    const firstCall = await axios.get(`${prefix}/${processId}/state`);
+    expect(firstCall.data.current_status).toBe("waiting");
 
-    const process_id = start_process_res.body.process_id;
-    const dto = process_dtos.continue;
-    await process_requests.runProcess(process_id, dto);
+    const commitCall = await axios.post(`${prefix}/${processId}/commit`);
+    expect(commitCall.status).toBe(200);
 
-    let process_res = await process_requests.fetch(process_id);
-    expect(process_res.body.state.status).toStrictEqual("waiting");
-    const continue_process_res = await process_requests.runProcess(
-      process_id, {any: "any"});
-    process_res = await process_requests.fetch(process_id);
-    expect(process_res.body.state.bag).toStrictEqual({any: "any"});
+    const response = await axios.get(`${prefix}/${processId}/state`);
+    expect(response.data.current_status).toBe("waiting");
+  });
+
+  test("should return 404 for non existing process", async () => {
+    const randomId = uuid();
+    const response = await axios.post(`${prefix}/${randomId}/commit`);
+    expect(response.status).toBe(404);
   });
 });
 
-const _clean = async () => {
-  await db("activity").del();
-  await db("activity_manager").del();
-  await db("process_state").del();
-  await db("process").del();
-  await db("workflow").del();
-};
+describe("POST /:id/push", () => {
+  let processId;
+
+  beforeEach(async () => {
+    const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
+    await delay(500);
+    processId = process.data.process_id;
+  });
+
+  test("should return 200 for existing process and should affect the process status", async () => {
+    const firstCall = await axios.get(`${prefix}/${processId}/state`);
+    expect(firstCall.data.current_status).toBe("waiting");
+
+    const commitCall = await axios.post(`${prefix}/${processId}/commit`);
+    expect(commitCall.status).toBe(200);
+
+    const pushCall = await axios.post(`${prefix}/${processId}/push`);
+    expect(pushCall.status).toBe(202);
+    await delay(500);
+
+    const response = await axios.get(`${prefix}/${processId}/state`);
+    expect(response.data.current_status).not.toBe("waiting");
+  });
+});
