@@ -32,9 +32,9 @@ jobs:
         run: docker-compose up -d postgres
 
       - name: run migrations
-        run: 
-          npm install -g knex
-          knex --env dockerLocal migrate:latest
+        run: npm run migrations
+        env:  
+          KNEX_ENV: docker
 
       - name: run seeds
         run: npm run seeds:local
