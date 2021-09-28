@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch --coverage",
-    "test:single": "jest -i --detectOpenHandles",
-    "tests": "npm -- test -i",
+    "test": "jest --watch --coverage --runInBand --forceExit",
+    "test:single": "jest -i --detectOpenHandles --forceExit",
+    "tests": "npm -- test",
     "seeds": "knex --env ${KNEX_ENV} --knexfile knexfile.js seed:run",
     "seeds:local": "knex --env dockerLocal --knexfile knexfile.js seed:run",
     "migrations": "knex --env ${KNEX_ENV} --knexfile knexfile.js migrate:latest",
