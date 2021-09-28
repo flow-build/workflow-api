@@ -15,7 +15,7 @@ services:
     deploy:
       replicas: 1
     env_file:
-      - ./.env
+      - ./.env.docker
     container_name: flowbuild_app
     restart: on-failure:10 # necessary due to possibility of postgres not being ready when service runs
     depends_on:
