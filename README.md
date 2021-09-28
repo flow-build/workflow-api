@@ -1,4 +1,4 @@
-# koa-workflow
+# Workflow API
 ## Dependencies:
 
 ```
@@ -6,15 +6,17 @@ node -v
 v14.16.1
 
 npm -v
-6.12.0
+6.14.12
 ```
 
 ## Environment variables
 
+Add a .env file with the following variables:
+
 - JWT_KEY (default = 1234)
 - KOA_LOG_LEVEL (default = info)
 - ENGINE_LOG_LEVEL (default = error)
-- KNEX_END (suggested value = docker)
+- KNEX_ENV (suggested value = docker)
 
 ## Run the project on docker:
 
@@ -32,11 +34,7 @@ To run the tests, you may use the command below:
 docker-compose run -T app ./scripts/run_tests.sh
 ```
 
-For Windows users, change the `command` in the docker-compose.yml file to:
-
-```
-bash -c " npm update && npm install knex -g && npm install nodemon -g && npm install && npm rebuild && npm run migrations && npm run seeds && npm run start "
-```
+For Windows users, comment line #30 from the docker-compose.yml and uncomment line #32.
 
 ## Exploring and executing the API
 
