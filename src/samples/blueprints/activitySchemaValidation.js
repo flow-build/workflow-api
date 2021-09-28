@@ -1,6 +1,6 @@
 module.exports = {
-  name: "custom node workflow",
-  description: "custom workflow",
+  name: "schemaValidation",
+  description: "workflow to test activity schema validation",
   blueprint_spec: {
     requirements: ["core"],
     prepare: [],
@@ -17,32 +17,24 @@ module.exports = {
       },
       {
         id: "2",
-        type: "SystemTask",
-        category: "CustomTask",
-        name: "Custom task",
+        type: "UserTask",
+        name: "User Task node",
         next: "3",
         lane_id: "1",
         parameters: {
+          action: "do something",
           input: {},
+          activity_schema: {
+            type: 'object',
+            properties: {
+              date: { type: 'string', format: 'date'}
+            },
+            required: ['date']
+          }
         },
       },
       {
         id: "3",
-        type: "UserTask",
-        name: "User Task node",
-        next: "4",
-        lane_id: "1",
-        parameters: {
-          action: "do something",
-          input: {
-            internal_key: "result.custom_data",
-            outr: 'valor',
-            qualqer: 'coisa'
-          },
-        },
-      },
-      {
-        id: "4",
         type: "Finish",
         name: "Finish node",
         next: null,
