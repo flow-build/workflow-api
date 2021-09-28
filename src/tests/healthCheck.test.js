@@ -1,5 +1,4 @@
 require("dotenv").config();
-const { v1: uuid } = require("uuid");
 const axios = require("axios");
 const { startServer } = require("../app");
 const { delay } = require("./utils/auxiliar");

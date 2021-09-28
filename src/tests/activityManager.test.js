@@ -36,7 +36,7 @@ beforeEach(async () => {
 afterAll(async () => {
   await cleanDb();
   await db.destroy();
-  server.close();
+  await server.close();
 });
 
 describe("POST /:id/commit", () => {

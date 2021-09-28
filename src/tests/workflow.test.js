@@ -2,7 +2,7 @@ require("dotenv").config();
 const axios = require("axios");
 const { v1: uuid } = require("uuid");
 const { setEngine, setCockpit } = require("../engine");
-const { Engine, Cockpit } = require("@fieldlink/engine");
+const { Engine, Cockpit } = require("@flowbuild/engine");
 const { db } = require("./utils/db");
 const { startServer } = require("../app");
 const workflowSamples = require("../samples/workflows");

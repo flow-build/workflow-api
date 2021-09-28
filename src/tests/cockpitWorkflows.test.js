@@ -3,7 +3,6 @@ const { v1: uuid } = require("uuid");
 const axios = require("axios");
 const { db } = require("./utils/db");
 const { startServer } = require("../app");
-const gracefulShutdown = require("http-graceful-shutdown");
 
 const { cleanDb } = require("./utils/auxiliar");
 const { config } = require("./utils/requestConfig");
@@ -61,12 +60,6 @@ beforeAll(async () => {
 afterAll(async () => {
   await cleanDb();
   await db.destroy();
-  gracefulShutdown(server, {
-    signals: "SIGINT SIGTERM",
-    timeout: 5000,
-    development: true,
-    forceExit: true,
-  });
   server.close();
 });
 
@@ -209,7 +202,7 @@ describe("GET /workflows/name/:name/states/:node_id", () => {
     nodeId = "1";
     response = await axios.get(`${route}/${workflowSamples.singleUserTask.name}/states/${nodeId}`, {});
     expect(response.status).toEqual(200);
-    expect(response.data).toHaveLength(10);
+    expect(response.data).toHaveLength(9);
   });
 
   test("Should return an empty list for a non-existant node_id", async () => {
