@@ -33,8 +33,11 @@ jobs:
 
       - name: run migrations
         run: |
-          npm install -g knex
-          knex --env docker migrate:latest
+          npm run migrations:local
+
+      - name: run seeds
+        run: |
+          npm run seeds:local
 
       - name: start tests
         run: npm run tests
