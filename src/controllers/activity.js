@@ -176,6 +176,7 @@ const commitActivity = async (ctx, next) => {
     case "commitActivity":
       ctx.status = 400;
       ctx.body = tasks.error;
+      logger.info('invalid attempt to commit activity, error: ', tasks.error.message)
       break;
     default:
       ctx.status = 500;
@@ -246,6 +247,7 @@ const commitByActivityManagerId = async (ctx, next) => {
       case "commitActivity":
         ctx.status = 400;
         ctx.body = tasks.error;
+        logger.info('invalid attempt to commit activity, error: ', tasks.error.message)
         break;
       default:
         ctx.status = 500;
@@ -289,6 +291,7 @@ const submitByActivityManagerId = async (ctx, next) => {
     case "commitActivity":
       ctx.status = 400;
       ctx.body = result.error;
+      logger.info('invalid attempt to submit activity, error: ', result.error)
       break;
     case "submitActivity":
       ctx.status = 422;
