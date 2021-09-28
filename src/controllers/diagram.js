@@ -1,6 +1,7 @@
 const { getEngine } = require('../engine');
 const buildXmlDiagram = require('@flowbuild/nodejs-diagram-builder');
 const { logger } = require('../utils/logger');
+const { validate } = require("uuid");
 
 const buildDiagram = async (ctx, next) => {
   logger.verbose('Called buildDiagram');
@@ -10,9 +11,23 @@ const buildDiagram = async (ctx, next) => {
   let diagram;
 	
   if(workflow_id) {
+    const is_valid = validate(workflow_id);
+    if (!is_valid) {
+      ctx.status = 400;
+      ctx.body = {
+        message: "Invalid uuid",
+      };
+      return;
+    }
     const workflow = await engine.fetchWorkflow(workflow_id);
-    blueprint_spec = workflow.blueprint_spec;
-    name = workflow.name;
+    if(workflow) {
+      blueprint_spec = workflow.blueprint_spec;
+      name = workflow.name;
+    } else {
+      ctx.status = 404;
+      ctx.body = { message: "No such workflow" };
+      return;
+    }
   }
     
   try {
