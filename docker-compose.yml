@@ -3,7 +3,7 @@ version: '3'
 services:
   postgres:
     image: postgres:11.4
-    container_name: workflow_postgres
+    container_name: flowbuild_db
     restart: always
     env_file:
       - ./.env.docker
@@ -11,12 +11,12 @@ services:
       - 5432:5432
 
   app:
-    image: node:12
+    image: node:14.16.1
     deploy:
       replicas: 1
     env_file:
       - ./.env.docker
-    container_name: koa-workflow_app
+    container_name: flowbuild_app
     restart: on-failure:10 # necessary due to possibility of postgres not being ready when service runs
     depends_on:
       - postgres
@@ -27,5 +27,6 @@ services:
       - .:/usr/app
       - /usr/app/node_modules
     working_dir: /usr/app
-    command: bash -c "./scripts/start_dev.sh"
+    command: ./scripts/start_dev.sh
     #command: bash -c " npm update && npm install knex -g && npm install nodemon -g && npm install && npm rebuild && npm run migrations && npm run seeds && npm run start "
+    #command: bash -c " npm install && npm audit fix && npm run migrations && npm run seeds && npm run start "

@@ -1,0 +1,17 @@
+{
+  "id": "any_string (system friendly recommended)",
+  "name": "any string",
+  "next": "other_node_id",
+  "lane_id": "one_lane_id",
+  "type": "SystemTask",
+  "category": "http",
+  "parameters":  {
+    "input": {},
+    "request": {
+      "url": "url",
+      "verb": "GET,POST,PUT,PATCH,DELETE",
+      "headers": {}
+    }
+  },
+  "result_schema": {}
+}

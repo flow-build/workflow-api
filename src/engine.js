@@ -1,24 +1,24 @@
 let engine;
 function getEngine() {
-    return engine;
+  return engine;
 }
 
 function setEngine(engine_) {
-    engine = engine_;
+  engine = engine_;
 }
 
 let cockpit;
 function getCockpit() {
-    return cockpit;
+  return cockpit;
 }
 
 function setCockpit(cockpit_) {
-    cockpit = cockpit_;
+  cockpit = cockpit_;
 }
 
 module.exports = {
-    getEngine: getEngine,
-    setEngine: setEngine,
-    getCockpit: getCockpit,
-    setCockpit: setCockpit
+  getEngine: getEngine,
+  setEngine: setEngine,
+  getCockpit: getCockpit,
+  setCockpit: setCockpit
 };

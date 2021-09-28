@@ -1,0 +1,7 @@
+{
+  "id": "any_string (system friendly recommended)",
+  "name": "any string",
+  "type": "Finish",
+  "lane_id": "any_lane_id",
+  "next": null
+}

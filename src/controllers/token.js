@@ -1,17 +1,20 @@
-const uuid = require("uuid/v1");
-
-const { createJWTToken } = require("../utils/token_generator");
-const { jwtSecret } = require("../utils/jwt_secret");
+const { v1: uuid } = require("uuid");
+const { createJWTToken } = require("../services/tokenGenerator");
+const { jwtSecret } = require("../utils/jwtSecret");
+const { logger } = require("../utils/logger");
 
 const getToken = (ctx, next) => {
+  logger.verbose("Called getToken");
   const secret = ctx.get("x-secret") || jwtSecret;
   const duration = parseInt(ctx.get("x-duration")) || 3600; // default is 1 hour
 
-  const body = ctx.request.body;
-  if (!body.actor_id) {
+  const body = ctx.request.body || {};
+  if (!body?.actor_id) {
+    logger.debug("Set a random actor_id");
     body.actor_id = uuid();
   }
-  if (!body.claims) {
+  if (!body?.claims) {
+    logger.debug("Set an empty claims list");
     body.claims = [];
   }
 
@@ -19,11 +22,12 @@ const getToken = (ctx, next) => {
   ctx.status = 200;
   ctx.body = {
     jwtToken,
-    payload: body
+    payload: body,
   };
-}
 
+  return next();
+};
 
 module.exports = {
-  getToken
+  getToken,
 };

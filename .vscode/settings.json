@@ -1,0 +1,12 @@
+{
+    "conventionalCommits.scopes": [
+        "middlewares",
+        "validators",
+        "samples",
+        "utils",
+        "services",
+        "routers",
+        "controllers",
+        "tests"
+    ]
+}

@@ -1,3 +1,14 @@
+## [2.0.0](https://github.com/flow-build/workflow/compare/v1.0.1...v2.0.0) (2021-03-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* update to version 2.0
+
+### Bug Fixes
+
+* update to version 2.0 ([66391c4](https://github.com/flow-build/workflow/commit/66391c4ecf8249d6692613c35aa17e85ab753de1))
+
 ### [1.0.1](https://github.com/flow-build/workflow/compare/v1.0.0...v1.0.1) (2020-04-06)
 
 

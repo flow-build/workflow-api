@@ -15,7 +15,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: ["12"]
+        node-version: ["14.16.1"]
         os: [ubuntu-latest]
 
     steps:
@@ -32,9 +32,12 @@ jobs:
         run: docker-compose up -d postgres
 
       - name: run migrations
-        run: |
-          npm install -g knex
-          knex --env docker migrate:latest
+        run: npm run migrations
+        env:  
+          KNEX_ENV: docker
+
+      - name: run seeds
+        run: npm run seeds:local
 
       - name: start tests
         run: npm run tests

@@ -21,7 +21,7 @@ module.exports = {
   docker: {
     client: 'pg',
     connection: {
-      host: "workflow_postgres",
+      host: "localhost",
       user: "postgres",
       password: "postgres",
       database: "workflow"
@@ -32,5 +32,22 @@ module.exports = {
     seeds: {
       directory: path.join(BASE_PATH, 'seeds')
     }
-  }
+  },
+  dockerLocal: {
+    client: "pg",
+    connection: {
+      host: "localhost",
+      user: "postgres",
+      password: "postgres",
+      database: "workflow",
+      port: 5432,
+    },
+    pool: { min: 10, max: 40 },
+    migrations: {
+      directory: path.join(BASE_PATH, "migrations"),
+    },
+    seeds: {
+      directory: path.join(BASE_PATH, "seeds"),
+    },
+  },
 }
