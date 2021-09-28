@@ -1,21 +1,17 @@
-//KOA
 const Koa = require("koa");
 const cors = require("koa2-cors");
 const koaLogger = require("koa-logger-winston");
 const jwt = require("koa-jwt");
 
-//ROUTERS
 const freeRouter = require("./routers/freeRouter");
 const mainRouter = require("./routers/mainRouter");
 const cockpitRouter = require("./routers/cockpitRouter");
 
-//ENGINE
 const { setEngine, getEngine, setCockpit, getCockpit } = require("./engine");
 const { Engine, Cockpit } = require("@flowbuild/engine");
 const cockpitService = require("./services/cockpit");
 const { setCustomNodes } = require("../src/nodes");
 
-//UTILS
 const _log = require("./utils/logger");
 const _notifier = require("./utils/notifier");
 const { db } = require("./utils/db");

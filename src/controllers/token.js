@@ -4,7 +4,7 @@ const { jwtSecret } = require("../utils/jwtSecret");
 const { logger } = require("../utils/logger");
 
 const getToken = (ctx, next) => {
-  logger.debug("called getToken");
+  logger.verbose("Called getToken");
   const secret = ctx.get("x-secret") || jwtSecret;
   const duration = parseInt(ctx.get("x-duration")) || 3600; // default is 1 hour
 
