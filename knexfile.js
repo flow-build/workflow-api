@@ -21,7 +21,7 @@ module.exports = {
   docker: {
     client: 'pg',
     connection: {
-      host: "localhost",
+      host: "flowbuild_db",
       user: "postgres",
       password: "postgres",
       database: "workflow"
