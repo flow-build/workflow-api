@@ -163,9 +163,28 @@ isUnique = (array) => {
   return array.length === uniqueArray.length;
 };
 
+validateEnvironmentVariable = (spec) => {
+  let validateInfo = [];
+
+  const nodesString = JSON.stringify(spec.nodes);
+  for (const variable in spec.environment) {
+    if (!process.env[variable.toUpperCase()]) {
+      const error_message = `Variable ${variable} not found at the environment`;
+      validateInfo.push (error_message);
+    }
+    if (!nodesString.includes(`environment.${variable}`)) {
+      const error_message = `Variable ${variable} not declared in any node`;
+      validateInfo.push (error_message);
+    }
+  }
+
+  return validateInfo;
+}
+
 module.exports = {
   saveWorkflow: validateSaveWorkflow,
   createProcess: validateCreateProcess,
   validateNodes,
   validateConnections,
+  validateEnvironmentVariable
 };

@@ -2,6 +2,7 @@ const _ = require("lodash");
 const { getEngine, getCockpit } = require("../engine");
 const { compareBlueprints } = require("../services/compareBlueprints");
 const { logger } = require("../utils/logger");
+const { validateEnvironmentVariable } = require("../validators/workflow");
 
 const saveWorkflow = async (ctx, next) => {
   logger.verbose("Called saveWorkflow");
@@ -11,6 +12,7 @@ const saveWorkflow = async (ctx, next) => {
 
   try {
     const response = await engine.saveWorkflow(name, description, blueprint_spec, workflow_id);
+    const environmentValidation = validateEnvironmentVariable(blueprint_spec);
     logger.debug("Workflow Created");
     if (!response.error) {
       const workflow = await engine.fetchWorkflow(response.id);
@@ -19,6 +21,7 @@ const saveWorkflow = async (ctx, next) => {
         workflow_id: workflow.id,
         hash: workflow._blueprint_hash,
         version: workflow._version,
+        warnings: environmentValidation
       };
     } else {
       ctx.status = 400;
