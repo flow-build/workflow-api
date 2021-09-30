@@ -22,7 +22,7 @@ validateNodes = async (ctx, next) => {
       nodeCategory = node.category.toLowerCase();
     }
 
-    let typeValidation;
+    let typeValidation = {};
 
     if (nodeSchema[nodeType]) {
       logger.silly("validate type");
