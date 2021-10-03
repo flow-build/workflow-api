@@ -26,7 +26,18 @@ const workflowSchema = {
             properties: {
               id: { type: "string" },
               name: { type: "string" },
-              rule: { type: "array" },
+              rule: { 
+                oneOf: [
+                  { type: "array" },
+                  { 
+                    type: "object",
+                    required: ["$js"],
+                    properties: {
+                      $js: { "type": 'string' }
+                    }
+                  }
+                ]
+              }
             },
             additionalProperties: false,
             required: ["id", "name", "rule"],
