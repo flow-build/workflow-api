@@ -37,6 +37,11 @@ const startServer = (port) => {
 
   _notifier.activateNotifiers(engine);
 
+  const crypto = engine.buildCrypto('aes-256-cbc', {
+    key: process.env.CRYPTO_KEY || "12345678901234567890123456789012",
+  });
+  engine.setCrypto(crypto);
+
   const app = new Koa();
   const corsOptions = {
     origin: "*",
