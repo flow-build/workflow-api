@@ -13,11 +13,10 @@ const cockpitService = require("./services/cockpit");
 const { setCustomNodes } = require("../src/nodes");
 
 const _log = require("./utils/logger");
-const _notifier = require("./utils/notifier");
+const listeners = require("./utils/engineListener");
 const { db } = require("./utils/db");
 const { jwtSecret } = require("./utils/jwtSecret");
 const { setPersist } = require("./middlewares/persist");
-
 
 const startServer = (port) => {
   const engineLogLevel = process.env.ENGINE_LOG_LEVEL || "error";
@@ -35,9 +34,9 @@ const startServer = (port) => {
   }
   setCustomNodes();
 
-  _notifier.activateNotifiers(engine);
+  listeners.activateNotifiers(engine);
 
-  const crypto = engine.buildCrypto('aes-256-cbc', {
+  const crypto = engine.buildCrypto("aes-256-cbc", {
     key: process.env.CRYPTO_KEY || "12345678901234567890123456789012",
   });
   engine.setCrypto(crypto);
