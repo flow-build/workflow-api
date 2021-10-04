@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 const { getCockpit, getEngine } = require("../engine");
 const { logger } = require("../utils/logger");
 
@@ -13,8 +14,7 @@ const serializeTask = (task) => {
     process_status: task.current_status,
     workflow_name: task.workflow_name,
     workflow_description: task.workflow_description,
-    node_name: task.blueprint_spec.nodes.find((e) => e.id === task.node_id)
-      .name,
+    node_name: task.blueprint_spec.nodes.find((e) => e.id === task.node_id).name,
   };
 };
 
@@ -26,10 +26,7 @@ const fetchAvailableActivitiesForActor = async (ctx, next) => {
   const query_params = ctx.request.query;
   const workflow_id = query_params.workflow_id;
   const filters = workflow_id ? { workflow_id: query_params.workflow_id } : {};
-  let tasks = await cockpit.fetchAvailableActivitiesForActor(
-    actor_data,
-    filters
-  );
+  let tasks = await cockpit.fetchAvailableActivitiesForActor(actor_data, filters);
   ctx.status = 200;
   ctx.body = tasks.map((task) => {
     return serializeTask(task);
@@ -46,15 +43,9 @@ const fetchAvailableActivitiesForActorReduced = async (ctx, next) => {
   const query_params = ctx.request.query;
   const workflow_id = query_params.workflow_id;
   const filters = workflow_id ? { workflow_id: query_params.workflow_id } : {};
-  let tasks = await cockpit.fetchAvailableActivitiesForActor(
-    actor_data,
-    filters
-  );
+  let tasks = await cockpit.fetchAvailableActivitiesForActor(actor_data, filters);
   tasks = tasks
-    .filter(
-      (e) =>
-        ["finished", "interrupted", "pending"].indexOf(e.process_status) < 0
-    )
+    .filter((e) => ["finished", "interrupted", "pending"].indexOf(e.process_status) < 0)
     .map((task) => {
       let response = {
         activity_manager_id: task.id,
@@ -64,8 +55,7 @@ const fetchAvailableActivitiesForActorReduced = async (ctx, next) => {
         type: task.type,
         workflow_name: task.workflow_name,
         process_status: task.process_status,
-        node_name: task.blueprint_spec.nodes.find((e) => e.id === task.node_id)
-          .name,
+        node_name: task.blueprint_spec.nodes.find((e) => e.id === task.node_id).name,
         action: task.props.action,
       };
       return response;
@@ -103,25 +93,27 @@ const fetchActivity = async (ctx, next) => {
   let tasks;
   if (process) {
     switch (process._current_status) {
-    case "running":
-    case "delegated":
-    case "pending":
-    case "waiting":
-      tasks = await cockpit.fetchAvailableActivityForProcess(
-        process_id,
-        actor_data
-      );
-      if (tasks) {
-        ctx.status = 200;
-        delete tasks.blueprint_spec;
-        ctx.body = tasks;
-      } else {
-        ctx.status = 204;
-      }
-      return next();
-    default:
-      logger.warn(`Inactive status for PID ${process_id}`);
-      ctx.status = 404;
+      case "running":
+      case "delegated":
+      case "pending":
+      case "waiting":
+        tasks = await cockpit.fetchAvailableActivityForProcess(process_id, actor_data);
+        if (tasks) {
+          ctx.status = 200;
+          delete tasks.blueprint_spec;
+          delete tasks.bag;
+          delete tasks.process_status;
+          delete tasks.external_input;
+          delete tasks.node_id;
+          delete tasks.next_node_id;
+          ctx.body = tasks;
+        } else {
+          ctx.status = 204;
+        }
+        return next();
+      default:
+        logger.warn(`Inactive status for PID ${process_id}`);
+        ctx.status = 404;
     }
   } else {
     logger.warn(`No process found for PID ${process_id}`);
@@ -137,10 +129,7 @@ const fetchActivityByActivityManagerId = async (ctx, next) => {
   const engine = getEngine();
   const actor_data = ctx.state.actor_data;
   const activity_manager_id = ctx.params.id;
-  const tasks = await engine.fetchActivityManager(
-    activity_manager_id,
-    actor_data
-  );
+  const tasks = await engine.fetchActivityManager(activity_manager_id, actor_data);
   if (tasks) {
     ctx.status = 200;
     delete tasks.blueprint_spec;
@@ -162,26 +151,22 @@ const commitActivity = async (ctx, next) => {
   const actor_data = ctx.state.actor_data;
   const process_id = ctx.params.id;
   const external_input = ctx.request.body;
-  const tasks = await cockpit.commitActivity(
-    process_id,
-    actor_data,
-    external_input
-  );
+  const tasks = await cockpit.commitActivity(process_id, actor_data, external_input);
   if (tasks.error) {
     switch (tasks.error.errorType) {
-    case "activityManager":
-      ctx.status = 404;
-      ctx.body = tasks.error;
-      break;
-    case "commitActivity":
-      ctx.status = 400;
-      ctx.body = tasks.error;
-      logger.info('invalid attempt to commit activity, error: ', tasks.error.message)
-      break;
-    default:
-      ctx.status = 500;
-      ctx.body = tasks.error;
-      break;
+      case "activityManager":
+        ctx.status = 404;
+        ctx.body = tasks.error;
+        break;
+      case "commitActivity":
+        ctx.status = 400;
+        ctx.body = tasks.error;
+        logger.info("invalid attempt to commit activity, error: ", tasks.error.message);
+        break;
+      default:
+        ctx.status = 500;
+        ctx.body = tasks.error;
+        break;
     }
   } else {
     ctx.status = 200;
@@ -202,14 +187,14 @@ const pushActivity = async (ctx, next) => {
     ctx.status = 202;
   } else {
     switch (response.error.errorType) {
-    case "activityManager":
-      ctx.status = 404;
-      ctx.body = response.error;
-      break;
-    default:
-      ctx.status = 500;
-      ctx.body = response.error;
-      break;
+      case "activityManager":
+        ctx.status = 404;
+        ctx.body = response.error;
+        break;
+      default:
+        ctx.status = 500;
+        ctx.body = response.error;
+        break;
     }
   }
 
@@ -222,10 +207,7 @@ const commitByActivityManagerId = async (ctx, next) => {
 
   const engine = getEngine();
   const activity_manager_id = ctx.params.id;
-  const activity_manager = await engine.fetchActivityManager(
-    activity_manager_id,
-    actor_data
-  );
+  const activity_manager = await engine.fetchActivityManager(activity_manager_id, actor_data);
 
   if (activity_manager) {
     logger.debug("PID: ", activity_manager.process_id);
@@ -233,26 +215,22 @@ const commitByActivityManagerId = async (ctx, next) => {
     const cockpit = getCockpit();
     const process_id = activity_manager.process_id;
     const external_input = ctx.request.body;
-    const tasks = await cockpit.commitActivity(
-      process_id,
-      actor_data,
-      external_input
-    );
+    const tasks = await cockpit.commitActivity(process_id, actor_data, external_input);
     if (tasks.error) {
       switch (tasks.error.errorType) {
-      case "activityManager":
-        ctx.status = 404;
-        ctx.body = tasks.error;
-        break;
-      case "commitActivity":
-        ctx.status = 400;
-        ctx.body = tasks.error;
-        logger.info('invalid attempt to commit activity, error: ', tasks.error.message)
-        break;
-      default:
-        ctx.status = 500;
-        ctx.body = tasks.error;
-        break;
+        case "activityManager":
+          ctx.status = 404;
+          ctx.body = tasks.error;
+          break;
+        case "commitActivity":
+          ctx.status = 400;
+          ctx.body = tasks.error;
+          logger.info("invalid attempt to commit activity, error: ", tasks.error.message);
+          break;
+        default:
+          ctx.status = 500;
+          ctx.body = tasks.error;
+          break;
       }
     } else {
       ctx.status = 200;
@@ -275,32 +253,28 @@ const submitByActivityManagerId = async (ctx, next) => {
   const actor_data = ctx.state.actor_data;
   const activity_manager_id = ctx.params.id;
   const external_input = ctx.request.body;
-  const result = await engine.submitActivity(
-    activity_manager_id,
-    actor_data,
-    external_input
-  );
+  const result = await engine.submitActivity(activity_manager_id, actor_data, external_input);
   if (result && !result.error) {
     ctx.status = 202;
   } else {
     switch (result.error.errorType) {
-    case "activityManager":
-      ctx.status = 404;
-      ctx.body = result.error;
-      break;
-    case "commitActivity":
-      ctx.status = 400;
-      ctx.body = result.error;
-      logger.info('invalid attempt to submit activity, error: ', result.error)
-      break;
-    case "submitActivity":
-      ctx.status = 422;
-      ctx.body = result.error;
-      break;
-    default:
-      ctx.status = 500;
-      ctx.body = result.error;
-      break;
+      case "activityManager":
+        ctx.status = 404;
+        ctx.body = result.error;
+        break;
+      case "commitActivity":
+        ctx.status = 400;
+        ctx.body = result.error;
+        logger.info("invalid attempt to submit activity, error: ", result.error);
+        break;
+      case "submitActivity":
+        ctx.status = 422;
+        ctx.body = result.error;
+        break;
+      default:
+        ctx.status = 500;
+        ctx.body = result.error;
+        break;
     }
   }
 
