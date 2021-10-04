@@ -29,7 +29,7 @@ async function connect() {
 async function publishMessage(topic, message) {
   let response;
   if (process.env.MQTT === "true") {
-    logger.info("[mqtt] publishing message to broker");
+    logger.info(`[mqtt] publishing message to topic ${topic}`);
     if (client) {
       response = await client.publish(topic, JSON.stringify(message), { qos: 1 });
       logger.info(`[mqtt] Broker messageId: ${response.messageId}`);
