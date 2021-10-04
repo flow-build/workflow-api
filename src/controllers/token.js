@@ -1,4 +1,5 @@
 const { v1: uuid } = require("uuid");
+const { nanoid } = require("nanoid");
 const { createJWTToken } = require("../services/tokenGenerator");
 const { jwtSecret } = require("../utils/jwtSecret");
 const { logger } = require("../utils/logger");
@@ -17,6 +18,7 @@ const getToken = (ctx, next) => {
     logger.debug("Set an empty claims list");
     body.claims = [];
   }
+  body.session_id = nanoid();
 
   const jwtToken = createJWTToken(body, secret, duration);
   ctx.status = 200;
