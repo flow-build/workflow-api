@@ -12,9 +12,10 @@ const activityManagerListener = async (activityManager) => {
   const topic = `/process/${activityManager._process_id}/am/create`;
 
   const message = {
-    processId: activityManager._process_id,
-    activityManagerId: activityManager._id,
+    process_id: activityManager._process_id,
+    id: activityManager._id,
     status: activityManager._status,
+    props: activityManager._props,
   };
 
   mqtt.publishMessage(topic, message);
