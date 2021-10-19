@@ -100,7 +100,7 @@ const nodeSchema = {
             type: "object",
           },
         },
-        required: ["actor_data", "worlkflow_name"],
+        required: ["actor_data", "workflow_name"],
       },
     },
   },
