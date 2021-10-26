@@ -1,0 +1,2860 @@
+{
+	"info": {
+		"_postman_id": "61e8f5c7-1f1f-4f71-b07c-64ad2cbbf517",
+		"name": "Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Healthcheck",
+			"item": [
+				{
+					"name": "Base",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should respond version\", () => {\r",
+									"    pm.expect(response.version).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should respond engine version\", () => {\r",
+									"    pm.expect(response.engine).to.exist;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Healthcheck",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should respond version\", () => {\r",
+									"    pm.expect(response.version).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should respond engine version\", () => {\r",
+									"    pm.expect(response.engine).to.exist;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/healthcheck",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"healthcheck"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Token",
+			"item": [
+				{
+					"name": "Create Token - without payload",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should return jwtToken\", () => {\r",
+									"    pm.expect(response.jwtToken).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return payload\", () => {\r",
+									"    pm.expect(response.payload).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return actor_id\", () => {\r",
+									"    pm.expect(response.payload.actor_id).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return session_id\", () => {\r",
+									"    pm.expect(response.payload.session_id).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Claims should be empty\", () => {\r",
+									"    pm.expect(response.payload.claims).to.have.length(0);\r",
+									"})\r",
+									"\r",
+									"pm.environment.set(\"token\", response.jwtToken)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"actor_id\",\"06dc94af-3a8a-40e3-be2c-4942c991e8b5\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Token - with actor_id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const providedActorId = pm.collectionVariables.get(\"actor_id\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should use provided actor_id\", () => {\r",
+									"    pm.expect(response.payload.actor_id).to.eql(providedActorId);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"actor_id\",\"3556a862-1663-4fed-b4a0-a028d1be2a4e\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"actor_id\": \"{{actor_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Token - with duration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const definedDuration = pm.collectionVariables.get('duration');\r",
+									"const duration = response.payload.exp - response.payload.iat;\r",
+									"\r",
+									"pm.test(\"Should use defined duration\", () => {\r",
+									"    pm.expect(duration).to.eql(definedDuration);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"duration\", 6000)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-duration",
+								"value": "{{duration}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Token - with claims",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const providedClaims = pm.collectionVariables.get(\"claims\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should use provided claims\", () => {\r",
+									"    pm.expect(JSON.stringify(response.payload.claims)).to.eql(providedClaims);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"claims\",'[\"a\",\"b\"]')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"claims\": {{claims}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Token - with claims as string",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const providedClaims = pm.collectionVariables.get(\"claims\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should convert claims to an Array\", () => {\r",
+									"    pm.expect(response.payload.claims[0]).to.eql(providedClaims);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"claims\",\"abc\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"claims\": \"{{claims}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Packages",
+			"item": [
+				{
+					"name": "Create Package (without token)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$guid}}\",\r\n    \"description\": \"test package\",\r\n    \"code\": [\r\n        \"do\",\r\n        [\r\n            \"def\",\r\n            \"package_test_1\",\r\n            [\r\n                \"fn\",\r\n                [],\r\n                [\r\n                    \"prn\",\r\n                    [\r\n                        \"`\",\r\n                        \"Dummy test is running!\"\r\n                    ]\r\n                ]\r\n            ]\r\n        ]\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/packages",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"packages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Package",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should return package_id\", () => {\r",
+									"    pm.expect(response.package_id).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.collectionVariables.set(\"package_id\",response.package_id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$guid}}\",\r\n    \"description\": \"test package\",\r\n    \"code\": [\r\n        \"do\",\r\n        [\r\n            \"def\",\r\n            \"package_test_1\",\r\n            [\r\n                \"fn\",\r\n                [],\r\n                [\r\n                    \"prn\",\r\n                    [\r\n                        \"`\",\r\n                        \"Dummy test is running!\"\r\n                    ]\r\n                ]\r\n            ]\r\n        ]\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/packages",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"packages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Package",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const package_id = pm.collectionVariables.get(\"package_id\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should return id\", () => {\r",
+									"    pm.expect(response.id).to.eql(package_id);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return created_at\", () => {\r",
+									"    pm.expect(response.created_at).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return name\", () => {\r",
+									"    pm.expect(response.name).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return description\", () => {\r",
+									"    pm.expect(response.description).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return code\", () => {\r",
+									"    pm.expect(response.code).to.exist;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/packages/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"packages",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{package_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Package",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const package_id = pm.collectionVariables.get(\"package_id\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(202);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should return 1 package deleted\", () => {\r",
+									"    pm.expect(response.deleted).to.eql(1);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/packages/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"packages",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{package_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Workflow",
+			"item": [
+				{
+					"name": "Delete Workflow",
+					"item": [
+						{
+							"name": "Setup",
+							"item": [
+								{
+									"name": "Create workflow_id_for_delete",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.collectionVariables.set(\"workflow_id_for_delete\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"test_for_delete\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/workflows",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create workflow_id",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.collectionVariables.set(\"workflow_id\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"test_for_delete_with_process\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/workflows",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Process for workflow_id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id",
+												"create"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{workflow_id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Delete Workflow (with id)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{workflow_id_for_delete}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Workflow (id with process)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 422\", function () {\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has message 'Cannot delete workflows with processes'\", function () {\r",
+											"    pm.expect(response.message).to.eql(\"Cannot delete workflows with processes\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{workflow_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Workflow (random id)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has message 'No such workflow'\", function () {\r",
+											"    pm.expect(response.message).to.eql(\"No such workflow\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{$guid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create Workflow",
+					"item": [
+						{
+							"name": "Create Workflow (without token)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Should return 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Workflow (without body)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return message\", () => {\r",
+											"    pm.expect(response.message).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return errors\", () => {\r",
+											"    pm.expect(response.error).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return 3 errors\", () => {\r",
+											"    pm.expect(response.error).to.have.length(3);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Workflow (without id)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return workflow_id\", () => {\r",
+											"    pm.expect(response.workflow_id).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return hash\", () => {\r",
+											"    pm.expect(response.hash).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return version\", () => {\r",
+											"    pm.expect(response.version).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should have no warnings\", () => {\r",
+											"    pm.expect(response.warnings).to.exist;\r",
+											"    pm.expect(response.warnings).to.have.length(0);\r",
+											"})\r",
+											"\r",
+											"pm.collectionVariables.set(\"workflow_id\",response.workflow_id)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Workflow (with id)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var uuid = require(\"uuid\")\r",
+											"\r",
+											"const id = uuid.v4();\r",
+											"\r",
+											"pm.collectionVariables.set(\"workflow_id\", id)"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const workflow_id = pm.collectionVariables.get(\"workflow_id\")\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return workflow_id\", () => {\r",
+											"    pm.expect(response.workflow_id).to.eql(workflow_id);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return hash\", () => {\r",
+											"    pm.expect(response.hash).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return version\", () => {\r",
+											"    pm.expect(response.version).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should have no warnings\", () => {\r",
+											"    pm.expect(response.warnings).to.exist;\r",
+											"    pm.expect(response.warnings).to.have.length(0);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"workflow_id\": \"{{workflow_id}}\",\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Workflow (repeated id)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.collectionVariables.get(\"workflow_id\")\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return message\", () => {\r",
+											"    pm.expect(response.message).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return error\", () => {\r",
+											"    pm.expect(response.error).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return that this id already exist\", () => {\r",
+											"    pm.expect(response.error).to.eql(\"workflow already exists\");\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"workflow_id\": \"{{workflow_id}}\",\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Workflow (not a uuid)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.collectionVariables.get(\"workflow_id\")\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return message\", () => {\r",
+											"    pm.expect(response.message).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return error\", () => {\r",
+											"    pm.expect(response.error).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return error\", () => {\r",
+											"    pm.expect(response.error[0].field).to.eql(\"/workflow_id\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"workflow_id\": \"not_a_uuid\",\r\n    \"name\": \"basic\",\r\n    \"description\": \"system workflow\",\r\n    \"blueprint_spec\": {\r\n        \"requirements\": [\r\n            \"core\"\r\n        ],\r\n        \"prepare\": [],\r\n        \"nodes\": [\r\n            {\r\n                \"id\": \"1\",\r\n                \"type\": \"Start\",\r\n                \"name\": \"Start node\",\r\n                \"parameters\": {\r\n                    \"input_schema\": {}\r\n                },\r\n                \"next\": \"2\",\r\n                \"lane_id\": \"1\"\r\n            },\r\n            {\r\n                \"id\": \"3\",\r\n                \"type\": \"Finish\",\r\n                \"name\": \"Finish node\",\r\n                \"next\": null,\r\n                \"lane_id\": \"1\"\r\n            }\r\n        ],\r\n        \"lanes\": [\r\n            {\r\n                \"id\": \"1\",\r\n                \"name\": \"the_only_lane\",\r\n                \"rule\": [\r\n                    \"fn\",\r\n                    [\r\n                        \"&\",\r\n                        \"args\"\r\n                    ],\r\n                    true\r\n                ]\r\n            }\r\n        ],\r\n        \"environment\": {}\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Workflow (lane missing)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return message\", () => {\r",
+											"    pm.expect(response.message).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return Invalid Connections\", () => {\r",
+											"    pm.expect(response.message).to.eql(\"Invalid Connections\");\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return error\", () => {\r",
+											"    pm.expect(response.error).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return error should point to lane\", () => {\r",
+											"    pm.expect(response.error[0].lane).to.be.false;\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"4\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Workflow (node missing)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.collectionVariables.get(\"workflow_id\")\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return message\", () => {\r",
+											"    pm.expect(response.message).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return Invalid Connections\", () => {\r",
+											"    pm.expect(response.message).to.eql(\"Invalid Connections\");\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return error\", () => {\r",
+											"    pm.expect(response.error).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return error should point to next\", () => {\r",
+											"    pm.expect(response.error[0].next).to.be.false;\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"3\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Workflow (duplicated lane)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.collectionVariables.get(\"workflow_id\")\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return message\", () => {\r",
+											"    pm.expect(response.message).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return error\", () => {\r",
+											"    pm.expect(response.error).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Error should point to Lanes\", () => {\r",
+											"    pm.expect(response.error[0].field).to.eql(\"/blueprint_spec/lanes\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      },\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\"fn\", [\"&\", \"args\"], true]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create Process",
+					"item": [
+						{
+							"name": "Setup",
+							"item": [
+								{
+									"name": "Create the Workflow",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.collectionVariables.set(\"workflow_name_for_create\",\"tests_name_for_create\")"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.collectionVariables.set(\"workflow_id_for_create\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"{{workflow_name_for_create}}\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/workflows",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Create Process",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const workflow_id = pm.collectionVariables.get(\"workflow_id_for_create\")\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow data\", () => {\r",
+											"    pm.expect(response.workflow).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow version\", () => {\r",
+											"    pm.expect(response.workflow.version).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow name\", () => {\r",
+											"    pm.expect(response.workflow.name).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow id\", () => {\r",
+											"    pm.expect(response.workflow.id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+											"    pm.expect(response.workflow.id).to.eql(workflow_id);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id/create",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id",
+										"create"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{workflow_id_for_create}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Process (random id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should NOT return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.be.undefined;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id/create",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id",
+										"create"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{$guid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Process by Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const workflow_id = pm.collectionVariables.get(\"workflow_id_for_create\")\r",
+											"const workflow_name = pm.collectionVariables.get(\"workflow_name_for_create\")\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow data\", () => {\r",
+											"    pm.expect(response.workflow).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow version\", () => {\r",
+											"    pm.expect(response.workflow.version).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow name\", () => {\r",
+											"    pm.expect(response.workflow.name).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+											"    pm.expect(response.workflow.name).to.eql(workflow_name);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow id\", () => {\r",
+											"    pm.expect(response.workflow.id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+											"    pm.expect(response.workflow.id).to.eql(workflow_id);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name/create",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name",
+										"create"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "{{workflow_name_for_create}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Process by Name (random name)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should NOT return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.be.undefined;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name/create",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name",
+										"create"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "{{$randomWord}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Start Process",
+					"item": [
+						{
+							"name": "Setup",
+							"item": [
+								{
+									"name": "Create the Workflow",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.collectionVariables.set(\"workflow_name_for_start\",\"tests_name_for_start\")"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.collectionVariables.set(\"workflow_id_for_start\")"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"{{workflow_name}}\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/workflows",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Start Process by Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const workflow_id = pm.collectionVariables.get(\"workflow_id_for_start\")\r",
+											"const workflow_name = pm.collectionVariables.get(\"workflow_name_for_start\")\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow data\", () => {\r",
+											"    pm.expect(response.workflow).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow version\", () => {\r",
+											"    pm.expect(response.workflow.version).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow name\", () => {\r",
+											"    pm.expect(response.workflow.name).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+											"    pm.expect(response.workflow.name).to.eql(workflow_name);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow id\", () => {\r",
+											"    pm.expect(response.workflow.id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+											"    pm.expect(response.workflow.id).to.eql(workflow_id);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name/start",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name",
+										"start"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "{{workflow_name_for_start}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Start Process by Name (random name)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should NOT return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.be.undefined;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name/create",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name",
+										"create"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "{{$randomWord}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "List Workflows",
+					"item": [
+						{
+							"name": "List Workflows",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return more than 1 workflow\", () => {\r",
+											"    pm.expect(response.length).to.be.at.least(1);\r",
+											"});\r",
+											"\r",
+											"const first = response.find(i => i.name === \"basic\");\r",
+											"\r",
+											"pm.test(\"Should return workflow_id\", () => {\r",
+											"    pm.expect(first.workflow_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return created_at\", () => {\r",
+											"    pm.expect(first.created_at).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return name\", () => {\r",
+											"    pm.expect(first.name).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return description\", () => {\r",
+											"    pm.expect(first.description).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return version\", () => {\r",
+											"    pm.expect(first.version).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return hash\", () => {\r",
+											"    pm.expect(first.hash).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should NOT return blueprint_spec\", () => {\r",
+											"    pm.expect(first.blueprint_spec).to.be.undefined;\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.set(\"workflow_id\",first.workflow_id);\r",
+											"pm.collectionVariables.set(\"workflow_name\",first.name);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Convert Diagram",
+					"item": [
+						{
+							"name": "Convert Diagram",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonObject = xml2Json(responseBody);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has body\", function () {\r",
+											"    pm.expect(responseBody).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows/diagram",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"diagram"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Convert Diagram (with workflow_id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonObject = xml2Json(responseBody);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has body\", function () {\r",
+											"    pm.expect(responseBody).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"workflow_id\": \"{{workflow_id}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows/diagram",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"diagram"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Convert Diagram (random id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has message 'No such workflow'\", function () {\r",
+											"    pm.expect(response.message).to.eql(\"No such workflow\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"workflow_id\": \"{{$guid}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows/diagram",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"diagram"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Convert Diagram (not a uuid)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has message 'Invalid uuid'\", function () {\r",
+											"    pm.expect(response.message).to.eql(\"Invalid uuid\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"workflow_id\": \"not_a_uuid\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows/diagram",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"diagram"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Read Workflows",
+					"item": [
+						{
+							"name": "Read Workflows by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const workflow_id = pm.collectionVariables.get(\"workflow_id\")\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow_id provided\", () => {\r",
+											"    pm.expect(response.workflow_id).to.eql(workflow_id);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return workflow_id\", () => {\r",
+											"    pm.expect(response.workflow_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return created_at\", () => {\r",
+											"    pm.expect(response.created_at).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return name\", () => {\r",
+											"    pm.expect(response.name).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return description\", () => {\r",
+											"    pm.expect(response.description).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return version\", () => {\r",
+											"    pm.expect(response.version).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return hash\", () => {\r",
+											"    pm.expect(response.hash).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return blueprint_spec\", () => {\r",
+											"    pm.expect(response.blueprint_spec).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{workflow_id}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Workflows by Id (non existent id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{$guid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Workflows by Id (invalid id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Message should be Invalid uuid\", () => {\r",
+											"    pm.expect(response.message).to.eql(\"Invalid uuid\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "not_a_uuid"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Workflows by Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const workflow_id = pm.collectionVariables.get(\"workflow_id\")\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow_id provided\", () => {\r",
+											"    pm.expect(response.workflow_id).to.eql(workflow_id);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return workflow_id\", () => {\r",
+											"    pm.expect(response.workflow_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return created_at\", () => {\r",
+											"    pm.expect(response.created_at).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return name\", () => {\r",
+											"    pm.expect(response.name).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return description\", () => {\r",
+											"    pm.expect(response.description).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return version\", () => {\r",
+											"    pm.expect(response.version).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return hash\", () => {\r",
+											"    pm.expect(response.hash).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return blueprint_spec\", () => {\r",
+											"    pm.expect(response.blueprint_spec).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "{{workflow_name}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Workflows by Name (non existent Name)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "{{$randomWord}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "List Processes",
+					"item": [
+						{
+							"name": "Setup",
+							"item": [
+								{
+									"name": "Create a Workflow",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.collectionVariables.set(\"workflow_id_for_list_process\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/workflows",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create a Process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id",
+												"create"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{workflow_id_for_list_process}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create another Process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id",
+												"create"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{workflow_id_for_list_process}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create other Workflow",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.collectionVariables.set(\"workflow_id\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/workflows",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create a process on the other workflow",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const response = pm.response.json();\r",
+													"const workflow_id = pm.collectionVariables.get(\"workflow_id\")\r",
+													"\r",
+													"pm.test(\"Status code is 201\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return a process_id\", () => {\r",
+													"    pm.expect(response.process_id).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow data\", () => {\r",
+													"    pm.expect(response.workflow).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow version\", () => {\r",
+													"    pm.expect(response.workflow.version).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow name\", () => {\r",
+													"    pm.expect(response.workflow.name).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow id\", () => {\r",
+													"    pm.expect(response.workflow.id).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+													"    pm.expect(response.workflow.id).to.eql(workflow_id);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id",
+												"create"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{workflow_id}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "List Processes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return more than 2 proceses\", () => {\r",
+											"    pm.expect(response).to.have.length(2);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id/processes",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id",
+										"processes"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{workflow_id_for_list_process}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "package_id",
+			"value": ""
+		},
+		{
+			"key": "workflow_id",
+			"value": ""
+		},
+		{
+			"key": "actor_id",
+			"value": ""
+		},
+		{
+			"key": "workflow_name",
+			"value": ""
+		},
+		{
+			"key": "workflow_id_for_delete",
+			"value": ""
+		},
+		{
+			"key": "workflow_id_for_list_process",
+			"value": ""
+		},
+		{
+			"key": "workflow_name_for_create",
+			"value": ""
+		},
+		{
+			"key": "workflow_id_for_create",
+			"value": ""
+		}
+	]
+}

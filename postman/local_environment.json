@@ -1,0 +1,15 @@
+{
+	"name": "local",
+	"values": [
+		{
+			"key": "host",
+			"value": "localhost:3000",
+			"enabled": true
+		},
+		{
+			"key": "token",
+			"value": "",
+			"enabled": true
+		}
+	]
+}
