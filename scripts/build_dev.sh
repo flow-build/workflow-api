@@ -1,6 +1,3 @@
-npm update
-npm install knex -g
-npm install nodemon -g
 npm install
-npm rebuild
+npm audit fix
 npm run migrations
