@@ -47,7 +47,10 @@ const deletePackage = async (ctx, next) => {
   if (num_deleted == 0) {
     ctx.status = 404;
   } else {
-    ctx.status = 204;
+    ctx.status = 202;
+    ctx.body = {
+      deleted: num_deleted
+    }
   }
 
   return next();

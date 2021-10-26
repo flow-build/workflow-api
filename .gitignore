@@ -30,5 +30,3 @@ node_modules
 .env
 
 /export
-.vscode
-.vscode/settings.json

@@ -17,7 +17,12 @@ const getToken = (ctx, next) => {
   if (!body?.claims) {
     logger.debug("Set an empty claims list");
     body.claims = [];
+  } else if (!Array.isArray(body.claims)) {
+    let claims = [];
+    claims.push(body.claims);
+    body.claims = claims;
   }
+
   body.session_id = nanoid();
 
   const jwtToken = createJWTToken(body, secret, duration);

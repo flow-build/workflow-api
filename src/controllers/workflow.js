@@ -142,7 +142,7 @@ const deleteWorkflow = async (ctx, next) => {
     (ctx.status = 404),
     (ctx.body = ctx.body =
         {
-          message: "no such workflow",
+          message: "No such workflow",
         });
     return;
   }
@@ -203,16 +203,29 @@ const createProcess = async (ctx, next) => {
   const workflow_id = ctx.params.id;
   const actor_data = ctx.state.actor_data;
   const input = ctx.request.body;
-  const process = await engine.createProcess(workflow_id, actor_data, input);
-  if (process) {
-    ctx.status = 201;
-    ctx.body = {
-      process_id: process.id,
-    };
+  const workflow = await engine.fetchWorkflow(workflow_id); 
+  
+  if (workflow) {
+    const process = await engine.createProcess(workflow_id, actor_data, input);
+    if (process) {
+      ctx.status = 201;
+      ctx.body = {
+        process_id: process.id,
+        workflow: {
+          id: workflow.id,
+          name: workflow.name,
+          version: workflow._version,
+        }
+      };
+    } else {
+      ctx.status = 404;
+      ctx.body = { message: `Failed while creating process` };
+    }
   } else {
     ctx.status = 404;
-    ctx.body = { message: `Failed while creating process` };
+    ctx.body = { message: `No such workflow` };
   }
+  
 
   return next();
 };
@@ -224,15 +237,28 @@ const createProcessByName = async (ctx, next) => {
   const workflow_name = ctx.params.name;
   const actor_data = ctx.state.actor_data;
   const input = ctx.request.body;
-  const process = await engine.createProcessByWorkflowName(workflow_name, actor_data, input);
-  if (process) {
-    ctx.status = 201;
-    ctx.body = {
-      process_id: process.id,
-    };
+
+  const workflow = await await engine.fetchWorkflowByName(workflow_name);
+
+  if (workflow) {
+    const process = await engine.createProcessByWorkflowName(workflow_name, actor_data, input);
+    if (process) {
+      ctx.status = 201;
+      ctx.body = {
+        process_id: process.id,
+        workflow: {
+          id: workflow.id,
+          name: workflow.name,
+          version: workflow._version,
+        }
+      };
+    } else {
+      ctx.status = 404;
+      ctx.body = { message: `Failed while creating process` };
+    }
   } else {
     ctx.status = 404;
-    ctx.body = { message: `Failed while creating process` };
+    ctx.body = { message: `No such workflow` };
   }
 
   return next();
@@ -245,16 +271,29 @@ const createAndRunProcessByName = async (ctx, next) => {
   const workflow_name = ctx.params.workflowName;
   const actor_data = ctx.state.actor_data;
   const input = ctx.request.body;
-  const process = await engine.createProcessByWorkflowName(workflow_name, actor_data, input);
-  if (process && process.id) {
-    engine.runProcess(process.id, actor_data);
-    ctx.status = 201;
-    ctx.body = {
-      process_id: process.id,
-    };
+
+  const workflow = await await engine.fetchWorkflowByName(workflow_name);
+
+  if (workflow) {
+    const process = await engine.createProcessByWorkflowName(workflow_name, actor_data, input);
+    if (process && process.id) {
+      engine.runProcess(process.id, actor_data);
+      ctx.status = 201;
+      ctx.body = {
+        process_id: process.id,
+        workflow: {
+          id: workflow.id,
+          name: workflow.name,
+          version: workflow._version,
+        }
+      };
+    } else {
+      ctx.status = 404;
+      ctx.body = { message: `Failed while creating process` };
+    }
   } else {
     ctx.status = 404;
-    ctx.body = { message: `Failed while creating process` };
+    ctx.body = { message: `No such workflow` };
   }
 
   return next();

@@ -20,11 +20,11 @@ const setProcessState = async (ctx, next) => {
       ctx.body = result;
     } else {
       ctx.status = 404;
-      ctx.body = { message: "no such next_node" };
+      ctx.body = { message: "No such next_node" };
     }
   } else {
     ctx.status = 404;
-    ctx.body = { message: "no such process" };
+    ctx.body = { message: "No such process" };
   }
 
   return next();

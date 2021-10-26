@@ -15,7 +15,6 @@ const serializeTask = (task) => {
     workflow_name: task.workflow_name,
     workflow_description: task.workflow_description,
     node_name: task.blueprint_spec.nodes.find((e) => e.id === task.node_id).name,
-    node_id: task.node_id,
   };
 };
 
@@ -29,11 +28,9 @@ const fetchAvailableActivitiesForActor = async (ctx, next) => {
   const filters = workflow_id ? { workflow_id: query_params.workflow_id } : {};
   let tasks = await cockpit.fetchAvailableActivitiesForActor(actor_data, filters);
   ctx.status = 200;
-  ctx.body = tasks
-    .filter((task) => !!task.id && task.activity_status === "started")
-    .map((task) => {
-      return serializeTask(task);
-    });
+  ctx.body = tasks.map((task) => {
+    return serializeTask(task);
+  });
 
   return next();
 };
@@ -107,6 +104,7 @@ const fetchActivity = async (ctx, next) => {
           delete tasks.bag;
           delete tasks.process_status;
           delete tasks.external_input;
+          delete tasks.node_id;
           delete tasks.next_node_id;
           ctx.body = tasks;
         } else {
