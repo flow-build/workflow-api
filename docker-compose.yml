@@ -27,12 +27,3 @@ services:
     #command: ./scripts/start_dev.sh
     #command: bash -c " npm update && npm install knex -g && npm install nodemon -g && npm install && npm rebuild && npm run migrations && npm run seeds && npm run start "
     command: bash -c " npm install && npm audit fix && npm run migrations && npm run seeds && npm run tests "
-
-  socket:
-    image: hivemq/hivemq4:latest
-    container_name: flowbuild_mqtt
-    restart: on-failure:10
-    ports:
-      - 8080:8080
-      - 1883:1883
-      - 8000:8000
