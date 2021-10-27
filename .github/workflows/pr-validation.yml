@@ -26,7 +26,7 @@ jobs:
           node-version: ${{ matrix.node-version }}      
       - name: install dependencies
         run:
-          npm ci
+          npm install
           # npm run lint
       - name: start database
         run: docker-compose up -d postgres
