@@ -1,248 +1,383 @@
-const _ = require('lodash');
-const { getEngine, getCockpit } = require('../engine');
+const _ = require("lodash");
+const { getEngine, getCockpit } = require("../engine");
+const { compareBlueprints } = require("../services/compareBlueprints");
+const { logger } = require("../utils/logger");
+const { validateEnvironmentVariable } = require("../validators/workflow");
 
 const saveWorkflow = async (ctx, next) => {
-	console.log('[KW] Called saveWorkflow');
-	const engine = getEngine();
-	const { name, description, blueprint_spec } = ctx.request.body;
-	try {
-		const workflow = await engine.saveWorkflow(name, description, blueprint_spec);
-		ctx.status = 201;
-		ctx.body = {
-			workflow_id: workflow.id,
-			workflow_url: `${ctx.header.host}${ctx.url}/${workflow.id}`
-		};
-	} catch (err) {
-		ctx.status = 400;
-		ctx.body = { message: `Failed at ${err.message}`, error: err };
-	}
+  logger.verbose("Called saveWorkflow");
+
+  const engine = getEngine();
+  const { workflow_id, name, description, blueprint_spec } = ctx.request.body;
+
+  try {
+    const response = await engine.saveWorkflow(name, description, blueprint_spec, workflow_id);
+    const environmentValidation = validateEnvironmentVariable(blueprint_spec);
+    logger.debug("Workflow Created");
+    if (!response.error) {
+      const workflow = await engine.fetchWorkflow(response.id);
+      ctx.status = 201;
+      ctx.body = {
+        workflow_id: workflow.id,
+        hash: workflow._blueprint_hash,
+        version: workflow._version,
+        warnings: environmentValidation
+      };
+    } else {
+      ctx.status = 400;
+      ctx.body = {
+        message: `Failed at ${response.error.errorType}`,
+        error: response.error.message,
+      };
+    }
+  } catch (err) {
+    ctx.status = 500;
+    ctx.body = { message: `Failed at ${err.message}`, error: err };
+  }
+
+  return next();
 };
 
 const getWorkflowsForActor = async (ctx, next) => {
-	console.log('[KW] Called getWorkflowsForActor');
+  logger.verbose("Called getWorkflowsForActor");
 
-	const cockpit = getCockpit();
-	const actor_data = ctx.state.actor_data;
-	const workflows = await cockpit.getWorkflowsForActor(actor_data);
-	ctx.status = 200;
-	ctx.body = _.map(workflows, (workflow) => {
-		const result = workflow;
-		delete result.blueprint_spec;
-		return result;
-	});
+  const cockpit = getCockpit();
+  const actor_data = ctx.state.actor_data;
+  const workflows = await cockpit.getWorkflowsForActor(actor_data);
+  ctx.status = 200;
+  ctx.body = _.map(workflows, (workflow) => {
+    const result = workflow;
+    return {
+      workflow_id: result.id,
+      created_at: result.created_at,
+      name: result.name,
+      description: result.description,
+      version: result.version,
+      hash: result.blueprint_hash,
+    };
+  });
+
+  return next();
+};
+
+const listWorkflowsEnviromentVariables = async (ctx, next) => {
+  logger.verbose("[KW] Called listWorkflowsEnviromentVariables");
+
+  const cockpit = getCockpit();
+  const workflows = await cockpit.getWorkflows();
+
+  ctx.status = 200;
+  ctx.body = workflows
+    .filter((i) => _.size(i.blueprint_spec.environment) > 0)
+    .reduce((result, item) => {
+      let envs = _.keys(item.blueprint_spec.environment);
+      envs.map((env) => {
+        if (!result[env]) {
+          result[env] = [];
+        }
+        result[env].push(`${item.name} - v${item.version}`);
+      });
+      return result;
+    }, {});
+
+  return next();
 };
 
 const fetchWorkflow = async (ctx, next) => {
-	console.log('[KW] Called fetchWorkflow');
+  logger.verbose("Called fetchWorkflow");
 
-	const engine = getEngine();
-	const workflow_id = ctx.params.id;
-	const workflow = await engine.fetchWorkflow(workflow_id);
-	if (workflow) {
-		ctx.status = 200;
-		ctx.body = workflow.serialize();
-	} else {
-		ctx.status = 404;
-	}
+  const engine = getEngine();
+  const workflow_id = ctx.params.id;
+  const result = await engine.fetchWorkflow(workflow_id);
+  if (result) {
+    ctx.status = 200;
+    ctx.body = {
+      workflow_id: result.id,
+      created_at: result.created_at,
+      name: result.name,
+      description: result.description,
+      version: result._version,
+      hash: result._blueprint_hash,
+      blueprint_spec: result.blueprint_spec,
+    };
+  } else {
+    ctx.status = 204;
+  }
+
+  return next();
 };
 
 const fetchWorkflowByName = async (ctx, next) => {
-	console.log('[KW] Called fetchWorkflowByName');
+  logger.verbose("Called fetchWorkflowByName");
 
-	const engine = getEngine();
-	const workflow_name = ctx.params.name;
-	const workflow = await await engine.fetchWorkflowByName(workflow_name);
-	if (workflow) {
-		ctx.status = 200;
-		ctx.body = workflow.serialize();
-	} else {
-		ctx.status = 404;
-	}
+  const engine = getEngine();
+  const workflow_name = ctx.params.name;
+  const result = await await engine.fetchWorkflowByName(workflow_name);
+  if (result) {
+    ctx.status = 200;
+    ctx.body = {
+      workflow_id: result.id,
+      created_at: result.created_at,
+      name: result.name,
+      description: result.description,
+      version: result._version,
+      hash: result._blueprint_hash,
+      blueprint_spec: result.blueprint_spec,
+    };
+  } else {
+    ctx.status = 204;
+  }
+
+  return next();
 };
 
 const deleteWorkflow = async (ctx, next) => {
-	console.log('[KW] Called deleteWorkflow');
+  logger.verbose("Called deleteWorkflow");
 
-	const engine = getEngine();
-	const workflow_id = ctx.params.id;
-	const num_deleted = await engine.deleteWorkflow(workflow_id);
-	if (num_deleted == 0) {
-		ctx.status = 404;
-	} else {
-		ctx.status = 204;
-	}
+  const engine = getEngine();
+  const cockpit = getCockpit();
+  const workflowId = ctx.params.id;
+  const workflow = await engine.fetchWorkflow(workflowId);
+  if (!workflow) {
+    (ctx.status = 404),
+    (ctx.body = ctx.body =
+        {
+          message: "No such workflow",
+        });
+    return;
+  }
+
+  const filters = { workflow_id: workflowId };
+  const processes = await cockpit.fetchProcessList(filters);
+  if (processes.length > 0) {
+    (ctx.status = 422),
+    (ctx.body = ctx.body =
+        {
+          message: "Cannot delete workflows with processes",
+        });
+    return;
+  }
+
+  const numDeleted = await engine.deleteWorkflow(workflowId);
+  if (numDeleted == 0) {
+    ctx.status = 404;
+  } else {
+    ctx.status = 204;
+  }
+
+  return next();
 };
 
 const fetchWorkflowProcessList = async (ctx, next) => {
-	console.log('[KW] Called fetchWorkflowProcessList');
+  logger.verbose("Called fetchWorkflowProcessList");
 
-	const cockpit = getCockpit();
-	const workflow_id = ctx.params.id;
-	const filters = { workflow_id: workflow_id };
-	const processes = await cockpit.fetchProcessList(filters);
-	ctx.status = 200;
-	ctx.body = _.map(processes, (process) => {
-		const result = process.serialize();
-		delete result.blueprint_spec;
-		return result;
-	});
+  const cockpit = getCockpit();
+  const workflow_id = ctx.params.id;
+  const filters = { workflow_id: workflow_id };
+  const processes = await cockpit.fetchProcessList(filters);
+  ctx.status = 200;
+  ctx.body = _.map(processes, (process) => {
+    const result = process.serialize();
+    return {
+      id: result.id,
+      created_at: result.created_at,
+      workflow_id: result.workflow_id,
+      status: result.current_status,
+      state: {
+        id: result.state.id,
+        step_number: result.state.step_number,
+        node_id: result.state.node_id,
+        next_node_id: result.state.next_node_id,
+        node_name: result.blueprint_spec.nodes.find((i) => i.id === result.state.node_id).name,
+      },
+    };
+  });
+
+  return next();
 };
 
 const createProcess = async (ctx, next) => {
-	console.log('[KW] Called createProcess');
+  logger.verbose("Called createProcess");
 
-	const engine = getEngine();
-	const workflow_id = ctx.params.id;
-	const actor_data = ctx.state.actor_data;
-	const input = ctx.request.body;
-	const process = await engine.createProcess(workflow_id, actor_data, input);
-	if (process) {
-		ctx.status = 201;
-		ctx.body = {
-			process_id: process.id,
-			process_url: `${ctx.header.host}${ctx.url}/${process.id}`
-		};
-	} else {
-		ctx.status = 404;
-	}
+  const engine = getEngine();
+  const workflow_id = ctx.params.id;
+  const actor_data = ctx.state.actor_data;
+  const input = ctx.request.body;
+  const workflow = await engine.fetchWorkflow(workflow_id); 
+  
+  if (workflow) {
+    const process = await engine.createProcess(workflow_id, actor_data, input);
+    if (process) {
+      ctx.status = 201;
+      ctx.body = {
+        process_id: process.id,
+        workflow: {
+          id: workflow.id,
+          name: workflow.name,
+          version: workflow._version,
+        }
+      };
+    } else {
+      ctx.status = 404;
+      ctx.body = { message: `Failed while creating process` };
+    }
+  } else {
+    ctx.status = 404;
+    ctx.body = { message: `No such workflow` };
+  }
+  
+
+  return next();
 };
 
 const createProcessByName = async (ctx, next) => {
-	console.log('[KW] Called createProcessByName');
+  logger.verbose("Called createProcessByName");
 
-	const engine = getEngine();
-	const workflow_name = ctx.params.name;
-	const actor_data = ctx.state.actor_data;
-	const input = ctx.request.body;
-	const process = await engine.createProcessByWorkflowName(workflow_name, actor_data, input);
-	if (process) {
-		ctx.status = 201;
-		ctx.body = {
-			process_id: process.id,
-			process_url: `${ctx.header.host}${ctx.url.replace("workflows", "processes")}/${process.id}`
-		};
-	} else {
-		ctx.status = 404;
-	}
+  const engine = getEngine();
+  const workflow_name = ctx.params.name;
+  const actor_data = ctx.state.actor_data;
+  const input = ctx.request.body;
+
+  const workflow = await await engine.fetchWorkflowByName(workflow_name);
+
+  if (workflow) {
+    const process = await engine.createProcessByWorkflowName(workflow_name, actor_data, input);
+    if (process) {
+      ctx.status = 201;
+      ctx.body = {
+        process_id: process.id,
+        workflow: {
+          id: workflow.id,
+          name: workflow.name,
+          version: workflow._version,
+        }
+      };
+    } else {
+      ctx.status = 404;
+      ctx.body = { message: `Failed while creating process` };
+    }
+  } else {
+    ctx.status = 404;
+    ctx.body = { message: `No such workflow` };
+  }
+
+  return next();
 };
 
 const createAndRunProcessByName = async (ctx, next) => {
-	console.log('[KW] Called createAndRunProcessByName');
+  logger.verbose("Called createAndRunProcessByName");
 
-	const engine = getEngine();
-	const workflow_name = ctx.params.workflowName;
-	const actor_data = ctx.state.actor_data;
-	const input = ctx.request.body;
-	const process = await engine.createProcessByWorkflowName(workflow_name, actor_data, input);
-	if (process && process.id) {
-		engine.runProcess(process.id, actor_data);
-		ctx.status = 201;
-		ctx.body = {
-			process_id: process.id,
-			process_url: `${ctx.header.host}${ctx.url.replace("workflows", "processes")}/${process.id}`
-		};
-	} else {
-		ctx.status = 404;
-	}
+  const engine = getEngine();
+  const workflow_name = ctx.params.workflowName;
+  const actor_data = ctx.state.actor_data;
+  const input = ctx.request.body;
+
+  const workflow = await await engine.fetchWorkflowByName(workflow_name);
+
+  if (workflow) {
+    const process = await engine.createProcessByWorkflowName(workflow_name, actor_data, input);
+    if (process && process.id) {
+      engine.runProcess(process.id, actor_data);
+      ctx.status = 201;
+      ctx.body = {
+        process_id: process.id,
+        workflow: {
+          id: workflow.id,
+          name: workflow.name,
+          version: workflow._version,
+        }
+      };
+    } else {
+      ctx.status = 404;
+      ctx.body = { message: `Failed while creating process` };
+    }
+  } else {
+    ctx.status = 404;
+    ctx.body = { message: `No such workflow` };
+  }
+
+  return next();
 };
 
- const validateBlueprint = async(ctx,next) => {
-	console.log('[KW] Called validateBlueprint');
+const validateBlueprint = async (ctx, next) => {
+  logger.verbose("Called validateBlueprint");
 
-	const engine = getEngine();
-	const { blueprint_spec } = ctx.request.body;
+  const engine = getEngine();
+  const { blueprint_spec } = ctx.request.body;
 
-	try {
-		await engine.validateBlueprint(blueprint_spec);
-		ctx.status = 200;
-		ctx.body = {
-			message: "Blueprint is valid"
-		};
-	} catch (err) {
-		ctx.status = 400;
-		ctx.body = { 
-			error: 'Invalid blueprint',
-			message: `Failed at ${err.message}`
-		};
-	}
-}
+  try {
+    await engine.validateBlueprint(blueprint_spec);
+    ctx.status = 200;
+    ctx.body = {
+      message: "Blueprint is valid",
+    };
+  } catch (err) {
+    ctx.status = 400;
+    ctx.body = {
+      error: "Invalid blueprint",
+      message: `Failed at ${err.message}`,
+    };
+  }
 
-const compareBlueprint = async(ctx,next) => {
-	console.log('[KW] Called compareBlueprint');
+  return next();
+};
 
-	const engine = getEngine();
-	const { name, blueprint_spec } = ctx.request.body;
+const compareBlueprint = async (ctx, next) => {
+  logger.verbose("Called compareBlueprint");
+  const { name, blueprint_spec } = ctx.request.body;
 
-	try {
-		await engine.validateBlueprint(blueprint_spec);
+  try {
+    const compare = await compareBlueprints(name, blueprint_spec);
 
-		const current_workflow = await engine.fetchWorkflowByName(name);
+    if (compare.error) {
+      ctx.status = 400;
+      ctx.body = {
+        error: "Invalid blueprint",
+        message: `Failed at ${compare.error}`,
+      };
+    } else if (compare.changes) {
+      if (compare.current_workflow) {
+        ctx.status = 202;
+        ctx.body = {
+          status: "Changes found, check comparison",
+          current_workflow: compare.current_workflow,
+          comparison: compare.comparison,
+        };
+      } else {
+        (ctx.status = 404),
+        (ctx.body = {
+          status: "No workflow with this name",
+        });
+      }
+    } else {
+      (ctx.status = 200),
+      (ctx.body = {
+        status: "No changes found",
+        current_workflow: compare.current_workflow,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    ctx.status = 500;
+    ctx.body = {
+      error: err,
+    };
+  }
 
-		if(current_workflow) {
-			const cur_wf_ordered_nodes = current_workflow.blueprint_spec.nodes.sort((a,b) => { return a.id > b.id ? -1 : 0 });
-			const bp_ordered_nodes = blueprint_spec.nodes.sort((a,b) => { return a.id > b.id ? -1 : 0 })
-			
-			const cur_wf_ordered_lanes = current_workflow.blueprint_spec.lanes.sort((a,b) => { return a.id > b.id ? -1 : 0 });
-			const bp_ordered_lanes = blueprint_spec.lanes.sort((a,b) => { return a.id > b.id ? -1 : 0 })
-		
-			const nodes = _.isEqual(cur_wf_ordered_nodes,bp_ordered_nodes);
-			const lanes = _.isEqual(cur_wf_ordered_lanes,bp_ordered_lanes);
-			const prepare = _.isEqual(current_workflow.blueprint_spec.prepare,blueprint_spec.prepare);
-			const environment = _.isEqual(current_workflow.blueprint_spec.environment,blueprint_spec.environment);
-			const requirements = _.isEqual(current_workflow.blueprint_spec.requirements,blueprint_spec.requirements);
-		
-			if(nodes && lanes && prepare && environment && requirements) {
-				ctx.status = 200,
-				ctx.body = {
-					status: "No changes found",
-					current_workflow: {
-						id: current_workflow._id,
-						version: current_workflow._version,
-					}
-				};
-			} else {
-				ctx.status = 202;
-				ctx.body = {
-					status: "Changes found, check comparison",
-					current_workflow: {
-						id: current_workflow._id,
-						version: current_workflow._version,
-					},
-					comparison: {
-						nodes: nodes,
-						lanes: lanes,
-						prepare: prepare,
-						environment: environment,
-						requirements: requirements
-					}
-				};
-			}
-		} else {
-			ctx.status = 404,
-			ctx.body = {
-				status: "No workflow with this name"
-			};
-		}
-		
-	} catch (err) {
-		ctx.status = 400;
-		ctx.body = { 
-			error: 'Invalid blueprint',
-			message: `Failed at ${err.message}`
-		};
-	}
-}
+  return next();
+};
 
 module.exports = {
-	saveWorkflow,
-	getWorkflowsForActor,
-	fetchWorkflow,
-	fetchWorkflowByName,
-	fetchWorkflowProcessList,
-	deleteWorkflow,
-	createProcess,
-	createProcessByName,
-	createAndRunProcessByName,
-	validateBlueprint,
-	compareBlueprint
+  saveWorkflow,
+  getWorkflowsForActor,
+  listWorkflowsEnviromentVariables,
+  fetchWorkflow,
+  fetchWorkflowByName,
+  fetchWorkflowProcessList,
+  deleteWorkflow,
+  createProcess,
+  createProcessByName,
+  createAndRunProcessByName,
+  validateBlueprint,
+  compareBlueprint,
 };

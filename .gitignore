@@ -28,3 +28,7 @@ node_modules
 .npmrc
 
 .env
+
+/export
+.vscode
+.vscode/settings.json

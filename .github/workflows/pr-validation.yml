@@ -15,31 +15,34 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: ["14.16.1"]
+        node-version: ["14.18"]
         os: [ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2.4.1
         with:
           node-version: ${{ matrix.node-version }}      
       - name: install dependencies
         run:
-          npm ci
-          # npm run lint
+          npm install
+        
       - name: start database
-        run: docker-compose up -d postgres
+        uses: Harmon758/postgresql-action@v1.0.0
+        with:
+          postgresql db: workflow
+          postgresql user: postgres
+          postgresql password: postgres
 
       - name: run migrations
-        run: |
-          npm install -g knex
-          knex --env docker migrate:latest
+        run: npm run migrations:local
+
+      - name: run seeds
+        run: npm run seeds:local
 
       - name: start tests
         run: npm run tests
-        env: 
-          NODE_ENV: docker
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
