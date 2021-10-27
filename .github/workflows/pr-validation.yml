@@ -24,5 +24,27 @@ jobs:
         uses: actions/setup-node@v2.4.1
         with:
           node-version: ${{ matrix.node-version }}      
-      - name: start docker
-        run: docker-compose up
+      - name: install dependencies
+        run:
+          npm install
+        
+      - name: start database
+        uses: Harmon758/postgresql-action@v1.0.0
+        with:
+          postgresql db: workflow
+          postgresql user: postgres
+          postgresql password: postgres
+
+      - name: run migrations
+        run: npm run migrations:local
+
+      - name: run seeds
+        run: npm run seeds:local
+
+      - name: start tests
+        run: npm run tests
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
