@@ -1,36 +1,38 @@
+require("dotenv").config();
 const { logger } = require("./logger");
+const mqtt = require("../services/mqtt");
 
 const processStateListener = async (processState) => {
-  logger.debug("called processStateListener");
-  logger.info(`>>> POSTED PS ON PROCESS TOPIC: ${processState.id}`);
+  logger.info(`PS LISTENER: PID [${processState.id}]`);
 };
 
 const activityManagerListener = async (activityManager) => {
-  logger.debug("called activityManagerListener");
+  logger.info(`AM LISTENER: AMID [${activityManager._id}]`);
 
-  /*     //console.log('listener: ', activityManager);
-  
-    const event = [
-      {
-        status: activityManager._status,
-        action: activityManager._props.action,
-        processId: activityManager._process_id,
-        activityManagerId: activityManager._id,
-        eventType: "activity_manager",
-      },
-    ];
-  
-    await sendEvent(event);
-  
-    const message = {
-      processId: activityManager._process_id,
-      activityManagerId: activityManager._id,
-      status: activityManager._status,
-    };
-  
-    await sendMessage(topic, message); */
+  const topic = `/process/${activityManager._process_id}/am/create`;
 
-  logger.info(`>>> POSTED AM ON PROCESS TOPIC: ${activityManager._process_id}`);
+  const message = {
+    process_id: activityManager._process_id,
+    id: activityManager._id,
+    status: activityManager._status,
+    props: activityManager._props,
+  };
+
+  mqtt.publishMessage(topic, message);
+
+  if (activityManager._props.result.session_id) {
+    const sessionTopic = `/session/${activityManager._props.result.session_id}/am/create`;
+    mqtt.publishMessage(sessionTopic, message);
+  } else {
+    logger.info("AM LISTENER: No session provided");
+  }
+
+  if (activityManager._props.result.actor_id) {
+    const actorTopic = `/actor/${activityManager._props.result.actor_id}/am/create`;
+    mqtt.publishMessage(actorTopic, message);
+  } else {
+    logger.info("AM LISTENER: No actor provided");
+  }
 };
 
 const activateNotifiers = (engine) => {

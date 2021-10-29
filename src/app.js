@@ -14,6 +14,7 @@ const { setCustomNodes } = require("../src/nodes");
 
 const _log = require("./utils/logger");
 const listeners = require("./utils/engineListener");
+const mqtt = require("./services/mqtt");
 const { db } = require("./utils/db");
 const { jwtSecret } = require("./utils/jwtSecret");
 const { setPersist } = require("./middlewares/persist");
@@ -33,6 +34,10 @@ const startServer = (port) => {
     cockpitService.setDbConnection(db);
   }
   setCustomNodes();
+
+  if (process.env.MQTT === "true") {
+    mqtt.connect();
+  }
 
   listeners.activateNotifiers(engine);
 
