@@ -4,7 +4,7 @@ const obju = require("@flowbuild/engine/src/core/utils/object");
 const { ProcessStatus } = require("@flowbuild/engine/src/core/workflow/process_state");
 const { logger } = require("../utils/logger");
 
-const { validateDataWithSchema } = require("../validators/base.validator");
+const { validateDataWithSchema } = require("../validators/base");
 
 class validateSchemaNode extends SystemTaskNode {
   static get rules() {
