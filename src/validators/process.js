@@ -1,4 +1,7 @@
 const { validateBodyWithSchema } = require("./base");
+const listProcessFilters = require("./schemas/listProcessFilters");
+
+const validateFindProcesses = validateBodyWithSchema(listProcessFilters)
 
 const validateRunProcess = validateBodyWithSchema(
   {
@@ -7,4 +10,5 @@ const validateRunProcess = validateBodyWithSchema(
 
 module.exports = {
   runProcess: validateRunProcess,
+  findProcesses: validateFindProcesses
 };

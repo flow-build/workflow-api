@@ -49,6 +49,22 @@ const fetchProcess = async (ctx, next) => {
   return next();
 };
 
+const listProcesses = async (ctx, next) => {
+  logger.verbose("Called listProcesses");
+
+  const filters = ctx.request.body;
+
+  const cockpit = getCockpit();
+
+  const processes = await cockpit.fetchProcessList(filters);
+  ctx.status = 200;
+  ctx.body = _.map(processes, (process) => {
+    return serializeProcess(process);
+  });
+
+  return next();
+};
+
 const fetchProcessList = async (ctx, next) => {
   logger.verbose("Called fetchProcessList");
 
@@ -110,6 +126,7 @@ module.exports = {
   fetchProcess,
   fetchProcessList,
   fetchProcessStateHistory,
+  listProcesses,
   runProcess,
   abortProcess,
 };
