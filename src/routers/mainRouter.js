@@ -68,6 +68,7 @@ module.exports = (opts = {}) => {
   processes.post("/:id/abort", baseValid.validateUUID, processCtrl.abortProcess);
   processes.post("/:id/commit", baseValid.validateUUID, activityCtrl.commitActivity);
   processes.post("/:id/push", baseValid.validateUUID, activityCtrl.pushActivity);
+  processes.get("/:id/coverage", processCtrl.calculateCoverage);
 
   const activityManager = Router();
   activityManager.prefix("/activity_manager");
