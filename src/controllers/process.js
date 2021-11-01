@@ -1,5 +1,6 @@
 const _ = require("lodash");
-const { getCockpit } = require("../engine");
+const { getEngine, getCockpit } = require("../engine");
+const { trimExecutionData, listNodes, listConnections, listUncoverage } = require("../services/coverage");
 const { logger } = require("../utils/logger");
 
 const serializeState = (state) => {
@@ -122,6 +123,71 @@ const abortProcess = async (ctx, next) => {
   return next();
 };
 
+const calculateCoverage = async (ctx, next) => {
+  logger.info("Called calculateCoverage");
+
+  const workflowId = ctx.params.id;
+  const query_params = ctx.request.query;
+  const limit = parseInt(query_params.limit);
+
+  const engine = getEngine();
+  const cockpit = getCockpit();
+
+  const workflow = await engine.fetchWorkflow(workflowId);
+  if(!workflow) {
+    ctx.status = 404;
+    return next;
+  }
+
+  const filters = {
+    workflow_id: workflowId,
+    limit: limit || 10
+  }
+
+  const processes = await cockpit.fetchProcessList(filters);
+
+  const executionPromises = processes.map(process => {
+    return cockpit.fetchProcessStateHistory(process.id);
+  })
+
+  const execution = await Promise.all(executionPromises);
+
+  const executionData = trimExecutionData(execution)
+  const blueprintNodes = await listNodes(workflow.blueprint_spec)
+  const blueprintConnections = await listConnections(workflow.blueprint_spec)
+
+  const uncoveredNodes = await listUncoverage(blueprintNodes, (await executionData).nodes);
+  const uncoveredConnections = await listUncoverage(blueprintConnections, (await executionData).connections)
+
+  ctx.status = 200;
+  ctx.body = {
+    workflow: {
+      id: workflow._id,
+      name: workflow._name,
+      version: workflow._version
+    },
+    history: {
+      processesEvaluated: processes.length,
+      connections: blueprintConnections,
+      nodes: blueprintNodes,
+    },
+    coverage: {
+      nodes: {
+        value: 100 * (1 - uncoveredNodes.length / blueprintNodes.length),
+        uncovered: uncoveredNodes,
+      },
+      connections: {
+        value:
+          100 * (1 - uncoveredConnections.length / blueprintConnections.length),
+        uncovered: uncoveredConnections,
+      },
+    },
+  }
+
+  return next;
+
+}
+
 module.exports = {
   fetchProcess,
   fetchProcessList,
@@ -129,4 +195,5 @@ module.exports = {
   listProcesses,
   runProcess,
   abortProcess,
+  calculateCoverage
 };
