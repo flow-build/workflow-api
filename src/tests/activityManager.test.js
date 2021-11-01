@@ -36,6 +36,7 @@ beforeEach(async () => {
 afterAll(async () => {
   await cleanDb();
   await db.destroy();
+  Engine.kill();
   await server.close();
 });
 
