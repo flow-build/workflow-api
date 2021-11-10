@@ -6,7 +6,7 @@ const { Index } = require("@flowbuild/indexer");
 const { prepare } = require("@flowbuild/engine/src/core/utils/input");
 const { ProcessStatus } = require("@flowbuild/engine/src/core/workflow/process_state");
 const { logger } = require("../utils/logger");
-const { db } = require("../tests/utils/db");
+const { db } = require("../utils/db");
 
 class createIndexNode extends SystemTaskNode {
   static get rules() {
