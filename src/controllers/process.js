@@ -2,6 +2,8 @@ const _ = require("lodash");
 const { getCockpit } = require("../engine");
 const { logger } = require("../utils/logger");
 
+const stoppedStatus = ["finished","interrupted","error"]
+
 const serializeState = (state) => {
   return {
     id: state._id,
@@ -88,8 +90,21 @@ const runProcess = async (ctx, next) => {
   const processId = ctx.params.id;
   const actor_data = ctx.state.actor_data;
   const input = ctx.request.body;
-  const res = await cockpit.runProcess(processId, actor_data, input);
-  ctx.status = res ? 200 : 404;
+
+  const process = await cockpit.fetchProcess(processId);
+  if (process) {
+    if(stoppedStatus.includes(process._current_status)) {
+      ctx.status = 422;
+      ctx.body = {
+        current_status: process._current_status
+      }
+    } else {
+      const res = await cockpit.runProcess(processId, actor_data, input);
+      ctx.status = res ? 200 : 404;
+    }
+  } else {
+    ctx.status = 404;
+  }
 
   return next();
 };
@@ -99,10 +114,23 @@ const abortProcess = async (ctx, next) => {
 
   const cockpit = getCockpit();
   const processId = ctx.params.id;
-  const actor_data = ctx.state.actor_data;
-  const res = await cockpit.abortProcess(processId, actor_data);
-  ctx.status = res ? 200 : 404;
+  const actorData = ctx.state.actor_data;
 
+  const process = await cockpit.fetchProcess(processId);
+  if (process) {
+    if(stoppedStatus.includes(process._current_status)) {
+      ctx.status = 422;
+      ctx.body = {
+        current_status: process._current_status
+      }
+    } else {
+      const res = await cockpit.abortProcess(processId, actorData);
+      ctx.status = res ? 200 : 404;    
+    }
+  } else {
+    ctx.status = 404;
+  }
+  
   return next();
 };
 
