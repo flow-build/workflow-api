@@ -1,7 +1,7 @@
 const Router = require("@koa/router");
 const bodyParser = require("koa-bodyparser");
 const cors = require("koa2-cors");
-const healthCtrl = require("../controllers/healthCheck");
+const healthCtrl = require("../controllers/healthcheck");
 const tokenCtrl = require("../controllers/token");
 
 module.exports = (opts = {}) => {
