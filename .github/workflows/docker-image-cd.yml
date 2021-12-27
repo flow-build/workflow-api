@@ -23,4 +23,4 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag fdtepcasari/flowbuild-wf-api:$(date +%s)
       - name: Push Docker image
-        run: docker push fdtepcasari/flowbuild-wf-api:$(date +%s)
+        run: docker push fdtepcasari/flowbuild-wf-api
