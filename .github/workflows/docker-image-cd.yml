@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Docker Image CD
 
 on:
   push:
@@ -21,6 +21,6 @@ jobs:
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag gharamurafdte/flowbuild:$(date +%s)
+        run: docker build . --file Dockerfile --tag fdtepcasari/flowbuild-wf-api:$(date +%s)
       - name: Push Docker image
-        run: docker push gharamurafdte/flowbuild:$(date +%s)
+        run: docker push fdtepcasari/flowbuild-wf-api:$(date +%s)
