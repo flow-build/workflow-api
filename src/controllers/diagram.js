@@ -1,13 +1,13 @@
 const { getEngine } = require('../engine');
-const buildXmlDiagram = require('@flowbuild/nodejs-diagram-builder');
+const { buildXmlDiagram, buildBlueprintFromBpmn } = require('@flowbuild/nodejs-diagram-builder');
 const { logger } = require('../utils/logger');
 const { validate } = require("uuid");
+const getRawBody = require('raw-body');
 
 const buildDiagram = async (ctx, next) => {
   logger.verbose('Called buildDiagram');
   const engine = getEngine();
   let { workflow_id, blueprint_spec, name } = ctx.request.body;
-	
   let diagram;
 	
   if(workflow_id) {
@@ -42,6 +42,25 @@ const buildDiagram = async (ctx, next) => {
   return next();
 };
 
+const buildBlueprint = async (ctx, next) => {
+  logger.verbose('Called buildBlueprint');
+
+  const diagram = await getRawBody(ctx.req)
+	
+  try {
+    const result = await buildBlueprintFromBpmn(diagram);
+    ctx.status = 200;
+    ctx.body = result;
+  } catch (err) {
+    ctx.status = 400;
+    ctx.body = { message: `Failed at ${err.message}`, error: err };
+  }
+
+  return next;
+
+}
+
 module.exports = {
-  buildDiagram
+  buildDiagram,
+  buildBlueprint
 }
