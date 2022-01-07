@@ -7,11 +7,12 @@ const getRawBody = require('raw-body');
 const buildDiagram = async (ctx, next) => {
   logger.verbose('Called buildDiagram');
   const engine = getEngine();
-  let { workflow_id, blueprint_spec, name } = ctx.request.body;
+  let blueprint = ctx.request.body;
+  const workflowId = blueprint?.workflow_id;
   let diagram;
 	
-  if(workflow_id) {
-    const is_valid = validate(workflow_id);
+  if(workflowId) {
+    const is_valid = validate(workflowId);
     if (!is_valid) {
       ctx.status = 400;
       ctx.body = {
@@ -19,19 +20,22 @@ const buildDiagram = async (ctx, next) => {
       };
       return;
     }
-    const workflow = await engine.fetchWorkflow(workflow_id);
-    if(workflow) {
-      blueprint_spec = workflow.blueprint_spec;
-      name = workflow.name;
-    } else {
+    workflow = await engine.fetchWorkflow(workflowId);
+    if(!workflow) {
       ctx.status = 404;
       ctx.body = { message: "No such workflow" };
       return;
     }
+
+    blueprint.name = workflow._name;
+    blueprint.description = workflow._description;
+    blueprint.blueprint_spec = workflow._blueprint_spec;
   }
     
+  console.log(blueprint)
+
   try {
-    diagram = await buildXmlDiagram(blueprint_spec, name)
+    diagram = await buildXmlDiagram(blueprint)
     ctx.status = 200;
     ctx.body = diagram;
   } catch (err) {
