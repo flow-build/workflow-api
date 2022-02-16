@@ -31,8 +31,6 @@ const buildDiagram = async (ctx, next) => {
     blueprint.description = workflow._description;
     blueprint.blueprint_spec = workflow._blueprint_spec;
   }
-    
-  console.log(blueprint)
 
   try {
     diagram = await buildXmlDiagram(blueprint)
