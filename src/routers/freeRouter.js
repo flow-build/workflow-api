@@ -5,15 +5,15 @@ const healthCtrl = require("../controllers/healthcheck");
 const tokenCtrl = require("../controllers/token");
 
 module.exports = (opts = {}) => {
-  const mainRouter = new Router();
+  const router = new Router();
 
-  mainRouter.use(bodyParser());
-  mainRouter.use(cors(opts.corsOptions));
+  router.use(bodyParser());
+  router.use(cors(opts.corsOptions));
 
   //main routes, no validation, no middleware
-  mainRouter.get("/", healthCtrl.healthCheck);
-  mainRouter.get("/healthcheck", healthCtrl.healthCheck);
-  mainRouter.post("/token", tokenCtrl.getToken);
+  router.get("/", healthCtrl.healthCheck);
+  router.get("/healthcheck", healthCtrl.healthCheck);
+  router.post("/token", tokenCtrl.getToken);
 
-  return mainRouter;
+  return router;
 };

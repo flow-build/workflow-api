@@ -27,9 +27,7 @@ const engineLogger = createLogger({
         format.timestamp(),
         format.label({ label: "ENGINE", message: true }),
         format.align(),
-        format.printf(
-          (info) => `${info.timestamp} ${info.level}: ${info.message}`
-        )
+        format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`)
       ),
     }),
   ],
@@ -40,13 +38,6 @@ const startLogger = () => {
 
   let logLevel = "silly";
   let logMessage;
-  let logEvent = [];
-  let logMetric;
-  /* 
-  emitter.onAny((ev, message) => {
-    logMessage = `${ev} :: ${message}`
-    engineLogger[logLevel](logMessage);
-  }); */
 
   emitter.on("NODE.START_VALIDATED", (message, variables) => {
     logLevel = "verbose";

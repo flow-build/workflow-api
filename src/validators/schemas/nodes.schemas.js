@@ -124,7 +124,7 @@ const nodeSchema = {
     },
   },
 };
-  
+
 const categorySchema = {
   settobag: {
     type: "object",
@@ -135,7 +135,7 @@ const categorySchema = {
       request: {
         type: "object",
         properties: {
-          url: { oneOf: [ { type: "string" }, { type: "object" } ] },
+          url: { oneOf: [{ type: "string" }, { type: "object" }] },
           verb: {
             type: "string",
             enum: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"],
@@ -161,7 +161,7 @@ const categorySchema = {
     type: "object",
     properties: {
       workflow_name: {
-        oneOf: [ { type: "string" }, { type: "object" } ],
+        oneOf: [{ type: "string" }, { type: "object" }],
         actor_data: { type: "object" },
       },
       required: ["workflow_name", "actor_data"],
@@ -175,9 +175,8 @@ const categorySchema = {
     required: ["process_id"],
   },
 };
-  
+
 module.exports = {
   nodeSchema,
   categorySchema,
 };
-  

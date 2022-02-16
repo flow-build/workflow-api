@@ -92,28 +92,14 @@ const requests = (server, auth_header) => {
         .send(body)
         .set(...auth_header);
     },
-    createManyProcesses: async (
-      body,
-      blueprint_spec,
-      num_workflows,
-      num_processes_per_workflow
-    ) => {
+    createManyProcesses: async (body, blueprint_spec, num_workflows, num_processes_per_workflow) => {
       const map = {};
-      const workflows = await _saveMany(
-        server,
-        auth_header,
-        blueprint_spec,
-        num_workflows
-      );
+      const workflows = await _saveMany(server, auth_header, blueprint_spec, num_workflows);
       for (const workflow of workflows) {
         const workflow_id = workflow.id;
+        // eslint-disable-next-line no-unused-vars
         for (const process_idx of _.range(num_processes_per_workflow)) {
-          const start_process_res = await _createProcess(
-            server,
-            auth_header,
-            workflow_id,
-            body
-          );
+          const start_process_res = await _createProcess(server, auth_header, workflow_id, body);
           const process_id = start_process_res.body.process_id;
           map[process_id] = workflow;
         }

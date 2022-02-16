@@ -18,7 +18,7 @@ const validateWorkflow = (base, target) => {
   expect(target.created_at).toBeDefined();
 };
 
-const validateProcess = (process, workflow_id, blueprint_spec) => {
+const validateProcess = (process, workflow_id) => {
   expect(process.id).toBeDefined();
   expect(process.created_at).toBeDefined();
   expect(process.workflow_id).toBe(workflow_id);
