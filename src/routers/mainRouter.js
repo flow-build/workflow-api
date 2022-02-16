@@ -52,6 +52,7 @@ module.exports = (opts = {}) => {
   workflows.post("/name/:name/create", workflowCtrl.createProcessByName);
   workflows.post("/name/:workflowName/start", workflowCtrl.createAndRunProcessByName);
   workflows.post("/diagram", diagramCtrl.buildDiagram);
+  workflows.post("/diagram/convert", diagramCtrl.buildBlueprint);
   workflows.delete("/:id", baseValid.validateUUID, workflowCtrl.deleteWorkflow);
 
   const processes = Router();
