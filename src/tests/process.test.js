@@ -320,3 +320,58 @@ describe("POST /:id/push", () => {
     expect(response.data.current_status).not.toBe("waiting");
   });
 });
+
+describe("GET /:id/state/find", () => {
+  let processId;
+
+  beforeEach(async () => {
+    const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
+    await delay(500);
+    processId = process.data.process_id;
+  });
+
+  test("should return 400 if no parameters where provided", async () => {
+    const randomId = uuid();
+    const response = await axios.get(`${prefix}/${randomId}/state/find`);
+    expect(response.status).toBe(400);
+  });
+
+  test("should return 200 for existing process and stepNumber", async () => {
+    const response = await axios.get(`${prefix}/${processId}/state/find?stepNumber=1`);
+    expect(response.status).toBe(200);
+    expect(response.data).toBeDefined();
+    expect(response.data.environment).toBeDefined();
+    expect(response.data.states).toBeDefined();
+    expect(response.data.states).toHaveLength(1);
+  });
+
+  test("should return 200 for existing process and start nodeId", async () => {
+    const response = await axios.get(`${prefix}/${processId}/state/find?nodeId=1`);
+    expect(response.status).toBe(200);
+    expect(response.data).toBeDefined();
+    expect(response.data.environment).toBeDefined();
+    expect(response.data.states).toBeDefined();
+    expect(response.data.states).toHaveLength(2);
+  });
+
+  test("if both parameters where provided, stepNumber should take precedence", async () => {
+    const response = await axios.get(`${prefix}/${processId}/state/find?stepNumber=1&nodeId=2`);
+    expect(response.status).toBe(200);
+    expect(response.data).toBeDefined();
+    expect(response.data.environment).toBeDefined();
+    expect(response.data.states).toBeDefined();
+    expect(response.data.states).toHaveLength(1);
+  });
+
+  test("should return 404 for non existing process", async () => {
+    const randomId = uuid();
+    const response = await axios.get(`${prefix}/${randomId}/state/find?stepNumber=8`);
+    expect(response.status).toBe(404);
+  });
+
+  test("should return 404 for if no state were found", async () => {
+    const randomId = uuid();
+    const response = await axios.get(`${prefix}/${randomId}/state/find?stepNumber=8`);
+    expect(response.status).toBe(404);
+  });
+});

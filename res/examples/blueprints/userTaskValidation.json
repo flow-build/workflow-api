@@ -1,0 +1,105 @@
+{
+  "name": "userTaskValidation",
+  "description": "",
+  "blueprint_spec": {
+    "environment": {},
+    "requirements": ["core"],
+    "prepare": [],
+    "lanes": [
+      {
+        "id": "free",
+        "name": "the_only_lane",
+        "rule": ["fn", ["&", "args"], true]
+      }
+    ],
+    "nodes": [
+        {
+            "id": "START",
+            "name": "Iniciar UT Validation",
+            "next": "USER-TASK",
+            "type": "Start",
+            "lane_id": "free",
+            "parameters": {
+                "input_schema": {}
+            }
+        },
+        {
+            "id": "USER-TASK",
+            "name": "get data from user",
+            "next": "END",
+            "type": "userTask",
+            "lane_id": "free",
+            "parameters": {
+                "input": {},
+                "action": "GET_DATA",
+                "activity_schema": {
+                  "type": 'object',
+                  required: ['action'],
+                  properties: {
+                    data: {
+                      type: 'object',
+                      required: ['mother_name'],
+                      properties: {
+                        rg: {
+                          anyOf: [
+                            {
+                              type: 'object',
+                              required: ['number'],
+                              properties: {
+                                number: {
+                                  type: 'string'
+                                },
+                                issue_dt: {
+                                  type: 'string'
+                                },
+                                issuing_state: {
+                                  type: 'string'
+                                },
+                                issuing_institution: {
+                                  type: 'string'
+                                }
+                              }
+                            },
+                            {
+                              type: null
+                            }
+                          ]
+                        },
+                        cnh: {
+                          anyOf: [
+                            {
+                              type: 'object',
+                              properties: {
+                                number: {
+                                  type: 'string'
+                                },
+                                issue_dt: {
+                                  type: 'string'
+                                },
+                                issuing_state: {
+                                  type: 'string'
+                                }
+                              }
+                            },
+                            {
+                              type: null
+                            }
+                          ]
+                        },
+                        mother_name: {
+                          type: 'string'
+                        }
+                      }
+                    }
+            }
+        },
+        {
+          "id": "END",
+          "name": "Fim do teste",
+          "type": "Finish",
+          "lane_id": "free",
+          "next": null
+        }        
+    ]
+  }
+}
