@@ -30,7 +30,7 @@ jobs:
       - name: start database
         run: docker-compose up -d postgres
       - name: start mqtt
-          run: docker-compose up -d socket
+        run: docker-compose up -d socket
 
       - name: start app
         run: docker-compose up app
