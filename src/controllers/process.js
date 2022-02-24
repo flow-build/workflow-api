@@ -2,7 +2,7 @@ const _ = require("lodash");
 const { getCockpit } = require("../engine");
 const { logger } = require("../utils/logger");
 
-const stoppedStatus = ["finished","interrupted","error"]
+const stoppedStatus = ["finished", "interrupted", "error"];
 
 const serializeState = (state) => {
   return {
@@ -19,7 +19,7 @@ const serializeState = (state) => {
     status: state._status,
     actor_data: state._actor_data,
     engine_id: state._engine_id,
-    time_elapsed: state._time_elapsed,
+    time_elapsed: state._time_elapsed
   };
 };
 
@@ -109,11 +109,11 @@ const runProcess = async (ctx, next) => {
 
   const process = await cockpit.fetchProcess(processId);
   if (process) {
-    if(stoppedStatus.includes(process._current_status)) {
+    if (stoppedStatus.includes(process._current_status)) {
       ctx.status = 422;
       ctx.body = {
-        current_status: process._current_status
-      }
+        current_status: process._current_status,
+      };
     } else {
       const res = await cockpit.runProcess(processId, actor_data, input);
       ctx.status = res ? 200 : 404;
@@ -134,19 +134,74 @@ const abortProcess = async (ctx, next) => {
 
   const process = await cockpit.fetchProcess(processId);
   if (process) {
-    if(stoppedStatus.includes(process._current_status)) {
+    if (stoppedStatus.includes(process._current_status)) {
       ctx.status = 422;
       ctx.body = {
-        current_status: process._current_status
-      }
+        current_status: process._current_status,
+      };
     } else {
       const res = await cockpit.abortProcess(processId, actorData);
-      ctx.status = res ? 200 : 404;    
+      ctx.status = res ? 200 : 404;
     }
   } else {
     ctx.status = 404;
   }
-  
+
+  return next();
+};
+
+const fetchStateByParameters = async (ctx, next) => {
+  logger.verbose("called fetchStateByParameters");
+
+  const cockpit = getCockpit();
+  const processId = ctx.params.id;
+  const nodeId = ctx.request.query.nodeId;
+  const stepNumber = parseInt(ctx.request.query.stepNumber);
+
+  if (!nodeId && !stepNumber) {
+    ctx.status = 400;
+    ctx.body = {
+      message: "you should define at least one param (nodeId or stepNumber)",
+    };
+    return next();
+  }
+
+  const process = await cockpit.fetchProcess(processId);
+  const states = await cockpit.fetchProcessStateHistory(processId);
+
+  if (!states) {
+    ctx.status = 404;
+    ctx.body = {
+      message: "process not found",
+    };
+    return next();
+  }
+
+  let filteredStates;
+
+  if (stepNumber) {
+    filteredStates = states.filter((item) => item._step_number === stepNumber);
+  } else if (nodeId) {
+    filteredStates = states.filter((item) => item._node_id == nodeId);
+  }
+  if (filteredStates.length > 0) {
+    ctx.status = 200;
+    ctx.body = {
+      environment: process?._blueprint_spec?.environment,
+      parameters: process?._blueprint_spec?.parameters,
+      states: _.map(filteredStates, (state) => serializeState(state))
+    }
+  } else {
+    ctx.status = 404;
+    ctx.body = {
+      message: "no state found with the parameter provided",
+      params: {
+        nodeId,
+        stepNumber  
+      }
+    };
+  }
+
   return next();
 };
 
@@ -157,4 +212,5 @@ module.exports = {
   listProcesses,
   runProcess,
   abortProcess,
+  fetchStateByParameters,
 };
