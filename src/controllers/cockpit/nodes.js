@@ -21,7 +21,7 @@ const prepareNode = async (ctx, next) =>  {
   });
 
   ctx.body = {
-    executionData: response,
+    input: response,
     node
   };
   ctx.status = 200
@@ -39,7 +39,7 @@ const prepareNodeDry = async (ctx, next) => {
 
   ctx.status = 200;
   ctx.body = {
-    executionData: response,
+    input: response,
     node
   };
 
