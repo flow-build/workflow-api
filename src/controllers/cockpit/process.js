@@ -195,23 +195,6 @@ const getProcessesByWorkflowName = async (ctx, next) => {
   return next();
 };
 
-const getProcessState = async (ctx, next) => {
-  logger.verbose("Cockpit getProcessState");
-
-  const state_id = ctx.params.id;
-
-  try {
-    const result = await cockpitService.fetchProcessState(state_id);
-    ctx.status = 200;
-    ctx.body = result;
-  } catch (e) {
-    ctx.status = 400;
-    ctx.body = { message: `Failed at ${e.message}`, error: e };
-  }
-
-  return next();
-};
-
 const getProcessExecution = async (ctx, next) => {
   logger.verbose("Cockpit getProcessExecution");
 
@@ -241,40 +224,6 @@ const getProcessExecution = async (ctx, next) => {
   return next();
 };
 
-const getProcessStatesFromNode = async (ctx, next) => {
-  logger.verbose("Cockpit getProcessStatesFromNode");
-
-  const process_id = ctx.params.id;
-  const node_id = ctx.params.node_id;
-
-  const cockpit = getCockpit();
-  const process = await cockpit.fetchProcess(process_id);
-
-  if (process) {
-    const node = process._blueprint_spec.nodes.find((n) => n.id === node_id);
-    if (node) {
-      try {
-        //TODO: add query filters for date and pagination
-
-        const result = await cockpitService.fetchProcessStateByNodeId(process_id, node_id);
-        ctx.status = 200;
-        ctx.body = result;
-      } catch (e) {
-        ctx.status = 400;
-        ctx.body = { message: `Failed at ${e.message}`, error: e };
-      }
-    } else {
-      ctx.status = 404;
-      ctx.body = { message: "No such node" };
-    }
-  } else {
-    ctx.status = 404;
-    ctx.body = { message: "No such process" };
-  }
-
-  return next();
-};
-
 const getStatesFromNode = async (ctx, next) => {
   const workflow_name = ctx.params.name;
   const node_id = ctx.params.node_id;
@@ -297,8 +246,6 @@ module.exports = {
   getProcessesByWorkflowId,
   getProcessesByWorkflowName,
   getProcessExecution,
-  getProcessState,
-  getProcessStatesFromNode,
   getStatesFromNode,
   setProcessState,
   transferProcessState,

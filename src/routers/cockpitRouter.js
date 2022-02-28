@@ -42,12 +42,10 @@ module.exports = (opts = {}) => {
   const processes = Router();
   processes.prefix("/processes");
   processes.get("/:id/execution", validateUUID, cp.getProcessExecution);
-  processes.get("/:id/state/:node_id", validateUUID, cp.getProcessStatesFromNode);
   processes.post("/:id/state", validateUUID, cockpitValidator.validateSetProcessState, cp.setProcessState);
   processes.post("/:id/state/run", validateUUID, cp.runPendingProcess);
   processes.post("/:id/set/:state_id", validateUUID, cp.transferProcessState);
-  processes.get("/state/:id", validateUUID, cp.getProcessState);
-
+  
   router.use(processes.routes());
   router.use(workflows.routes());
 

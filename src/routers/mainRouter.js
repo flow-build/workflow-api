@@ -13,6 +13,7 @@ const diagramCtrl = require("../controllers/diagram");
 const processCtrl = require("../controllers/process");
 const packageCtrl = require("../controllers/package");
 const workflowCtrl = require("../controllers/workflow");
+const statesCtrl = require('../controllers/state');
 const { indexController } = require("@flowbuild/indexer");
 
 module.exports = (opts = {}) => {
@@ -62,7 +63,6 @@ module.exports = (opts = {}) => {
   processes.get("/available", activityCtrl.fetchAvailableActivitiesForActor);
   processes.get("/done", activityCtrl.fetchDoneActivitiesForActor);
   processes.get("/:id/state", baseValid.validateUUID, processCtrl.fetchProcess);
-  processes.get("/:id/state/find", baseValid.validateUUID, processCtrl.fetchStateByParameters);
   processes.get("/:id/history", baseValid.validateUUID, processCtrl.fetchProcessStateHistory);
   processes.get("/:id/activity", baseValid.validateUUID, activityCtrl.fetchActivity);
   processes.get("/activityManager/:id", baseValid.validateUUID, activityCtrl.fetchActivityByActivityManagerId);
@@ -70,6 +70,11 @@ module.exports = (opts = {}) => {
   processes.post("/:id/abort", baseValid.validateUUID, processCtrl.abortProcess);
   processes.post("/:id/commit", baseValid.validateUUID, activityCtrl.commitActivity);
   processes.post("/:id/push", baseValid.validateUUID, activityCtrl.pushActivity);
+
+  const states = Router();
+  states.prefix("/states");
+  states.get("/:id", baseValid.validateUUID, statesCtrl.fetchById);
+  states.get("/process/:id", baseValid.validateUUID, statesCtrl.fetchStateByParameters);
 
   const activityManager = Router();
   activityManager.prefix("/activity_manager");
@@ -97,6 +102,7 @@ module.exports = (opts = {}) => {
   indexer.delete("/:id", indexController.deleteIndex);
 
   router.use(processes.routes());
+  router.use(states.routes());
   router.use(workflows.routes());
 
   router.use(activityManager.routes());
