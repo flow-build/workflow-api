@@ -150,5 +150,7 @@ const fetchStateByParameters = async (ctx, next) => {
 
 module.exports = {
   fetchById,
-  fetchStateByParameters
+  fetchStateByParameters,
+  getStateById,
+  getProcessById
 }
