@@ -63,7 +63,6 @@ module.exports = (opts = {}) => {
   processes.get("/available", activityCtrl.fetchAvailableActivitiesForActor);
   processes.get("/done", activityCtrl.fetchDoneActivitiesForActor);
   processes.get("/:id/state", baseValid.validateUUID, processCtrl.fetchProcess);
-  processes.get("/:id/state/find", baseValid.validateUUID, processCtrl.fetchStateByParameters);
   processes.get("/:id/history", baseValid.validateUUID, processCtrl.fetchProcessStateHistory);
   processes.get("/:id/activity", baseValid.validateUUID, activityCtrl.fetchActivity);
   processes.get("/activityManager/:id", baseValid.validateUUID, activityCtrl.fetchActivityByActivityManagerId);
