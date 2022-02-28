@@ -13,6 +13,7 @@ const diagramCtrl = require("../controllers/diagram");
 const processCtrl = require("../controllers/process");
 const packageCtrl = require("../controllers/package");
 const workflowCtrl = require("../controllers/workflow");
+const statesCtrl = require('../controllers/state');
 const { indexController } = require("@flowbuild/indexer");
 
 module.exports = (opts = {}) => {
@@ -71,6 +72,11 @@ module.exports = (opts = {}) => {
   processes.post("/:id/commit", baseValid.validateUUID, activityCtrl.commitActivity);
   processes.post("/:id/push", baseValid.validateUUID, activityCtrl.pushActivity);
 
+  const states = Router();
+  states.prefix("/states");
+  states.get("/:id", baseValid.validateUUID, statesCtrl.fetchById);
+  states.get("/process/:id", baseValid.validateUUID, statesCtrl.fetchStateByParameters);
+
   const activityManager = Router();
   activityManager.prefix("/activity_manager");
   activityManager.post("/:id/commit", baseValid.validateUUID, activityCtrl.commitByActivityManagerId);
@@ -97,6 +103,7 @@ module.exports = (opts = {}) => {
   indexer.delete("/:id", indexController.deleteIndex);
 
   router.use(processes.routes());
+  router.use(states.routes());
   router.use(workflows.routes());
 
   router.use(activityManager.routes());
