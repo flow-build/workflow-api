@@ -1,0 +1,92 @@
+{
+  "name": "echo",
+  "description": "general blueprint for several tests",
+  "blueprint_spec": {
+    "environment": {
+      "MAX_CONTENT_LENGTH": "MAX_CONTENT_LENGTH"
+    },
+    "parameters": {
+      "baseURL": "https://postman-echo.com"
+    },
+    "requirements": ["core"],
+    "prepare": [],
+    "lanes": [
+      {
+        "id": "free",
+        "name": "the_only_lane",
+        "rule": ["fn", ["&", "args"], true]
+      }
+    ],
+    "nodes": [
+      {
+        "id": "START",
+        "name": "Inicia testes",
+        "next": "SIMPLE-GET",
+        "type": "Start",
+        "lane_id": "free",
+        "parameters": {
+          "input_schema": {}
+        }
+      },
+      {
+        "id": "SIMPLE-GET",
+        "name": "make a simple get request",
+        "next": "BAG-RESPONSE",
+        "type": "systemTask",
+        "category": "http",
+        "lane_id": "free",
+        "parameters": {
+          "input": {},
+          "request": {
+            "url": { "$mustache": "{{{parameters.baseURL}}}/get" },
+            "verb": "GET",
+            "headers": {}
+          }
+        }
+      },
+      {
+        "id": "BAG-RESPONSE",
+        "name": "save response into bag",
+        "next": "SECOND-CALL",
+        "type": "systemTask",
+        "category": "setToBag",
+        "lane_id": "free",
+        "parameters": {
+          "input": {
+            "simple": { "$ref": "result.data" }
+          }
+        }
+      },
+      {
+        "id": "SECOND-CALL",
+        "name": "save response into bag",
+        "next": "END",
+        "type": "systemTask",
+        "category": "formRequest",
+        "lane_id": "free",
+        "parameters": {
+          "input": {
+            "token": { "$ref": "bag.simple.postman-token" },
+            "random": { "$js": "() => Math.floor(Math.random() * 1001)" },
+            "maxContentLength": { "$ref": "environment.MAX_CONTENT_LENGTH" }
+          },
+          "request": {
+            "url": { "$handlebars": "{{{parameters.baseURL}}}/post" },
+            "verb": "POST",
+            "headers": {
+              "Content-type": "application/x-www-form-urlencoded"
+            },
+            "timeout": 3000
+          }
+        }
+      },
+      {
+        "id": "END",
+        "name": "Fim do teste",
+        "type": "Finish",
+        "lane_id": "free",
+        "next": null
+      }
+    ]
+  }
+}
