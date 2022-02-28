@@ -3,10 +3,10 @@
 
 ```
 node -v
-v14.16.1
+v14.18.0
 
 npm -v
-6.14.12
+8.5.2
 ```
 
 ## Environment variables
@@ -60,6 +60,15 @@ The API app uses the same log levels, but they are managed by the KOA_LOG_LEVEL 
 
 Notice that at default configuration, error events are logged twice.
 
+## Tests
+
+You can run unit tests by running ```npm run tests```.
+
+If you would like to test the routes itself, you can use Newman to do that, by running the command.
+
+```bash
+newman run postman \newman\tests.postman_collection.json -e postman\newman\local_environment.json
+``` 
 ## Bibliography
 
 ### how to prepare for windows
@@ -70,3 +79,4 @@ Notice that at default configuration, error events are logged twice.
 ### how to prepare for linux
 
 [how to install docker on linux distros](https://docs.docker.com/engine/install/)
+
