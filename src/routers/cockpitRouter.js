@@ -9,7 +9,10 @@ const cockpitValidator = require("../validators/cockpit");
 const wv = require("../validators/workflow");
 const workflowCtrl = require("../controllers/workflow");
 const cp = require("../controllers/cockpit/process");
-const nodesCtrl = require('../controllers/cockpit/nodes')
+const nodesCtrl = require('../controllers/cockpit/nodes');
+const specValidator = require('../validators/nodeSpec');
+const specCtrl = require("../controllers/cockpit/specs");
+const contextCtrl = require('../controllers/cockpit/context');
 
 module.exports = (opts = {}) => {
   const router = new Router();
@@ -54,9 +57,27 @@ module.exports = (opts = {}) => {
   nodes.post("/state/:id/prepare", validateUUID, nodesCtrl.prepareNode);
   nodes.post("/state/:id/run", validateUUID, nodesCtrl.runNode);
 
+  const specs = Router();
+  specs.prefix("/specs");
+  specs.get("/:id", validateUUID, specCtrl.getSpec);
+  specs.get("/name/:name", specCtrl.getSpecByName);
+  specs.get("/type/:type", specCtrl.listSpecByType);
+  specs.post("/", specValidator.validateNodeSchema, specCtrl.createSpec);
+  specs.patch("/:id", validateUUID, specValidator.validateNodeSchema, specCtrl.createSpec);
+
+  const context = Router();
+  context.prefix("/context");
+  context.get("/", contextCtrl.listContext);
+  context.get("/:id", validateUUID, contextCtrl.getContext);
+  context.get("/workflow/:name/node/:nodeId", contextCtrl.listContextByNode);
+  context.post("/", contextCtrl.createContext);
+  context.patch("/:id", validateUUID, contextCtrl.createContext);
+
   router.use(processes.routes());
   router.use(workflows.routes());
   router.use(nodes.routes());
+  router.use(specs.routes());
+  router.use(context.routes());
 
   return router;
 };
