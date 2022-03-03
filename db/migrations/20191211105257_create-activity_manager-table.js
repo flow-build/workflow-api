@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 exports.up = function(knex, Promise) {
   return knex.schema.createTable("activity_manager", table => {
     table.uuid("id").primary();
