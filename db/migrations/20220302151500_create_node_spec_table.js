@@ -1,8 +1,10 @@
 exports.up = function (knex) {
   return knex.schema.createTable("node_spec", (table) => {
     table.uuid("id").primary();
+    table.string("code");
     table.timestamp("created_at").notNullable();
-    table.string("spec_name");
+    table.string("name");
+    table.string("element_type");
     table.string("node_lane_id");
     table.string("node_name");
     table.string("node_type");

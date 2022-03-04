@@ -12,7 +12,7 @@ async function getSpecs() {
     nodes.push({
       id: uuid(),
       created_at: new Date(),
-      spec_name: file,
+      name: scriptName,
       node_lane_id: spec.lane_id,
       node_name: spec.name,
       node_type: spec.type,
