@@ -13,6 +13,7 @@ const nodesCtrl = require('../controllers/cockpit/nodes');
 const specValidator = require('../validators/nodeSpec');
 const specCtrl = require("../controllers/cockpit/specs");
 const contextCtrl = require('../controllers/cockpit/context');
+const contextValidator = require('../validators/nodeContext');
 
 module.exports = (opts = {}) => {
   const router = new Router();
@@ -70,8 +71,8 @@ module.exports = (opts = {}) => {
   context.get("/", contextCtrl.listContext);
   context.get("/:id", validateUUID, contextCtrl.getContext);
   context.get("/workflow/:name/node/:nodeId", contextCtrl.listContextByNode);
-  context.post("/", contextCtrl.createContext);
-  context.patch("/:id", validateUUID, contextCtrl.createContext);
+  context.post("/", contextValidator.validateContextSchema, contextCtrl.createContext);
+  context.patch("/:id", validateUUID, contextValidator.validateContextSchema, contextCtrl.createContext);
 
   router.use(processes.routes());
   router.use(workflows.routes());

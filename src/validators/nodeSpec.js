@@ -3,19 +3,33 @@ const { validateBodyWithSchema } = require("./base");
 const nodeSchema = {
   type: "object",
   properties: {
-    id: { type: 'string', format: 'uuid' },
-    created_at: { type: 'string', format: 'date-time' },
-    spec_name: { type: 'string' },
-    node_lane_id: { type: 'string' },
-    node_name: { type: 'string' },
-    node_type: { type: 'string' },
-    node_category: { type: 'string' },
-    node_parameters: { type: 'object' }
-  }
-}
+    id: { type: "string", format: "uuid" },
+    createdAt: { type: "string", format: "date-time" },
+    name: { type: "string" },
+    element: {
+      type: "string",
+      enum: ["servicetask", "startevent", "endevent", "exclusivegateway", "usertask", "intermediatecatchevent"],
+    },
+    node: {
+      type: 'object',
+      properties: {
+        laneId: { type: "string" },
+        name: { type: "string" },
+        type: {
+          type: "string",
+          enum: ["start", "finish", "flow", "scripttask", "usertask", "systemtask", "subprocess"],
+        },
+        category: { type: "string" },
+        parameters: { type: "object" },
+      },
+      required: ['type','parameters','name']
+    }
+  },
+  required: ['name','element','node' ]
+};
 
-const validateNodeSchema = validateBodyWithSchema(nodeSchema)
+const validateNodeSchema = validateBodyWithSchema(nodeSchema);
 
 module.exports = {
-  validateNodeSchema
-}
+  validateNodeSchema,
+};

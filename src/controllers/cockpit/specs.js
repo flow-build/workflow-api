@@ -1,7 +1,37 @@
 const { logger } = require('../../utils/logger')
 const { db } = require("../../utils/db");
 const { setDbConnection } = require("../../services/spec");
-const specService = require('../../services/spec')
+const specService = require('../../services/spec');
+
+function serialize(spec) {
+  return {
+    id: spec.id || uuid(),
+    created_at: spec.createdAt || new Date(),
+    name: spec.name,
+    element_type: spec.element,
+    node_lane_id: spec.node.laneId,
+    node_name: spec.node.name,
+    node_type: spec.node.type,
+    node_category: spec.node.category,
+    node_parameters: spec.node.parameters,
+    compose_spec_id: spec.composeNodeId
+  }
+}
+
+function deserialize(spec) {
+  return {
+    id: spec.id,
+    name: spec.name,
+    element: spec.element_type,
+    node: {
+      laneId: spec.node_lane_id,
+      name: spec.node_name,
+      type: spec.node_type,
+      category: spec.node_category,
+      parameters: spec.node_parameters
+    }
+  }
+}
 
 const getSpec = async (ctx, next) =>  {
   logger.verbose("[cockpit] called getSpec");
@@ -12,7 +42,7 @@ const getSpec = async (ctx, next) =>  {
 
   const response = await specService.fetch(id)
       
-  ctx.body = response;
+  ctx.body = deserialize(response);
   ctx.status = 200
     
   return next();
@@ -26,7 +56,7 @@ const listSpecByType = async (ctx, next) =>  {
     
   const response = await specService.fetchByType(type)
           
-  ctx.body = response;
+  ctx.body = response.map(item => deserialize(item));
   ctx.status = 200
         
   return next();
@@ -40,7 +70,7 @@ const getSpecByName = async (ctx, next) =>  {
   
   const response = await specService.fetchByName(name)
         
-  ctx.body = response;
+  ctx.body = deserialize(response);
   ctx.status = 200
       
   return next();
@@ -52,9 +82,9 @@ const createSpec = async (ctx, next) => {
 
   setDbConnection(db);
 
-  const response = await specService.save(spec)
+  const response = await specService.save(serialize(spec))
 
-  ctx.body = response;
+  ctx.body = deserialize(response);
   ctx.status = 201
       
   return next();
