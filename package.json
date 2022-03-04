@@ -21,16 +21,16 @@
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/npm": "^8.0.2",
+    "@semantic-release/npm": "^8.0.3",
     "conventional-changelog-conventionalcommits": "^4.6.1",
-    "eslint": "^8.9.0",
+    "eslint": "^8.10.0",
     "jest": "^27.5.1",
     "nodemon": "^2.0.15",
     "semantic-release": "^18.0.0",
     "supertest": "^6.1.6"
   },
   "dependencies": {
-    "@flowbuild/engine": "2.8.0-beta.0",
+    "@flowbuild/engine": "2.8.0-beta.1",
     "@flowbuild/indexer": "1.0.0-beta.3",
     "@flowbuild/nodejs-diagram-builder": "1.1.0",
     "@koa/router": "^10.1.1",
@@ -49,13 +49,14 @@
     "koa-logger-winston": "0.0.2",
     "koa2-cors": "^2.0.6",
     "nanoid": "^3.3.1",
+    "npm": "^8.5.2",
     "pg": "^8.7.3",
     "raw-body": "^2.4.3",
     "swagger2": "^2.0.0",
     "swagger2-koa": "^2.0.0",
     "uuid": "^8.3.2",
     "winston": "^3.6.0",
-    "npm": "^8.5.2"
+    "yargs": "^17.3.1"
   },
   "keywords": [],
   "author": "FDTE-DSD",
