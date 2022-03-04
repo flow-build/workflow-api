@@ -67,6 +67,12 @@ const startLogger = () => {
     engineLogger[logLevel](logMessage);
   });
 
+  emitter.on("ENGINE.CONTRUCTOR", (message) => {
+    logLevel = "warn";
+    logMessage = message;
+    engineLogger[logLevel](logMessage);
+  });
+
   emitter.on("EXECUTION_LOOP.ROLLBACK", (message, variables) => {
     logLevel = "warn";
     logMessage = message;

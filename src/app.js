@@ -22,8 +22,13 @@ const { setPersist } = require("./middlewares/persist");
 const startServer = (port) => {
   const engineLogLevel = process.env.ENGINE_LOG_LEVEL || "error";
 
+  const app = new Koa();
+  app.use(koaLogger(_log.logger));
+  _log.startLogger();
+
   let engine = getEngine();
   if (!engine) {
+    _log.logger.info("Started Engine");
     engine = new Engine("knex", db, engineLogLevel);
     setEngine(engine);
   }
@@ -46,7 +51,7 @@ const startServer = (port) => {
   });
   engine.setCrypto(crypto);
 
-  const app = new Koa();
+  
   const corsOptions = {
     origin: "*",
     allowMethods: ["GET", "POST", "DELETE"],
@@ -54,9 +59,6 @@ const startServer = (port) => {
   };
   app.use(cors(corsOptions));
   app.use(setPersist(db));
-
-  app.use(koaLogger(_log.logger));
-  _log.startLogger();
 
   app.use(freeRouter({ corsOptions }).routes());
 
