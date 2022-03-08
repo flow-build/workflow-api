@@ -28,6 +28,8 @@ node_modules
 .npmrc
 
 .env
+.env.studio
+.env.beta
 
 /export
 .vscode
