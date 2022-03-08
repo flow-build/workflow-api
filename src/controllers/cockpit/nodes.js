@@ -31,11 +31,17 @@ const prepareNode = async (ctx, next) =>  {
 
 const prepareNodeDry = async (ctx, next) => {
   logger.verbose("[cockpit] called dryPrepareNode");
-  const { spec, bag, result, actor_data, environment, parameters } = ctx.request.body;
+  const { spec, context } = ctx.request.body;
 
   const node = await getNode(spec);
 
-  const response = await node._preProcessing({ bag, input: result, actor_data, environment, parameters });
+  const response = await node._preProcessing({ 
+    bag: context.bag, 
+    input: context.result, 
+    actor_data: context.actor_data, 
+    environment: context.environment, 
+    parameters: context.parameters
+  });
 
   ctx.status = 200;
   ctx.body = {
@@ -73,18 +79,18 @@ const runNode = async (ctx, next) => {
 
 const dryRunNode = async (ctx, next) => {
   logger.verbose("[cockpit] called runNode");
-  const { spec, bag, result, external_input, actor_data, environment, parameters } = ctx.request.body;
+  const { spec, context } = ctx.request.body;
 
   const node = await getNode(spec);
 
   const response = await node.run(
     {
-      bag,
-      input: result,
-      external_input,
-      actor_data,
-      environment,
-      parameters,
+      bag: context.bag,
+      input: context.result,
+      external_input: {},
+      actor_data: context.actor_data,
+      environment: context.environment,
+      parameters: context.environment,
     },
     null
   );
