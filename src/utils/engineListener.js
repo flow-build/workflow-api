@@ -3,7 +3,21 @@ const { logger } = require("./logger");
 const mqtt = require("../services/mqtt");
 
 const processStateListener = async (processState) => {
-  logger.info(`PS LISTENER: PID [${processState.id}]`);
+  if(process.env.PUBLISH_STATE_EVENTS) {
+    const topic = `/process/${processState.process_id}/state`;
+
+    const message = {
+      stateId: processState.id,
+      processId: processState.process_id,
+      stepNumber: processState.step_number,
+      nodeId: processState.node_id,
+      status: processState.status,
+      workflow: processState.workflow_name
+    };
+  
+    mqtt.publishMessage(topic, message);
+    logger.info(`PS LISTENER: PID [${processState.id}]`);
+  }
 };
 
 const activityManagerListener = async (activityManager) => {
