@@ -3,7 +3,7 @@
 
 ```
 node -v
-v14.18.0
+v17.4
 
 npm -v
 8.5.2
@@ -17,6 +17,9 @@ Add a .env file with the following variables:
 - KOA_LOG_LEVEL (default = info)
 - ENGINE_LOG_LEVEL (default = error)
 - KNEX_ENV (suggested value = docker)
+- MQTT (bool)
+- PUBLISH_STATE_EVENTS (bool)
+- PUBLISH_ENGINE_LOGS (bool)
 
 ## Run the project on docker:
 
@@ -34,7 +37,7 @@ To run the tests, you may use the command below:
 docker-compose run -T app ./scripts/run_tests.sh
 ```
 
-For Windows users, comment line #30 from the docker-compose.yml and uncomment line #32.
+For Windows users, comment the script command from the docker-compose.yml and use the bash one.
 
 ## Exploring and executing the API
 
@@ -59,6 +62,27 @@ silly -> debug -> verbose -> http -> info -> warn -> error
 The API app uses the same log levels, but they are managed by the KOA_LOG_LEVEL variable and has a default value of info.
 
 Notice that at default configuration, error events are logged twice.
+
+Engine events will also be sent to a ```/logs``` topic to mqtt if the both MQTT and PUBLISH_ENGINE_LOGS are set to true.
+
+## MQTT
+
+The default compose will set up a postgres database, an hive MQTT server and the app itself.
+
+During app initialization, is the MQTT is true, the flowbuild will try to connect to the MQTT server.
+
+Be sure to provide the following parameters as environment variables
+
+- MQTT_HOST (```localhost``` if you a running on docker)
+- MQTT_PORT (8000)
+- MQTT_PATH (/mqtt)
+
+The following topis will be used:
+- ```/logs``` for engine logs
+- ```/process/:processId/state``` for each process state created
+- ```/process/:processId/am/create``` for each activity_manager created
+- ```/actor/:actorId/am/create``` for each activity_manager created, if an actor_id property exists in activity_manager input
+- ```/session/:sessionId/am/create``` for each activity_manager created, if an session_id property exists in activity_manager input
 
 ## Tests
 
