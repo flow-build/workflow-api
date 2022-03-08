@@ -11,7 +11,7 @@ services:
       - 5432:5432
 
   app:
-    image: node:14.18
+    image: node:17.4
     env_file:
       - ./.env.docker
     container_name: flowbuild_app
@@ -26,7 +26,7 @@ services:
     working_dir: /usr/app
     #command: ./scripts/start_dev.sh
     #command: bash -c " npm install && npm rebuild && npm run migrations && npm run seeds && npm run start "
-    command: bash -c " npm install && npm audit fix && npm run migrations && npm run seeds && npm run tests "
+    command: bash -c " npm install && npm run migrations && npm run seeds && npm run tests "
 
   socket:
     image: hivemq/hivemq4:latest
