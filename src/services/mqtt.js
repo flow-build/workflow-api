@@ -40,7 +40,12 @@ async function publishMessage(topic, message) {
   return response;
 }
 
+function getClient() { 
+  return client;
+}
+
 module.exports = {
+  getClient,
   publishMessage: publishMessage,
   connect: connect,
 };
