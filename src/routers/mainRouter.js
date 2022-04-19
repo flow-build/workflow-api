@@ -4,6 +4,8 @@ const cors = require("koa2-cors");
 
 const { captureActorData } = require("../middlewares/actordata");
 const { captureTraceData } = require("../middlewares/trace");
+const { captureUserAgentAndIp } = require("../middlewares/userAgent");
+
 const baseValid = require("../validators/base");
 const processValid = require("../validators/process");
 const wfValidator = require("../validators/workflow");
@@ -27,6 +29,7 @@ module.exports = (opts = {}) => {
 
   router.use(captureActorData);
   router.use(captureTraceData);
+  router.use(captureUserAgentAndIp);
 
   router.use(cors(opts.corsOptions));
 

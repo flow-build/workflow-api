@@ -2,6 +2,7 @@ const Koa = require("koa");
 const cors = require("koa2-cors");
 const koaLogger = require("koa-logger-winston");
 const jwt = require("koa-jwt");
+const { userAgent } = require('koa-useragent');
 
 const freeRouter = require("./routers/freeRouter");
 const mainRouter = require("./routers/mainRouter");
@@ -55,6 +56,8 @@ const startServer = (port) => {
   };
   app.use(cors(corsOptions));
   app.use(setPersist(db));
+  app.use(userAgent);
+  app.proxy = true;
 
   app.use(koaLogger(_log.logger));
   
