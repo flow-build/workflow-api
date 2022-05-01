@@ -2,7 +2,7 @@ version: "3"
 
 services:
   postgres:
-    image: postgres:11.4
+    image: postgres:14.2
     container_name: flowbuild_db
     restart: always
     env_file:
