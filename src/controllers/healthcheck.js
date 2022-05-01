@@ -7,7 +7,6 @@ const healthCheck = async (ctx, next) => {
   logger.verbose('Called healthCheck');
   ctx.status = 200;
   const engine = getEngine();
-  console.log(engine)
   const mqttClient = getClient();
   ctx.body = {
     message: 'Flowbuild API is fine!',
@@ -18,9 +17,10 @@ const healthCheck = async (ctx, next) => {
     },
     'diagram-builder': pkg.dependencies['@flowbuild/nodejs-diagram-builder'],
     mqtt: {
-      hostname: mqttClient._client.options.hostname,
-      protocol: mqttClient._client.options.protocol,
-      client: mqttClient._client.options.clientId
+      status: process.env.MQTT,
+      hostname: mqttClient?._client?.options?.hostname,
+      protocol: mqttClient?._client?.options?.protocol,
+      client: mqttClient?._client?.options?.clientId
     },
     
   }
