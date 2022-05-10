@@ -43,7 +43,7 @@ const captureActorData = async (ctx, next) => {
     ctx.state.actor_data = { trace, actor_id, claims, session_id };
   }
 
-  return await next();
+  return next();
 };
 
 module.exports = {

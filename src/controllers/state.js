@@ -4,22 +4,26 @@ const { logger } = require("../utils/logger");
 
 async function getStateById(id) {
   const cockpit = getCockpit();
-  return await cockpit.getProcessState(id)
+  const state = await cockpit.getProcessState(id)
+  return state;
 }
 
 async function getStateByStepNumber(processId, stepNumber) {
   const cockpit = getCockpit();
-  return await cockpit.findProcessStatesByStepNumber(processId, stepNumber)
+  const state = await cockpit.findProcessStatesByStepNumber(processId, stepNumber);
+  return state;
 }
 
 async function getStateByNodeId(processId, nodeId) {
   const cockpit = getCockpit();
-  return await cockpit.findProcessStatesByNodeId(processId, nodeId)
+  const state = await cockpit.findProcessStatesByNodeId(processId, nodeId);
+  return state;
 }
 
 async function getProcessById(id) {
   const cockpit = getCockpit();
-  return await cockpit.fetchProcess(id);
+  const process = await cockpit.fetchProcess(id);
+  return process;
 }
 
 function serializeState(state) {

@@ -26,41 +26,25 @@ const startLogger = () => {
   if(process.env.PUBLISH_ENGINE_LOGS) {
     emitter.onAny(function(event, message) {
       const topic = `/logs`;
-      const mes = {
+      const msg = {
         event,
         message,
         timestamp: new Date(),
       };
     
-      mqtt.publishMessage(topic, mes);
+      mqtt.publishMessage(topic, msg);
     });
   }
   
-  emitter.on("PROCESS.START_NODE_RUN", (message, variables) => {
+  emitter.on("PROCESS.START_NODE_RUN", (message) => {
     logLevel = "verbose";
     logMessage = message;
-    logEvent = [
-      {
-        process_id: variables.process_id,
-        node_type: variables.node_type,
-        node_category: variables.node_category,
-        node_name: variables.node_name,
-        eventType: "start_node_run",
-      },
-    ];
     engineLogger[logLevel](logMessage);
   });
 
-  emitter.on("EXECUTION_LOOP.ROLLBACK", (message, variables) => {
+  emitter.on("EXECUTION_LOOP.ROLLBACK", (message) => {
     logLevel = "warn";
     logMessage = message;
-    logMetric = [
-      {
-        engine_id: variables.engine_id,
-        process_id: variables.process_id,
-        eventType: "execution_loop_error",
-      },
-    ];
     engineLogger[logLevel](logMessage);
   });
 

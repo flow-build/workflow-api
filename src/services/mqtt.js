@@ -23,7 +23,6 @@ async function connect() {
   } catch (error) {
     logger.error(error);
   }
-  return;
 }
 
 async function publishMessage(topic, message) {

@@ -22,7 +22,7 @@ const captureUserAgentAndIp = async (ctx, next) => {
     };
   }
 
-  return await next();
+  return next();
 };
 
 module.exports = {

@@ -7,7 +7,7 @@ const { prepare } = require("@flowbuild/engine/src/core/utils/input");
 const { logger } = require("../utils/logger");
 const { db } = require("../utils/db");
 
-class createIndexNode extends Nodes.SystemTaskNode {
+class CreateIndexNode extends Nodes.SystemTaskNode {
   static get rules() {
     const inputRules = {
       input_has_entity_type: [obju.hasField, "entity_type"],
@@ -20,7 +20,7 @@ class createIndexNode extends Nodes.SystemTaskNode {
   }
 
   validate() {
-    return createIndexNode.validate(this._spec);
+    return CreateIndexNode.validate(this._spec);
   }
 
   _preProcessing({ bag, input, actor_data, environment, parameters }) {
@@ -71,4 +71,4 @@ class createIndexNode extends Nodes.SystemTaskNode {
   }
 }
 
-module.exports = createIndexNode;
+module.exports = CreateIndexNode;
