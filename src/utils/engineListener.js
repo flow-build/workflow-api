@@ -16,7 +16,7 @@ const processStateListener = async (processState) => {
     };
   
     mqtt.publishMessage(topic, message);
-    logger.info(`PS LISTENER: PID [${processState.id}]`);
+    logger.info(`PS LISTENER: PID [${processState.id}], step [${processState.step_number}], status [${processState.status}]`);
   }
 };
 
