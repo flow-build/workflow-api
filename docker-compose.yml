@@ -11,7 +11,7 @@ services:
       - 5432:5432
 
   app:
-    image: node:17.4
+    image: node:14.18
     env_file:
       - ./.env.docker
     container_name: flowbuild_app
@@ -25,8 +25,8 @@ services:
       - /usr/app/node_modules
     working_dir: /usr/app
     #command: ./scripts/start_dev.sh
-    #command: bash -c " npm install && npm rebuild && npm run migrations && npm run seeds && npm run start "
-    command: bash -c " npm install && npm run migrations && npm run seeds && npm run tests "
+    #command: bash -c " npm update && npm install knex -g && npm install nodemon -g && npm install && npm rebuild && npm run migrations && npm run seeds && npm run start "
+    command: bash -c " npm install && npm audit fix && npm run migrations && npm run seeds && npm run start "
 
   socket:
     image: hivemq/hivemq4:latest
@@ -36,30 +36,3 @@ services:
       - 8081:8080
       - 1883:1883
       - 8000:8000
-
-  auth:
-    image: registry.supertokens.io/supertokens/supertokens-postgresql
-    container_name: flowbuild_auth
-    restart: always
-    ports: 
-      - 3567:3567
-
-  nginx:
-    image: nginx:latest
-    container_name: flowbuild_nginx
-    restart: always
-    ports:
-      - 8080:8080
-      - 8082:8082
-      - 443:443
-    volumes:
-      - ./nginx/reverse_proxy.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      - flowbuild_auth
-      - flowbuild_mqtt
-      - flowbuild_app
-
-networks:
-  flowbuild_app:
-  flowbuild_auth:
-  flowbuild_mqtt:
