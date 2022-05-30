@@ -20,20 +20,28 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2.4.1
         with:
           node-version: ${{ matrix.node-version }}
       - name: install dependencies
         run:
-          npm ci
+          npm install
         # npm run lint
       - name: start database
-        run: docker-compose up -d postgres
-      - name: start mqtt
-        run: docker-compose up -d socket
+        uses: Harmon758/postgresql-action@v1.0.0
+        with:
+          postgresql db: workflow
+          postgresql user: postgres
+          postgresql password: postgres
 
-      - name: start app
-        run: docker-compose up app
+      - name: run migrations
+        run: npm run migrations:local
+
+      - name: run seeds
+        run: npm run seeds:local
+
+      - name: start tests
+        run: npm run tests
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
