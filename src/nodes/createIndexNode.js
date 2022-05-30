@@ -1,14 +1,13 @@
 /* eslint-disable no-unused-vars */
-const { SystemTaskNode } = require("@flowbuild/engine/src/core/workflow/nodes");
+const { ProcessStatus, Nodes } = require("@flowbuild/engine");
 const { Validator } = require("@flowbuild/engine/src/core/validators");
 const obju = require("@flowbuild/engine/src/core/utils/object");
 const { Index } = require("@flowbuild/indexer");
 const { prepare } = require("@flowbuild/engine/src/core/utils/input");
-const { ProcessStatus } = require("@flowbuild/engine/src/core/workflow/process_state");
 const { logger } = require("../utils/logger");
-const { db } = require("../tests/utils/db");
+const { db } = require("../utils/db");
 
-class createIndexNode extends SystemTaskNode {
+class CreateIndexNode extends Nodes.SystemTaskNode {
   static get rules() {
     const inputRules = {
       input_has_entity_type: [obju.hasField, "entity_type"],
@@ -21,7 +20,7 @@ class createIndexNode extends SystemTaskNode {
   }
 
   validate() {
-    return createIndexNode.validate(this._spec);
+    return CreateIndexNode.validate(this._spec);
   }
 
   _preProcessing({ bag, input, actor_data, environment, parameters }) {
@@ -72,4 +71,4 @@ class createIndexNode extends SystemTaskNode {
   }
 }
 
-module.exports = createIndexNode;
+module.exports = CreateIndexNode;

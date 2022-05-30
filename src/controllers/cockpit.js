@@ -1,7 +1,8 @@
 const { getCockpit } = require('../engine');
+const { logger } = require('../utils/logger');
 
 module.exports.fetchWorkflowsWithProcessStatusCount = async (ctx, next) => {
-  console.log('[KW] Called fetchWorkflowsWithProcessStatusCount');
+  logger.verbose('[KW] Called fetchWorkflowsWithProcessStatusCount');
   const cockpit = getCockpit();
   const filters = ctx.query;
 
@@ -15,7 +16,7 @@ module.exports.fetchWorkflowsWithProcessStatusCount = async (ctx, next) => {
 };
 
 module.exports.setProcessState = async (ctx, next) => {
-  console.log('[KW] Called setProcessState');
+  logger.verbose('[KW] Called setProcessState');
 
   const cockpit = getCockpit();
   const process_id = ctx.params.id;
@@ -28,7 +29,7 @@ module.exports.setProcessState = async (ctx, next) => {
 };
 
 module.exports.runPendingProcess = async (ctx, next) => {
-  console.log('[KW] Called runPendingProcess');
+  logger.verbose('[KW] Called runPendingProcess');
 
   const cockpit = getCockpit();
   const process_id = ctx.params.id;

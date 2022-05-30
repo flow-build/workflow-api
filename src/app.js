@@ -2,6 +2,7 @@ const Koa = require("koa");
 const cors = require("koa2-cors");
 const koaLogger = require("koa-logger-winston");
 const jwt = require("koa-jwt");
+const { userAgent } = require('koa-useragent');
 
 const freeRouter = require("./routers/freeRouter");
 const mainRouter = require("./routers/mainRouter");
@@ -13,14 +14,16 @@ const cockpitService = require("./services/cockpit");
 const { setCustomNodes } = require("../src/nodes");
 
 const _log = require("./utils/logger");
+const elog = require("./utils/engineLogger");
 const listeners = require("./utils/engineListener");
+const mqtt = require("./services/mqtt");
 const { db } = require("./utils/db");
 const { jwtSecret } = require("./utils/jwtSecret");
 const { setPersist } = require("./middlewares/persist");
 
 const startServer = (port) => {
   const engineLogLevel = process.env.ENGINE_LOG_LEVEL || "error";
-
+  elog.startLogger();
   let engine = getEngine();
   if (!engine) {
     engine = new Engine("knex", db, engineLogLevel);
@@ -34,6 +37,10 @@ const startServer = (port) => {
   }
   setCustomNodes();
 
+  if (process.env.MQTT === "true") {
+    mqtt.connect();
+  }
+
   listeners.activateNotifiers(engine);
 
   const crypto = engine.buildCrypto("aes-256-cbc", {
@@ -44,15 +51,16 @@ const startServer = (port) => {
   const app = new Koa();
   const corsOptions = {
     origin: "*",
-    allowMethods: ["GET", "POST", "DELETE"],
+    allowMethods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
     allowHeaders: ["Content-Type", "Authorization", "Accept", "x-duration", "x-secret"],
   };
   app.use(cors(corsOptions));
   app.use(setPersist(db));
+  app.use(userAgent);
+  app.proxy = true;
 
   app.use(koaLogger(_log.logger));
-  _log.startLogger();
-
+  
   app.use(freeRouter({ corsOptions }).routes());
 
   app.use(

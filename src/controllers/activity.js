@@ -109,15 +109,24 @@ const fetchActivity = async (ctx, next) => {
           ctx.body = tasks;
         } else {
           ctx.status = 204;
+          ctx.body = {
+            current_status: process._current_status
+          }
         }
         return next();
       default:
         logger.warn(`Inactive status for PID ${process_id}`);
         ctx.status = 404;
+        ctx.body = {
+          current_status: process._current_status
+        }
     }
   } else {
     logger.warn(`No process found for PID ${process_id}`);
     ctx.status = 404;
+    ctx.body = {
+      message: `No process found for PID ${process_id}`
+    }
   }
 
   return next();

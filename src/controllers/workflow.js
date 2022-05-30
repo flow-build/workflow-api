@@ -357,7 +357,7 @@ const compareBlueprint = async (ctx, next) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     ctx.status = 500;
     ctx.body = {
       error: err,

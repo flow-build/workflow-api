@@ -77,7 +77,9 @@ const singleUserTask = {
         rule: ["fn", ["&", "args"], true],
       },
     ],
-    environment: {},
+    environment: {
+      KNEX_ENV: "KNEX_ENV"
+    },
   },
 };
 

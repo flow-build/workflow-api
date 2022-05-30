@@ -17,17 +17,16 @@ jobs:
       matrix:
         node-version: ["14.18"]
         os: [ubuntu-latest]
-
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2.4.1
         with:
-          node-version: ${{ matrix.node-version }}      
+          node-version: ${{ matrix.node-version }}
       - name: install dependencies
         run:
           npm install
-        
+        # npm run lint
       - name: start database
         uses: Harmon758/postgresql-action@v1.0.0
         with:
