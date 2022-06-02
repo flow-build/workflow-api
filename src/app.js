@@ -2,7 +2,8 @@ const Koa = require("koa");
 const cors = require("koa2-cors");
 const koaLogger = require("koa-logger-winston");
 const jwt = require("koa-jwt");
-const { userAgent } = require('koa-useragent');
+const { userAgent } = require("koa-useragent");
+const helmet = require("koa-helmet");
 
 const freeRouter = require("./routers/freeRouter");
 const mainRouter = require("./routers/mainRouter");
@@ -55,12 +56,13 @@ const startServer = (port) => {
     allowHeaders: ["Content-Type", "Authorization", "Accept", "x-duration", "x-secret"],
   };
   app.use(cors(corsOptions));
+  app.user(helmet());
   app.use(setPersist(db));
   app.use(userAgent);
   app.proxy = true;
 
   app.use(koaLogger(_log.logger));
-  
+
   app.use(freeRouter({ corsOptions }).routes());
 
   app.use(
