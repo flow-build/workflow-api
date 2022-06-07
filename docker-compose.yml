@@ -11,7 +11,7 @@ services:
       - 5432:5432
 
   app:
-    image: node:14.18
+    image: node:16.15.0
     env_file:
       - ./.env.docker
     container_name: flowbuild_app
