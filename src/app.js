@@ -56,7 +56,7 @@ const startServer = (port) => {
     allowHeaders: ["Content-Type", "Authorization", "Accept", "x-duration", "x-secret"],
   };
   app.use(cors(corsOptions));
-  app.user(helmet());
+  app.use(helmet());
   app.use(setPersist(db));
   app.use(userAgent);
   app.proxy = true;
