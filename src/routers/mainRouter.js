@@ -73,6 +73,7 @@ module.exports = (opts = {}) => {
   processes.post("/:id/abort", baseValid.validateUUID, processCtrl.abortProcess);
   processes.post("/:id/commit", baseValid.validateUUID, activityCtrl.commitActivity);
   processes.post("/:id/push", baseValid.validateUUID, activityCtrl.pushActivity);
+  processes.post("/:id/continue", baseValid.validateUUID, processCtrl.continueProcess);
 
   const states = Router();
   states.prefix("/states");

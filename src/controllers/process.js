@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const { getCockpit } = require("../engine");
+const { getCockpit, getEngine } = require("../engine");
 const { logger } = require("../utils/logger");
 
 const stoppedStatus = ["finished", "interrupted", "error"];
@@ -205,6 +205,28 @@ const fetchStateByParameters = async (ctx, next) => {
   return next();
 };
 
+const continueProcess = async (ctx, next) => {
+  logger.verbose("called continueProcess");
+
+  const engine = getEngine();
+  const processId = ctx.params.id;
+  const actorData = ctx.state.actor_data;
+  const input = ctx.request.body;
+
+  const result = await engine.continueProcess(processId, actorData, input);
+  if(result?.error) {
+    ctx.status = 400;
+    ctx.body =  result.error;
+    return next();
+  }
+
+  ctx.status = 200;
+  ctx.body = {
+    message: "Process continue signaled"
+  }
+  return next();
+};
+
 module.exports = {
   fetchProcess,
   fetchProcessList,
@@ -213,4 +235,5 @@ module.exports = {
   runProcess,
   abortProcess,
   fetchStateByParameters,
+  continueProcess
 };
