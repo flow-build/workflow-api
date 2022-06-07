@@ -22,6 +22,9 @@ const processStateListener = async (processState) => {
 
 const activityManagerListener = async (activityManager) => {
   logger.info(`AM LISTENER: AMID [${activityManager._id}]`);
+  if (!activityManager._id) {
+    return
+  }
 
   const topic = `/process/${activityManager._process_id}/am/create`;
 
@@ -34,14 +37,14 @@ const activityManagerListener = async (activityManager) => {
 
   mqtt.publishMessage(topic, message);
 
-  if (activityManager._props.result.session_id) {
+  if (activityManager?._props?.result?.session_id) {
     const sessionTopic = `/session/${activityManager._props.result.session_id}/am/create`;
     mqtt.publishMessage(sessionTopic, message);
   } else {
     logger.info("AM LISTENER: No session provided");
   }
 
-  if (activityManager._props.result.actor_id) {
+  if (activityManager?._props?.result?.actor_id) {
     const actorTopic = `/actor/${activityManager._props.result.actor_id}/am/create`;
     mqtt.publishMessage(actorTopic, message);
   } else {
