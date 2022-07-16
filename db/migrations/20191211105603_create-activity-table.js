@@ -1,5 +1,5 @@
-exports.up = function(knex, Promise) {
-  return knex.schema.createTable("activity", table => {
+exports.up = function (knex) {
+  return knex.schema.createTable("activity", (table) => {
     table.uuid("id").primary();
     table.timestamp("created_at").notNullable();
     table.uuid("activity_manager_id").notNullable();
@@ -10,6 +10,6 @@ exports.up = function(knex, Promise) {
   });
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function (knex) {
   return knex.schema.dropTable("activity");
 };

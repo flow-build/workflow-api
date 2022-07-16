@@ -1,4 +1,4 @@
-exports.up = function(knex, Promise) {
+exports.up = function(knex) {
   return knex.schema.createTable("process_state", table => {
     table.uuid("id").primary();
     table.uuid("process_id").notNullable();
@@ -15,6 +15,6 @@ exports.up = function(knex, Promise) {
   });
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function(knex) {
   return knex.schema.dropTable("process_state");
 };
