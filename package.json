@@ -26,8 +26,8 @@
     "eslint": "8.22.0",
     "jest": "27.5.1",
     "nodemon": "2.0.19",
-    "semantic-release": "19.0.3",
-    "supertest": "6.2.4"
+    "semantic-release": "18.0.0",
+    "supertest": "6.1.6"
   },
   "dependencies": {
     "@flowbuild/engine": "2.12.0",
