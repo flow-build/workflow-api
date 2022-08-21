@@ -77,7 +77,7 @@ Be sure to provide the following parameters as environment variables
 - MQTT_PORT (8000)
 - MQTT_PATH (/mqtt)
 
-The following topis will be used:
+The following topics will be used:
 - ```/logs``` for engine logs
 - ```/process/:processId/state``` for each process state created
 - ```/process/:processId/am/create``` for each activity_manager created

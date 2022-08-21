@@ -1,25 +1,60 @@
-const { SystemTaskNode } = require("@flowbuild/engine/src/core/workflow/nodes");
-const { Validator } = require("@flowbuild/engine/src/core/validators");
-const obju = require("@flowbuild/engine/src/core/utils/object");
+
+const { ProcessStatus, Nodes } = require("@flowbuild/engine");
+const Ajv = require("ajv");
+const addFormats = require("ajv-formats");
 const { Index } = require("@flowbuild/indexer");
-const { ProcessStatus } = require("@flowbuild/engine/src/core/workflow/process_state");
 const { logger } = require("../utils/logger");
 const { db } = require("../tests/utils/db");
 
-class retrieveProcessesNode extends SystemTaskNode {
-  static get rules() {
-    const inputRules = {
-      input_has_entity_id: [obju.hasField, "entity_id"],
-      input_entity_id_has_valid_type: [obju.isFieldTypeIn, "entity_id", ["string"]],
-    };
+class RetrieveProcessesNode extends Nodes.SystemTaskNode {
+
+  static schema() {
     return {
-      ...super.rules,
-      input_nested_validations: [new Validator(inputRules), "parameters.input"],
+      type: "object",
+      required: ["id", "name", "next", "type", "lane_id", "parameters"],
+      properties: {
+        id: { type: "string" },
+        name: { type: "string" },
+        next: { type: "string" },
+        type: { type: "string" },
+        category: { type: "string" },
+        lane_id: { type: "string" },
+        parameters: {
+          type: "object",
+          properties: {
+            input: {
+              type: "object",
+              required: ["entity_id"],
+              properties: {
+                entity_id: {
+                  oneOf: [
+                    { type: "string", format: "uuid" },
+                    { 
+                      type: "object", 
+                      properties: {
+                        "$ref": { type: "string" },
+                      }
+                    }
+                  ]
+                },
+              },
+            },
+          },
+        },
+      },
     };
   }
 
+  static validate(spec) {
+    const ajv = new Ajv({ allErrors: true });
+    addFormats(ajv);
+    const validate = ajv.compile(RetrieveProcessesNode.schema());
+    const validation = validate(spec);
+    return [validation, JSON.stringify(validate.errors)];
+  }
+
   validate() {
-    return retrieveProcessesNode.validate(this._spec);
+    return RetrieveProcessesNode.validate(this._spec);
   }
 
   async _run(executionData) {
@@ -35,4 +70,4 @@ class retrieveProcessesNode extends SystemTaskNode {
   }
 }
 
-module.exports = retrieveProcessesNode;
+module.exports = RetrieveProcessesNode;
