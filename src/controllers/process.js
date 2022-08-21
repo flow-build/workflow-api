@@ -8,7 +8,6 @@ const serializeState = (state) => {
   return {
     id: state._id,
     created_at: state._created_at,
-    process_id: state._process_id,
     step_number: state._step_number,
     node_id: state._node_id,
     next_node_id: state._next_node_id,
@@ -28,10 +27,13 @@ const serializeProcess = (process) => {
   return {
     id: process.id,
     created_at: process._created_at,
-    workflow_id: process._workflow_id,
-    state: state ? serializeState(state) : undefined,
-    current_state_id: process._current_state_id,
-    current_status: process._current_status,
+    workflow: {
+      id: process._workflow_id,
+      name: process._workflow.name,
+      version: process._workflow.version,
+      isLatest: process._workflow.isLatest
+    },
+    state: state ? serializeState(state) : undefined
   };
 };
 
@@ -213,9 +215,9 @@ const continueProcess = async (ctx, next) => {
   const actorData = ctx.state.actor_data;
   const input = ctx.request.body;
 
-  const result = await engine.continueProcess(processId, actorData, input);
+  const result = await engine.continueProcess(processId, actorData, input); //TODO: implement a default value to signal that the process has continued due to a continue call
   if(result?.error) {
-    ctx.status = 400;
+    ctx.status = 422;
     ctx.body =  result.error;
     return next();
   }

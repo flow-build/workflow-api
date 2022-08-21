@@ -4,6 +4,27 @@ const { compareBlueprints } = require("../services/compareBlueprints");
 const { logger } = require("../utils/logger");
 const { validateEnvironmentVariable } = require("../validators/workflow");
 
+const serializeWorkflow = (workflow) => {
+  return {
+    workflow_id: workflow.id,
+    created_at: workflow.created_at,
+    name: workflow.name,
+    description: workflow.description,
+    version: workflow._version,
+    hash: workflow._blueprint_hash,
+    blueprint_spec: workflow.blueprint_spec,
+    isLatest: workflow._latest
+  }
+}
+
+const serializeWorkflowNoBlueprint = (workflow) => {
+  const w = serializeWorkflow(workflow)
+  delete w.blueprint_spec
+  return w
+}
+
+
+
 const saveWorkflow = async (ctx, next) => {
   logger.verbose("Called saveWorkflow");
 
@@ -46,15 +67,7 @@ const getWorkflowsForActor = async (ctx, next) => {
   const workflows = await cockpit.getWorkflowsForActor(actor_data);
   ctx.status = 200;
   ctx.body = _.map(workflows, (workflow) => {
-    const result = workflow;
-    return {
-      workflow_id: result.id,
-      created_at: result.created_at,
-      name: result.name,
-      description: result.description,
-      version: result.version,
-      hash: result.blueprint_hash,
-    };
+    return serializeWorkflowNoBlueprint(workflow);
   });
 
   return next();
@@ -91,15 +104,7 @@ const fetchWorkflow = async (ctx, next) => {
   const result = await engine.fetchWorkflow(workflow_id);
   if (result) {
     ctx.status = 200;
-    ctx.body = {
-      workflow_id: result.id,
-      created_at: result.created_at,
-      name: result.name,
-      description: result.description,
-      version: result._version,
-      hash: result._blueprint_hash,
-      blueprint_spec: result.blueprint_spec,
-    };
+    ctx.body = serializeWorkflow(result);
   } else {
     ctx.status = 204;
   }
@@ -115,15 +120,7 @@ const fetchWorkflowByName = async (ctx, next) => {
   const result = await await engine.fetchWorkflowByName(workflow_name);
   if (result) {
     ctx.status = 200;
-    ctx.body = {
-      workflow_id: result.id,
-      created_at: result.created_at,
-      name: result.name,
-      description: result.description,
-      version: result._version,
-      hash: result._blueprint_hash,
-      blueprint_spec: result.blueprint_spec,
-    };
+    ctx.body = serializeWorkflow(result);
   } else {
     ctx.status = 204;
   }
