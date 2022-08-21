@@ -39,7 +39,7 @@ module.exports = (opts = {}) => {
     }
   }
 
-  const workflows = Router();
+  const workflows = new Router();
   workflows.prefix("/workflows");
   workflows.get("/", workflowCtrl.getWorkflowsForActor);
   workflows.get("/:id", baseValid.validateUUID, workflowCtrl.fetchWorkflow);
@@ -59,7 +59,7 @@ module.exports = (opts = {}) => {
   workflows.post("/diagram/convert", diagramCtrl.buildBlueprint);
   workflows.delete("/:id", baseValid.validateUUID, workflowCtrl.deleteWorkflow);
 
-  const processes = Router();
+  const processes = new Router();
   processes.prefix("/processes");
   processes.get("/", processCtrl.fetchProcessList);
   processes.post("/", processValid.findProcesses, processCtrl.listProcesses);
@@ -75,27 +75,27 @@ module.exports = (opts = {}) => {
   processes.post("/:id/push", baseValid.validateUUID, activityCtrl.pushActivity);
   processes.post("/:id/continue", baseValid.validateUUID, processCtrl.continueProcess);
 
-  const states = Router();
+  const states = new Router();
   states.prefix("/states");
   states.get("/:id", baseValid.validateUUID, statesCtrl.fetchById);
   states.get("/process/:id", baseValid.validateUUID, statesCtrl.fetchStateByParameters);
 
-  const activityManager = Router();
+  const activityManager = new Router();
   activityManager.prefix("/activity_manager");
   activityManager.post("/:id/commit", baseValid.validateUUID, activityCtrl.commitByActivityManagerId);
   activityManager.post("/:id/submit", baseValid.validateUUID, activityCtrl.submitByActivityManagerId);
 
-  const activities = Router();
+  const activities = new Router();
   activities.prefix("/activities");
   activities.get("/available", activityCtrl.fetchAvailableActivitiesForActorReduced);
 
-  const packages = Router();
+  const packages = new Router();
   packages.prefix("/packages");
   packages.get("/:id", baseValid.validateUUID, packageCtrl.fetchPackage);
   packages.post("/", packageCtrl.savePackage);
   packages.delete("/:id", baseValid.validateUUID, packageCtrl.deletePackage);
 
-  const indexer = Router();
+  const indexer = new Router();
   indexer.prefix("/index");
   indexer.post("/", indexController.createIndex);
   indexer.get("/entity/:id", indexController.readProcessesByEntity);

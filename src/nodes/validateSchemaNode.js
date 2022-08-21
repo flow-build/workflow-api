@@ -6,7 +6,7 @@ const { logger } = require("../utils/logger");
 
 const { validateDataWithSchema } = require("../validators/base");
 
-class validateSchemaNode extends SystemTaskNode {
+class ValidateSchemaNode extends SystemTaskNode {
   static get rules() {
     const inputRules = {
       input_has_schema: [obju.hasField, "schema"],
@@ -33,4 +33,4 @@ class validateSchemaNode extends SystemTaskNode {
   }
 }
 
-module.exports = validateSchemaNode;
+module.exports = ValidateSchemaNode;

@@ -29,11 +29,8 @@ beforeAll(async () => {
 
   await cleanDb();
 
-  let response;
-  response = await axios.post("/workflows", workflowSamples.basicStartFinish);
-  basicWorkflowId = response.data.workflow_id;
-  response = await axios.post("/workflows", workflowSamples.singleUserTask);
-  singleUserTaskWorkflowId = response.data.workflow_id;
+  await axios.post("/workflows", workflowSamples.basicStartFinish);
+  await axios.post("/workflows", workflowSamples.singleUserTask);
 });
 
 afterAll(async () => {

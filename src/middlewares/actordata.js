@@ -36,7 +36,8 @@ const captureActorData = async (ctx, next) => {
   const session_id = ctx.state.user.session_id;
 
   if (ctx.state.actor_data) {
-    (ctx.state.actor_data["actor_id"] = actor_id), (ctx.state.actor_data["claims"] = claims);
+    ctx.state.actor_data["actor_id"] = actor_id;
+    ctx.state.actor_data["claims"] = claims;
     ctx.state.actor_data.trace = trace;
     ctx.state.actor_data["session_id"] = session_id;
   } else {

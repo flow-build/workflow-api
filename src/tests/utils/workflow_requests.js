@@ -326,55 +326,55 @@ const _createProcess = async (server, auth_header, workflow_id, body) => {
 const workflowRequests = (server, auth_header) => {
   return {
     save: async (body) => {
-      return await _save(server, auth_header, body);
+      return _save(server, auth_header, body);
     },
     saveSystemTask: async (name, description) => {
       const dto = _.cloneDeep(workflow_dtos.save.system_task_workflow);
       dto.name = name || dto.name;
       dto.description = description || dto.description;
-      return await _save(server, auth_header, dto);
+      return _save(server, auth_header, dto);
     },
     saveUserTask: async (name, description) => {
       const dto = _.cloneDeep(workflow_dtos.save.user_task_workflow);
       dto.name = name || dto.name;
       dto.description = description || dto.description;
-      return await _save(server, auth_header, dto);
+      return _save(server, auth_header, dto);
     },
     saveCustomTask: async (name, description) => {
       const dto = _.cloneDeep(workflow_dtos.save.custom_task_workflow);
       dto.name = name || dto.name;
       dto.description = description || dto.description;
-      return await _save(server, auth_header, dto);
+      return _save(server, auth_header, dto);
     },
     saveUserScriptTask: async (name, description) => {
       const dto = _.cloneDeep(workflow_dtos.save.user_script_task);
       dto.name = name || dto.name;
       dto.description = description || dto.description;
-      return await _save(server, auth_header, dto);
+      return _save(server, auth_header, dto);
     },
     saveMany: async (blueprint_spec, num) => {
       return _saveMany(server, auth_header, blueprint_spec, num);
     },
     fetch: async (workflow_id) => {
-      return await request(server)
+      return request(server)
         .get(`/workflows/${workflow_id}`)
         .set(...auth_header);
     },
     fetchForActor: async () => {
-      return await request(server)
+      return request(server)
         .get("/workflows")
         .set(...auth_header);
     },
     delete: async (workflow_id) => {
-      return await request(server)
+      return request(server)
         .delete(`/workflows/${workflow_id}`)
         .set(...auth_header);
     },
     createProcess: async(workflow_id, body) => {
-      return await _createProcess(server, auth_header, workflow_id, body);
+      return _createProcess(server, auth_header, workflow_id, body);
     },
     createProcessByWorkflowName: async (workflow_name, body) => {
-      return await request(server)
+      return request(server)
         .post(`/workflows/name/${workflow_name}/create`)
         .send(body)
         .set(...auth_header);
@@ -396,7 +396,7 @@ const workflowRequests = (server, auth_header) => {
       return map;
     },
     fetchProcessList: async (workflow_id) => {
-      return await request(server)
+      return request(server)
         .get(`/workflows/${workflow_id}/processes`)
         .set(...auth_header);
     }

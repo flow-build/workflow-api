@@ -8,7 +8,7 @@ const { nanoid } = require("nanoid");
 const { createJWTToken } = require("../services/tokenGenerator");
 const { jwtSecret } = require("../utils/jwtSecret");
 
-class tokenizeNode extends SystemTaskNode {
+class TokenizeNode extends SystemTaskNode {
   static get rules() {
     const inputRules = {};
     return {
@@ -18,7 +18,7 @@ class tokenizeNode extends SystemTaskNode {
   }
 
   validate() {
-    return tokenizeNode.validate(this._spec);
+    return TokenizeNode.validate(this._spec);
   }
 
   async _run(executionData) {
@@ -55,4 +55,4 @@ class tokenizeNode extends SystemTaskNode {
   }
 }
 
-module.exports = tokenizeNode;
+module.exports = TokenizeNode;

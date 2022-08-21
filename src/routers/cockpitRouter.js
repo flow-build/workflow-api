@@ -29,7 +29,7 @@ module.exports = (opts = {}) => {
     }
   }
 
-  const workflows = Router();
+  const workflows = new Router();
   workflows.prefix("/workflows");
   workflows.get("/stats", cockpitController.fetchWorkflowsWithProcessStatusCount);
   workflows.get("/:id/processes", validateUUID, cp.getProcessesByWorkflowId);
@@ -39,7 +39,7 @@ module.exports = (opts = {}) => {
   workflows.post("/validate", wv.saveWorkflow, workflowCtrl.validateBlueprint);
   workflows.post("/compare", wv.saveWorkflow, workflowCtrl.compareBlueprint);
 
-  const processes = Router();
+  const processes = new Router();
   processes.prefix("/processes");
   processes.get("/:id/execution", validateUUID, cp.getProcessExecution);
   processes.post("/:id/state", validateUUID, cockpitValidator.validateSetProcessState, cp.setProcessState);
