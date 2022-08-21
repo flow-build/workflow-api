@@ -5,7 +5,7 @@ const test_schemas_blueprint = require("./blueprints/test_schemas_blueprint");
 const test_subprocess_parent = require("./blueprints/test_subprocess_parent");
 const test_subprocess_child = require("./blueprints/test_subprocess_child");
 
-exports.seed = function(knex, Promise) {
+exports.seed = function(knex) {
   // Deletes ALL existing entries
   return knex('workflow').del()
     .then(function () {
@@ -42,7 +42,6 @@ exports.seed = function(knex, Promise) {
           description: "Workflow para rodar testes de subprocess, processo filho",
           blueprint_spec: test_subprocess_child,
           version: 1,
-          blueprint_spec: test_workflow_blueprint
         },
         {
           id: "7be513f4-98dc-43e2-8f3a-66e68a61aca8",
