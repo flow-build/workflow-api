@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 exports.up = function(knex, Promise) {
   return knex.schema.createTable("activity_manager", table => {
     table.uuid("id").primary();
@@ -12,6 +11,6 @@ exports.up = function(knex, Promise) {
   });
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function(knex) {
   return knex.schema.dropTable("activity_manager");
 };

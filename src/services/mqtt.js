@@ -23,16 +23,15 @@ async function connect() {
   } catch (error) {
     logger.error(error);
   }
-  return;
 }
 
 async function publishMessage(topic, message) {
   let response;
   if (process.env.MQTT === "true") {
-    logger.info(`[mqtt] publishing message to topic ${topic}`);
+    logger.silly(`[mqtt] publishing message to topic ${topic}`);
     if (client) {
       response = await client.publish(topic, JSON.stringify(message), { qos: 1 });
-      logger.info(`[mqtt] Broker messageId: ${response.messageId}`);
+      logger.debug(`[mqtt] Broker messageId: ${response.messageId} on topic ${topic}`);
     } else {
       logger.info("[mqtt] No client");
     }
@@ -40,7 +39,12 @@ async function publishMessage(topic, message) {
   return response;
 }
 
+function getClient() { 
+  return client;
+}
+
 module.exports = {
+  getClient,
   publishMessage: publishMessage,
   connect: connect,
 };

@@ -25,8 +25,7 @@ beforeAll(async () => {
 
   await cleanDb();
 
-  workflow = await axios.post("/workflows", workflowSamples.singleUserTask);
-  singleUserTaskWorkflowId = workflow.data.workflow_id;
+  await axios.post("/workflows", workflowSamples.singleUserTask);
 });
 
 beforeEach(async () => {

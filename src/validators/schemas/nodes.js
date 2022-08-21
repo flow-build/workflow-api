@@ -94,7 +94,9 @@ const nodeSchema = {
           actor_data: {
             type: "object",
           },
-          workflow_name: { type: "string" },
+          workflow_name: {
+            oneOf: [{ type: "string" },{ type: "object"}]
+          },
           valid_response: { type: "string" },
           input: {
             type: "object",
@@ -141,8 +143,12 @@ const categorySchema = {
             enum: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"],
           },
           header: { type: "object" },
-          timeout: { type: "number" },
-          max_content_length: { type: "number" },
+          timeout: {
+            oneOf: [{ type: "number" },{ type: "object"}]
+          },
+          max_content_length: {
+            oneOf: [{ type: "number" },{ type: "object"}]
+          },
         },
         required: ["url", "verb"],
       },
@@ -152,7 +158,9 @@ const categorySchema = {
   timer: {
     type: "object",
     properties: {
-      timeout: { type: "number" },
+      timeout: {
+        oneOf: [{ type: "number" },{ type: "object"}]
+      },
       input: { type: "object" },
     },
     required: ["timeout", "input"],

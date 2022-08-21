@@ -23,7 +23,7 @@ module.exports = {
     connection: {
       host: "flowbuild_db",
       user: "postgres",
-      password: "postgres",
+      password: process.env.POSTGRES_PASSWORD || "postgres",
       database: "workflow",
     },
     migrations: {
@@ -38,7 +38,7 @@ module.exports = {
     connection: {
       host: "localhost",
       user: "postgres",
-      password: "postgres",
+      password: process.env.POSTGRES_PASSWORD || "postgres",
       database: "workflow",
       port: 5432,
     },

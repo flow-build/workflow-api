@@ -2,6 +2,8 @@ const Koa = require("koa");
 const cors = require("koa2-cors");
 const koaLogger = require("koa-logger-winston");
 const jwt = require("koa-jwt");
+const { userAgent } = require("koa-useragent");
+const helmet = require("koa-helmet");
 
 const freeRouter = require("./routers/freeRouter");
 const mainRouter = require("./routers/mainRouter");
@@ -13,6 +15,7 @@ const cockpitService = require("./services/cockpit");
 const { setCustomNodes } = require("../src/nodes");
 
 const _log = require("./utils/logger");
+const elog = require("./utils/engineLogger");
 const listeners = require("./utils/engineListener");
 const mqtt = require("./services/mqtt");
 const { db } = require("./utils/db");
@@ -21,10 +24,6 @@ const { setPersist } = require("./middlewares/persist");
 
 const startServer = (port) => {
   const engineLogLevel = process.env.ENGINE_LOG_LEVEL || "error";
-
-  const app = new Koa();
-  app.use(koaLogger(_log.logger));
-  _log.startLogger();
 
   let engine = getEngine();
   if (!engine) {
@@ -54,11 +53,17 @@ const startServer = (port) => {
   
   const corsOptions = {
     origin: "*",
-    allowMethods: ["GET", "POST", "DELETE"],
+    allowMethods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
     allowHeaders: ["Content-Type", "Authorization", "Accept", "x-duration", "x-secret"],
   };
   app.use(cors(corsOptions));
+  app.use(helmet());
   app.use(setPersist(db));
+  app.use(userAgent);
+  app.proxy = true;
+
+  app.use(koaLogger(_log.logger));
+  _log.startLogger();
 
   app.use(freeRouter({ corsOptions }).routes());
 

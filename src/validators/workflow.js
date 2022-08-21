@@ -19,7 +19,7 @@ validateNodes = async (ctx, next) => {
 
     let nodeCategory;
     if (nodeType === "systemtask") {
-      nodeCategory = node.category.toLowerCase();
+      nodeCategory = node.category?.toLowerCase() || '';
     }
 
     let typeValidation = {};

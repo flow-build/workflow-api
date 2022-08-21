@@ -1,9 +1,12 @@
-const router = require("./src/router");
-const { setEngine,
-        setCockpit } = require("./src/engine");
+const freeRouter = require("./src/routers/freeRouter");
+const mainRouter = require("./src/routers/mainRouter");
+const cockpitRouter = require("./src/routers/cockpitRouter");
+const { setEngine, setCockpit } = require("./src/engine");
 
 module.exports = {
-  router,
+  freeRouter,
+  mainRouter,
+  cockpitRouter,
   setEngine,
   setCockpit,
 };

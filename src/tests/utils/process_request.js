@@ -23,34 +23,34 @@ const process_dtos = {
 const processRequests = (server, auth_header) => {
   return {
     fetch: async (process_id) => {
-      return await request(server)
+      return request(server)
         .get(`/processes/${process_id}`)
         .set(...auth_header);
     },
     fetchList: async (filters = {}) => {
-      return await request(server)
+      return request(server)
         .get("/processes")
         .query(filters)
         .set(...auth_header);
     },
     fetchStateHistory: async (process_id) => {
-      return await request(server)
+      return request(server)
         .get(`/processes/${process_id}/history`)
         .set(...auth_header);
     },
     fetchState: async (process_id) => {
-      return await request(server)
+      return request(server)
         .get(`/processes/${process_id}`)
         .set(...auth_header);
     },
     runProcess: async (process_id, body) => {
-      return await request(server)
+      return request(server)
         .post(`/processes/${process_id}/run`)
         .send(body)
         .set(...auth_header);
     },
     abort: async (process_id) => {
-      return await request(server)
+      return request(server)
         .post(`/processes/${process_id}/abort`)
         .set(...auth_header);
     },

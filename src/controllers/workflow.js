@@ -4,6 +4,25 @@ const { compareBlueprints } = require("../services/compareBlueprints");
 const { logger } = require("../utils/logger");
 const { validateEnvironmentVariable } = require("../validators/workflow");
 
+const serializeWorkflow = (workflow) => {
+  return {
+    workflow_id: workflow.id,
+    created_at: workflow.created_at,
+    name: workflow.name,
+    description: workflow.description,
+    version: workflow._version,
+    hash: workflow._blueprint_hash,
+    blueprint_spec: workflow.blueprint_spec,
+    isLatest: workflow._latest,
+  };
+};
+
+const serializeWorkflowNoBlueprint = (workflow) => {
+  const w = serializeWorkflow(workflow);
+  delete w.blueprint_spec;
+  return w;
+};
+
 const saveWorkflow = async (ctx, next) => {
   logger.verbose("Called saveWorkflow");
 
@@ -21,7 +40,7 @@ const saveWorkflow = async (ctx, next) => {
         workflow_id: workflow.id,
         hash: workflow._blueprint_hash,
         version: workflow._version,
-        warnings: environmentValidation
+        warnings: environmentValidation,
       };
     } else {
       ctx.status = 400;
@@ -46,15 +65,7 @@ const getWorkflowsForActor = async (ctx, next) => {
   const workflows = await cockpit.getWorkflowsForActor(actor_data);
   ctx.status = 200;
   ctx.body = _.map(workflows, (workflow) => {
-    const result = workflow;
-    return {
-      workflow_id: result.id,
-      created_at: result.created_at,
-      name: result.name,
-      description: result.description,
-      version: result.version,
-      hash: result.blueprint_hash,
-    };
+    return serializeWorkflowNoBlueprint(workflow);
   });
 
   return next();
@@ -91,15 +102,7 @@ const fetchWorkflow = async (ctx, next) => {
   const result = await engine.fetchWorkflow(workflow_id);
   if (result) {
     ctx.status = 200;
-    ctx.body = {
-      workflow_id: result.id,
-      created_at: result.created_at,
-      name: result.name,
-      description: result.description,
-      version: result._version,
-      hash: result._blueprint_hash,
-      blueprint_spec: result.blueprint_spec,
-    };
+    ctx.body = serializeWorkflow(result);
   } else {
     ctx.status = 204;
   }
@@ -115,15 +118,7 @@ const fetchWorkflowByName = async (ctx, next) => {
   const result = await await engine.fetchWorkflowByName(workflow_name);
   if (result) {
     ctx.status = 200;
-    ctx.body = {
-      workflow_id: result.id,
-      created_at: result.created_at,
-      name: result.name,
-      description: result.description,
-      version: result._version,
-      hash: result._blueprint_hash,
-      blueprint_spec: result.blueprint_spec,
-    };
+    ctx.body = serializeWorkflow(result);
   } else {
     ctx.status = 204;
   }
@@ -139,22 +134,20 @@ const deleteWorkflow = async (ctx, next) => {
   const workflowId = ctx.params.id;
   const workflow = await engine.fetchWorkflow(workflowId);
   if (!workflow) {
-    (ctx.status = 404),
-    (ctx.body = ctx.body =
-        {
-          message: "No such workflow",
-        });
+    ctx.status = 404;
+    ctx.body = {
+      message: "No such workflow",
+    };
     return;
   }
 
   const filters = { workflow_id: workflowId };
   const processes = await cockpit.fetchProcessList(filters);
   if (processes.length > 0) {
-    (ctx.status = 422),
-    (ctx.body = ctx.body =
-        {
-          message: "Cannot delete workflows with processes",
-        });
+    ctx.status = 422;
+    ctx.body = {
+      message: "Cannot delete workflows with processes",
+    };
     return;
   }
 
@@ -203,8 +196,8 @@ const createProcess = async (ctx, next) => {
   const workflow_id = ctx.params.id;
   const actor_data = ctx.state.actor_data;
   const input = ctx.request.body;
-  const workflow = await engine.fetchWorkflow(workflow_id); 
-  
+  const workflow = await engine.fetchWorkflow(workflow_id);
+
   if (workflow) {
     const process = await engine.createProcess(workflow_id, actor_data, input);
     if (process) {
@@ -215,7 +208,7 @@ const createProcess = async (ctx, next) => {
           id: workflow.id,
           name: workflow.name,
           version: workflow._version,
-        }
+        },
       };
     } else {
       ctx.status = 404;
@@ -225,7 +218,6 @@ const createProcess = async (ctx, next) => {
     ctx.status = 404;
     ctx.body = { message: `No such workflow` };
   }
-  
 
   return next();
 };
@@ -250,7 +242,7 @@ const createProcessByName = async (ctx, next) => {
           id: workflow.id,
           name: workflow.name,
           version: workflow._version,
-        }
+        },
       };
     } else {
       ctx.status = 404;
@@ -285,7 +277,7 @@ const createAndRunProcessByName = async (ctx, next) => {
           id: workflow.id,
           name: workflow.name,
           version: workflow._version,
-        }
+        },
       };
     } else {
       ctx.status = 404;
@@ -344,17 +336,17 @@ const compareBlueprint = async (ctx, next) => {
           comparison: compare.comparison,
         };
       } else {
-        (ctx.status = 404),
-        (ctx.body = {
+        ctx.status = 404;
+        ctx.body = {
           status: "No workflow with this name",
-        });
+        };
       }
     } else {
-      (ctx.status = 200),
-      (ctx.body = {
+      ctx.status = 200;
+      ctx.body = {
         status: "No changes found",
         current_workflow: compare.current_workflow,
-      });
+      };
     }
   } catch (err) {
     logger.error(err);

@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { createLogger, format, transports } = require("winston");
 
 const logger = createLogger({
@@ -67,12 +68,6 @@ const startLogger = () => {
     engineLogger[logLevel](logMessage);
   });
 
-  emitter.on("ENGINE.CONTRUCTOR", (message) => {
-    logLevel = "warn";
-    logMessage = message;
-    engineLogger[logLevel](logMessage);
-  });
-
   emitter.on("EXECUTION_LOOP.ROLLBACK", (message, variables) => {
     logLevel = "warn";
     logMessage = message;
@@ -98,7 +93,5 @@ const startLogger = () => {
 };
 
 module.exports = {
-  logger,
-  startLogger,
-  engineLogger,
+  logger
 };

@@ -28,8 +28,6 @@ fs.readdir(directory, async (err, files) => {
     logger.error("Unable to find blueprints directory");
     process.exit(1);
   }
-
-  const summary = [];
   files.forEach(async (file) => {
     if (path.extname(`../${directory}/${file}`) === ".js") {
       const scriptName = path.basename(`../${directory}/${file}`, ".js");

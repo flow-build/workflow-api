@@ -20,7 +20,7 @@ const buildDiagram = async (ctx, next) => {
       };
       return;
     }
-    workflow = await engine.fetchWorkflow(workflowId);
+    const workflow = await engine.fetchWorkflow(workflowId);
     if(!workflow) {
       ctx.status = 404;
       ctx.body = { message: "No such workflow" };

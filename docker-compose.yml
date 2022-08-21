@@ -2,7 +2,7 @@ version: "3"
 
 services:
   postgres:
-    image: postgres:11.4
+    image: postgres:14.5
     container_name: flowbuild_db
     restart: always
     env_file:
@@ -11,7 +11,7 @@ services:
       - 5432:5432
 
   app:
-    image: node:17.4
+    image: node:16.15
     env_file:
       - ./.env.docker
     container_name: flowbuild_app
@@ -26,13 +26,13 @@ services:
     working_dir: /usr/app
     #command: ./scripts/start_dev.sh
     #command: bash -c " npm update && npm install knex -g && npm install nodemon -g && npm install && npm rebuild && npm run migrations && npm run seeds && npm run start "
-    command: bash -c " npm install && npm run migrations && npm run seeds && npm run start "
+    #command: bash -c " npm install && npm audit fix && npm run migrations && npm run seeds && npm run start "
 
   socket:
     image: hivemq/hivemq4:latest
     container_name: flowbuild_mqtt
     restart: on-failure:10
     ports:
-      - 8080:8080
+      - 8081:8080
       - 1883:1883
       - 8000:8000
