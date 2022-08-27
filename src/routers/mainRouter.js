@@ -78,6 +78,8 @@ module.exports = (opts = {}) => {
   const states = new Router();
   states.prefix("/states");
   states.get("/:id", baseValid.validateUUID, statesCtrl.fetchById);
+  states.get("/:id/execution", baseValid.validateUUID, statesCtrl.calculateExecutionData);
+  states.get("/:id/spec", baseValid.validateUUID, statesCtrl.fetchSpec);
   states.get("/process/:id", baseValid.validateUUID, statesCtrl.fetchStateByParameters);
 
   const activityManager = new Router();
