@@ -1,22 +1,49 @@
-/* eslint-disable no-unused-vars */
-const { ProcessStatus, Nodes } = require("@flowbuild/engine");
-const { Validator } = require("@flowbuild/engine/src/core/validators");
-const obju = require("@flowbuild/engine/src/core/utils/object");
+const { ProcessStatus, Nodes, utils } = require("@flowbuild/engine");
+const Ajv = require("ajv");
+const addFormats = require("ajv-formats");
 const { Index } = require("@flowbuild/indexer");
-const { prepare } = require("@flowbuild/engine/src/core/utils/input");
 const { logger } = require("../utils/logger");
 const { db } = require("../utils/db");
 
 class CreateIndexNode extends Nodes.SystemTaskNode {
-  static get rules() {
-    const inputRules = {
-      input_has_entity_type: [obju.hasField, "entity_type"],
-      input_has_entity_id: [obju.hasField, "entity_id"],
-    };
+  static get schema() {
     return {
-      ...super.rules,
-      input_nested_validations: [new Validator(inputRules), "parameters.input"],
+      type: "object",
+      required: ["id", "name", "next", "type", "lane_id", "parameters"],
+      properties: {
+        id: { type: "string" },
+        name: { type: "string" },
+        next: { type: "string" },
+        type: { type: "string" },
+        category: { type: "string" },
+        lane_id: { type: "string" },
+        parameters: {
+          type: "object",
+          properties: {
+            input: {
+              type: "object",
+              required: ["entity_type", "entity_id"],
+              properties: {
+                entity_type: { 
+                  oneOf: [{ type: "string" }, { type: "object" }],
+                },
+                entity_id: {
+                  oneOf: [{ type: "string" }, { type: "object" }],
+                },
+              },
+            },
+          },
+        },
+      },
     };
+  }
+
+  static validate(spec) {
+    const ajv = new Ajv({ allErrors: true });
+    addFormats(ajv);
+    const validate = ajv.compile(CreateIndexNode.schema);
+    const validation = validate(spec);
+    return [validation, JSON.stringify(validate.errors)];
   }
 
   validate() {
@@ -24,15 +51,16 @@ class CreateIndexNode extends Nodes.SystemTaskNode {
   }
 
   _preProcessing({ bag, input, actor_data, environment, parameters }) {
-    return prepare(this._spec.parameters.input, {
+    return utils.prepare(this._spec.parameters.input, {
       bag: bag,
       result: input,
-      actor_data: actor_data,
-      environment: environment,
+      actor_data,
+      environment,
+      parameters
     });
   }
 
-  async run({ bag = {}, input = {}, actor_data = {}, environment = {}, process_id = null, parameters = {} }, lisp) {
+  async run({ bag = {}, input = {}, actor_data = {}, environment = {}, process_id = null, parameters = {} }) {
     const hrt_run_start = process.hrtime();
     try {
       logger.debug("[Indexer] createIndex Node");

@@ -1,20 +1,41 @@
-const { SystemTaskNode } = require("@flowbuild/engine/src/core/workflow/nodes");
-const { Validator } = require("@flowbuild/engine/src/core/validators");
-const { ProcessStatus } = require("@flowbuild/engine/src/core/workflow/process_state");
+const { ProcessStatus, Nodes } = require("@flowbuild/engine");
+const Ajv = require("ajv");
+const addFormats = require("ajv-formats");
 const { logger } = require("../utils/logger");
-
 const { v1: uuid } = require("uuid");
 const { nanoid } = require("nanoid");
 const { createJWTToken } = require("../services/tokenGenerator");
 const { jwtSecret } = require("../utils/jwtSecret");
 
-class TokenizeNode extends SystemTaskNode {
-  static get rules() {
-    const inputRules = {};
+class TokenizeNode extends Nodes.SystemTaskNode {
+  static get schema() {
     return {
-      ...super.rules,
-      input_nested_validations: [new Validator(inputRules), "parameters.input"],
+      type: "object",
+      required: ["id", "name", "next", "type", "lane_id", "parameters"],
+      properties: {
+        id: { type: "string" },
+        name: { type: "string" },
+        next: { type: "string" },
+        type: { type: "string" },
+        category: { type: "string" },
+        lane_id: { type: "string" },
+        parameters: {
+          type: "object",
+          required: ["input"],
+          properties: {
+            input: { type: "object" },
+          },
+        },
+      },
     };
+  }
+
+  static validate(spec) {
+    const ajv = new Ajv({ allErrors: true });
+    addFormats(ajv);
+    const validate = ajv.compile(TokenizeNode.schema);
+    const validation = validate(spec);
+    return [validation, JSON.stringify(validate.errors)];
   }
 
   validate() {
