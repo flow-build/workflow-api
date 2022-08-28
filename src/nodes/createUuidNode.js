@@ -6,7 +6,7 @@ const { nanoid } = require("nanoid");
 const uuid = require("uuid");
 
 class CreateUuidNode extends Nodes.SystemTaskNode {
-  static schema() {
+  static get schema() {
     return {
       type: "object",
       required: ["id", "name", "next", "type", "lane_id", "parameters"],
@@ -45,7 +45,7 @@ class CreateUuidNode extends Nodes.SystemTaskNode {
   static validate(spec) {
     const ajv = new Ajv({ allErrors: true });
     addFormats(ajv);
-    const validate = ajv.compile(CreateUuidNode.schema());
+    const validate = ajv.compile(CreateUuidNode.schema);
     const validation = validate(spec);
     return [validation, JSON.stringify(validate.errors)];
   }

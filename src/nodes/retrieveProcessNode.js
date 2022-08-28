@@ -8,7 +8,7 @@ const { db } = require("../tests/utils/db");
 
 class RetrieveProcessesNode extends Nodes.SystemTaskNode {
 
-  static schema() {
+  static get schema() {
     return {
       type: "object",
       required: ["id", "name", "next", "type", "lane_id", "parameters"],
@@ -48,7 +48,7 @@ class RetrieveProcessesNode extends Nodes.SystemTaskNode {
   static validate(spec) {
     const ajv = new Ajv({ allErrors: true });
     addFormats(ajv);
-    const validate = ajv.compile(RetrieveProcessesNode.schema());
+    const validate = ajv.compile(RetrieveProcessesNode.schema);
     const validation = validate(spec);
     return [validation, JSON.stringify(validate.errors)];
   }

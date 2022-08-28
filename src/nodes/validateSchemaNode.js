@@ -1,31 +1,65 @@
-const { SystemTaskNode } = require("@flowbuild/engine/src/core/workflow/nodes");
-const { Validator } = require("@flowbuild/engine/src/core/validators");
-const obju = require("@flowbuild/engine/src/core/utils/object");
-const { ProcessStatus } = require("@flowbuild/engine/src/core/workflow/process_state");
+const { ProcessStatus, Nodes } = require("@flowbuild/engine");
+const Ajv = require("ajv");
+const addFormats = require("ajv-formats");
 const { logger } = require("../utils/logger");
 
-const { validateDataWithSchema } = require("../validators/base");
-
-class ValidateSchemaNode extends SystemTaskNode {
-  static get rules() {
-    const inputRules = {
-      input_has_schema: [obju.hasField, "schema"],
-      input_has_data: [obju.hasField, "data"],
-    };
+class ValidateSchemaNode extends Nodes.SystemTaskNode {
+  static get schema() {
     return {
-      ...super.rules,
-      input_nested_validations: [new Validator(inputRules), "parameters.input"],
+      type: "object",
+      required: ["id", "name", "next", "type", "lane_id", "parameters"],
+      properties: {
+        id: { type: "string" },
+        name: { type: "string" },
+        next: { type: "string" },
+        type: { type: "string" },
+        category: { type: "string" },
+        lane_id: { type: "string" },
+        parameters: {
+          type: "object",
+          required: ["input"],
+          properties: {
+            input: {
+              type: "object",
+              required: ["schema", "data"],
+              properties: {
+                schema: { type: "object" },
+                data: { type: "object" },
+              },
+            },
+          },
+        },
+      },
     };
   }
 
+  static validate(spec) {
+    const ajv = new Ajv({ allErrors: true });
+    addFormats(ajv);
+    const validate = ajv.compile(ValidateSchemaNode.schema);
+    const validation = validate(spec);
+    return [validation, JSON.stringify(validate.errors)];
+  }
+
   validate() {
-    return validateSchemaNode.validate(this._spec);
+    return ValidateSchemaNode.validate(this._spec);
   }
 
   async _run(executionData) {
     try {
-      const result = validateDataWithSchema(executionData.schema, executionData.data);
-      return [{ data: result }, ProcessStatus.RUNNING];
+      const ajv = new Ajv({ allErrors: true });
+      addFormats(ajv);
+      const validate = ajv.compile(executionData.schema);
+      const validation = validate(executionData.data);
+      return [
+        {
+          data: {
+            is_valid: validation,
+            errors: validate.errors,
+          },
+        },
+        ProcessStatus.RUNNING,
+      ];
     } catch (err) {
       logger.error("[validateSchemaNode] Node failed", err);
       throw err;
