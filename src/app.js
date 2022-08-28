@@ -4,6 +4,8 @@ const koaLogger = require("koa-logger-winston");
 const jwt = require("koa-jwt");
 const { userAgent } = require("koa-useragent");
 const helmet = require("koa-helmet");
+const serve = require('koa-static');
+const pathToSwaggerUi = require('swagger-ui-dist').absolutePath()
 
 const freeRouter = require("./routers/freeRouter");
 const mainRouter = require("./routers/mainRouter");
@@ -62,6 +64,10 @@ const startServer = (port) => {
   app.proxy = true;
 
   app.use(koaLogger(_log.logger));
+
+  app.use(serve(pathToSwaggerUi, { index: false }))
+  app.use(serve('public/swagger-ui', { index: false }))
+  app.use(serve('res/swagger', { index: false }))
 
   app.use(freeRouter({ corsOptions }).routes());
 

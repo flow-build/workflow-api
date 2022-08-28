@@ -1,3 +1,18 @@
+## [2.5.0] (2022-08-28)
+
+
+### Features
+
+* **routers:** adds get state execution route to check the prepared execution data resolved to that state
+* **routers:** adds get state spec route to get the node spec of that state
+
+## [2.4.0] (2022-08-21)
+
+
+### Features
+
+* **routers:** adds to the get process route a property whether the workflow is the latest version.
+
 ## [2.3.0](https://github.com/flow-build/workflow/compare/v2.2.0...v2.3.0) (2022-06-07)
 
 
