@@ -1,3 +1,7 @@
+## [2.5.2] (2022-08-29)
+
+* **healtcheck**: add configuration to response payload
+
 ## [2.5.1] (2022-08-29)
 
 * **validators**: fix activity schema validation on validate and create workflow
