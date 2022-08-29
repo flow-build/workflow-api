@@ -30,6 +30,18 @@ const saveWorkflow = async (ctx, next) => {
   const { workflow_id, name, description, blueprint_spec } = ctx.request.body;
 
   try {
+    await engine.validateBlueprint(blueprint_spec)
+  } catch (err) {
+    ctx.status = 400;
+    ctx.body = {
+      error: "Invalid blueprint",
+      message: `Failed at ${err.message}`,
+    };
+    return next();
+  }
+
+  try {
+
     const response = await engine.saveWorkflow(name, description, blueprint_spec, workflow_id);
     const environmentValidation = validateEnvironmentVariable(blueprint_spec);
     logger.debug("Workflow Created");

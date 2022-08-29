@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
-  title: Koa Workflow
-  description: "Routes for accessing workflow methods"
-  version: 1.0.0
+  title: Flowbuild Server
+  description: "Routes for accessing flowbuild methods"
+  version: 2.5.1-alpha
 servers:
 - url: http://localhost:3000
 tags:
@@ -60,7 +60,7 @@ paths:
     post:
       tags:
       - Workflow
-      summary: "Save workflow"
+      summary: "Create a new workflow"
       responses:
         '200':
           description: "Workflow saved successfully"
@@ -127,39 +127,6 @@ paths:
           description: "Workflow not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-
-  /workflows/{id}/status:
-    get:
-      tags:
-      - Workflow
-      summary: "Fetch process count from status"
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "workflow_id"
-        required: true
-        schema:
-          type: "string"
-      - name: "status"
-        in: "query"
-        required: true
-        schema:
-          type: "string"
-          example: "unstarted"
-      responses:
-        '200':
-          description: "Process count"
-          content:
-            application/json:
-              schema:
-                type: "object"
-                properties:
-                  count:
-                    type: "integer"
-        '404':
-          description: "Workflow not found"
-        '401':
-          $ref: "#/components/responses/UnauthorizedError"
   /workflows/{id}/processes:
     get:
       tags:
@@ -185,7 +152,7 @@ paths:
     post:
       tags:
       - Process
-      summary: "Create process"
+      summary: "Create a process based based on the workflow provided"
       parameters:
       - name: "id"
         in: "path"
@@ -212,6 +179,29 @@ paths:
                     example: "cc5ed811-4519-400a-a2c5-80691b974c30"
                   process_url:
                     type: "string"
+        '404':
+          description: "Workflow not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+  /workflows/name/{name}:
+    get:
+      tags:
+      - Workflow
+      summary: "Get the latest version of the workflow with the name"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "workflow name"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "Workflow with desired name found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Workflow"
         '404':
           description: "Workflow not found"
         '401':
@@ -249,7 +239,44 @@ paths:
           description: "Workflow not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-  # routes after here need to be reviewed
+  /workflows/name/{name}/start:
+    post:
+      tags:
+      - Process
+      summary: "Creates and runs a process from workflow name"
+      parameters:
+      - name: "name"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+      responses:
+        '201':
+          description: "Process created and started"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  process_id:
+                    type: "string"
+                    example: "cc5ed811-4519-400a-a2c5-80691b974c30"
+                  process_url:
+                    type: "string"
+        '404':
+          description: "Workflow not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+  /workflows/diagram:
+    post:
+  /workflows/diagram/convert:
+    post:
+  #routes after here need to be reviewed
   /processes/activityManager/{id}:
     get:
       tags:
