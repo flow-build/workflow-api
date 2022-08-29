@@ -16,10 +16,20 @@ Add a .env file with the following variables:
 - JWT_KEY (default = 1234)
 - KOA_LOG_LEVEL (default = info)
 - ENGINE_LOG_LEVEL (default = error)
-- KNEX_ENV (suggested value = docker)
+- NODE_END (suggested value = docker)
+- KNEX_ENV (suggested value = test)
+- PORT (default to 3000)
 - MQTT (bool)
 - PUBLISH_STATE_EVENTS (bool)
 - PUBLISH_ENGINE_LOGS (bool)
+- POSTGRES_PORT
+- POSTGRES_HOST
+- POSTGRES_DB
+- POSTGRES_USER
+- POSTGRES_PASSWORD
+- ENGINE_HEARTBEAT (bool, turns on-off engine heartbeat)
+- MAX_STEP_NUMBER (integer, maximum number of steps for a process)
+- MAX_CONTENT_LENGTH (integer, max content length for response on http node calls)
 
 ## Run the project on docker:
 

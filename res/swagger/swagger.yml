@@ -91,7 +91,7 @@ paths:
     get:
       tags:
       - Workflow
-      summary: "Fetch workflow by id"
+      summary: "Read workflow by its id"
       description: "Returns a single workflow"
       parameters:
       - name: "id"
@@ -113,7 +113,7 @@ paths:
     delete:
       tags:
       - Workflow
-      summary: "Delete workflow"
+      summary: "Delete a workflow"
       parameters:
       - name: "id"
         in: "path"
@@ -123,6 +123,112 @@ paths:
       responses:
         '204':
           description: "Workflow deleted successfully"
+        '404':
+          description: "Workflow not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+  /workflows/name/{name}:
+    get:
+      tags:
+      - Workflow
+      summary: "Return the latest version of the workflow with that name"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "workflow name"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "Workflow with desired name found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Workflow"
+        '404':
+          description: "Workflow not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+  /workflows/{id}/create:
+    post:
+      tags:
+      - Process
+      summary: "Create a process from the workflow id"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "workflow id"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+        required: true
+      responses:
+        '201':
+          description: "Process created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProcessResponse"
+        '404':
+          description: "Workflow not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+  /workflows/name/{name}/create:
+    post:
+      tags:
+      - Process
+      summary: "Create process from the workflow name"
+      parameters:
+      - name: "name"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+      responses:
+        '201':
+          description: "Process created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProcessResponse"
+        '404':
+          description: "Workflow not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+  /workflows/name/{name}/start:
+    post:
+      tags:
+      - Process
+      summary: "Creates and runs a process from workflow name"
+      parameters:
+      - name: "name"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+      responses:
+        '201':
+          description: "Process created & started"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProcessResponse"
         '404':
           description: "Workflow not found"
         '401':
@@ -146,130 +252,6 @@ paths:
             application/json:
               schema:
                 type: "object"
-        '401':
-          $ref: "#/components/responses/UnauthorizedError"
-  /workflows/{id}/create:
-    post:
-      tags:
-      - Process
-      summary: "Create a process based based on the workflow provided"
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "workflow_id"
-        required: true
-        schema:
-          type: "string"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: "object"
-        required: true
-      responses:
-        '201':
-          description: "Process created"
-          content:
-            application/json:
-              schema:
-                type: "object"
-                properties:
-                  process_id:
-                    type: "string"
-                    example: "cc5ed811-4519-400a-a2c5-80691b974c30"
-                  process_url:
-                    type: "string"
-        '404':
-          description: "Workflow not found"
-        '401':
-          $ref: "#/components/responses/UnauthorizedError"
-  /workflows/name/{name}:
-    get:
-      tags:
-      - Workflow
-      summary: "Get the latest version of the workflow with the name"
-      parameters:
-      - name: "name"
-        in: "path"
-        description: "workflow name"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        '200':
-          description: "Workflow with desired name found"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Workflow"
-        '404':
-          description: "Workflow not found"
-        '401':
-          $ref: "#/components/responses/UnauthorizedError"
-  /workflows/name/{name}/create:
-    post:
-      tags:
-      - Process
-      summary: "Create process from workflow name"
-      parameters:
-      - name: "name"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: "object"
-      responses:
-        '201':
-          description: "Process created"
-          content:
-            application/json:
-              schema:
-                type: "object"
-                properties:
-                  process_id:
-                    type: "string"
-                    example: "cc5ed811-4519-400a-a2c5-80691b974c30"
-                  process_url:
-                    type: "string"
-        '404':
-          description: "Workflow not found"
-        '401':
-          $ref: "#/components/responses/UnauthorizedError"
-  /workflows/name/{name}/start:
-    post:
-      tags:
-      - Process
-      summary: "Creates and runs a process from workflow name"
-      parameters:
-      - name: "name"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: "object"
-      responses:
-        '201':
-          description: "Process created and started"
-          content:
-            application/json:
-              schema:
-                type: "object"
-                properties:
-                  process_id:
-                    type: "string"
-                    example: "cc5ed811-4519-400a-a2c5-80691b974c30"
-                  process_url:
-                    type: "string"
-        '404':
-          description: "Workflow not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /workflows/diagram:
@@ -472,29 +454,6 @@ paths:
                 type: "object"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-  /processes/{id}:
-    get:
-      tags:
-      - Process
-      summary: "Fetch process by id"
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "process_id"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        '200':
-          description: "Workflow with desired id found"
-          content:
-            application/json:
-              schema:
-                type: "object"
-        '404':
-          description: "Process not found"
-        '401':
-          $ref: "#/components/responses/UnauthorizedError"
   /processes/{id}/history:
     get:
       tags:
@@ -513,7 +472,9 @@ paths:
           content:
             application/json:
               schema:
-                type: "object"
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/State"
         '404':
           description: "Process not found"
         '401':
@@ -563,6 +524,28 @@ paths:
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /processes/{id}/state:
+    get:
+      tags:
+      - Process
+      summary: "Fetch process current state"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "process id"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "Process and its current state"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Process"
+        '404':
+          description: "Process not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
     post:
       tags:
       - Process
@@ -673,11 +656,14 @@ components:
       type: "http"
       scheme: "bearer"
       bearerFormat: JWT
-
   responses:
     UnauthorizedError:
       description: "Unauthorized. Missing Bearer token"
-
+      content:
+        application/json:
+          schema:
+            type: "string"
+            example: "Token not found"
   schemas:
     TokenRequest:
       type: "object"
@@ -696,40 +682,174 @@ components:
       - claims
       type: "object"
       properties:
+        jwtToken:
+          type: "string"
+          example: ""
+        payload:
+          type: "object"
+          properties: 
+            actor_id:
+              type: "string"
+              example: "6844da36-aacf-40e7-aedc-576a51dd9046"
+            claims:
+              type: "array"
+              items:
+                type: "string"
+                example: "user"
+            session_id:
+              type: "string"
+              example: "cb-MyzIIStdYtLmMpjwEC"
+            iat: 
+              type: "timestamp"
+              example: 1661807017
+            exp:
+              type: "timestamp"
+              example: 1661810617
+    ActorData: 
+      type: "object"
+      properties: 
+        trace:
+          type: "object"
+          properties:
+            traceparent:
+              type: "string"
+              example: "00-f14a29a59b29532e2434f755551f9ec8-f1aebad5fdce1b0f-01"
+        claims:
+          type: "array"
         actor_id:
           type: "string"
           example: "6844da36-aacf-40e7-aedc-576a51dd9046"
-        claims:
-          type: "array"
-          items:
-            type: "string"
-            example: "user"
+        requestIp: 
+          type: "string"
+          example: "192.168.0.1"
+        session_id:
+          type: "string"
+          example: "cb-MyzIIStdYtLmMpjwEC"
+        userAgent:
+          type: "object"
+          properties:
+            os:  
+              type: "string"
+              example: "linux"
+            browser:
+              type: "string"
+              example: "Mozilla"
+            version:
+              type: "string"
+              example: "7.29.1"
+            isMobile:
+              type: "boolean"
+              example: true
+            platform:
+              type: "string"
+    ProcessResponse:
+      type: "object"
+      properties:
+        process_id:
+          type: "string"
+          example: "6844da36-aacf-40e7-aedc-576a51dd9046"
+        workflow:
+          $ref: "#/components/schemas/WorkflowResume"
+    Process:
+      type: "object"
+      properties: 
+        id: 
+          type: "string"
+          example: "6844da36-aacf-40e7-aedc-576a51dd9046"
+        created_at:
+          type: "date-time"
+          example: "2022-08-29T14:54:48.346Z"
+        workflow:
+          $ref: "#/components/schemas/WorkflowResume"
+        state:
+          $ref: "#/components/schemas/State"
+    State:
+      type: "object"
+      properties: 
+        id: 
+          type: "string"
+          example: "6844da36-aacf-40e7-aedc-576a51dd9046"
+        created_at:
+          type: "string"
+          example: "2020-11-17T20:25:44.188Z"      
+        step_number:
+          type: "integer"
+          example: 1
+        node_id:
+          type: "string"
+          example: "NODE_ONE"
+        next_node_id:
+          type: "string"
+          example: "NODE_TWO"
+        bag:
+          type: "object"
+        external_input:
+          type: "object"
+        result:
+          type: "object"
+        error:
+          type: "string"
+        status:
+          type: "string"
+        actor_data:
+          $ref: "#/components/schemas/ActorData"
+        engine_id:
+          type: "string"
+          example: "6844da36-aacf-40e7-aedc-576a51dd9046"
+        time_elapsed:
+          type: "integer"
+          example: 10
     Timestamp:
       type: "string"
       example: "2020-11-17T20:25:44.188Z"
     Workflows:
       type: "array"
       items:
-        $ref: "#/components/schemas/Workflow"
+        $ref: "#/components/schemas/WorkflowResume"
     Workflow:
       type: "object"
       properties:
-        id:
+        workflow_id:
           type: "string"
           example: "dd349511-3b6b-4271-8a0b-69e47d34c1e4"
         name:
           type: "string"
-          example: "Example workflow"
+          example: "workflow name"
         description:
           type: "string"
-          example: "Description of what the workflow does"
+          example: "what the workflow does"
         blueprint_spec:
           $ref: "#/components/schemas/BlueprintSpec"
         created_at:
-          $ref: "#/components/schemas/Timestamp"
+          type: "date-time"
+          example: "2022-08-29T14:54:48.346Z"
         version:
           type: "integer"
           example: 1
+        hash:
+          type: "string"
+          example: "d94c1fb3daac72db118e8227071d59b1f85e71a3d480e5798aa063796e6b9bb9"
+        isLatest:
+          type: "boolean"
+          example: true
+    WorkflowResume:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          example: "6844da36-aacf-40e7-aedc-576a51dd9046"
+        name:
+          type: "string"
+          example: "workflow name"
+        description: 
+            type: "string"
+            example: "any description"
+        version:
+          type: "integer"
+          example: 1
+        isLatest:
+          type: "boolean"
+          example: true      
     BlueprintSpec:
       type: "object"
       properties:
@@ -747,6 +867,8 @@ components:
               type: "string"
               example: "prepare"
         environment:
+          type: "object"
+        parameters:
           type: "object"
         requirements:
           type: "array"

@@ -22,7 +22,26 @@ const healthCheck = async (ctx, next) => {
       protocol: mqttClient?._client?.options?.protocol,
       client: mqttClient?._client?.options?.clientId
     },
-    
+    configuration: {
+      logLevels: {
+        engine: process.env.ENGINE_LOG_LEVEL,
+        server: process.env.KOA_LOG_LEVEL,
+        pushStateEvents: process.env.PUBLISH_STATE_EVENTS,
+        pushEngineLogs: process.env.PUBLISH_ENGINE_LOGS,
+        pushServerLogs: process.env.PUBLISH_SERVER_LOGS
+      },
+      engine: {
+        heartbeat: process.env.ENGINE_HEARTBEAT,
+        maxStepNumber: process.env.MAX_STEP_NUMBER
+      },
+      httpNodes: {
+        maxLength: process.env.MAX_CONTENT_LENGTH=123456789
+      },
+      newRelic: {
+        active: process.env.NEW_RELIC_ENABLED,
+        name: process.env.NEW_RELIC_APP_NAME
+      }
+    }
   }
 
   return next();
