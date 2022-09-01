@@ -43,6 +43,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TokenResponse'
+
+  #este bloco de rotas é referente aos workflows do mainRouter
+
   /workflows:
     get:
       tags:
@@ -125,6 +128,27 @@ paths:
           description: "Workflow deleted successfully"
         '404':
           description: "Workflow not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+    /workflows/{id}/processes:
+     get:
+      tags:
+      - Process
+      summary: "Fetch process list from workflow"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "workflow_id"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "Process list"
+          content:
+            application/json:
+              schema:
+                type: "object"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /workflows/name/{name}:
@@ -233,16 +257,23 @@ paths:
           description: "Workflow not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-  /workflows/{id}/processes:
+  /workflows/diagram:
+    post:
+  /workflows/diagram/convert:
+    post:
+
+  #este bloco de rotas é referente aos processes do mainRouter
+
+  /processes:
     get:
       tags:
       - Process
-      summary: "Fetch process list from workflow"
+      summary: "Fetch all processes"
+      description: "Returns a single workflow"
       parameters:
-      - name: "id"
-        in: "path"
-        description: "workflow_id"
-        required: true
+      - name: "workflow_id"
+        in: "query"
+        description: "Filter by workflow_id"
         schema:
           type: "string"
       responses:
@@ -252,34 +283,6 @@ paths:
             application/json:
               schema:
                 type: "object"
-        '401':
-          $ref: "#/components/responses/UnauthorizedError"
-  /workflows/diagram:
-    post:
-  /workflows/diagram/convert:
-    post:
-  #routes after here need to be reviewed
-  /processes/activityManager/{id}:
-    get:
-      tags:
-      - Activities
-      summary: "Fetch ActivityManager by id"
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "activity_manager_id"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        '200':
-          description: "ActivityManager with desired id found"
-          content:
-            application/json:
-              schema:
-                type: "object"
-        '404':
-          description: "Workflow not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /processes/available:
@@ -322,8 +325,83 @@ paths:
                 type: "object"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-  /processes/{id}/activity:
+  /processes/{id}/state:
     get:
+      tags:
+      - Process
+      summary: "Fetch process current state"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "process id"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "Process and its current state"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Process"
+        '404':
+          description: "Process not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+    post:
+      tags:
+      - Process
+      summary: "Set process state"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "process_id"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        description: "Process state data"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                process_state:
+                  type: "object"
+      responses:
+        '200':
+          description: "Process state set"
+        '404':
+          description: "Process not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+    /processes/{id}/history:
+     get:
+      tags:
+      - Process
+      summary: "Fetch process state history"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "process_id"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "Process state history"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/State"
+        '404':
+          description: "Process not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+    /processes/{id}/activity:
+     get:
       tags:
       - Activities
       summary: "Fetch available activity for process"
@@ -341,6 +419,73 @@ paths:
             application/json:
               schema:
                 type: "object"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+  /processes/activityManager/{id}:
+    get:
+      tags:
+      - Activities
+      summary: "Fetch ActivityManager by id"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "activity_manager_id"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "ActivityManager with desired id found"
+          content:
+            application/json:
+              schema:
+                type: "object"
+        '404':
+          description: "Workflow not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+  /processes/{id}/run:
+    post:
+      tags:
+      - Process
+      summary: "Run process"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "process_id"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        description: "Input"
+        content:
+          application/json:
+            schema:
+              type: "object"
+      responses:
+        '200':
+          description: "Process running"
+        '404':
+          description: "Process not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+  /processes/{id}/abort:
+    post:
+      tags:
+      - Process
+      summary: "Abort process"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "process_id"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "Process aborted"
+        '404':
+          description: "Process not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /processes/{process_id}/commit:
@@ -397,6 +542,9 @@ paths:
           description: "Workflow not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
+
+  #este bloco de rotas é referente ao activityManager do mainRouter
+
   /activity_manager/{activity_manager_id}/submit:
     post:
       tags:
@@ -433,146 +581,9 @@ paths:
                     example: "error"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-  /processes:
-    get:
-      tags:
-      - Process
-      summary: "Fetch all processes"
-      description: "Returns a single workflow"
-      parameters:
-      - name: "workflow_id"
-        in: "query"
-        description: "Filter by workflow_id"
-        schema:
-          type: "string"
-      responses:
-        '200':
-          description: "Process list"
-          content:
-            application/json:
-              schema:
-                type: "object"
-        '401':
-          $ref: "#/components/responses/UnauthorizedError"
-  /processes/{id}/history:
-    get:
-      tags:
-      - Process
-      summary: "Fetch process state history"
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "process_id"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        '200':
-          description: "Process state history"
-          content:
-            application/json:
-              schema:
-                type: "array"
-                items:
-                  $ref: "#/components/schemas/State"
-        '404':
-          description: "Process not found"
-        '401':
-          $ref: "#/components/responses/UnauthorizedError"
-  /processes/{id}/run:
-    post:
-      tags:
-      - Process
-      summary: "Run process"
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "process_id"
-        required: true
-        schema:
-          type: "string"
-      requestBody:
-        description: "Input"
-        content:
-          application/json:
-            schema:
-              type: "object"
-      responses:
-        '200':
-          description: "Process running"
-        '404':
-          description: "Process not found"
-        '401':
-          $ref: "#/components/responses/UnauthorizedError"
-  /processes/{id}/abort:
-    post:
-      tags:
-      - Process
-      summary: "Abort process"
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "process_id"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        '200':
-          description: "Process aborted"
-        '404':
-          description: "Process not found"
-        '401':
-          $ref: "#/components/responses/UnauthorizedError"
-  /processes/{id}/state:
-    get:
-      tags:
-      - Process
-      summary: "Fetch process current state"
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "process id"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        '200':
-          description: "Process and its current state"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Process"
-        '404':
-          description: "Process not found"
-        '401':
-          $ref: "#/components/responses/UnauthorizedError"
-    post:
-      tags:
-      - Process
-      summary: "Set process state"
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "process_id"
-        required: true
-        schema:
-          type: "string"
-      requestBody:
-        description: "Process state data"
-        content:
-          application/json:
-            schema:
-              type: "object"
-              properties:
-                process_state:
-                  type: "object"
-      responses:
-        '200':
-          description: "Process state set"
-        '404':
-          description: "Process not found"
-        '401':
-          $ref: "#/components/responses/UnauthorizedError"
+
+  #este bloco de rotas é referente aos packages do mainRouter
+
   /packages:
     post:
       tags:
@@ -650,6 +661,9 @@ paths:
           description: "Package not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
+
+# aqui encerra o bloco de rotas referentes aos packages do mainRouter
+
 components:
   securitySchemes:
     BearerAuth:
