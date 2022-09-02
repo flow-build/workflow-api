@@ -600,8 +600,44 @@ paths:
 
 #este bloco de rotas é referente ao activityManager do mainRouter
 
-  /activity_manager/{activity_manager_id}/submit:
+  /activity_manager/{activity_manager_id}/commit:
     post:
+      tags:
+      - Activities
+      summary: "Commit activity by ActivityManager id"
+      parameters:
+      - name: "activity_manager_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        description: "External input"
+        content:
+          application/json:
+            schema:
+              type: "object"
+      responses:
+        '202':
+          description: "Activity committed"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Workflow"
+        '500':
+          description: "Activity manager not found or error committing"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  error:
+                    type: "string"
+                    example: "error"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+    /activity_manager/{activity_manager_id}/submit:
+     post:
       tags:
       - Activities
       summary: "Submit activity by ActivityManager id"
