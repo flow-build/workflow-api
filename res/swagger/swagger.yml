@@ -822,6 +822,32 @@ paths:
         '401':
           $ref: "#/components/responses/UnauthorizedError"
 
+#este bloco de rotas é referente aos activities do mainRouter
+
+/activities/available:
+  get:
+      tags:
+      - Activities
+      summary: "Fetch available activities for actor reduced"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "activity_id"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "These are the available activities"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Process"
+        '404':
+          description: "State not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+
 #este bloco de rotas é referente aos packages do mainRouter
 
   /packages:
