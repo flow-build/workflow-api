@@ -652,6 +652,32 @@ paths:
         '401':
           $ref: "#/components/responses/UnauthorizedError"
 
+#este bloco de rotas é referente aos states do mainRouter
+
+  /states/{id}:
+    get:
+      tags:
+      - States
+      summary: "Fetch state by id"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "state_id"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "Current state of the id"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Process"
+        '404':
+          description: "State not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+
 #este bloco de rotas é referente ao activityManager do mainRouter
 
   /activity_manager/{activity_manager_id}/commit:
