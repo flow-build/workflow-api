@@ -677,7 +677,7 @@ paths:
           description: "State not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-    /states/{id}/execution:
+  /states/{id}/execution:
      get:
       tags:
       - States
@@ -692,6 +692,29 @@ paths:
       responses:
         '200':
           description: "Result of the executed data"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Process"
+        '404':
+          description: "State not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+  /states/{id}/spec:
+     get:
+      tags:
+      - States
+      summary: "Fetch the spec by id"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "state_id"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "Spec of the id"
           content:
             application/json:
               schema:
