@@ -285,6 +285,33 @@ paths:
                 type: "object"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
+    post:
+      tags:
+      - Process
+      summary: "List all processes"
+      parameters:
+      - name: "workflow_id"
+        in: "query"
+        description: "Find process by workflow_id"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        description: "Process list"
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                process_state:
+                  type: "object"
+      responses:
+        '200':
+          description: "Process listed"
+        '404':
+          description: "Process not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
   /processes/available:
     get:
       tags:
