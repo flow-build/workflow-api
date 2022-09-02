@@ -259,8 +259,62 @@ paths:
           $ref: "#/components/responses/UnauthorizedError"
   /workflows/diagram:
     post:
+      tags:
+      - Process
+      summary: "Build a diagram"
+      parameters:
+      - name: "workflow_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+        required: true
+      responses:
+        '201':
+          description: "Diagram built"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProcessResponse"
+        '404':
+          description: "Diagram not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+   
   /workflows/diagram/convert:
-    post:
+   post:
+      tags:
+      - Process
+      summary: "Build a blueprint"
+      parameters:
+      - name: "workflow_id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+        required: true
+      responses:
+        '201':
+          description: "Blueprint created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProcessResponse"
+        '404':
+          description: "Blueprint not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+
 
 #este bloco de rotas é referente aos processes do mainRouter
 
