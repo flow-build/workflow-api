@@ -886,7 +886,7 @@ paths:
                     example: "error"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-/packages/{id}:
+  /packages/{id}:
     get:
       tags:
       - Packages
@@ -928,7 +928,45 @@ paths:
         '401':
           $ref: "#/components/responses/UnauthorizedError"
 
-#aqui encerra o bloco de rotas referentes aos packages do mainRouter
+#este bloco de rotas é referente aos indexer do mainRouter
+ 
+  /indexer:
+    post:
+      tags:
+      - Index
+      summary: "Create Index"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+      responses:
+        '201':
+          description: "Index created"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  package_id:
+                    type: "string"
+                    example: "a36ea500-3c72-4af1-aabe-cd2c7d56ca6c"
+                  package_url:
+                    type: "string"
+        '400':
+          description: "Error creating index"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  error:
+                    type: "string"
+                    example: "error"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+
+#aqui encerram-se as rotas
 
 components:
   securitySchemes:
