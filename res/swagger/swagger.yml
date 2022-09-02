@@ -1005,6 +1005,29 @@ paths:
           description: "Entity not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
+  /indexer/entity/type/{type}:
+     get:
+      tags:
+      - Index
+      summary: "Read process by entity type"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "index_id"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "Process has been read"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Process"
+        '404':
+          description: "Entity type not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
 
 #aqui encerram-se as rotas
 
