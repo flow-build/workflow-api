@@ -1,6 +1,6 @@
 {
   "name": "@flowbuild/workflow",
-  "version": "2.5.2",
+  "version": "2.5.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -30,7 +30,7 @@
     "supertest": "6.1.6"
   },
   "dependencies": {
-    "@flowbuild/engine": "2.13.1",
+    "@flowbuild/engine": "2.14.0",
     "@flowbuild/indexer": "1.0.0-beta.3",
     "@flowbuild/nodejs-diagram-builder": "1.1.0",
     "@koa/router": "12.0.0",
@@ -38,9 +38,9 @@
     "ajv": "8.11.0",
     "ajv-formats": "2.1.1",
     "async-mqtt": "2.6.2",
-    "dotenv": "16.0.1",
+    "dotenv": "16.0.2",
     "jsrsasign": "10.5.27",
-    "knex": "2.2.0",
+    "knex": "2.3.0",
     "koa": "2.13.4",
     "koa-bodyparser": "4.3.0",
     "koa-compose": "4.1.0",
@@ -52,7 +52,7 @@
     "koa-useragent": "^4.1.0",
     "koa2-cors": "2.0.6",
     "nanoid": "3.3.4",
-    "npm": "8.18.0",
+    "npm": "8.19.1",
     "pg": "8.8.0",
     "raw-body": "2.5.1",
     "swagger-ui-dist": "^4.14.0",
