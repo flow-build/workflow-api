@@ -1,3 +1,17 @@
+## [2.4.0](https://github.com/flow-build/workflow/compare/v2.3.0...v2.4.0) (2022-09-02)
+
+
+### Features
+
+* add version and latest in workflow and process calls ([54eb73b](https://github.com/flow-build/workflow/commit/54eb73b24f523bc72a6caa027f11c3e08d0a27c1))
+* **routers:** :sparkles: add state execution and state spec routes ([cc50480](https://github.com/flow-build/workflow/commit/cc50480343501b1bc07ab00a5b02116edc07c28d))
+
+
+### Bug Fixes
+
+* :bug: fix activity schema validation ([891bc8a](https://github.com/flow-build/workflow/commit/891bc8a8f5ce396aa8400228f96e3687f7c67cfa))
+* adds configuration to healthcheck ([ec16925](https://github.com/flow-build/workflow/commit/ec16925c166134652399973a149a21ad6f2a5aaa))
+
 ## [2.5.2] (2022-08-29)
 
 * **healtcheck**: add configuration to response payload
