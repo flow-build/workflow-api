@@ -677,6 +677,29 @@ paths:
           description: "State not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
+    /states/{id}/execution:
+     get:
+      tags:
+      - States
+      summary: "Calculate execution data"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "state_id"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "Result of the executed data"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Process"
+        '404':
+          description: "State not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
 
 #este bloco de rotas é referente ao activityManager do mainRouter
 
