@@ -1068,6 +1068,24 @@ paths:
           description: "Process not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
+  /indexer/{id}:
+    delete:
+      tags:
+      - Index
+      summary: "Delete index"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '204':
+          description: "Index deleted successfully"
+        '404':
+          description: "Index not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
 
 #aqui encerram-se as rotas
 
