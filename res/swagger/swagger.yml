@@ -1028,6 +1028,46 @@ paths:
           description: "Entity type not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
+  /indexer/process/{id}:
+    get:
+      tags:
+      - Index
+      summary: "Read entities by process"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "index_id"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "Entity has been read"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Process"
+        '404':
+          description: "Process not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      tags:
+      - Index
+      summary: "Delete index from process"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '204':
+          description: "Index deleted successfully"
+        '404':
+          description: "Process not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
 
 #aqui encerram-se as rotas
 
