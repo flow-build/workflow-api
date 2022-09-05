@@ -102,7 +102,7 @@ validateConnections = async (ctx, next) => {
   });
 
   const nodeConnections = blueprintSpec.nodes.map(async (node) => {
-    if (node.type === "Flow") {
+    if (node.type.toLowerCase() === "flow") {
       const next = Object.values(node.next);
       return {
         id: node.id,
