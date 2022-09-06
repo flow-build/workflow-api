@@ -1,25 +1,35 @@
-const { Nodes, getNode, NodeUtils } = require("@flowbuild/engine")
+const { getNode, NodeUtils } = require("@flowbuild/engine")
+const { getCockpit } = require("../../engine");
 
 const getNodes = async (ctx, next) => {
-  const nodes = Nodes;
   const types = NodeUtils.getNodeTypes();
   const categories = NodeUtils.getNodeCategories();
+
+  const cockpit = getCockpit();
+  const actor_data = ctx.state.actor_data;
+  const workflows = await cockpit.getWorkflowsForActor(actor_data);
+  const nodes = workflows.flatMap(w => w.blueprint_spec.nodes);
+  const kTypes = Object.keys(types);
+  const kCategories = Object.keys(categories)
+
   ctx.status = 200;
   ctx.body = {
-    nodes: Object.keys(nodes),
-    types: Object.keys(types),
-    categories: Object.keys(categories)
+    types: kTypes.map(type => { return {
+      type: type,
+      nodes: nodes.filter(node => node.type.toLowerCase() === type).length
+    }}),
+    categories: kCategories.map(category => { return {
+      category: category,
+      nodes: nodes.filter(node => node.category?.toLowerCase() === category).length
+    }})
   }
   return next()
 }
 
 const fetchNode = async (ctx,next) => {
   const node = getNode(ctx.request.body)
-  console.log('node', node)
-  console.log('rules', node.constructor.schema)
   ctx.status = 200;
   ctx.body = {
-    id: node.id,
     schema: node.constructor.schema
   }
   return next();
