@@ -815,7 +815,80 @@ paths:
           description: "Process not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-
+  /processes/{id}/execution:
+    get:
+      tags:
+      - Process
+      summary: "Get process execution"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "process id"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: "Process execution"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Process"
+        '404':
+          description: "Process not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+  /processes/{id}/state/run:
+    post:
+      tags:
+      - Process
+      summary: "Run pending process"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "process_id"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        description: "Input"
+        content:
+          application/json:
+            schema:
+              type: "object"
+      responses:
+        '200':
+          description: "Process runned "
+        '404':
+          description: "Process not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+  /processes/{id}/set/{state_id}:
+    post:
+      tags:
+      - Process
+      summary: "Transfer process state"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "process_id"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        description: "Input"
+        content:
+          application/json:
+            schema:
+              type: "object"
+      responses:
+        '200':
+          description: "Process state transfered"
+        '404':
+          description: "Process not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+          
 #este bloco de rotas é referente aos states das Routers
 
   /states/{id}:
