@@ -1,3 +1,10 @@
+## [2.5.5](https://github.com/flow-build/workflow/compare/v2.5.4...v2.5.5) (2022-09-06)
+
+
+### Bug Fixes
+
+* **routers:** remove testMapper ([df8d9d6](https://github.com/flow-build/workflow/commit/df8d9d64513ff2239208bd8cb127de4d9086cd82))
+
 ## [2.4.1](https://github.com/flow-build/workflow/compare/v2.4.0...v2.4.1) (2022-09-06)
 
 
