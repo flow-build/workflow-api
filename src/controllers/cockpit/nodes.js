@@ -9,16 +9,16 @@ const getNodes = async (ctx, next) => {
   const actor_data = ctx.state.actor_data;
   const workflows = await cockpit.getWorkflowsForActor(actor_data);
   const nodes = workflows.flatMap(w => w.blueprint_spec.nodes);
-  const kTypes = Object.keys(types);
-  const kCategories = Object.keys(categories)
+  const typeKeys = Object.keys(types);
+  const categoryKeys = Object.keys(categories)
 
   ctx.status = 200;
   ctx.body = {
-    types: kTypes.map(type => { return {
+    types: typeKeys.map(type => { return {
       type: type,
       nodes: nodes.filter(node => node.type.toLowerCase() === type).length
     }}),
-    categories: kCategories.map(category => { return {
+    categories: categoryKeys.map(category => { return {
       category: category,
       nodes: nodes.filter(node => node.category?.toLowerCase() === category).length
     }})
