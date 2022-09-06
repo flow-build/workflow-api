@@ -9,7 +9,7 @@ const cockpitValidator = require("../validators/cockpit");
 const wv = require("../validators/workflow");
 const workflowCtrl = require("../controllers/workflow");
 const cp = require("../controllers/cockpit/process");
-const { getNodes, fetchNode } = require("../controllers/cockpit/nodes");
+const { getNodes, fetchNode } = require("../controllers/cockpit/nodes")
 
 module.exports = (opts = {}) => {
   const router = new Router();
@@ -49,9 +49,8 @@ module.exports = (opts = {}) => {
   
   const nodes = new Router();
   nodes.prefix("/nodes");
-  nodes.get("/", getNodes)
+  nodes.get('/', getNodes)
   nodes.post("/", fetchNode)
-
 
   router.use(processes.routes());
   router.use(workflows.routes());
