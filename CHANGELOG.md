@@ -1,3 +1,10 @@
+## [2.4.1](https://github.com/flow-build/workflow/compare/v2.4.0...v2.4.1) (2022-09-06)
+
+
+### Bug Fixes
+
+* force type toLowerCase ([89cf583](https://github.com/flow-build/workflow/commit/89cf5837f0291f2db3bae8d001490240ad97af86))
+
 ## [2.4.0](https://github.com/flow-build/workflow/compare/v2.3.0...v2.4.0) (2022-09-02)
 
 
