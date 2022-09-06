@@ -1,3 +1,10 @@
+## [2.6.0](https://github.com/flow-build/workflow/compare/v2.5.5...v2.6.0) (2022-09-06)
+
+
+### Features
+
+* add list and fetch node ([8086bc3](https://github.com/flow-build/workflow/commit/8086bc3ebfdf02c33c1fe88f2cf5736267b9b048))
+
 ## [2.5.5](https://github.com/flow-build/workflow/compare/v2.5.4...v2.5.5) (2022-09-06)
 
 
