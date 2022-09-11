@@ -1,6 +1,3 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: Node.js CI
 
 on:
@@ -9,41 +6,41 @@ on:
       - master
       - development
 
+env:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_DB: workflow
+  POSTGRES_HOST: localhost
+  POSTGRES_POST: 5432
+
 jobs:
   test:
-    name: start on node ${{ matrix.node_version }} in ${{ matrix.os }}, lint and test
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node-version: ["16.15"]
-        os: [ubuntu-latest]
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: workflow
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.4.1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-      - name: install dependencies
-        run:
-          npm install
-        # npm run lint
-      - name: start database
-        uses: Harmon758/postgresql-action@v1.0.0
-        with:
-          postgresql db: workflow
-          postgresql user: postgres
-          postgresql password: postgres
-
+          node-version: 16
+      - run: npm install
       - name: run migrations
         run: npm run migrations:local
-
       - name: run seeds
         run: npm run seeds:local
-
       - name: start tests
         run: npm run tests
-
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+        uses: codecov/codecov-action@v3
