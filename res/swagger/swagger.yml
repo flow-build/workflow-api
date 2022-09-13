@@ -8,11 +8,45 @@ servers:
 tags:
 - name: Token
   description: "Token for authentication and authorization"
+- name: Swagger
+- name: Healthcheck
 - name: Workflow
 - name: Process
 - name: Activities
 - name: Packages
 paths:
+  /healthcheck:
+    get:
+      tags:
+      - Healthcheck
+      summary: "Router healthcheck"
+      responses:
+        '200':
+          description: "Router health is OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Workflows"
+        '404':
+          description: "Router not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
+  /swagger:
+    get:
+      tags:
+      - Swagger
+      summary: "Get swagger"
+      responses:
+        '200':
+          description: "Swagger found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Workflows"
+        '404':
+          description: "Swagger not found"
+        '401':
+          $ref: "#/components/responses/UnauthorizedError"
   /token:
     post:
       tags:
