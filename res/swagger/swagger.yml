@@ -12,9 +12,10 @@ tags:
 - name: Healthcheck
 - name: Workflow
 - name: Process
-- name: States
-- name: Activities
-- name: Packages
+- name: Diagram
+- name: State
+- name: Activity
+- name: Package
 - name: Indexer
 paths:
   /healthcheck:
@@ -24,13 +25,13 @@ paths:
       summary: "Router healthcheck"
       responses:
         '200':
-          description: "Router health is OK"
+          description: "Flowbuild API is fine!"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Workflows"
         '404':
-          description: "Router not found"
+          description: "Flowbuild API not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /swagger:
@@ -296,7 +297,7 @@ paths:
   /workflows/diagram:
     post:
       tags:
-      - Process
+      - Diagram
       summary: "Build a diagram"
       parameters:
       - name: "name"
@@ -324,7 +325,7 @@ paths:
   /workflows/diagram/convert:
    post:
       tags:
-      - Process
+      - Diagram
       summary: "Build a blueprint"
       parameters:
       - name: "nome"
@@ -569,7 +570,7 @@ paths:
   /processes/available:
     get:
       tags:
-      - Activities
+      - Activity
       summary: "Fetch available activities for actor"
       parameters:
       - name: "workflow_id"
@@ -589,7 +590,7 @@ paths:
   /processes/done:
     get:
       tags:
-      - Activities
+      - Activity
       summary: "Fetch done activities for actor"
       parameters:
       - name: "workflow_id"
@@ -684,7 +685,7 @@ paths:
     /processes/{id}/activity:
      get:
       tags:
-      - Activities
+      - Activity
       summary: "Fetch available activity for process"
       parameters:
       - name: "id"
@@ -705,7 +706,7 @@ paths:
   /processes/activityManager/{id}:
     get:
       tags:
-      - Activities
+      - Activity
       summary: "Fetch ActivityManager by id"
       parameters:
       - name: "id"
@@ -772,7 +773,7 @@ paths:
   /processes/{process_id}/commit:
     post:
       tags:
-      - Activities
+      - Activity
       summary: "Commit activity"
       parameters:
       - name: "process_id"
@@ -798,7 +799,7 @@ paths:
   /processes/{process_id}/push:
     post:
       tags:
-      - Activities
+      - Activity
       summary: "Push activity"
       parameters:
       - name: "process_id"
@@ -826,7 +827,7 @@ paths:
   /processes/{process_id}/continue:
     post:
       tags:
-      - Activities
+      - Activity
       summary: "Continue Process"
       parameters:
       - name: "process_id"
@@ -930,7 +931,7 @@ paths:
   /states/{id}:
     get:
       tags:
-      - States
+      - State
       summary: "Fetch state by id"
       parameters:
       - name: "id"
@@ -953,7 +954,7 @@ paths:
   /states/{id}/execution:
      get:
       tags:
-      - States
+      - State
       summary: "Calculate execution data"
       parameters:
       - name: "id"
@@ -976,7 +977,7 @@ paths:
   /states/{id}/spec:
      get:
       tags:
-      - States
+      - State
       summary: "Fetch the spec by id"
       parameters:
       - name: "id"
@@ -1025,7 +1026,7 @@ paths:
   /activity_manager/{activity_manager_id}/commit:
     post:
       tags:
-      - Activities
+      - Activity
       summary: "Commit activity by ActivityManager id"
       parameters:
       - name: "activity_manager_id"
@@ -1061,7 +1062,7 @@ paths:
     /activity_manager/{activity_manager_id}/submit:
      post:
       tags:
-      - Activities
+      - Activity
       summary: "Submit activity by ActivityManager id"
       parameters:
       - name: "activity_manager_id"
@@ -1100,7 +1101,7 @@ paths:
 /activities/available:
   get:
       tags:
-      - Activities
+      - Activity
       summary: "Fetch available activities for actor reduced"
       parameters:
       - name: "id"
@@ -1126,7 +1127,7 @@ paths:
   /packages:
     post:
       tags:
-      - Packages
+      - Package
       summary: "Save package"
       requestBody:
         description: "Input package"
@@ -1162,7 +1163,7 @@ paths:
   /packages/{id}:
     get:
       tags:
-      - Packages
+      - Package
       summary: "Fetch package by id"
       parameters:
       - name: "id"
@@ -1184,7 +1185,7 @@ paths:
           $ref: "#/components/responses/UnauthorizedError"
     delete:
       tags:
-      - Packages
+      - Package
       summary: "Delete package"
       description: "package_id"
       parameters:
