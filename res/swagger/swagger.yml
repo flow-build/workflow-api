@@ -12,8 +12,10 @@ tags:
 - name: Healthcheck
 - name: Workflow
 - name: Process
+- name: States
 - name: Activities
 - name: Packages
+- name: Indexer
 paths:
   /healthcheck:
     get:
@@ -297,7 +299,7 @@ paths:
       - Process
       summary: "Build a diagram"
       parameters:
-      - name: "workflow_id"
+      - name: "name"
         in: "path"
         required: true
         schema:
@@ -325,7 +327,7 @@ paths:
       - Process
       summary: "Build a blueprint"
       parameters:
-      - name: "workflow_id"
+      - name: "nome"
         in: "path"
         required: true
         schema:
@@ -350,7 +352,7 @@ paths:
   /workflows/stats:
     get:
       tags:
-      - Workflow
+      - Process
       summary: "Fetch workflows with process status count"
       parameters:
       - name: "id"
@@ -372,7 +374,7 @@ paths:
   /workflows/{id}/processes:
     get:
       tags:
-      - Workflow
+      - Process
       summary: "Get processes by workflow id"
       parameters:
       - name: "id"
@@ -394,7 +396,7 @@ paths:
   /workflows/name/{name}/processes:
     get:
       tags:
-      - Workflow
+      - Process
       summary: "Get processes by workflow name"
       parameters:
       - name: "name"
@@ -997,7 +999,7 @@ paths:
   /states/process/{id}:
      get:
       tags:
-      - States
+      - Process
       summary: "Fetch state by parameters"
       parameters:
       - name: "id"
@@ -1204,7 +1206,7 @@ paths:
   /indexer:
     post:
       tags:
-      - Index
+      - Indexer
       summary: "Create Index"
       requestBody:
         content:
@@ -1239,7 +1241,7 @@ paths:
   /indexer/entity/{id}:
      get:
       tags:
-      - Index
+      - Process
       summary: "Read process by entity"
       parameters:
       - name: "id"
@@ -1261,7 +1263,7 @@ paths:
           $ref: "#/components/responses/UnauthorizedError"
      delete:
       tags:
-      - Index
+      - Indexer
       summary: "Delete index from entity"
       parameters:
       - name: "id"
@@ -1279,7 +1281,7 @@ paths:
   /indexer/entity/type/{type}:
      get:
       tags:
-      - Index
+      - Process
       summary: "Read process by entity type"
       parameters:
       - name: "id"
@@ -1302,7 +1304,7 @@ paths:
   /indexer/process/{id}:
     get:
       tags:
-      - Index
+      - Process
       summary: "Read entities by process"
       parameters:
       - name: "id"
@@ -1324,7 +1326,7 @@ paths:
           $ref: "#/components/responses/UnauthorizedError"
     delete:
       tags:
-      - Index
+      - Indexer
       summary: "Delete index from process"
       parameters:
       - name: "id"
@@ -1342,7 +1344,7 @@ paths:
   /indexer/{id}:
     delete:
       tags:
-      - Index
+      - Indexer
       summary: "Delete index"
       parameters:
       - name: "id"
