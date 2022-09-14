@@ -1,3 +1,10 @@
+## [2.6.1](https://github.com/flow-build/workflow/compare/v2.6.0...v2.6.1) (2022-09-14)
+
+
+### Bug Fixes
+
+* update engine to 2.16.1 ([b130f40](https://github.com/flow-build/workflow/commit/b130f406b2d4c714550ad4c7f7902567c62ed343))
+
 ## [2.6.0](https://github.com/flow-build/workflow/compare/v2.5.5...v2.6.0) (2022-09-06)
 
 
