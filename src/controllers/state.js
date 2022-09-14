@@ -148,8 +148,6 @@ const fetchStateByParameters = async (ctx, next) => {
     states = await getStateByNodeId(processId, nodeId);
   }
 
-  console.log(states);
-
   if (!states) {
     ctx.status = 404;
     ctx.body = {
