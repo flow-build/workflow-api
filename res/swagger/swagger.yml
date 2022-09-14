@@ -1098,8 +1098,8 @@ paths:
 
 #este bloco de rotas é referente aos activities das Routers
 
-/activities/available:
-  get:
+  /activities/available:
+    get:
       tags:
       - Activity
       summary: "Fetch available activities for actor reduced"
