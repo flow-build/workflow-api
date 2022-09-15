@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch --coverage --runInBand --forceExit",
+    "tests": "jest --coverage --runInBand --forceExit",
     "test:single": "jest -i --detectOpenHandles --forceExit",
-    "tests": "npm -- test",
     "seeds": "knex --env ${KNEX_ENV} --knexfile knexfile.js seed:run",
     "seeds:local": "knex --env dockerLocal --knexfile knexfile.js seed:run",
     "migrations": "knex --env ${KNEX_ENV} --knexfile knexfile.js migrate:latest",
@@ -24,13 +23,13 @@
     "@semantic-release/npm": "^9.0.1",
     "conventional-changelog-conventionalcommits": "5.0.0",
     "eslint": "8.23.1",
-    "jest": "27.5.1",
+    "jest": "29.0.3",
     "nodemon": "2.0.19",
     "semantic-release": "19.0.5",
-    "supertest": "6.1.6"
+    "supertest": "6.2.4"
   },
   "dependencies": {
-    "@flowbuild/engine": "2.16.1",
+    "@flowbuild/engine": "2.16.2",
     "@flowbuild/indexer": "1.0.0-beta.3",
     "@flowbuild/nodejs-diagram-builder": "1.1.0",
     "@koa/router": "12.0.0",
