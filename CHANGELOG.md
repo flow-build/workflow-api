@@ -1,3 +1,10 @@
+## [2.6.2](https://github.com/flow-build/workflow/compare/v2.6.1...v2.6.2) (2022-09-15)
+
+
+### Bug Fixes
+
+* fix result on startProcess node ([d55c62e](https://github.com/flow-build/workflow/commit/d55c62ea31837dc9ab5960e08e19ed6b9d845375))
+
 ## [2.6.1](https://github.com/flow-build/workflow/compare/v2.6.0...v2.6.1) (2022-09-14)
 
 
