@@ -112,7 +112,7 @@ describe("GET /entity/:id", () => {
   test("should return 200", async () => {
     const response = await axios.get(`/entity/${entityId}`);
     expect(response.status).toBe(200);
-    expect(response.data[0].id).toBe(indexId);
+    expect(response.data[0].id).toBe(indexId.id);
     expect(response.data[0].entity_type).toBe("sample");
     expect(response.data[0].process_id).toBe(processId);
   });
@@ -168,7 +168,7 @@ describe("GET /process/:id", () => {
   test("should return 200", async () => {
     const response = await axios.get(`/process/${processId}`);
     expect(response.status).toBe(200);
-    expect(response.data[0].id).toBe(indexId);
+    expect(response.data[0].id).toBe(indexId.id);
     expect(response.data[0].entity_type).toBe("sample");
     expect(response.data[0].entity_id).toBe(entityId);
   });
@@ -236,7 +236,7 @@ describe("DELETE /:id", () => {
   });
 
   test("should return 200 for existing process_id", async () => {
-    const response = await axios.delete(`/${indexId}`, {});
+    const response = await axios.delete(`/${indexId.id}`, {});
     expect(response.status).toBe(200);
     expect(response.data).toBeDefined();
     expect(response.data).toBe(1);
