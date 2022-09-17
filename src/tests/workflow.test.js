@@ -18,6 +18,7 @@ let server;
 //TODO: Validar output schema de cada chamada
 
 beforeAll(() => {
+  process.env.ENGINE_HEARTBEAT=false
   server = startServer(3001);
   axios.defaults.baseURL = `${config.baseURL}/workflows`;
   axios.defaults.headers = config.headers;

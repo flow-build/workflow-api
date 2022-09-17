@@ -127,8 +127,8 @@ const fetchWorkflowByName = async (ctx, next) => {
 
   const engine = getEngine();
   const workflow_name = ctx.params.name;
-  const result = await await engine.fetchWorkflowByName(workflow_name);
-  if (result) {
+  const result = await engine.fetchWorkflowByName(workflow_name);
+  if (result?._id) {
     ctx.status = 200;
     ctx.body = serializeWorkflow(result);
   } else {
@@ -242,9 +242,9 @@ const createProcessByName = async (ctx, next) => {
   const actor_data = ctx.state.actor_data;
   const input = ctx.request.body;
 
-  const workflow = await await engine.fetchWorkflowByName(workflow_name);
+  const workflow = await engine.fetchWorkflowByName(workflow_name);
 
-  if (workflow) {
+  if (workflow?._id) {
     const process = await engine.createProcessByWorkflowName(workflow_name, actor_data, input);
     if (process) {
       ctx.status = 201;
@@ -278,7 +278,7 @@ const createAndRunProcessByName = async (ctx, next) => {
 
   const workflow = await await engine.fetchWorkflowByName(workflow_name);
 
-  if (workflow) {
+  if (workflow?._id) {
     const process = await engine.createProcessByWorkflowName(workflow_name, actor_data, input);
     if (process && process.id) {
       engine.runProcess(process.id, actor_data);
