@@ -21,7 +21,9 @@ class BasicAuthNode extends Nodes.SystemTaskNode {
                 baseUrl: {
                   oneOf: [{ type: "string" }, { type: "object" }],
                 },
-                route: { type: "string" },
+                route: {
+                  oneOf: [{ type: "string" }, { type: "object" }],
+                },
                 auth: {
                   type: "object",
                   required: ['username', 'password'],
@@ -57,6 +59,7 @@ class BasicAuthNode extends Nodes.SystemTaskNode {
 
   async _run(executionData) {
     const { verb, baseUrl, route, auth, headers } = this.request;
+    console.log(this.request)
     const result = await axios({
       method: verb,
       url: route,
