@@ -37,6 +37,7 @@
     "ajv": "8.11.0",
     "ajv-formats": "2.1.1",
     "async-mqtt": "2.6.3",
+    "axios": "0.27.2",
     "dotenv": "16.0.2",
     "jsrsasign": "10.5.27",
     "knex": "2.3.0",

@@ -40,7 +40,7 @@ const transferProcessState = async (ctx, next) => {
 
   const process = await cockpit.fetchProcess(process_id);
   if (process) {
-    const state = await cockpitService.fetchProcessState(state_id);
+    const state = await cockpit.getProcessState(state_id);
     if (state) {
       const next_node = process._blueprint_spec.nodes.find((n) => n.id === state.next_node_id);
       if (next_node) {
