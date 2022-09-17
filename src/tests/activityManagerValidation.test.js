@@ -38,17 +38,18 @@ beforeEach(async () => {
     {}
   );
   const processId = process.data.process_id;
-  await delay(500);
-      
+  await delay(1500);
+  console.log(`PID ${processId}`);    
   //OBTER O ID DO ACTIVITY_MANAGER
   const activityManager = await axios.get(`/processes/${processId}/activity`);
+  console.log(`AMID ${activityManager.data.id}`);
   activityManagerId = activityManager.data.id;
 });
 
 afterAll(async () => {
-  await cleanDb();
-  await db.destroy();
-  await server.close();
+  cleanDb();
+  db.destroy();
+  server.close();
 });
 
 describe("Validation @ POST activity_manager/:id/submit", () => {
@@ -75,6 +76,7 @@ describe("Validation @ POST activity_manager/:id/submit", () => {
     const payload = { date: '2021-09-15' };
 
     let response = await axios.post(`activity_manager/${activityManagerId}/submit`, payload);
+    console.log(response)
     expect(response.status).toBe(202);
   });
 });
@@ -103,6 +105,7 @@ describe("Validation @ POST activity_manager/:id/commit", () => {
     const payload = { date: '2021-09-15' };
 
     let response = await axios.post(`activity_manager/${activityManagerId}/commit`, payload);
+    console.log(response)
     expect(response.status).toBe(200);
   });
 });
