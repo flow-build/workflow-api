@@ -89,7 +89,7 @@ describe("DELETE /:id", () => {
     const packageCall = await axios.post("/", packageSamples.dummy);
     const packageId = packageCall.data.package_id;
     const response = await axios.delete(`/${packageId}`);
-    expect(response.status).toBe(204);
+    expect(response.status).toBe(202);
   });
 
   test("should return 404 for inexistent package", async () => {

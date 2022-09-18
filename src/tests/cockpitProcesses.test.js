@@ -17,9 +17,8 @@ const notifyUserTask = require("../samples/blueprints/notifyUserTask");
 
 //Schemas
 const { validateDataWithSchema } = require("../validators/base");
-const processState = require("../validators/schemas/processState");
 const processExecution = require("../validators/schemas/processExecution");
-const cockpitProcessesStates = require("../validators/schemas/cockpitProcessesStates");
+const { World } = require("./utils/world");
 
 const engine = new Engine("knex", db);
 const cockpit = new Cockpit("knex", db);
@@ -30,6 +29,10 @@ let server;
 let basicProcessId;
 let singleUserProcessId;
 let notifyProcessId;
+const world = new World({
+  baseUrl: config.baseURL,
+  headers: config.headers 
+})
 
 const prefix = "/cockpit";
 
@@ -49,10 +52,13 @@ beforeAll(async () => {
 
   response = await axios.post(`/workflows/name/${basic.name}/start`, {});
   basicProcessId = response.data.process_id;
+  console.log('basicProcessId', basicProcessId)
   response = await axios.post(`/workflows/name/${singleUserTask.name}/start`, {});
   singleUserProcessId = response.data.process_id;
+  console.log('singleUserProcessId', singleUserProcessId)
   response = await axios.post(`/workflows/name/${notifyUserTask.name}/start`, {});
   notifyProcessId = response.data.process_id;
+  console.log('notifyProcessId', notifyProcessId)
 });
 
 afterAll(async () => {
@@ -63,6 +69,7 @@ afterAll(async () => {
 
 describe("GET /processes/:id/execution", () => {
   test("Should return 200", async () => {
+    await world.waitProcessStop(basicProcessId);
     let response = await axios.get(`${prefix}/processes/${basicProcessId}/execution`);
     expect(response.status).toEqual(200);
     expect(response.data).toHaveLength(3);
@@ -83,41 +90,6 @@ describe("GET /processes/:id/execution", () => {
     let response = await axios.get(`${prefix}/processes/${randomId}/execution`);
     expect(response.status).toEqual(400);
     expect(response.data.message).toBe("Invalid uuid");
-  });
-});
-
-describe("GET /processes/:id/state/:node_id", () => {
-  test("Should return 200", async () => {
-    const nodeId = 2;
-    let response = await axios.get(`${prefix}/processes/${basicProcessId}/state/${nodeId}`);
-    expect(response.status).toEqual(200);
-    expect(response.data).toHaveLength(1);
-    expect(response.data[0].step_number).toBe(3);
-    const validation = await validateDataWithSchema(cockpitProcessesStates, response.data);
-    expect(validation.is_valid).toBeTruthy();
-  });
-
-  test("Should return an empty array for a random uuid", async () => {
-    const randomId = uuid();
-    const nodeId = 2;
-    let response = await axios.get(`${prefix}/processes/${randomId}/state/${nodeId}`);
-    expect(response.status).toEqual(404);
-    expect(response.data.message).toBe("No such process");
-  });
-
-  test("Should return 400 para an invalid uuid", async () => {
-    const randomId = "not_a_uuid";
-    const nodeId = 2;
-    let response = await axios.get(`${prefix}/processes/${randomId}/state/${nodeId}`);
-    expect(response.status).toEqual(400);
-    expect(response.data.message).toBe("Invalid uuid");
-  });
-
-  test("Should return 404 for a non existent node", async () => {
-    const nodeId = 8;
-    let response = await axios.get(`${prefix}/processes/${basicProcessId}/state/${nodeId}`);
-    expect(response.status).toEqual(404);
-    expect(response.data.message).toBe("No such node");
   });
 });
 
@@ -220,6 +192,7 @@ describe("POST /processes/:id/set/:state_id", () => {
   });
 
   test("Should return 200 for a correct data", async () => {
+    await world.waitProcessStop(singleUserProcessId);
     let response;
     response = await axios.post(`${prefix}/processes/${singleUserProcessId}/set/${stateId}`);
     expect(response.status).toBe(200);
@@ -252,36 +225,5 @@ describe("POST /processes/:id/set/:state_id", () => {
     response = await axios.post(`${prefix}/processes/${singleUserProcessId}/set/${stateId}`);
     expect(response.status).toEqual(400);
     expect(response.data.message).toEqual("State incompatible to process");
-  });
-});
-
-describe("GET /processes/state/:id", () => {
-  let stateId;
-  let route = `${prefix}/processes/state`;
-
-  beforeAll(async () => {
-    response = await axios.get(`${prefix}/processes/${basicProcessId}/execution`);
-    stateId = response.data[0].state_id;
-  });
-
-  test("Should return 200", async () => {
-    let response = await axios.get(`${route}/${stateId}`);
-    expect(response.status).toEqual(200);
-    expect(response.data.process_id).toBe(basicProcessId);
-    let validation = await validateDataWithSchema(processState, response.data);
-    expect(validation.is_valid).toBeTruthy();
-  });
-
-  test("Should return 204 for a random uuid", async () => {
-    const randomId = uuid();
-    let response = await axios.get(`${route}/${randomId}`);
-    expect(response.status).toEqual(204);
-  });
-
-  test("Should return 400 for an invalid uuid", async () => {
-    const randomId = "not_a_uuid";
-    let response = await axios.get(`${route}/${randomId}`);
-    expect(response.status).toEqual(400);
-    expect(response.data.message).toBe("Invalid uuid");
   });
 });

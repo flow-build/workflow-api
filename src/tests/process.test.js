@@ -9,6 +9,7 @@ const { config } = require("./utils/requestConfig");
 
 const { setEngine, setCockpit } = require("../engine");
 const { Engine, Cockpit } = require("@flowbuild/engine");
+const { World } = require("./utils/world");
 const engine = new Engine("knex", db);
 const cockpit = new Cockpit("knex", db);
 setEngine(engine);
@@ -19,13 +20,18 @@ let basicWorkflowId;
 let singleUserTaskWorkflowId;
 const prefix = "/processes";
 const numProcesses = 2;
+const world = new World({
+  baseUrl: config.baseURL,
+  headers: config.headers 
+})
 
 beforeAll(async () => {
+  process.env.ENGINE_HEARTBEAT=false
   server = startServer(3001);
   axios.defaults.baseURL = config.baseURL;
   axios.defaults.headers = config.headers;
   axios.defaults.validateStatus = config.validateStatus;
-  jest.setTimeout(30000);
+  jest.setTimeout(50000);
 
   await cleanDb();
 
@@ -45,8 +51,8 @@ beforeEach(async () => {
 });
 
 afterAll(async () => {
-  await cleanDb();
-  await db.destroy();
+  cleanDb();
+  db.destroy();
   server.close();
 });
 
@@ -85,8 +91,8 @@ describe("GET /done", () => {
 
   beforeEach(async () => {
     const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
-    await delay(500);
     processId = process.data.process_id;
+    await world.waitProcessStop(processId);
   });
 
   test("should return 200 and no task", async () => {
@@ -118,7 +124,7 @@ describe("GET /:id/state", () => {
     const response = await axios.get(`${prefix}/${processId}/state`);
     expect(response.status).toBe(200);
     expect(response.data).toBeDefined();
-    expect(response.data.workflow_id).toBe(singleUserTaskWorkflowId);
+    expect(response.data.workflow.id).toBe(singleUserTaskWorkflowId);
   });
 
   test("should return 404 for non existing process", async () => {
@@ -133,8 +139,8 @@ describe("GET /:id/history", () => {
 
   beforeEach(async () => {
     const process = await axios.post(`/workflows/name/${workflowSamples.basicStartFinish.name}/start`, {});
-    await delay(500);
     processId = process.data.process_id;
+    await world.waitProcessStop(processId);
   });
 
   test("should return 200 for existing process", async () => {
@@ -157,8 +163,8 @@ describe("GET /:id/activity", () => {
   beforeEach(async () => {
     //INICIAR UM PROCESSO E GUARDAR O ID DO PROCESSO
     const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
-    await delay(500);
     processId = process.data.process_id;
+    await world.waitProcessStop(processId);
   });
 
   test("should return 200 for existing id", async () => {
@@ -174,11 +180,11 @@ describe("GET /:id/activity", () => {
   });
 
   test("should return 204 for a non-waiting processId", async () => {
-    const process = await axios.post(`/workflows/name/${workflowSamples.timerProcess.name}/start`, {});
+    const process = await axios.post(`/workflows/name/${workflowSamples.timerProcess.name}/create`, {});
     processId = process.data.process_id;
-    await delay(500);
     const call = await axios.get(`${prefix}/${processId}/activity`);
-    expect(call.status).toBe(204);
+    expect(call.status).toBe(404);
+    expect(call.data.current_status).toBeDefined();
   });
 });
 
@@ -189,8 +195,8 @@ describe("GET /activityManager/:id", () => {
   beforeEach(async () => {
     //INICIAR UM PROCESSO E GUARDAR O ID DO PROCESSO
     const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
-    await delay(500);
     processId = process.data.process_id;
+    await world.waitProcessStop(processId);
     //OBTER O ID DO ACTIVITY_MANAGER
     const activityManager = await axios.get(`/processes/${processId}/activity`);
     activityManagerId = activityManager.data.id;
@@ -219,19 +225,19 @@ describe("POST /:id/run", () => {
 
   test("should return 200 for existing process", async () => {
     const firstCall = await axios.get(`${prefix}/${processId}/state`);
-    expect(firstCall.data.current_status).toBe("unstarted");
+    expect(firstCall.data.state.status).toBe("unstarted");
 
     const firstRunCall = await axios.post(`${prefix}/${processId}/run`);
     expect(firstRunCall.status).toBe(200);
 
     const secondCall = await axios.get(`${prefix}/${processId}/state`);
-    expect(secondCall.data.current_status).toBe("waiting");
+    expect(secondCall.data.state.status).toBe("waiting");
 
     const secondRunCall = await axios.post(`${prefix}/${processId}/run`);
     expect(secondRunCall.status).toBe(200);
 
     const thirdCall = await axios.get(`${prefix}/${processId}/state`);
-    expect(thirdCall.data.current_status).toBe("finished");
+    expect(thirdCall.data.state.status).toBe("finished");
   });
 
   test("should return 404 for non existing process", async () => {
@@ -251,13 +257,13 @@ describe("POST /:id/abort", () => {
 
   test("should return 200 and the process should be interrupted", async () => {
     const firstCall = await axios.get(`${prefix}/${processId}/state`);
-    expect(firstCall.data.current_status).toBe("unstarted");
+    expect(firstCall.data.state.status).toBe("unstarted");
 
     const response = await axios.post(`${prefix}/${processId}/abort`);
     expect(response.status).toBe(200);
 
     const secondCall = await axios.get(`${prefix}/${processId}/state`);
-    expect(secondCall.data.current_status).toBe("interrupted");
+    expect(secondCall.data.state.status).toBe("interrupted");
   });
 
   test("should return 422 if the process is already stopped", async () => {});
@@ -269,109 +275,48 @@ describe("POST /:id/abort", () => {
   });
 });
 
-describe("POST /:id/commit", () => {
+describe("Commit & Push", () => {
   let processId;
 
   beforeEach(async () => {
     const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
-    await delay(500);
     processId = process.data.process_id;
+    await world.waitProcessStop(processId);
   });
 
-  test("should return 200 for existing process and should not affect the process status", async () => {
-    const firstCall = await axios.get(`${prefix}/${processId}/state`);
-    expect(firstCall.data.current_status).toBe("waiting");
+  describe("POST /:id/commit", () => {
+    test("should return 200 for existing process and should not affect the process status", async () => {
+      const firstCall = await axios.get(`${prefix}/${processId}/state`);
+      expect(firstCall.data.state.status).toBe("waiting");
 
-    const commitCall = await axios.post(`${prefix}/${processId}/commit`);
-    expect(commitCall.status).toBe(200);
+      const commitCall = await axios.post(`${prefix}/${processId}/commit`);
+      expect(commitCall.status).toBe(200);
 
-    const response = await axios.get(`${prefix}/${processId}/state`);
-    expect(response.data.current_status).toBe("waiting");
+      const response = await axios.get(`${prefix}/${processId}/state`);
+      expect(response.data.state.status).toBe("waiting");
+    });
+
+    test("should return 404 for non existing process", async () => {
+      const randomId = uuid();
+      const response = await axios.post(`${prefix}/${randomId}/commit`);
+      expect(response.status).toBe(404);
+    });
   });
 
-  test("should return 404 for non existing process", async () => {
-    const randomId = uuid();
-    const response = await axios.post(`${prefix}/${randomId}/commit`);
-    expect(response.status).toBe(404);
+  describe("POST /:id/push", () => {
+    test("should return 200 for existing process and should affect the process status", async () => {
+      const firstCall = await axios.get(`${prefix}/${processId}/state`);
+      expect(firstCall.data.state.status).toBe("waiting");
+
+      const commitCall = await axios.post(`${prefix}/${processId}/commit`);
+      expect(commitCall.status).toBe(200);
+
+      const pushCall = await axios.post(`${prefix}/${processId}/push`);
+      expect(pushCall.status).toBe(202);
+      await delay(1500);
+
+      const response = await axios.get(`${prefix}/${processId}/state`);
+      expect(response.data.state.status).not.toBe("waiting");
+    });
   });
-});
-
-describe("POST /:id/push", () => {
-  let processId;
-
-  beforeEach(async () => {
-    const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
-    await delay(500);
-    processId = process.data.process_id;
-  });
-
-  test("should return 200 for existing process and should affect the process status", async () => {
-    const firstCall = await axios.get(`${prefix}/${processId}/state`);
-    expect(firstCall.data.current_status).toBe("waiting");
-
-    const commitCall = await axios.post(`${prefix}/${processId}/commit`);
-    expect(commitCall.status).toBe(200);
-
-    const pushCall = await axios.post(`${prefix}/${processId}/push`);
-    expect(pushCall.status).toBe(202);
-    await delay(500);
-
-    const response = await axios.get(`${prefix}/${processId}/state`);
-    expect(response.data.current_status).not.toBe("waiting");
-  });
-});
-
-describe("GET /:id/state/find", () => {
-  let processId;
-
-  beforeEach(async () => {
-    const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
-    await delay(500);
-    processId = process.data.process_id;
-  });
-
-  test("should return 400 if no parameters where provided", async () => {
-    const randomId = uuid();
-    const response = await axios.get(`${prefix}/${randomId}/state/find`);
-    expect(response.status).toBe(400);
-  });
-
-  test("should return 200 for existing process and stepNumber", async () => {
-    const response = await axios.get(`${prefix}/${processId}/state/find?stepNumber=1`);
-    expect(response.status).toBe(200);
-    expect(response.data).toBeDefined();
-    expect(response.data.environment).toBeDefined();
-    expect(response.data.states).toBeDefined();
-    expect(response.data.states).toHaveLength(1);
-  });
-
-  test("should return 200 for existing process and start nodeId", async () => {
-    const response = await axios.get(`${prefix}/${processId}/state/find?nodeId=1`);
-    expect(response.status).toBe(200);
-    expect(response.data).toBeDefined();
-    expect(response.data.environment).toBeDefined();
-    expect(response.data.states).toBeDefined();
-    expect(response.data.states).toHaveLength(2);
-  });
-
-  test("if both parameters where provided, stepNumber should take precedence", async () => {
-    const response = await axios.get(`${prefix}/${processId}/state/find?stepNumber=1&nodeId=2`);
-    expect(response.status).toBe(200);
-    expect(response.data).toBeDefined();
-    expect(response.data.environment).toBeDefined();
-    expect(response.data.states).toBeDefined();
-    expect(response.data.states).toHaveLength(1);
-  });
-
-  test("should return 404 for non existing process", async () => {
-    const randomId = uuid();
-    const response = await axios.get(`${prefix}/${randomId}/state/find?stepNumber=8`);
-    expect(response.status).toBe(404);
-  });
-
-  test("should return 404 for if no state were found", async () => {
-    const randomId = uuid();
-    const response = await axios.get(`${prefix}/${randomId}/state/find?stepNumber=8`);
-    expect(response.status).toBe(404);
-  });
-});
+})
