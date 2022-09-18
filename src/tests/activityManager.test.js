@@ -12,9 +12,15 @@ const engine = new Engine("knex", db);
 const cockpit = new Cockpit("knex", db);
 setEngine(engine);
 setCockpit(cockpit);
+const world = new World({
+  baseUrl: config.baseURL,
+  headers: config.headers 
+})
 
 let server;
 const prefix = "/activity_manager";
+let processId;
+let activityManagerId;
 
 beforeAll(async () => {
   process.env.ENGINE_HEARTBEAT=false
@@ -29,7 +35,14 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-  await delay(500);
+  //INICIAR UM PROCESSO E GUARDAR O ID DO PROCESSO
+  const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
+  processId = process.data.process_id;
+  await world.waitProcessStop(processId);
+  //OBTER O ID DO ACTIVITY_MANAGER
+  const activityManager = await axios.get(`/processes/${processId}/activity`);
+  console.log(`AMID ${activityManager.data.id}`);
+  activityManagerId = activityManager.data.id;
 });
 
 afterAll(async () => {
@@ -39,20 +52,6 @@ afterAll(async () => {
 });
 
 describe("POST /:id/commit", () => {
-  let processId;
-  let activityManagerId;
-
-  beforeEach(async () => {
-    //INICIAR UM PROCESSO E GUARDAR O ID DO PROCESSO
-    const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
-    await delay(1500);
-    processId = process.data.process_id;
-    //OBTER O ID DO ACTIVITY_MANAGER
-    const activityManager = await axios.get(`/processes/${processId}/activity`);
-    console.log(`AMID ${activityManager.data.id}`);
-    activityManagerId = activityManager.data.id;
-  });
-
   test("should return 200 for existing id and should not affect the process status", async () => {
     console.log("should return 200 for existing id and should not affect the process status");
     const commitCall = await axios.post(`${prefix}/${activityManagerId}/commit`);
@@ -79,20 +78,6 @@ describe("POST /:id/commit", () => {
   });
 });
 describe("POST /:id/submit", () => {
-  let processId;
-  let activityManagerId;
-
-  beforeEach(async () => {
-    //INICIAR UM PROCESSO E GUARDAR O ID DO PROCESSO
-    const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
-    await delay(1500);
-    processId = process.data.process_id;
-    //OBTER O ID DO ACTIVITY_MANAGER
-    const activityManager = await axios.get(`/processes/${processId}/activity`);
-    console.log(`AMID ${activityManager.data.id}`);
-    activityManagerId = activityManager.data.id;
-  });
-
   test("should return 202 for existing id and should affect the process status", async () => {
     console.log("should return 202 for existing id and should affect the process status");
     const submitCall = await axios.post(`${prefix}/${activityManagerId}/submit`);
