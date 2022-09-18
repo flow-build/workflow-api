@@ -275,7 +275,7 @@ describe("POST /:id/abort", () => {
   });
 });
 
-describe("POST /:id/commit", () => {
+describe("Commit & Push", () => {
   let processId;
 
   beforeEach(async () => {
@@ -284,45 +284,39 @@ describe("POST /:id/commit", () => {
     await world.waitProcessStop(processId);
   });
 
-  test("should return 200 for existing process and should not affect the process status", async () => {
-    const firstCall = await axios.get(`${prefix}/${processId}/state`);
-    expect(firstCall.data.state.status).toBe("waiting");
+  describe("POST /:id/commit", () => {
+    test("should return 200 for existing process and should not affect the process status", async () => {
+      const firstCall = await axios.get(`${prefix}/${processId}/state`);
+      expect(firstCall.data.state.status).toBe("waiting");
 
-    const commitCall = await axios.post(`${prefix}/${processId}/commit`);
-    expect(commitCall.status).toBe(200);
+      const commitCall = await axios.post(`${prefix}/${processId}/commit`);
+      expect(commitCall.status).toBe(200);
 
-    const response = await axios.get(`${prefix}/${processId}/state`);
-    expect(response.data.state.status).toBe("waiting");
+      const response = await axios.get(`${prefix}/${processId}/state`);
+      expect(response.data.state.status).toBe("waiting");
+    });
+
+    test("should return 404 for non existing process", async () => {
+      const randomId = uuid();
+      const response = await axios.post(`${prefix}/${randomId}/commit`);
+      expect(response.status).toBe(404);
+    });
   });
 
-  test("should return 404 for non existing process", async () => {
-    const randomId = uuid();
-    const response = await axios.post(`${prefix}/${randomId}/commit`);
-    expect(response.status).toBe(404);
+  describe("POST /:id/push", () => {
+    test("should return 200 for existing process and should affect the process status", async () => {
+      const firstCall = await axios.get(`${prefix}/${processId}/state`);
+      expect(firstCall.data.state.status).toBe("waiting");
+
+      const commitCall = await axios.post(`${prefix}/${processId}/commit`);
+      expect(commitCall.status).toBe(200);
+
+      const pushCall = await axios.post(`${prefix}/${processId}/push`);
+      expect(pushCall.status).toBe(202);
+      await delay(1500);
+
+      const response = await axios.get(`${prefix}/${processId}/state`);
+      expect(response.data.state.status).not.toBe("waiting");
+    });
   });
-});
-
-describe("POST /:id/push", () => {
-  let processId;
-
-  beforeEach(async () => {
-    const process = await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
-    processId = process.data.process_id;
-    await world.waitProcessStop(processId);
-  });
-
-  test("should return 200 for existing process and should affect the process status", async () => {
-    const firstCall = await axios.get(`${prefix}/${processId}/state`);
-    expect(firstCall.data.state.status).toBe("waiting");
-
-    const commitCall = await axios.post(`${prefix}/${processId}/commit`);
-    expect(commitCall.status).toBe(200);
-
-    const pushCall = await axios.post(`${prefix}/${processId}/push`);
-    expect(pushCall.status).toBe(202);
-    await delay(1500);
-
-    const response = await axios.get(`${prefix}/${processId}/state`);
-    expect(response.data.state.status).not.toBe("waiting");
-  });
-});
+})
