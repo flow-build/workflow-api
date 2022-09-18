@@ -58,8 +58,8 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await cleanDb();
-  await db.destroy();
+  cleanDb();
+  db.destroy();
   server.close();
 });
 
@@ -165,7 +165,7 @@ describe("GET /workflows/name/:name/processes", () => {
   });
 
   test("Should return 404 for a non-existent workflow_name", async () => {
-    const name = "whatever";
+    const name = "whatever-non-existent";
 
     let response = await axios.get(`${route}/${name}/processes`, {});
     expect(response.status).toEqual(404);

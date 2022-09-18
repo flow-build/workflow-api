@@ -168,7 +168,7 @@ const getProcessesByWorkflowName = async (ctx, next) => {
   const engine = getEngine();
   const workflow = await engine.fetchWorkflowByName(workflow_name);
 
-  if (workflow) {
+  if (workflow?._id) {
     try {
       const result = await cockpitService.fetchWorkflowProcessesByWorkflowName(workflow_name);
       ctx.status = 200;
