@@ -1,3 +1,12 @@
+## [2.6.3](https://github.com/flow-build/workflow/compare/v2.6.2...v2.6.3) (2022-09-18)
+
+
+### Bug Fixes
+
+* activity manager tests ([3237b08](https://github.com/flow-build/workflow/commit/3237b08be181cd499524c7777f657cf5846b103c))
+* fix cockpit processes router ([78cb23f](https://github.com/flow-build/workflow/commit/78cb23f0effde24dce0cc18a3b8be8590ffbd802))
+* fix cockpit workflow ([e6a478a](https://github.com/flow-build/workflow/commit/e6a478a435c5e365295447eb75fe78b5e04999da))
+
 ## [2.6.2](https://github.com/flow-build/workflow/compare/v2.6.1...v2.6.2) (2022-09-15)
 
 
