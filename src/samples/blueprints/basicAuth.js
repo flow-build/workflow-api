@@ -26,11 +26,11 @@ module.exports = {
           input: {},
           request: {
             verb: "GET",
-            baseUrl: 'https://dsd-fdte.atlassian.net/rest/api/2',
-            route: '/search?jql=project=AVA&maxResults=2&fields=summary',
+            baseUrl: 'https://postman-echo.com',
+            route: '/basic-auth',
             auth: {
-              username: 'gustavo.haramura@fdte.io',
-              password: '542GavjnxBjsxZKCldVq2E22'  
+              username: 'postman',
+              password: 'password'  
             }
           }
         },
@@ -47,7 +47,7 @@ module.exports = {
           request: {
             verb: "GET",
             baseUrl: { $ref: 'parameters.baseUrl' },
-            route: { $mustache: '{{{parameters.route}}}?jql=project={{parameters.project}}&maxResults=5&fields=summary' },
+            route: { $mustache: '{{{parameters.route}}}-{{{parameters.project}}' },
             auth: {
               username: { $ref: 'parameters.username' },
               password: { $ref: 'parameters.password' }, 
@@ -72,11 +72,11 @@ module.exports = {
     ],
     environment: {},
     parameters: {
-      username: 'gustavo.haramura@fdte.io',
-      password: '542GavjnxBjsxZKCldVq2E22',
-      baseUrl: 'https://dsd-fdte.atlassian.net/rest/api/2',
-      route: '/search',
-      project: 'AVA'
+      username: 'postman',
+      password: 'password',
+      baseUrl: 'https://postman-echo.com',
+      route: '/basic',
+      project: 'auth'
     }
   },
 };
