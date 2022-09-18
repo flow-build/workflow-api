@@ -28,7 +28,7 @@ class World {
       }
       logger.debug(`process status: ${this.currentStatus}`);
     } while (!expectedStatus.includes(this.currentStatus));
-    return;
+    return true;
   }
 
   async getCurrentState(pid) {
@@ -43,7 +43,7 @@ class World {
     this.currentState = response.data;
     this.currentStatus = response.data.state.status;
     this.nodeId = response.data.state.node_id;
-    return;
+    return true;
   }
 }
 
