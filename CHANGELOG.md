@@ -1,3 +1,15 @@
+## [2.7.0](https://github.com/flow-build/workflow/compare/v2.6.3...v2.7.0) (2022-09-19)
+
+
+### Features
+
+* add basic auth http node ([3d911bf](https://github.com/flow-build/workflow/commit/3d911bff146b0ba2822a33f3c23a66b4d243bf6e))
+
+
+### Bug Fixes
+
+* adjust route schema to accept $ functions ([03e93d8](https://github.com/flow-build/workflow/commit/03e93d882c11ebf9cc8cf54a8657939e5a0d38c4))
+
 ## [2.6.3](https://github.com/flow-build/workflow/compare/v2.6.2...v2.6.3) (2022-09-18)
 
 
