@@ -27,12 +27,34 @@ const getNodes = async (ctx, next) => {
 }
 
 const fetchNode = async (ctx,next) => {
-  const node = getNode(ctx.request.body)
-  ctx.status = 200;
-  ctx.body = {
-    schema: node.constructor.schema
+  let body = ctx.request.body;
+
+  if(body.type.toLowerCase() === 'systemtask' && !body.category) {
+    ctx.status = 400;
+    ctx.body = {
+      message: "Invalid Request Body",
+      error: [{
+        message: "systemTasks must have required property category"
+      }]
+    }
+    return next();
   }
-  return next();
+
+  try {
+    const node = getNode(ctx.request.body)
+    ctx.status = 200;
+    ctx.body = {
+      schema: node.constructor.schema
+    }
+    return next();
+  } catch (e) {
+    console.log(e)
+    ctx.status = 404;
+    ctx.body = {
+      message: e.toString()
+    }
+  }
+  
 }
 
 module.exports = {

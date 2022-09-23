@@ -50,7 +50,7 @@ module.exports = (opts = {}) => {
   const nodes = new Router();
   nodes.prefix("/nodes");
   nodes.get('/', getNodes)
-  nodes.post("/", fetchNode)
+  nodes.post("/", cockpitValidator.validateFetchNodeSchema, fetchNode)
 
   router.use(processes.routes());
   router.use(workflows.routes());
