@@ -1,3 +1,10 @@
+## [2.7.1](https://github.com/flow-build/workflow/compare/v2.7.0...v2.7.1) (2022-09-23)
+
+
+### Bug Fixes
+
+* **controllers:** :bug: handle exception when node is not found ([d8a1b63](https://github.com/flow-build/workflow/commit/d8a1b63d4975c33574160e49d8408cc0ac7ef26b))
+
 ## [2.7.0](https://github.com/flow-build/workflow/compare/v2.6.3...v2.7.0) (2022-09-19)
 
 
