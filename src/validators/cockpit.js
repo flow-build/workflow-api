@@ -1,6 +1,6 @@
 const { validateBodyWithSchema } = require("./base");
 
-module.exports.validateSetProcessState = validateBodyWithSchema({
+const validateSetProcessState = validateBodyWithSchema({
   type: "object",
   properties: {
     next_node_id: { type: "string" },
@@ -9,4 +9,19 @@ module.exports.validateSetProcessState = validateBodyWithSchema({
   },
   additionalProperties: false,
   required: ["next_node_id", "bag", "result"],
-});
+})
+
+const validateFetchNodeSchema = validateBodyWithSchema({
+  type: 'object',
+  required: ['type'],
+  properties: {
+    type: { type: 'string' },
+    category: { type: 'string' }
+  },
+  additionalProperties: false
+})
+
+module.exports = {
+  validateSetProcessState,
+  validateFetchNodeSchema
+};
