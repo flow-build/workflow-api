@@ -46,7 +46,7 @@ function serializeState(state) {
   };
 }
 
-function _stateNotFound() {
+function _stateNotFound(ctx) {
   ctx.status = 404;
   ctx.body = {
     message: "stateId not found",
@@ -84,11 +84,7 @@ async function buildStateResponse(states, process) {
     };
   } else {
     response = {
-      message: "no state found with the parameter provided",
-      params: {
-        nodeId,
-        stepNumber,
-      },
+      message: "no state found with the parameter provided"
     };
   }
 
@@ -101,7 +97,7 @@ const fetchById = async (ctx, next) => {
 
   const state = await getStateById(stateId);
   if (!state) {
-    _stateNotFound();
+    _stateNotFound(ctx);
     return next();
   }
 
@@ -173,7 +169,7 @@ const fetchSpec = async (ctx, next) => {
   const stateId = ctx.params.id;
   const state = await getStateById(stateId);
   if (!state) {
-    _stateNotFound();
+    _stateNotFound(ctx);
     return next();
   }
 
@@ -190,7 +186,7 @@ const calculateExecutionData = async (ctx, next) => {
   const stateId = ctx.params.id;
   const state = await getStateById(stateId);
   if (!state) {
-    _stateNotFound();
+    _stateNotFound(ctx);
     return next();
   }
 
