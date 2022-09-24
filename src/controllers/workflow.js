@@ -19,7 +19,6 @@ const serializeWorkflow = (workflow) => {
 
 const serializeWorkflowNoBlueprint = (workflow) => {
   const w = serializeWorkflow(workflow);
-  console.log(workflow)
   delete w.blueprint_spec;
   return w;
 };
