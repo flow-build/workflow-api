@@ -10,7 +10,7 @@ const serializeWorkflow = (workflow) => {
     created_at: workflow.created_at,
     name: workflow.name,
     description: workflow.description,
-    version: workflow._version,
+    version: workflow._version || workflow.version,
     hash: workflow._blueprint_hash,
     blueprint_spec: workflow.blueprint_spec,
     isLatest: workflow._latest,
@@ -19,6 +19,7 @@ const serializeWorkflow = (workflow) => {
 
 const serializeWorkflowNoBlueprint = (workflow) => {
   const w = serializeWorkflow(workflow);
+  console.log(workflow)
   delete w.blueprint_spec;
   return w;
 };
