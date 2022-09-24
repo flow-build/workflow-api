@@ -46,7 +46,7 @@ function serializeState(state) {
   };
 }
 
-function _stateNotFound() {
+function _stateNotFound(ctx) {
   ctx.status = 404;
   ctx.body = {
     message: "stateId not found",
@@ -101,7 +101,7 @@ const fetchById = async (ctx, next) => {
 
   const state = await getStateById(stateId);
   if (!state) {
-    _stateNotFound();
+    _stateNotFound(ctx);
     return next();
   }
 
