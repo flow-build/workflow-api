@@ -1,3 +1,12 @@
+## [2.7.2](https://github.com/flow-build/workflow/compare/v2.7.1...v2.7.2) (2022-09-24)
+
+
+### Bug Fixes
+
+* **controllers:** :bug: fix format response when state is not found ([91ddaca](https://github.com/flow-build/workflow/commit/91ddaca6144094f541c13798715dd21d94562614))
+* **controllers:** :bug: fix when state id was not found ([52acd23](https://github.com/flow-build/workflow/commit/52acd2397cc79645c98ea59e7b3fb3ece844e3ab))
+* **controllers:** :bug: re-add the workflow version to list workflows ([977cb7a](https://github.com/flow-build/workflow/commit/977cb7aeeb808d4d016cff99e97deba77876b378))
+
 ## [2.7.1](https://github.com/flow-build/workflow/compare/v2.7.0...v2.7.1) (2022-09-23)
 
 
