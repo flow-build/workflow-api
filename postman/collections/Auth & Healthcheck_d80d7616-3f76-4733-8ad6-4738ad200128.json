@@ -1,0 +1,99 @@
+{
+	"info": {
+		"_postman_id": "1dc6964e-e45e-48f7-a9e1-d016dfc6e290",
+		"name": "Auth & Healthcheck",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Healthcheck",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1b8a6c9a-f068-4900-b90a-f9fbc2e25fba",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "d9823576-0056-47e5-9763-554175c554fa",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/healthcheck",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"healthcheck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "29853225-38df-4475-a57b-7f0fa114daf8",
+						"exec": [
+							"const response = pm.response.json();\t\t\t\t\t\t\r",
+							"pm.environment.set(\"token\",response.jwtToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "c642d57e-d493-49b9-9e42-335528bb6df2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-secret",
+						"value": "1234",
+						"type": "string"
+					},
+					{
+						"key": "x-duration",
+						"value": "36000000",
+						"type": "string"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"actor_id\": \"{{$guid}}\",\r\n    \"claims\": [\"whatever\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/token",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
