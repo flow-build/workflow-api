@@ -1,0 +1,3950 @@
+{
+	"info": {
+		"_postman_id": "17b8526c-090d-45b4-9e7b-ef99747e20b2",
+		"name": "Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Healthcheck",
+			"item": [
+				{
+					"name": "Base",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should respond version\", () => {\r",
+									"    pm.expect(response.version).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should respond engine version\", () => {\r",
+									"    pm.expect(response.engine).to.exist;\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"id": "41a064f9-eda7-402d-b76b-e20abd9a9db5"
+							}
+						}
+					],
+					"id": "a5ee173f-376c-4df0-af27-3d3a7ac6b852",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Healthcheck",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should respond version\", () => {\r",
+									"    pm.expect(response.version).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should respond engine version\", () => {\r",
+									"    pm.expect(response.engine).to.exist;\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"id": "43e894c5-dc71-4110-9d96-66ebe0a88f8b"
+							}
+						}
+					],
+					"id": "53a06893-02a8-4f67-803d-810117a1bddc",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/healthcheck",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"healthcheck"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "817dd6a1-26a2-4d24-820c-b5d2aee461f0",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "00df34e5-86ca-4d9f-9bd2-5f509833edf8"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "2485bf1d-efb3-4e1c-8d38-dd666d82e2c4"
+					}
+				}
+			]
+		},
+		{
+			"name": "Token",
+			"item": [
+				{
+					"name": "Create Token - without payload",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should return jwtToken\", () => {\r",
+									"    pm.expect(response.jwtToken).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return payload\", () => {\r",
+									"    pm.expect(response.payload).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return actor_id\", () => {\r",
+									"    pm.expect(response.payload.actor_id).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return session_id\", () => {\r",
+									"    pm.expect(response.payload.session_id).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Claims should be empty\", () => {\r",
+									"    pm.expect(response.payload.claims).to.have.length(0);\r",
+									"})\r",
+									"\r",
+									"pm.environment.set(\"token\", response.jwtToken)"
+								],
+								"type": "text/javascript",
+								"id": "53a6fac5-1e23-47f1-b94d-77edd08717e9"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"actor_id\",\"06dc94af-3a8a-40e3-be2c-4942c991e8b5\")"
+								],
+								"type": "text/javascript",
+								"id": "b2c823d1-1879-47e4-8c42-cec03d6c28ef"
+							}
+						}
+					],
+					"id": "4768f7df-0d1c-4614-a1f1-a010882573c7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Token - with actor_id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const providedActorId = pm.collectionVariables.get(\"actor_id\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should use provided actor_id\", () => {\r",
+									"    pm.expect(response.payload.actor_id).to.eql(providedActorId);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"id": "e5085828-7888-4ebb-a42a-3d2a352cfd9d"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"actor_id\",\"3556a862-1663-4fed-b4a0-a028d1be2a4e\")"
+								],
+								"type": "text/javascript",
+								"id": "cc1e1f4a-7d97-4479-a664-be30ba02c689"
+							}
+						}
+					],
+					"id": "969ec4c9-1ce7-4623-973a-014601025f29",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"actor_id\": \"{{actor_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Token - with duration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const definedDuration = pm.collectionVariables.get('duration');\r",
+									"const duration = response.payload.exp - response.payload.iat;\r",
+									"\r",
+									"pm.test(\"Should use defined duration\", () => {\r",
+									"    pm.expect(duration).to.eql(definedDuration);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"id": "be356438-ef17-4206-abfb-fe7ccaf2d3b5"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"duration\", 6000)"
+								],
+								"type": "text/javascript",
+								"id": "b0a54fbe-dcbb-4631-b6f8-1faf719bf626"
+							}
+						}
+					],
+					"id": "476d1eb0-0bad-4288-aa4f-e3a346ab6e7f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-duration",
+								"value": "{{duration}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Token - with claims",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const providedClaims = pm.collectionVariables.get(\"claims\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should use provided claims\", () => {\r",
+									"    pm.expect(JSON.stringify(response.payload.claims)).to.eql(providedClaims);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"id": "a79db299-9500-4cfd-838a-16a0d2912343"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"claims\",'[\"a\",\"b\"]')"
+								],
+								"type": "text/javascript",
+								"id": "3a0a4d7a-b530-4097-aa6f-accda6c72ee7"
+							}
+						}
+					],
+					"id": "3d171a57-e499-4c35-bf94-d16556f06a7f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"claims\": {{claims}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Token - with claims as string",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const providedClaims = pm.collectionVariables.get(\"claims\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should convert claims to an Array\", () => {\r",
+									"    pm.expect(response.payload.claims[0]).to.eql(providedClaims);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"id": "bf111333-6f1e-4feb-983d-8c02bc513b58"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"claims\",\"abc\")"
+								],
+								"type": "text/javascript",
+								"id": "95093aac-d56f-435d-af47-7e7d87efdc6f"
+							}
+						}
+					],
+					"id": "617dfa96-c3eb-4ca3-a9ee-dc27e65fa820",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"claims\": \"{{claims}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/token",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "f90f9d06-c566-4b42-b8ac-caa2cad4f01a",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "76ffa041-0a14-4097-9ad8-3db8a6556985"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "870f3e8d-b7b7-45f7-9009-747ecd9e70d2"
+					}
+				}
+			]
+		},
+		{
+			"name": "Packages",
+			"item": [
+				{
+					"name": "Create Package (without token)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"id": "9dc79946-1c26-45c7-8570-85cee32edc38"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"id": "c2ed9e90-10a3-49b9-847d-d3b17213becb"
+							}
+						}
+					],
+					"id": "8c4be756-1345-4ccd-b915-85ec7db87a81",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$guid}}\",\r\n    \"description\": \"test package\",\r\n    \"code\": [\r\n        \"do\",\r\n        [\r\n            \"def\",\r\n            \"package_test_1\",\r\n            [\r\n                \"fn\",\r\n                [],\r\n                [\r\n                    \"prn\",\r\n                    [\r\n                        \"`\",\r\n                        \"Dummy test is running!\"\r\n                    ]\r\n                ]\r\n            ]\r\n        ]\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/packages",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"packages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Package",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should return package_id\", () => {\r",
+									"    pm.expect(response.package_id).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.collectionVariables.set(\"package_id\",response.package_id)"
+								],
+								"type": "text/javascript",
+								"id": "00210036-4bb6-44ba-bbcb-9c63aaa83e35"
+							}
+						}
+					],
+					"id": "3e941c2a-a73d-42f4-a357-ad5fb50c9895",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$guid}}\",\r\n    \"description\": \"test package\",\r\n    \"code\": [\r\n        \"do\",\r\n        [\r\n            \"def\",\r\n            \"package_test_1\",\r\n            [\r\n                \"fn\",\r\n                [],\r\n                [\r\n                    \"prn\",\r\n                    [\r\n                        \"`\",\r\n                        \"Dummy test is running!\"\r\n                    ]\r\n                ]\r\n            ]\r\n        ]\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/packages",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"packages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Package",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const package_id = pm.collectionVariables.get(\"package_id\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should return id\", () => {\r",
+									"    pm.expect(response.id).to.eql(package_id);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return created_at\", () => {\r",
+									"    pm.expect(response.created_at).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return name\", () => {\r",
+									"    pm.expect(response.name).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return description\", () => {\r",
+									"    pm.expect(response.description).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return code\", () => {\r",
+									"    pm.expect(response.code).to.exist;\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"id": "4ab57a67-a038-4741-9506-8a9604cf3dd2"
+							}
+						}
+					],
+					"id": "4ef9010d-205b-4d96-80a5-09f70cb58a28",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/packages/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"packages",
+								":id"
+							],
+							"variable": [
+								{
+									"id": "b9d66614-91ca-4d35-a547-44641645a5a9",
+									"key": "id",
+									"value": "{{package_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Package",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const package_id = pm.collectionVariables.get(\"package_id\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(202);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should return 1 package deleted\", () => {\r",
+									"    pm.expect(response.deleted).to.eql(1);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"id": "d30f6e93-1188-4df7-a416-8df701677b40"
+							}
+						}
+					],
+					"id": "a607bc75-f940-4660-add8-2070596d3001",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/packages/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"packages",
+								":id"
+							],
+							"variable": [
+								{
+									"id": "6e7adf6a-f00d-40d2-a54d-a6fafc84a1e8",
+									"key": "id",
+									"value": "{{package_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "5800db39-8fa4-4ef7-8ac8-1fb2648855d2"
+		},
+		{
+			"name": "Workflow",
+			"item": [
+				{
+					"name": "Create Workflow",
+					"item": [
+						{
+							"name": "Create Workflow (without token)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "7a2909a6-0b81-422c-be42-6d22ef7f0e1d",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "efe60256-82d3-4732-9a10-1bafef1b0695",
+										"exec": [
+											"pm.test(\"Create workflow should validate token\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "ef887244-7367-4b02-b161-3644037d02c6",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Workflow (without body)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"id": "ecf1461b-5ce1-4cd1-91e9-28eefc593ad8"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return message\", () => {\r",
+											"    pm.expect(response.message).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return errors\", () => {\r",
+											"    pm.expect(response.error).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return 3 errors\", () => {\r",
+											"    pm.expect(response.error).to.have.length(3);\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"id": "9f727017-6166-47cf-86b5-5eeb6337ba83"
+									}
+								}
+							],
+							"id": "52683467-1cae-4d46-8af8-e31f202d4231",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Workflow (without id)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "39b1fcba-5d19-48fd-983b-3f6059199ade",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "849e5380-d31f-4900-90d3-2dd9444eecaf",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return workflow_id\", () => {\r",
+											"    pm.expect(response.workflow_id).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return hash\", () => {\r",
+											"    pm.expect(response.hash).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return version\", () => {\r",
+											"    pm.expect(response.version).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should have no warnings\", () => {\r",
+											"    pm.expect(response.warnings).to.exist;\r",
+											"    pm.expect(response.warnings).to.have.length(0);\r",
+											"})\r",
+											"\r",
+											"pm.environment.set(\"fb_test_createWorkflow_workflowId\",response.workflow_id)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "a440c324-0174-49af-932e-27439588b2e1",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"fb_test_createWorkflow\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Workflow (with id)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "0e1ba1fa-79ea-43e0-89d1-2eef477e78a8",
+										"exec": [
+											"var uuid = require(\"uuid\")\r",
+											"\r",
+											"const id = uuid.v4();\r",
+											"\r",
+											"pm.environment.set(\"fb_test_createWorkflow_workflowId\", id)\r",
+											"pm.environment.set(\"fb_test_createWorkflow_workflowName\", \"fb_test_createWorkflow\")"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "f5b70f7c-abe4-4061-a7c2-da6dbd0acf90",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const workflow_id = pm.environment.get(\"fb_test_createWorkflow_workflowId\")\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return workflow_id\", () => {\r",
+											"    pm.expect(response.workflow_id).to.eql(workflow_id);\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return hash\", () => {\r",
+											"    pm.expect(response.hash).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return version\", () => {\r",
+											"    pm.expect(response.version).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should have no warnings\", () => {\r",
+											"    pm.expect(response.warnings).to.exist;\r",
+											"    pm.expect(response.warnings).to.have.length(0);\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "de833bdd-dbbf-4cb6-837e-71e09e730270",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"workflow_id\": \"{{fb_test_createWorkflow_workflowId}}\",\r\n  \"name\": \"{{fb_test_createWorkflow_workflowName}}\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Workflow (repeated id)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "2e0e49d2-df35-4b44-9beb-60d2dea715d1",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "12087063-d417-41b3-a1c0-0b265f1cac91",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.collectionVariables.get(\"workflow_id\")\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return message\", () => {\r",
+											"    pm.expect(response.message).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return error\", () => {\r",
+											"    pm.expect(response.error).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return that this id already exist\", () => {\r",
+											"    pm.expect(response.error).to.eql(\"workflow already exists\");\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "29361ee5-0853-442f-8213-a2170930b846",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"workflow_id\": \"{{fb_test_createWorkflow_workflowId}}\",\r\n  \"name\": \"fb_test_createWorkflow\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Workflow (not a uuid)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "5adc6c53-c588-43c4-b172-974e5e2a4a58",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "affd451a-f23a-4b8f-9f68-14a3615a1c1c",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.collectionVariables.get(\"workflow_id\")\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return message\", () => {\r",
+											"    pm.expect(response.message).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return error\", () => {\r",
+											"    pm.expect(response.error).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return error\", () => {\r",
+											"    pm.expect(response.error[0].field).to.eql(\"/workflow_id\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "2e8891bd-89dc-4864-b66a-8f79a80dbe3b",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"workflow_id\": \"not_a_uuid\",\r\n    \"name\": \"fb_test_createWorkflow\",\r\n    \"description\": \"system workflow\",\r\n    \"blueprint_spec\": {\r\n        \"requirements\": [\r\n            \"core\"\r\n        ],\r\n        \"prepare\": [],\r\n        \"nodes\": [\r\n            {\r\n                \"id\": \"1\",\r\n                \"type\": \"Start\",\r\n                \"name\": \"Start node\",\r\n                \"parameters\": {\r\n                    \"input_schema\": {}\r\n                },\r\n                \"next\": \"2\",\r\n                \"lane_id\": \"1\"\r\n            },\r\n            {\r\n                \"id\": \"3\",\r\n                \"type\": \"Finish\",\r\n                \"name\": \"Finish node\",\r\n                \"next\": null,\r\n                \"lane_id\": \"1\"\r\n            }\r\n        ],\r\n        \"lanes\": [\r\n            {\r\n                \"id\": \"1\",\r\n                \"name\": \"the_only_lane\",\r\n                \"rule\": [\r\n                    \"fn\",\r\n                    [\r\n                        \"&\",\r\n                        \"args\"\r\n                    ],\r\n                    true\r\n                ]\r\n            }\r\n        ],\r\n        \"environment\": {}\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Workflow (lane missing)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "94fecd9e-db89-49b9-b80c-c9828b67dd64",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "03bb738e-792f-478b-b297-5a28047b1e69",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return message\", () => {\r",
+											"    pm.expect(response.message).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return Invalid Connections\", () => {\r",
+											"    pm.expect(response.message).to.eql(\"Invalid Connections\");\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return error\", () => {\r",
+											"    pm.expect(response.error).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return error should point to lane\", () => {\r",
+											"    pm.expect(response.error[0].lane).to.be.false;\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "4f0e89b3-7fbf-468d-b664-016e04ae9203",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"fb_test_createWorkflow\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"4\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Workflow (node missing)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "d3e544ce-445e-4f1c-8bf7-fe4192fa4733",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "1559adef-3434-48de-a5e5-f351b4e082f2",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.collectionVariables.get(\"workflow_id\")\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return message\", () => {\r",
+											"    pm.expect(response.message).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return Invalid Connections\", () => {\r",
+											"    pm.expect(response.message).to.eql(\"Invalid Connections\");\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return error\", () => {\r",
+											"    pm.expect(response.error).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return error should point to next\", () => {\r",
+											"    pm.expect(response.error[0].next).to.be.false;\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "607ae2c6-f3e2-46b6-b372-1ecdceea26f4",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"fb_test_createWorkflow\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"3\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Workflow (duplicated lane)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "16926c0e-dc77-4707-a255-b8ec911bab37",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "fb72d5a0-a3de-489e-908f-588068872b0e",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"pm.collectionVariables.get(\"workflow_id\")\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return message\", () => {\r",
+											"    pm.expect(response.message).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return error\", () => {\r",
+											"    pm.expect(response.error).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Error should point to Lanes\", () => {\r",
+											"    pm.expect(response.error[0].field).to.eql(\"/blueprint_spec/lanes\");\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "c47bd647-ac8f-42dc-9fe1-c768559767d2",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"fb_test_createWorkflow\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      },\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\"fn\", [\"&\", \"args\"], true]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "6034b263-846e-4f49-ab7f-971347ec592e"
+				},
+				{
+					"name": "Create Process",
+					"item": [
+						{
+							"name": "Setup",
+							"item": [
+								{
+									"name": "Create the Workflow",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "629247b9-86ed-4cf7-bb0a-d3aae18863d1",
+												"exec": [
+													"pm.environment.set(\"fb_test_createProcess_workflowName\",\"fb_test_createProcess\")"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "bd17be3c-e6a7-4ebd-884d-340797d3de01",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.environment.set(\"fb_test_createProcess_workflowId\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "5610371a-1ef4-40c8-863f-2c00bc4400e5",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"{{fb_test_createProcess_workflowName}}\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/workflows",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"id": "3477ea74-c5c5-409c-a64d-38248e25746a"
+						},
+						{
+							"name": "Create Process",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "44f53514-2361-40fd-9f79-f48bddcd7ca8",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const workflow_id = pm.environment.get(\"fb_test_createProcess_workflowId\")\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow data\", () => {\r",
+											"    pm.expect(response.workflow).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow version\", () => {\r",
+											"    pm.expect(response.workflow.version).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow name\", () => {\r",
+											"    pm.expect(response.workflow.name).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow id\", () => {\r",
+											"    pm.expect(response.workflow.id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+											"    pm.expect(response.workflow.id).to.eql(workflow_id);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "16f291df-c8b0-4cf2-aeab-c6a8415b4b75",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id/create",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id",
+										"create"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{fb_test_createProcess_workflowId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Process (random id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should NOT return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.be.undefined;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"id": "7fe0ceed-17eb-4539-bbf0-43c0a4d8b29c"
+									}
+								}
+							],
+							"id": "b80c6337-a8d9-458f-9a92-ae27b8455021",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id/create",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id",
+										"create"
+									],
+									"variable": [
+										{
+											"id": "c05a34ed-e73e-420d-b4cc-e993e43d031a",
+											"key": "id",
+											"value": "{{$guid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Process by Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "590ee025-83e9-4bea-b15c-3440b1fe0156",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const workflow_id = pm.environment.get(\"fb_test_createProcess_workflowId\")\r",
+											"const workflow_name = pm.environment.get(\"fb_test_createProcess_workflowName\")\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow data\", () => {\r",
+											"    pm.expect(response.workflow).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow version\", () => {\r",
+											"    pm.expect(response.workflow.version).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow name\", () => {\r",
+											"    pm.expect(response.workflow.name).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+											"    pm.expect(response.workflow.name).to.eql(workflow_name);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow id\", () => {\r",
+											"    pm.expect(response.workflow.id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+											"    pm.expect(response.workflow.id).to.eql(workflow_id);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "71d898c1-b43a-42ed-ad5b-33b88d29360f",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name/create",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name",
+										"create"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "{{fb_test_createProcess_workflowName}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Process by Name (random name)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should NOT return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.be.undefined;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"id": "19616e74-7f81-40ba-b5df-1cbb4202eeab"
+									}
+								}
+							],
+							"id": "faba1cb1-d5c0-4682-8e4c-083fbd9a7412",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name/create",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name",
+										"create"
+									],
+									"variable": [
+										{
+											"id": "9f624db1-6bc5-4b38-90cf-73a3792dc639",
+											"key": "name",
+											"value": "{{$randomWord}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "56f1bd14-b897-466e-84f0-37b901abe7a3"
+				},
+				{
+					"name": "Delete Workflow",
+					"item": [
+						{
+							"name": "Setup",
+							"item": [
+								{
+									"name": "Create workflow_id_for_delete",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "4f9432c3-17e8-4024-be0f-8f0e64fc1af3",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "da08bfc3-6993-4429-8f58-06d02939495e",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.collectionVariables.set(\"fb_test_deleteWorkflow_workflowId\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "bd5c4492-1f8c-42fe-9f58-5c88acc0da3c",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"fb_test_deleteWorkflow\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/workflows",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create workflow_id",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "686f86ab-066a-49fe-ba7d-1f352e127186",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "5c982335-e235-4262-ab68-e8e346ce664e",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.environment.set(\"fb_test_deleteWorkflowAlt_workflowId\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "c051e503-dfc1-4944-b697-121a8734562d",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"fb_test_deleteWorkflowAlt\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/workflows",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Process for workflow_id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "1ef47da6-bd6f-4d13-a2d7-19c915855bce",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "d402c106-4726-41eb-81bc-8dde8669c37c",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id",
+												"create"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{fb_test_deleteWorkflowAlt_workflowId}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"id": "3527190d-8f2f-4053-9c7b-58a2a9951600"
+						},
+						{
+							"name": "Delete Workflow (with id)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "3c8ad144-a423-4bdc-9ab9-f0b3f1fd9b6f",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "f1dae41f-c4ec-40e7-8563-705ae67d68fb",
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "2ab5ed93-5ec0-4623-80a7-9ce53d4deb7e",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{fb_test_deleteWorkflow_workflowId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Workflow (id with process)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "1fa73ec0-dec0-46fe-a8d5-88fd0372d534",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "74a2874e-6e24-453b-a8af-af442c142c8a",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 422\", function () {\r",
+											"    pm.response.to.have.status(422);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has message 'Cannot delete workflows with processes'\", function () {\r",
+											"    pm.expect(response.message).to.eql(\"Cannot delete workflows with processes\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "d38af15a-9e3c-4828-ab24-8aaca10697a8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{fb_test_deleteWorkflowAlt_workflowId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Workflow (random id)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"id": "04ea4b80-6da6-488e-a7cf-7d581fc27e97"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has message 'No such workflow'\", function () {\r",
+											"    pm.expect(response.message).to.eql(\"No such workflow\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"id": "b4fa5fc5-eaf8-4be8-9522-949a31ff5aac"
+									}
+								}
+							],
+							"id": "75f26947-64b3-401d-944c-c5920941b633",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id"
+									],
+									"variable": [
+										{
+											"id": "ce9273c7-48b1-4473-9a97-2c262982c7eb",
+											"key": "id",
+											"value": "{{$guid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "5bd781e9-1d9c-4f00-9d25-d6841ecb60ab"
+				},
+				{
+					"name": "Start Process",
+					"item": [
+						{
+							"name": "Setup",
+							"item": [
+								{
+									"name": "Create the Workflow",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "4e840a18-d9dc-45d4-9f05-7857f71b3a7e",
+												"exec": [
+													"pm.environment.set(\"fb_test_startProcess_workflowName\",\"fb_test_startProcess\")"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "8a746745-4d6a-4f52-b91f-2b130771e12d",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.environment.set(\"fb_test_startProcess_workflowId\", response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "90afad46-b2f4-490c-833e-584cbd18a49b",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"{{fb_test_startProcess_workflowName}}\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/workflows",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"id": "bcc7e0e3-3f78-4fbe-a95b-7cfa0bd1d497"
+						},
+						{
+							"name": "Start Process by Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5c00bdf2-398b-403c-8d4f-dce24be88d2f",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const workflow_id = pm.environment.get(\"fb_test_startProcess_workflowId\")\r",
+											"const workflow_name = pm.environment.get(\"fb_test_startProcess_workflowName\")\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow data\", () => {\r",
+											"    pm.expect(response.workflow).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow version\", () => {\r",
+											"    pm.expect(response.workflow.version).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow name\", () => {\r",
+											"    pm.expect(response.workflow.name).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+											"    pm.expect(response.workflow.name).to.eql(workflow_name);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow id\", () => {\r",
+											"    pm.expect(response.workflow.id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+											"    pm.expect(response.workflow.id).to.eql(workflow_id);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "ddcbf64b-30ae-4b5f-aab2-752af80039c0",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name/start",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name",
+										"start"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "{{fb_test_startProcess_workflowName}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Start Process by Name (random name)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should NOT return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.be.undefined;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"id": "ffa1853c-b94b-43db-a245-06ffa32f3eb7"
+									}
+								}
+							],
+							"id": "6ccf9b99-8e50-4807-adaa-4fe555e4901b",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name/create",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name",
+										"create"
+									],
+									"variable": [
+										{
+											"id": "a461a669-1858-4919-b6ca-55bd12d6d29d",
+											"key": "name",
+											"value": "{{$randomWord}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "c06c1ba9-ec44-4d8a-9407-dd455c9962d1"
+				},
+				{
+					"name": "List Workflows",
+					"item": [
+						{
+							"name": "List Workflows",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "97fdbc9d-1a09-4e4e-9799-e802084713f6",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return more than 1 workflow\", () => {\r",
+											"    pm.expect(response.length).to.be.at.least(1);\r",
+											"});\r",
+											"\r",
+											"const first = response.find(i => i.name === \"basic\");\r",
+											"\r",
+											"pm.test(\"Should return workflow_id\", () => {\r",
+											"    pm.expect(first.workflow_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return created_at\", () => {\r",
+											"    pm.expect(first.created_at).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return name\", () => {\r",
+											"    pm.expect(first.name).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return description\", () => {\r",
+											"    pm.expect(first.description).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return version\", () => {\r",
+											"    pm.expect(first.version).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should NOT return blueprint_spec\", () => {\r",
+											"    pm.expect(first.blueprint_spec).to.be.undefined;\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.set(\"workflow_id\",first.workflow_id);\r",
+											"pm.collectionVariables.set(\"workflow_name\",first.name);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "512dec8a-464f-4ea7-a99a-e138258ecc94",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "51b2d637-b3c7-4690-a3ee-42528994b948"
+				},
+				{
+					"name": "Convert Diagram",
+					"item": [
+						{
+							"name": "Convert Diagram",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c0b8d1ed-24ad-4736-a210-f6d6a71eaadd",
+										"exec": [
+											"var jsonObject = xml2Json(responseBody);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has body\", function () {\r",
+											"    pm.expect(responseBody).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "180206ee-ef21-42cf-b43b-53fe203702e7",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"fb_test_convertDiagram\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows/diagram",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"diagram"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Convert Diagram (with workflow_id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a1821e14-0f2f-4aab-b8b8-0e31207c6916",
+										"exec": [
+											"var jsonObject = xml2Json(responseBody);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has body\", function () {\r",
+											"    pm.expect(responseBody).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "46f56d71-d4ea-4ca5-9b23-facf034419b2",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"workflow_id\": \"{{fb_test_createWorkflow_workflowId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows/diagram",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"diagram"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Convert Diagram (random id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has message 'No such workflow'\", function () {\r",
+											"    pm.expect(response.message).to.eql(\"No such workflow\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"id": "5ec98a70-26e9-476b-b5a6-50e03d6b71a4"
+									}
+								}
+							],
+							"id": "552e901b-b2c5-49a3-a5a5-11ae2ace58c5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"workflow_id\": \"{{$guid}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows/diagram",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"diagram"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Convert Diagram (not a uuid)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has message 'Invalid uuid'\", function () {\r",
+											"    pm.expect(response.message).to.eql(\"Invalid uuid\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"id": "433d1ec3-9501-4140-9f3c-085c17032c59"
+									}
+								}
+							],
+							"id": "ea25dba9-0918-4cc8-8b4d-a7fa1ad88364",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"workflow_id\": \"not_a_uuid\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows/diagram",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"diagram"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "89eb1a87-4b58-416e-bc28-6ee50963e1c2"
+				},
+				{
+					"name": "Read Workflows",
+					"item": [
+						{
+							"name": "Read Workflows by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "768aa2cc-24af-4fdb-a3b4-16cf15c84072",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const workflow_id = pm.environment.get(\"fb_test_createWorkflow_workflowId\")\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow_id provided\", () => {\r",
+											"    pm.expect(response.workflow_id).to.eql(workflow_id);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return workflow_id\", () => {\r",
+											"    pm.expect(response.workflow_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return created_at\", () => {\r",
+											"    pm.expect(response.created_at).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return name\", () => {\r",
+											"    pm.expect(response.name).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return description\", () => {\r",
+											"    pm.expect(response.description).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return version\", () => {\r",
+											"    pm.expect(response.version).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return hash\", () => {\r",
+											"    pm.expect(response.hash).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return blueprint_spec\", () => {\r",
+											"    pm.expect(response.blueprint_spec).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "b790b4f7-08c3-4325-ab6c-b47ff0e7108b",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{fb_test_createWorkflow_workflowId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Workflows by Id (non existent id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"id": "f0149aab-0c2d-45fe-b9cf-0ff4980dfe01"
+									}
+								}
+							],
+							"id": "1aa51894-1dbc-48e5-863b-9c10d67ee650",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id"
+									],
+									"variable": [
+										{
+											"id": "731777b0-f630-46e5-8684-cbeacfbaab5c",
+											"key": "id",
+											"value": "{{$guid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Workflows by Id (invalid id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Message should be Invalid uuid\", () => {\r",
+											"    pm.expect(response.message).to.eql(\"Invalid uuid\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"id": "cb5cb453-cb1b-40c4-b3e7-0b4b4e4076c2"
+									}
+								}
+							],
+							"id": "6aaa0e60-7df3-4dd6-b564-d7fad9621098",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id"
+									],
+									"variable": [
+										{
+											"id": "9a349a5c-f667-4b10-bf33-41d578860d5f",
+											"key": "id",
+											"value": "not_a_uuid"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Workflows by Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d49920e8-3608-4ff8-9c34-33312d47a44f",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const workflow_id = pm.environment.get(\"fb_test_createWorkflow_workflowId\")\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow_id provided\", () => {\r",
+											"    pm.expect(response.workflow_id).to.eql(workflow_id);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return workflow_id\", () => {\r",
+											"    pm.expect(response.workflow_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return created_at\", () => {\r",
+											"    pm.expect(response.created_at).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return name\", () => {\r",
+											"    pm.expect(response.name).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return description\", () => {\r",
+											"    pm.expect(response.description).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return version\", () => {\r",
+											"    pm.expect(response.version).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return hash\", () => {\r",
+											"    pm.expect(response.hash).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return blueprint_spec\", () => {\r",
+											"    pm.expect(response.blueprint_spec).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "89c382e0-cb80-4efc-a778-9d0f0d0d5770",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "{{fb_test_createWorkflow_workflowName}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Workflows by Name (non existent Name)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"id": "4125cb81-8d05-409b-82e7-d23cee8e6bb4"
+									}
+								}
+							],
+							"id": "10c64cdd-5e60-41ad-99cc-7450114ba284",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name"
+									],
+									"variable": [
+										{
+											"id": "b377bd68-28e7-4536-8014-42a105ce50b4",
+											"key": "name",
+											"value": "{{$randomWord}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "78910046-af89-47c0-8167-7c16ec594e38"
+				},
+				{
+					"name": "List Processes",
+					"item": [
+						{
+							"name": "Setup",
+							"item": [
+								{
+									"name": "Create a Workflow",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "11130be0-b094-4d15-ba62-80d133471dfe",
+												"exec": [
+													"pm.environment.set(\"fb_test_listProcesses_workflowName\", \"fb_test_listProcesses\")"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "0c140803-5150-42f8-b81f-4051147c331f",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.environment.set(\"fb_test_listProcesses_workflowId\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "32ac54e9-84d4-41cd-9321-b11ad4f17b37",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"{{fb_test_listProcesses_workflowName}}\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/workflows",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create a Process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "44d06091-a6bb-43fd-873c-058c36498217",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "378d88d6-15ba-4e82-95f4-5aeb562390ad",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id",
+												"create"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{fb_test_listProcesses_workflowId}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create another Process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "30cb90e1-8825-4b8b-8c9e-234abcf358e2",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "6d1827ca-ea2a-4732-8262-6dbfa6582aaa",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id",
+												"create"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{fb_test_listProcesses_workflowId}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create other Workflow",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "becf9090-9849-47f0-adba-0770454d27a2",
+												"exec": [
+													"pm.environment.set(\"fb_test_listProcessesAlt_workflowName\", \"fb_test_listProcessesAlt\")"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "579e830d-745e-4500-9146-3fd5216c14a7",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.environment.set(\"fb_test_listProcessesAlt_workflowId\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "857c34fc-2a9a-4d33-9c84-121fae61cddd",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"{{fb_test_listProcessesAlt_workflowName}}\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{host}}/workflows",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create a process on the other workflow",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "9799cb96-2a5e-4160-badc-5a4a901e8416",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"const workflow_id = pm.environment.get(\"fb_test_listProcessesAlt_workflowId\")\r",
+													"\r",
+													"pm.test(\"Status code is 201\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return a process_id\", () => {\r",
+													"    pm.expect(response.process_id).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow data\", () => {\r",
+													"    pm.expect(response.workflow).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow version\", () => {\r",
+													"    pm.expect(response.workflow.version).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow name\", () => {\r",
+													"    pm.expect(response.workflow.name).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow id\", () => {\r",
+													"    pm.expect(response.workflow.id).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+													"    pm.expect(response.workflow.id).to.eql(workflow_id);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "02e0fa08-00cb-4ebd-a751-b281f46b9265",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id",
+												"create"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{fb_test_listProcessesAlt_workflowId}}"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"id": "0d052d80-16b7-4cc5-948d-c2c4ee8d8ffc"
+						},
+						{
+							"name": "List Processes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c3bc6a12-58f8-4411-bf75-9765815e61ca",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return more than 2 proceses\", () => {\r",
+											"    pm.expect(response).to.have.length(2);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "d2145134-bb35-4f37-a17c-4582d6d4adb9",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id/processes",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id",
+										"processes"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{fb_test_listProcesses_workflowId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "624f1d50-452d-4983-bd0d-98d61633195d"
+				}
+			],
+			"id": "5936e42e-959e-4a4b-880f-1ff1e3d4d09d"
+		},
+		{
+			"name": "Processes",
+			"item": [
+				{
+					"name": "Processes Avaliable",
+					"item": [],
+					"id": "8431d3ef-40aa-4291-98ae-d9ac10367812"
+				},
+				{
+					"name": "Process Done",
+					"item": [],
+					"id": "a784b391-b391-487c-8ea9-8f000d0debcb"
+				},
+				{
+					"name": "Current State",
+					"item": [],
+					"id": "c6854fd4-b946-499d-b785-f9fe6a9e23a3"
+				},
+				{
+					"name": "Process History",
+					"item": [],
+					"id": "4804deab-aea4-4628-aef0-6012f468582a"
+				},
+				{
+					"name": "Current Activity",
+					"item": [],
+					"id": "98afddf0-3c6b-410c-93a3-4b86b909395e"
+				},
+				{
+					"name": "Run Process",
+					"item": [],
+					"id": "2476f3d5-f069-4343-b063-4576b7818726"
+				},
+				{
+					"name": "Abort Process",
+					"item": [],
+					"id": "32375afb-694d-4076-9c41-ce17c053897b"
+				},
+				{
+					"name": "Commit Activity",
+					"item": [],
+					"id": "5bbde3b0-f815-428b-a9a9-5b2059edf972"
+				},
+				{
+					"name": "Submit Activity",
+					"item": [],
+					"id": "4b73cb31-a06c-4d19-bf60-45f42e47e345"
+				},
+				{
+					"name": "Continue Process",
+					"item": [],
+					"id": "8acf6de8-6709-45e5-9fa2-436d102a8967"
+				}
+			],
+			"id": "b384fc12-bd73-41da-bb9d-7bc37dcb0280"
+		},
+		{
+			"name": "States",
+			"item": [
+				{
+					"name": "Setup",
+					"item": [
+						{
+							"name": "Create a Workflow",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "11130be0-b094-4d15-ba62-80d133471dfe",
+										"exec": [
+											"pm.environment.set(\"fb_test_states_workflowName\", \"fb_test_states\")"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "0c140803-5150-42f8-b81f-4051147c331f",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.environment.set(\"fb_test_states_workflowId\",response.workflow_id)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "4cf22217-8eb4-4378-8dc8-0339a22bd123",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{fb_test_states_workflowName}}\",\r\n    \"description\": \"system workflow\",\r\n    \"blueprint_spec\": {\r\n        \"requirements\": [\r\n            \"core\"\r\n        ],\r\n        \"prepare\": [],\r\n        \"nodes\": [\r\n            {\r\n                \"id\": \"START\",\r\n                \"type\": \"Start\",\r\n                \"name\": \"Start node\",\r\n                \"parameters\": {\r\n                    \"input_schema\": {}\r\n                },\r\n                \"next\": \"DO\",\r\n                \"lane_id\": \"1\"\r\n            },\r\n            {\r\n                \"id\": \"DO\",\r\n                \"name\": \"call endpoint\",\r\n                \"type\": \"systemTask\",\r\n                \"category\": \"http\",\r\n                \"next\": \"END\",\r\n                \"lane_id\": \"1\",\r\n                \"parameters\": {\r\n                    \"input\": {},\r\n                    \"request\": {\r\n                        \"url\": {\r\n                            \"$mustache\": \"{{{parameters.url}}}/get?foo1=bar1&foo2=bar2\"\r\n                        },\r\n                        \"verb\": \"GET\",\r\n                        \"headers\": {\r\n                            \"Content-Type\": \"application/json\"\r\n                        }\r\n                    }\r\n                }\r\n            },\r\n            {\r\n                \"id\": \"END\",\r\n                \"type\": \"Finish\",\r\n                \"name\": \"Finish node\",\r\n                \"next\": null,\r\n                \"lane_id\": \"1\"\r\n            }\r\n        ],\r\n        \"lanes\": [\r\n            {\r\n                \"id\": \"1\",\r\n                \"name\": \"the_only_lane\",\r\n                \"rule\": [\r\n                    \"fn\",\r\n                    [\r\n                        \"&\",\r\n                        \"args\"\r\n                    ],\r\n                    true\r\n                ]\r\n            }\r\n        ],\r\n        \"environment\": {},\r\n        \"parameters\": {\r\n            \"url\": \"https://postman-echo.com\"\r\n        }\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Start the Process",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "44d06091-a6bb-43fd-873c-058c36498217",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.environment.set(\"fb_test_states_processId\",response.process_id)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "28e3f901-f9a6-4f76-9ead-2df706e875ff",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name/start",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name",
+										"start"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "{{fb_test_states_workflowName}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "98af19ee-719d-4970-8852-c9835a72a8a3"
+				},
+				{
+					"name": "Find States",
+					"item": [
+						{
+							"name": "Find State By NodeId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9c9fab43-e4fd-4fa2-874c-cd562b96ab4e",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Should return a state\", () => {\r",
+											"    pm.expect(response.states).to.exist;\r",
+											"});\r",
+											"pm.test(\"Should return a state with id\", () => {\r",
+											"    pm.expect(response.states[0].id).to.exist;\r",
+											"});\r",
+											"\r",
+											"if(response.states) {\r",
+											"    pm.environment.set(\"fb_test_states_stateId\",response.states[0].id)\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "39c69946-24a1-4e5f-b838-eea009e89231",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/states/process/:id?nodeId=DO",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"states",
+										"process",
+										":id"
+									],
+									"query": [
+										{
+											"key": "nodeId",
+											"value": "DO"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{fb_test_states_processId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find State By Step Number",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9c9fab43-e4fd-4fa2-874c-cd562b96ab4e",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Should return an id\", () => {\r",
+											"    pm.expect(response.id).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "ef45bc3e-8981-4a18-9817-2cea5e0be4ed",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/states/process/:id?stepNumber=3",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"states",
+										"process",
+										":id"
+									],
+									"query": [
+										{
+											"key": "stepNumber",
+											"value": "3"
+										}
+									],
+									"variable": [
+										{
+											"id": "fc08cbd6-9836-4d35-a096-d0c04d1bade4",
+											"key": "id",
+											"value": "{{fb_test_states_processId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "c609d11b-79b5-47a7-9e2d-26abf1a8c1f9"
+				},
+				{
+					"name": "Read State",
+					"item": [
+						{
+							"name": "Read State",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9c9fab43-e4fd-4fa2-874c-cd562b96ab4e",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const state_id = pm.environment.get(\"fb_test_states_stateId\")\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Should return the id provided\", () => {\r",
+											"    pm.expect(response.id).to.eql(state_id);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "793aab89-4b2b-4a82-a798-db018c0d62c5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/states/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"states",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{fb_test_states_stateId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read State (random id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9c9fab43-e4fd-4fa2-874c-cd562b96ab4e",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"pm.test(\"Should return the status was not found\", () => {\r",
+											"    pm.expect(response.message).to.eql(\"stateId not found\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "450953c4-1edf-4c24-b615-fd98a0df4835",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/states/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"states",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{$guid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read State (not uuid)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9c9fab43-e4fd-4fa2-874c-cd562b96ab4e",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.test(\"Should return the the uuid is invalid\", () => {\r",
+											"    pm.expect(response.message).to.eql(\"Invalid uuid\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "6101d181-c56b-427f-9fda-b857bc404e15",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/states/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"states",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{$randomWord}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "cb3fe6a4-0a98-4f33-95be-e84ce261a943"
+				},
+				{
+					"name": "Calculate Execution",
+					"item": [
+						{
+							"name": "State Execution",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9c9fab43-e4fd-4fa2-874c-cd562b96ab4e",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Should return the request url\", () => {\r",
+											"    pm.expect(response.request).to.exist;\r",
+											"});\r",
+											"pm.test(\"The url should be resolved\", () => {\r",
+											"    var schema = { \"type\": \"string\", \"format\": \"hostname\" }\r",
+											"    pm.expect(tv4.validate(response.request.url, schema)).to.be.true;\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "d4308d24-b852-486b-9b08-c3aae0625728",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/states/:id/execution",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"states",
+										":id",
+										"execution"
+									],
+									"variable": [
+										{
+											"id": "f7dbdca7-0f10-44e9-b632-61e81f540178",
+											"key": "id",
+											"value": "{{fb_test_states_stateId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "State Execution (random id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9c9fab43-e4fd-4fa2-874c-cd562b96ab4e",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"pm.test(\"Should return the status was not found\", () => {\r",
+											"    pm.expect(response.message).to.eql(\"stateId not found\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "c456549f-7453-4899-a7c0-c2bf812e8aea",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/states/:id/execution",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"states",
+										":id",
+										"execution"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{$guid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "State Execution (not an uuid)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9c9fab43-e4fd-4fa2-874c-cd562b96ab4e",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.test(\"Should return the the uuid is invalid\", () => {\r",
+											"    pm.expect(response.message).to.eql(\"Invalid uuid\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "b0ded3b1-5347-4060-8748-5182f845a619",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/states/:id/execution",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"states",
+										":id",
+										"execution"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{$randomWord}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "cdbda7de-f21d-4ce3-afe2-cad788c27524"
+				},
+				{
+					"name": "Read State Spec",
+					"item": [
+						{
+							"name": "State Spec",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9c9fab43-e4fd-4fa2-874c-cd562b96ab4e",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Should return the node id\", () => {\r",
+											"    pm.expect(response.id).to.eql(\"DO\");\r",
+											"});\r",
+											"pm.test(\"The url should not be resolved\", () => {\r",
+											"    var schema = { \"type\": \"string\", \"format\": \"hostname\" }\r",
+											"    pm.expect(tv4.validate(response.parameters.request.url, schema)).to.be.false;\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "7c9ad3f7-3c55-48d4-858c-4699c35e418c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/states/:id/spec",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"states",
+										":id",
+										"spec"
+									],
+									"variable": [
+										{
+											"id": "f7dbdca7-0f10-44e9-b632-61e81f540178",
+											"key": "id",
+											"value": "{{fb_test_states_stateId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "State Spec (random id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9c9fab43-e4fd-4fa2-874c-cd562b96ab4e",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"pm.test(\"Should return the status was not found\", () => {\r",
+											"    pm.expect(response.message).to.eql(\"stateId not found\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "4154810b-0973-4644-a732-046cb78ab433",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/states/:id/spec",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"states",
+										":id",
+										"spec"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{$guid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "State Spec (not a uuid)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9c9fab43-e4fd-4fa2-874c-cd562b96ab4e",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.test(\"Should return the the uuid is invalid\", () => {\r",
+											"    pm.expect(response.message).to.eql(\"Invalid uuid\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "1360fb60-3509-4d66-bedb-ef0c54325f11",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/states/:id/spec",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"states",
+										":id",
+										"spec"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{$randomWord}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "fc9c1c30-f4fd-4374-adba-dbca85a30014"
+				}
+			],
+			"id": "27893caf-4f4b-461f-a9d2-cc1dafc619b0"
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				],
+				"id": "26dee211-0679-4167-8ff6-b6183da31db1"
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				],
+				"id": "cc8c3b6a-a411-47d3-8a03-8846053acb91"
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "57dbc03e-0b2b-4e4c-a896-a07e3c3fe574",
+			"key": "package_id",
+			"value": ""
+		},
+		{
+			"id": "5742d2e0-17a9-4d8a-8ae9-e1767d05c85b",
+			"key": "workflow_id",
+			"value": ""
+		},
+		{
+			"id": "7905ac83-1b7d-4a10-b6cb-b47ef6f79171",
+			"key": "actor_id",
+			"value": ""
+		},
+		{
+			"id": "b1adfd4a-e7fa-43bd-b37d-e6cc4a71c8c9",
+			"key": "workflow_name",
+			"value": ""
+		},
+		{
+			"id": "31cc1eec-babe-476c-ad21-52c5a43496cf",
+			"key": "workflow_id_for_delete",
+			"value": ""
+		},
+		{
+			"id": "a7368079-beac-4a6e-92f7-216e6a665f61",
+			"key": "workflow_id_for_list_process",
+			"value": ""
+		},
+		{
+			"id": "c22ba297-b9dd-4aca-b5e9-ec9da5c11237",
+			"key": "workflow_name_for_create",
+			"value": ""
+		},
+		{
+			"id": "c193613e-6f11-41c0-a5db-ce88889aac91",
+			"key": "workflow_id_for_create",
+			"value": ""
+		},
+		{
+			"id": "81f85393-81fd-4f60-b73f-bc6795a0ca85",
+			"key": "duration",
+			"value": ""
+		},
+		{
+			"id": "c78724a6-48e8-4985-a7e2-6787bd57b480",
+			"key": "claims",
+			"value": ""
+		},
+		{
+			"id": "b2fb3738-beaa-4348-83eb-e63535200b78",
+			"key": "fb_test_createProcess_workflowName",
+			"value": ""
+		},
+		{
+			"id": "00e93400-1645-4faa-94aa-5806872fb345",
+			"key": "fb_test_createProcess_workflowId",
+			"value": ""
+		},
+		{
+			"id": "b494f525-5d7a-49b8-beee-9e13cb1f5c05",
+			"key": "fb_test_deleteWorkflow_workflowId",
+			"value": ""
+		}
+	]
+}
