@@ -94,7 +94,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Workflows"
+              type: "array"
+              $ref: "#/components/schemas/Workflows"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
     post:
@@ -102,19 +103,13 @@ paths:
       - Workflow
       summary: "Create a new workflow"
       responses:
-        '200':
+        '201':
           description: "Workflow saved successfully"
           content:
             application/json:
               schema:
-                type: "object"
-                properties:
-                  workflow_id:
-                    type: "string"
-                    example: "59e11731-040e-4fb7-9e54-9c9befecbf7e"
-                  workflow_url:
-                    type: "string"
-                    example: "localhost:3000/workflows/59e11731-040e-4fb7-9e54-9c9befecbf7e"
+              type: "object"
+              $ref: "#/components/schemas/Workflow"
         '400':
           description: "Error saving"
           content:
@@ -127,6 +122,8 @@ paths:
                     example: "error message"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
+        '500':
+          description: "Internal Server Error"
   /workflows/{id}:
     get:
       tags:
@@ -136,6 +133,7 @@ paths:
       parameters:
       - name: "id"
         in: "path"
+        description: "workflow_id"
         required: true
         schema:
           type: "string"
@@ -145,9 +143,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Workflow"
-        '404':
-          description: "Workflow not found"
+              type: "object"
+              $ref: "#/components/schemas/Workflow"
+        '204':
+          description: "No Content"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
     delete:
@@ -157,6 +156,7 @@ paths:
       parameters:
       - name: "id"
         in: "path"
+        description: "workflow_id"
         required: true
         schema:
           type: "string"
@@ -167,6 +167,8 @@ paths:
           description: "Workflow not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
+        '422':
+          description: "Cannot delete workflows with processes"
     /workflows/{id}/processes:
      get:
       tags:
@@ -185,7 +187,21 @@ paths:
           content:
             application/json:
               schema:
-                type: "object"
+              type: "array"
+              properties:
+                  process_id:
+                    type: "string"
+                    example: "f655a6d0-3e69-11ed-bbaf-334d286735d0"
+                  created_at:
+                    type: "string"
+                    example: "2022-08-29T14:54:48.346Z"
+                  workflow_id:
+                    type: "string"
+                    example: "cfb7f0a1-3e69-11ed-bbaf-334d286735d0"
+                  status:
+                    type: "string"
+                    example: "waiting"
+              $ref: "#/components/schemas/State"   
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /workflows/name/{name}:
@@ -206,7 +222,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Workflow"
+              type: "object"
+              $ref: "#/components/schemas/Workflow"
         '404':
           description: "Workflow not found"
         '401':
@@ -219,7 +236,7 @@ paths:
       parameters:
       - name: "id"
         in: "path"
-        description: "workflow id"
+        description: "workflow_id"
         required: true
         schema:
           type: "string"
@@ -235,7 +252,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ProcessResponse"
+              type: "object"
+              $ref: "#/components/schemas/ProcessResponse"
         '404':
           description: "Workflow not found"
         '401':
@@ -248,6 +266,7 @@ paths:
       parameters:
       - name: "name"
         in: "path"
+        description: "workflow_name"
         required: true
         schema:
           type: "string"
@@ -275,6 +294,7 @@ paths:
       parameters:
       - name: "name"
         in: "path"
+        description: "workflow_name"
         required: true
         schema:
           type: "string"
@@ -289,7 +309,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ProcessResponse"
+              type: "object"
+              $ref: "#/components/schemas/ProcessResponse"
         '404':
           description: "Workflow not found"
         '401':
@@ -300,8 +321,9 @@ paths:
       - Diagram
       summary: "Build a diagram"
       parameters:
-      - name: "name"
+      - name: "id"
         in: "path"
+        description: "workflow_id"
         required: true
         schema:
           type: "string"
@@ -312,14 +334,16 @@ paths:
               type: "object"
         required: true
       responses:
-        '201':
+        '200':
           description: "Diagram built"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ProcessResponse"
+                $ref: "#/components/schemas/WorkflowResume"
+        '400':
+          description: "Bad Request"
         '404':
-          description: "Diagram not found"
+          description: "No such workflow"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /workflows/diagram/convert:
@@ -328,8 +352,9 @@ paths:
       - Diagram
       summary: "Build a blueprint"
       parameters:
-      - name: "nome"
+      - name: "id"
         in: "path"
+        description: "workflow_id"
         required: true
         schema:
           type: "string"
@@ -340,14 +365,14 @@ paths:
               type: "object"
         required: true
       responses:
-        '201':
+        '200':
           description: "Blueprint created"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ProcessResponse"
-        '404':
-          description: "Blueprint not found"
+                $ref: "#/components/schemas/BlueprintSpec"
+        '400':
+          description: "Failed"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /workflows/stats:
@@ -358,6 +383,7 @@ paths:
       parameters:
       - name: "id"
         in: "path"
+        description: "workflow_id"
         required: true
         schema:
           type: "string"
@@ -367,9 +393,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Workflow"
-        '404':
-          description: "Workflow not found"
+              type: "object"
+              $ref: "#/components/schemas/Workflow"
+        '400':
+          description: "Invalid uuid"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /workflows/{id}/processes:
@@ -380,6 +407,7 @@ paths:
       parameters:
       - name: "id"
         in: "path"
+        description: "workflow_id"
         required: true
         schema:
           type: "string"
@@ -389,7 +417,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Workflow"
+              type: "array"
+              properties:
+                  process_id:
+                    type: "string"
+                    example: "de493020-3e69-11ed-bbaf-334d286735d0"
+                  created_at:
+                    type: "string"
+                    example: "2022-08-29T14:54:48.346Z"
+                  state_id:
+                    type: "string"
+                    example: "de493020-3e69-11ed-bbaf-334d286735d0"
+                  status:
+                    type: "string"
+                    example: "waiting"
+                  workflow_name:
+                    type: "string"
+                    example: "WORKFLOW-NAME"
+                  workflow_version:
+                    type: "integer"
+                    example: 1
         '404':
           description: "Process not found"
         '401':
@@ -402,7 +449,7 @@ paths:
       parameters:
       - name: "name"
         in: "path"
-        description: "workflow name"
+        description: "workflow_name"
         required: true
         schema:
           type: "string"
@@ -412,20 +459,41 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Workflow"
+               type: "array"
+               properties:
+                  process_id:
+                    type: "string"
+                    example: "de493020-3e69-11ed-bbaf-334d286735d0"
+                  created_at:
+                    type: "string"
+                    example: "2022-08-29T14:54:48.346Z"
+                  state_id:
+                    type: "string"
+                    example: "de493020-3e69-11ed-bbaf-334d286735d0"
+                  status:
+                    type: "string"
+                    example: "waiting"
+                  workflow_name:
+                    type: "string"
+                    example: "WORKFLOW-NAME"
+                  workflow_version:
+                    type: "integer"
+                    example: 1
+        '400':
+          description: "Failed"        
         '404':
-          description: "Workflow not found"
+          description: "No such workflow"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-  /workflows/name/{name}//states/{node_id}:
+  /workflows/name/{name}/states/{node_id}:
     get:
       tags:
-      - Workflow
+      - State
       summary: "Get states from node"
       parameters:
-      - name: "name"
+      - name: "id"
         in: "path"
-        description: "workflow name"
+        description: "node_id"
         required: true
         schema:
           type: "string"
@@ -435,9 +503,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Workflow"
-        '404':
-          description: "Workflow not found"
+              type: "object"
+              $ref: "#/components/schemas/State"
+        '400':
+          description: "Failed"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /workflows/variables:
@@ -446,9 +515,9 @@ paths:
       - Workflow
       summary: "List workflows enviroment variables"
       parameters:
-      - name: "workflow_id"
+      - name: "id"
         in: "query"
-        description: "List workflow"
+        description: "workflow_id"
         schema:
           type: "string"
       responses:
@@ -457,7 +526,8 @@ paths:
           content:
             application/json:
               schema:
-                type: "object"
+                type: "array"
+                $ref: "#/components/schemas/"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /workflows/validate:
@@ -478,14 +548,10 @@ paths:
               type: "object"
         required: true
       responses:
-        '201':
+        '200':
           description: "Blueprint validated"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ProcessResponse"
-        '404':
-          description: "Blueprint not found"
+        '400':
+          description: "Invalid blueprint"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /workflows/compare:
@@ -506,14 +572,41 @@ paths:
               type: "object"
         required: true
       responses:
-        '201':
-          description: "Blueprint compared"
+        '200':
+          description: "No changes found"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ProcessResponse"
+               type: "object"
+               properties:
+                  status:
+                    type: "string"
+                    example: "No changes found"
+                  current_workflow:
+                    type: "string"
+                    example: " "
+        '202':
+          description: "Changes found, check comparison"
+          content:
+            application/json:
+              schema:
+              type: "object"
+              properties:
+                  status:
+                    type: "string"
+                    example: "Changes found, check comparison"
+                  current_workflow:
+                    type: "string"
+                    example: " "
+                  comparison:
+                    type: "string"
+                    example: "true"
+        '400':
+          description: "Invalid blueprint"        
         '404':
-          description: "Blueprint not found"
+          description: "No workflow with this name"
+        '500':
+          description: "Internal error"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
 
@@ -526,9 +619,9 @@ paths:
       summary: "Fetch all processes"
       description: "Returns a single workflow"
       parameters:
-      - name: "workflow_id"
+      - name: "id"
         in: "query"
-        description: "Filter by workflow_id"
+        description: "workflow_id"
         schema:
           type: "string"
       responses:
@@ -537,7 +630,8 @@ paths:
           content:
             application/json:
               schema:
-                type: "object"
+              type: "array"
+              $ref: "#/components/schemas/Process"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
     post:
@@ -545,9 +639,9 @@ paths:
       - Process
       summary: "List all processes"
       parameters:
-      - name: "workflow_id"
+      - name: "id"
         in: "query"
-        description: "Find process by workflow_id"
+        description: "process_id"
         required: true
         schema:
           type: "string"
@@ -561,10 +655,13 @@ paths:
                 process_state:
                   type: "object"
       responses:
-        '200':
-          description: "Process listed"
-        '404':
-          description: "Process not found"
+        '201':
+          description: "All processes listed"
+          content:
+            application/json:
+              schema:
+              type: "array"
+              $ref: "#/components/schemas/Process"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /processes/available:
@@ -573,9 +670,9 @@ paths:
       - Activity
       summary: "Fetch available activities for actor"
       parameters:
-      - name: "workflow_id"
+      - name: "id"
         in: "query"
-        description: "Filter by workflow"
+        description: "workflow_id"
         schema:
           type: "string"
       responses:
@@ -584,7 +681,41 @@ paths:
           content:
             application/json:
               schema:
-                type: "object"
+               type: "array"
+               properties:
+                  activity_manager_id:
+                    type: "string"
+                    example: "f655a6d0-3e69-11ed-bbaf-334d286735d0"
+                  state_id:
+                    type: "string"
+                    example: "de493020-3e69-11ed-bbaf-334d286735d0"
+                  process_id:
+                    type: "string"
+                    example: "de493020-3e69-11ed-bbaf-334d286735d0"
+                  workflow_id:
+                    type: "string"
+                    example: "cfb7f0a1-3e69-11ed-bbaf-334d286735d0"
+                  created_at:
+                    type: "string"
+                    example: "2022-08-29T14:54:48.346Z"
+                  type:
+                    type: "string"
+                    example: "commit"
+                  props:
+                    type: "string"
+                    example: " "
+                  process_status:
+                    type: "string"
+                    example: "waiting"
+                  workflow_name:
+                    type: "string"
+                    example: "WORKFLOW-NAME"
+                  workflow_description:
+                    type: "string"
+                    example: "Workflow description"
+                  node_name:
+                    type: "string"
+                    example: "Informa o token"        
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /processes/done:
@@ -593,9 +724,9 @@ paths:
       - Activity
       summary: "Fetch done activities for actor"
       parameters:
-      - name: "workflow_id"
+      - name: "id"
         in: "query"
-        description: "Filter by workflow"
+        description: "workflow_id"
         schema:
           type: "string"
       responses:
@@ -604,18 +735,52 @@ paths:
           content:
             application/json:
               schema:
-                type: "object"
+               type: "array"
+               properties:
+                  activity_manager_id:
+                    type: "string"
+                    example: "f655a6d0-3e69-11ed-bbaf-334d286735d0"
+                  state_id:
+                    type: "string"
+                    example: "de493020-3e69-11ed-bbaf-334d286735d0"
+                  process_id:
+                    type: "string"
+                    example: "de493020-3e69-11ed-bbaf-334d286735d0"
+                  workflow_id:
+                    type: "string"
+                    example: "cfb7f0a1-3e69-11ed-bbaf-334d286735d0"
+                  created_at:
+                    type: "string"
+                    example: "2022-08-29T14:54:48.346Z"
+                  type:
+                    type: "string"
+                    example: "commit"
+                  props:
+                    type: "string"
+                    example: " "
+                  process_status:
+                    type: "string"
+                    example: "waiting"
+                  workflow_name:
+                    type: "string"
+                    example: "WORKFLOW-NAME"
+                  workflow_description:
+                    type: "string"
+                    example: "Workflow description"
+                  node_name:
+                    type: "string"
+                    example: "Informa o token"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /processes/{id}/state:
     get:
       tags:
-      - Process
+      - State
       summary: "Fetch process current state"
       parameters:
       - name: "id"
         in: "path"
-        description: "process id"
+        description: "process_id"
         required: true
         schema:
           type: "string"
@@ -625,14 +790,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Process"
+              type: "object"
+              $ref: "#/components/schemas/Process"
         '404':
           description: "Process not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
     post:
       tags:
-      - Process
+      - State
       summary: "Set process state"
       parameters:
       - name: "id"
@@ -653,6 +819,18 @@ paths:
       responses:
         '200':
           description: "Process state set"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  workflow_name:
+                    type: "string"
+                    example: "WORKFLOW-NAME"
+                  process_id:
+                    type: "string"
+                    example: "de493020-3e69-11ed-bbaf-334d286735d0"
+          $ref: "#/components/schemas/State"
         '404':
           description: "Process not found"
         '401':
@@ -660,7 +838,7 @@ paths:
     /processes/{id}/history:
      get:
       tags:
-      - Process
+      - State
       summary: "Fetch process state history"
       parameters:
       - name: "id"
@@ -676,8 +854,7 @@ paths:
             application/json:
               schema:
                 type: "array"
-                items:
-                  $ref: "#/components/schemas/State"
+                $ref: "#/components/schemas/State"
         '404':
           description: "Process not found"
         '401':
@@ -703,8 +880,8 @@ paths:
                 type: "object"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-  /processes/activityManager/{id}:
-    get:
+    /processes/activityManager/{id}:
+     get:
       tags:
       - Activity
       summary: "Fetch ActivityManager by id"
@@ -717,17 +894,13 @@ paths:
           type: "string"
       responses:
         '200':
-          description: "ActivityManager with desired id found"
-          content:
-            application/json:
-              schema:
-                type: "object"
+          description: "Activity manager with desired id found"
         '404':
-          description: "Workflow not found"
+          description: "Activity not found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-  /processes/{id}/run:
-    post:
+    /processes/{id}/run:
+     post:
       tags:
       - Process
       summary: "Run process"
@@ -746,13 +919,23 @@ paths:
               type: "object"
       responses:
         '200':
-          description: "Process running"
+          description: "Process runned"
         '404':
           description: "Process not found"
+        '422':
+          description: "Unprocessable"
+          content:
+            application/json:
+              schema:
+                type: "object"
+          properties:
+          current_status:
+              type: "string"
+              example: "error"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-  /processes/{id}/abort:
-    post:
+    /processes/{id}/abort:
+     post:
       tags:
       - Process
       summary: "Abort process"
@@ -768,10 +951,20 @@ paths:
           description: "Process aborted"
         '404':
           description: "Process not found"
+        '422':
+          description: "Unprocessable"
+          content:
+            application/json:
+              schema:
+                type: "object"
+          properties:
+          current_status:
+              type: "string"
+              example: "error"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-  /processes/{process_id}/commit:
-    post:
+    /processes/{process_id}/commit:
+     post:
       tags:
       - Activity
       summary: "Commit activity"
@@ -794,10 +987,17 @@ paths:
             application/json:
               schema:
                 type: "object"
+                $ref: "#/components/schemas/ActorData"
+        '400':
+          description: "Invalid attempt"        
+        '404':
+          description: "Process not found"
+        '500':
+          description: "Internal error"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-  /processes/{process_id}/push:
-    post:
+    /processes/{process_id}/push:
+     post:
       tags:
       - Activity
       summary: "Push activity"
@@ -814,20 +1014,18 @@ paths:
             schema:
               type: "object"
       responses:
-        '200':
+        '202':
           description: "Activity pushed"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Workflow"
         '404':
           description: "Workflow not found"
+        '500':
+          description: "Internal error"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-  /processes/{process_id}/continue:
-    post:
+    /processes/{process_id}/continue:
+     post:
       tags:
-      - Activity
+      - Process
       summary: "Continue Process"
       parameters:
       - name: "process_id"
@@ -843,24 +1041,20 @@ paths:
               type: "object"
       responses:
         '200':
-          description: "Process to be continued"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Workflow"
-        '404':
-          description: "Process not found"
+          description: "Process continue signaled"
+        '422':
+          description: "Unprocessable"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
-  /processes/{id}/execution:
-    get:
+    /processes/{id}/execution:
+     get:
       tags:
       - Process
       summary: "Get process execution"
       parameters:
       - name: "id"
         in: "path"
-        description: "process id"
+        description: "process_id"
         required: true
         schema:
           type: "string"
@@ -870,9 +1064,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Process"
-        '404':
-          description: "Process not found"
+              type: "array"
+              $ref: "#/components/schemas/State"
+        '400':
+          description: "Failed"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /processes/{id}/state/run:
@@ -894,10 +1089,22 @@ paths:
             schema:
               type: "object"
       responses:
-        '200':
-          description: "Process runned "
+        '202':
+          description: "Process runned"
+          content:
+            application/json:
+              schema:
+                type: "object"
+          properties:
+          process_url:
+              type: "string"
+              example: "localhost:3000/processes/82ab5680-3b76-11ed-b73d-9d388fb2ba9e"
+        '400':
+          description: "Failed"
         '404':
           description: "Process not found"
+        '422':
+          description: "Unprocessable"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /processes/{id}/set/{state_id}:
@@ -908,7 +1115,7 @@ paths:
       parameters:
       - name: "id"
         in: "path"
-        description: "process_id"
+        description: "state_id"
         required: true
         schema:
           type: "string"
@@ -921,6 +1128,20 @@ paths:
       responses:
         '200':
           description: "Process state transfered"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  workflow_name:
+                    type: "string"
+                    example: "WORKFLOW-NAME"
+                  process_id:
+                    type: "string"
+                    example: "de493020-3e69-11ed-bbaf-334d286735d0"                  
+                  $ref: "#/components/schemas/State"
+        '400':
+          description: "Failed"
         '404':
           description: "Process not found"
         '401':
@@ -946,9 +1167,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Process"
-        '404':
-          description: "State not found"
+              type: "object"
+              $ref: "#/components/schemas/State"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /states/{id}/execution:
@@ -969,9 +1189,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Process"
-        '404':
-          description: "State not found"
+              type: "object"
+              $ref: "#/components/schemas/State"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /states/{id}/spec:
@@ -992,9 +1211,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Process"
-        '404':
-          description: "State not found"
+              type: "object"
+              $ref: "#/components/schemas/State"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
   /states/process/{id}:
@@ -1005,7 +1223,7 @@ paths:
       parameters:
       - name: "id"
         in: "path"
-        description: "state_id"
+        description: "process_id"
         required: true
         schema:
           type: "string"
@@ -1015,9 +1233,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Process"
+              type: "object"
+              $ref: "#/components/schemas/Process"
+        '400':
+          description: "Process not found"      
         '404':
-          description: "State not found"
+          description: "No state found"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
 
@@ -1027,10 +1248,11 @@ paths:
     post:
       tags:
       - Activity
-      summary: "Commit activity by ActivityManager id"
+      summary: "Commit by Activity Manager id"
       parameters:
-      - name: "activity_manager_id"
+      - name: "id"
         in: "path"
+        description: "activity_manager_id"
         required: true
         schema:
           type: "string"
@@ -1041,32 +1263,30 @@ paths:
             schema:
               type: "object"
       responses:
-        '202':
+        '200':
           description: "Activity committed"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Workflow"
+               type: "object"
+               $ref: "#/components/schemas/ActorData"
+        '400':
+          description: "Error committing"      
+        '404':
+          description: "Activity manager not found"
         '500':
-          description: "Activity manager not found or error committing"
-          content:
-            application/json:
-              schema:
-                type: "object"
-                properties:
-                  error:
-                    type: "string"
-                    example: "error"
+          description: "Internal server error"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
     /activity_manager/{activity_manager_id}/submit:
      post:
       tags:
       - Activity
-      summary: "Submit activity by ActivityManager id"
+      summary: "Submit by Activity Manager id"
       parameters:
-      - name: "activity_manager_id"
+      - name: "id"
         in: "path"
+        description: "activity_manager_id"
         required: true
         schema:
           type: "string"
@@ -1078,21 +1298,15 @@ paths:
               type: "object"
       responses:
         '202':
-          description: "Activity submitted"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Workflow"
+          description: "Accepted"
+        '400':
+          description: "Error submitting"      
+        '404':
+          description: "Activity manager not found"
+        '422':
+          description: "Submit activity unavaliable"
         '500':
-          description: "Activity manager not found or error submitting"
-          content:
-            application/json:
-              schema:
-                type: "object"
-                properties:
-                  error:
-                    type: "string"
-                    example: "error"
+          description: "Internal server error"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
 
@@ -1106,7 +1320,7 @@ paths:
       parameters:
       - name: "id"
         in: "path"
-        description: "activity_id"
+        description: "workflow_id"
         required: true
         schema:
           type: "string"
@@ -1116,9 +1330,35 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Process"
-        '404':
-          description: "State not found"
+               type: "array"
+               properties:
+                  activity_manager_id:
+                    type: "string"
+                    example: "f655a6d0-3e69-11ed-bbaf-334d286735d0"
+                  process_id:
+                    type: "string"
+                    example: "de493020-3e69-11ed-bbaf-334d286735d0"
+                  workflow_id:
+                    type: "string"
+                    example: "cfb7f0a1-3e69-11ed-bbaf-334d286735d0"
+                  created_at:
+                    type: "string"
+                    example: "2022-08-29T14:54:48.346Z"
+                  type:
+                    type: "string"
+                    example: "commit"
+                  workflow_name:
+                    type: "string"
+                    example: "WORKFLOW-NAME"
+                  process_status:
+                    type: "string"
+                    example: "waiting"
+                  node_name:
+                    type: "string"
+                    example: "Informa o token"
+                  action:
+                    type: "string"
+                    example: "INFORMAR-TOKEN"
         '401':
           $ref: "#/components/responses/UnauthorizedError"
 
@@ -1148,6 +1388,7 @@ paths:
                     example: "a36ea500-3c72-4af1-aabe-cd2c7d56ca6c"
                   package_url:
                     type: "string"
+                    example: "localhost:3000/packages/82ab5680-3b76-11ed-b73d-9d388fb2ba9e"
         '400':
           description: "Error saving package"
           content:
@@ -1179,6 +1420,22 @@ paths:
             application/json:
               schema:
                 type: "object"
+                properties:
+                  package_id:
+                    type: "string"
+                    example: "82ab5680-3b76-11ed-b73d-9d388fb2ba9e"
+                  created_at:
+                    type: "string"
+                    example: "2022-09-23T19:33:55.837Z"
+                  package_name:
+                    type: "string"
+                    example: "Teste"
+                  description:
+                    type: "string"
+                    example: "Teste"
+                  code:
+                    type: "string"
+                    example: "\"Teste\""          
         '404':
           description: "Package not found"
         '401':
@@ -1195,7 +1452,7 @@ paths:
         schema:
           type: "string"
       responses:
-        '204':
+        '202':
           description: "Package deleted"
         '404':
           description: "Package not found"
