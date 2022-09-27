@@ -1,0 +1,1718 @@
+{
+	"info": {
+		"_postman_id": "5cb4c4b9-cffa-4a01-96cb-5b1aec5bf428",
+		"name": "FlowBuild",
+		"description": "Default API routes to access FlowBuild engine.\n\nThe routes are updated to the workflow-api version available on\n\n[https://github.com/flow-build/workflow-api](https://github.com/flow-build/workflow-api) on this [commit](https://github.com/flow-build/workflow-api/commit/890e32d85625b49b95255d222b9ddf581e6b5855)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Workflows",
+			"item": [
+				{
+					"name": "List Workflows",
+					"id": "b44c49bd-78d4-4b6a-9f19-a784bc93f0e8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/workflows",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows"
+							]
+						},
+						"description": "This endpoint allows you to get a list of the latest version of each workflow the user is allowed to start.\n\nIf no workflow is registered or the user is not allowed to access any workflow, it will return an empty list."
+					},
+					"response": [
+						{
+							"id": "c79a70ba-66dc-4629-9d36-655ef7d5091f",
+							"name": "401",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.1"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 18 Oct 2020 12:49:47 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "12"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": "Unauthorized"
+						},
+						{
+							"id": "f70348bd-6a9e-48c0-9750-c9802545ec71",
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.1"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 18 Oct 2020 12:52:55 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": "[\n    {\n        \"id\": \"uuid\",\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"blueprint_spec\": {\n            \"lanes\": [\n                {}\n            ],\n            \"nodes\": [\n                {}\n            ],\n            \"prepare\": [],\n            \"environment\": {},\n            \"requirements\": []\n        },\n        \"version\": \"integer\",\n        \"created_at\": \"date-time\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Read Workflow",
+					"id": "136b41b0-7c48-4068-b1cd-af762cd0adbd",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/workflows/:workflow_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows",
+								":workflow_id"
+							],
+							"variable": [
+								{
+									"id": "2d7e2baf-5ac2-4a19-a2f1-3d0dc047ce5a",
+									"key": "workflow_id",
+									"value": "{{workflow_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This endpoint allows you to get the workflow information by its id."
+					},
+					"response": [
+						{
+							"id": "ff39e89a-9c62-45fa-ba50-e1abe4e10871",
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:workflow_id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":workflow_id"
+									],
+									"variable": [
+										{
+											"key": "workflow_id",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.1"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 18 Oct 2020 12:56:15 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": "{\n    \"id\": \"uuid\",\n    \"created_at\": \"date-time\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"blueprint_spec\": {\n        \"lanes\": [{}],\n        \"nodes\": [{}],\n        \"prepare\": [],\n        \"environment\": {},\n        \"requirements\": []\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Read Workflow By Name",
+					"id": "685d88f1-f739-4959-9591-47e936452703",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/workflows/name/:workflow_name",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows",
+								"name",
+								":workflow_name"
+							],
+							"variable": [
+								{
+									"id": "a4388d29-095d-411a-9f21-f335a15d785d",
+									"key": "workflow_name",
+									"value": "{{workflow_name}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Processes from Workflow",
+					"id": "19761709-b1d1-4972-9e7f-e33565aed3f5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/workflows/:id/processes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows",
+								":id",
+								"processes"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Workflow",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e60a0670-2a0d-4bda-b317-9975c8161b9f",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.collectionVariables.set(\"workflow_id\",response.workflow_id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "60199918-13c8-4a84-9f6f-12d4fa1fec9c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "content",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"createSubscription\",\r\n  \"description\": \"Workflow para capturar dados de faturamento para criação de uma assinatura Fieldlink\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"START-CREATE-SUBSCRIPTION\",\r\n        \"name\": \"Iniciar processo createSubscription\",\r\n        \"next\": \"CONFIG\",\r\n        \"type\": \"Start\",\r\n        \"lane_id\": \"mayManageConfigurations\",\r\n        \"parameters\": {\r\n          \"input_schema\": {\r\n            \"type\": \"object\",\r\n            \"properties\": {\r\n              \"origin\": {\r\n                \"type\": \"string\"\r\n              }\r\n            }\r\n          },\r\n          \"timeout\": 3600\r\n        },\r\n        \"nodeSpec\": \"startCreateSubscription\"\r\n      },\r\n      {\r\n        \"id\": \"CONFIG\",\r\n        \"name\": \"guardar parâmetros do processo\",\r\n        \"next\": \"GET-ACCOUNT\",\r\n        \"type\": \"SystemTask\",\r\n        \"lane_id\": \"mayManageConfigurations\",\r\n        \"category\": \"setToBag\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"is_authorized\": {\r\n              \"$ref\": \"actor_data\"\r\n            },\r\n            \"actor_id\": {\r\n              \"$ref\": \"actor_data.actor_id\"\r\n            },\r\n            \"account_id\": {\r\n              \"$ref\": \"actor_data.account_id\"\r\n            },\r\n            \"event_id\": {\r\n              \"$ref\": \"actor_data.event_id\"\r\n            },\r\n            \"origin\": \"/app\",\r\n            \"email_suporte\": \"gustavo.haramura@fdte.io\",\r\n            \"cliente_template\": \"d-19ac369b15dc42e49fc46dfba9e55eb0\",\r\n            \"suporte_template\": \"d-ab16750033e74aeb9a2028787e2c67ae\"\r\n          }\r\n        },\r\n        \"nodeSpec\": \"config\"\r\n      },\r\n      {\r\n        \"id\": \"GET-ACCOUNT\",\r\n        \"name\": \"consultar account\",\r\n        \"next\": \"ACCOUNT-STATUS\",\r\n        \"type\": \"SystemTask\",\r\n        \"category\": \"getAccount\",\r\n        \"lane_id\": \"mayManageConfigurations\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"account_id\": {\r\n              \"$ref\": \"bag.account_id\"\r\n            }\r\n          }\r\n        },\r\n        \"nodeSpec\": \"getAccount\"\r\n      },\r\n      {\r\n        \"id\": \"ACCOUNT-STATUS\",\r\n        \"name\": \"direcionar fluxo conforme aprovação do usuário\",\r\n        \"next\": {\r\n          \"active\": \"BAG-ACCOUNT\",\r\n          \"default\": \"ALERT-SUBSCRIPTION-WARNING\",\r\n          \"trial\": \"BAG-ACCOUNT\",\r\n          \"trial_expired\": \"BAG-ACCOUNT\"\r\n        },\r\n        \"type\": \"Flow\",\r\n        \"lane_id\": \"mayManageConfigurations\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"decision\": {\r\n              \"$ref\": \"result.accounts[0].status\"\r\n            }\r\n          }\r\n        },\r\n        \"nodeSpec\": \"checkAccountStatus\"\r\n      },\r\n      {\r\n        \"id\": \"ALERT-SUBSCRIPTION-WARNING\",\r\n        \"name\": \"Notificar usuário\",\r\n        \"next\": \"FINISH-INVALID-ACCOUNT\",\r\n        \"type\": \"UserTask\",\r\n        \"lane_id\": \"actorId\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"icon\": \"warning\",\r\n            \"text\": {\r\n              \"$mustache\": \"status: {{result.accounts[0].status}}\"\r\n            },\r\n            \"title\": \"Criar Assinatura\"\r\n          },\r\n          \"action\": \"SHOW_ALERT\",\r\n          \"timeout\": 60,\r\n          \"activity_schema\": {\r\n            \"type\": \"object\"\r\n          }\r\n        },\r\n        \"example\": {\r\n          \"file\": \"showAlertInput\",\r\n          \"schema\": \"showAlertInput\"\r\n        },\r\n        \"nodeSpec\": \"showAlert\"\r\n      },\r\n      {\r\n        \"id\": \"FINISH-INVALID-ACCOUNT\",\r\n        \"name\": \"finalizar processo createSubscription com erro - Status da conta indevido\",\r\n        \"next\": null,\r\n        \"type\": \"Finish\",\r\n        \"lane_id\": \"actorId\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"status\": \"INVALID ACCOUNT STATUS\"\r\n          }\r\n        },\r\n        \"nodeSpec\": \"finishError\"\r\n      },\r\n      {\r\n        \"id\": \"BAG-ACCOUNT\",\r\n        \"name\": \"guardar account\",\r\n        \"next\": \"GET-SIGNATURE-DATA\",\r\n        \"type\": \"SystemTask\",\r\n        \"lane_id\": \"mayManageConfigurations\",\r\n        \"category\": \"setToBag\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"account\": {\r\n              \"$ref\": \"result.accounts[0]\"\r\n            }\r\n          }\r\n        },\r\n        \"nodeSpec\": \"bagAccount\"\r\n      },\r\n      {\r\n        \"id\": \"GET-SIGNATURE-DATA\",\r\n        \"name\": \"Obter dados da assinatura\",\r\n        \"next\": \"BAG-BILLING\",\r\n        \"type\": \"UserTask\",\r\n        \"lane_id\": \"actorId\",\r\n        \"parameters\": {\r\n          \"input\": {},\r\n          \"action\": \"GET_SIGNATURE_DATA\",\r\n          \"timeout\": 60\r\n        },\r\n        \"nodeSpec\": \"getSignatureData\"\r\n      },\r\n      {\r\n        \"id\": \"BAG-BILLING\",\r\n        \"name\": \"Guardar dados de faturamento\",\r\n        \"next\": \"SAVE-STATUS\",\r\n        \"type\": \"SystemTask\",\r\n        \"lane_id\": \"actorId\",\r\n        \"category\": \"setToBag\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"billing\": {\r\n              \"$ref\": \"result.activities[0].data\"\r\n            }\r\n          }\r\n        },\r\n        \"nodeSpec\": \"bagBilling\"\r\n      },\r\n      {\r\n        \"id\": \"SAVE-STATUS\",\r\n        \"name\": \"Atualiza status da account\",\r\n        \"next\": \"POST-SUPPORT-EMAIL\",\r\n        \"type\": \"SystemTask\",\r\n        \"lane_id\": \"actorId\",\r\n        \"category\": \"saveStatus\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"status\": \"active\",\r\n            \"account_id\": {\r\n              \"$ref\": \"bag.account_id\"\r\n            }\r\n          }\r\n        },\r\n        \"nodeSpec\": \"saveStatus\"\r\n      },\r\n      {\r\n        \"id\": \"POST-SUPPORT-EMAIL\",\r\n        \"name\": \"Enviar e-mail para suporte FL\",\r\n        \"next\": \"CHECK-SUPPORT-HTTP-RESPONSE\",\r\n        \"type\": \"SystemTask\",\r\n        \"lane_id\": \"actorId\",\r\n        \"category\": \"HTTP\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"from\": {\r\n              \"email\": {\r\n                \"$ref\": \"environment.EMAIL_SENDER\"\r\n              }\r\n            },\r\n            \"template_id\": {\r\n              \"$ref\": \"bag.suporte_template\"\r\n            },\r\n            \"personalizations\": [\r\n              {\r\n                \"to\": [\r\n                  {\r\n                    \"email\": {\r\n                      \"$ref\": \"bag.email_suporte\"\r\n                    }\r\n                  }\r\n                ],\r\n                \"dynamic_template_data\": {\r\n                  \"cnpj\": {\r\n                    \"$ref\": \"bag.billing.company_document\"\r\n                  },\r\n                  \"phone\": {\r\n                    \"$ref\": \"bag.billing.company_phone_number\"\r\n                  },\r\n                  \"processId\": {\r\n                    \"$ref\": \"bag.billing.processId\"\r\n                  },\r\n                  \"companyName\": {\r\n                    \"$ref\": \"bag.billing.company_name\"\r\n                  },\r\n                  \"contactName\": {\r\n                    \"$ref\": \"bag.billing.billing_contact_name\"\r\n                  },\r\n                  \"contactRole\": {\r\n                    \"$ref\": \"bag.billing.company_phone_number\"\r\n                  },\r\n                  \"contactEmail\": {\r\n                    \"$ref\": \"bag.billing.billing_contact_email\"\r\n                  },\r\n                  \"contactPhone\": {\r\n                    \"$ref\": \"bag.billing.billing_contact_phone\"\r\n                  }\r\n                }\r\n              }\r\n            ]\r\n          },\r\n          \"request\": {\r\n            \"url\": \"https://api.sendgrid.com/v3/mail/send\",\r\n            \"verb\": \"POST\",\r\n            \"headers\": {\r\n              \"Authorization\": {\r\n                \"$mustache\": \"Bearer {{&environment.SENDGRID_API_KEY}}\",\r\n                \"Content-Type\": \"application/json\"\r\n              }\r\n            }\r\n          }\r\n        },\r\n        \"nodeSpec\": \"postSupportEmail\"\r\n      },\r\n      {\r\n        \"id\": \"CHECK-SUPPORT-HTTP-RESPONSE\",\r\n        \"name\": \"checar código de resposta HTTP\",\r\n        \"next\": {\r\n          \"200\": \"POST-CLIENT-EMAIL\",\r\n          \"201\": \"POST-CLIENT-EMAIL\",\r\n          \"202\": \"POST-CLIENT-EMAIL\",\r\n          \"204\": \"POST-CLIENT-EMAIL\",\r\n          \"default\": \"ALERT-SEND-EMAIL-ERROR\"\r\n        },\r\n        \"type\": \"Flow\",\r\n        \"lane_id\": \"actorId\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"decision_key\": {\r\n              \"$ref\": \"result.status\"\r\n            }\r\n          }\r\n        },\r\n        \"nodeSpec\": \"checkHTTPResponse\"\r\n      },\r\n      {\r\n        \"id\": \"ALERT-SEND-EMAIL-ERROR\",\r\n        \"name\": \"Notificar usuário\",\r\n        \"next\": \"FINISH-CREATE-SUBSCRIPTION-SEND-EMAIL-ERROR\",\r\n        \"type\": \"UserTask\",\r\n        \"lane_id\": \"actorId\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"icon\": \"error\",\r\n            \"text\": \"Falha ao enviar e-mail.\"\r\n          },\r\n          \"action\": \"SHOW_ALERT\",\r\n          \"timeout\": 100,\r\n          \"activity_schema\": {\r\n            \"type\": \"object\",\r\n            \"properties\": {}\r\n          }\r\n        },\r\n        \"example\": {\r\n          \"file\": \"showAlertInput\",\r\n          \"schema\": \"showAlertInput\"\r\n        },\r\n        \"nodeSpec\": \"showAlert\"\r\n      },\r\n      {\r\n        \"id\": \"FINISH-CREATE-SUBSCRIPTION-SEND-EMAIL-ERROR\",\r\n        \"name\": \"finalizar o processo createSubscription com erro - e-mail não enviado\",\r\n        \"next\": null,\r\n        \"type\": \"Finish\",\r\n        \"lane_id\": \"actorId\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"status\": \"SENDING EMAIL ERROR\"\r\n          }\r\n        },\r\n        \"nodeSpec\": \"finishError\"\r\n      },\r\n      {\r\n        \"id\": \"POST-CLIENT-EMAIL\",\r\n        \"name\": \"Enviar e-mail para o cliente\",\r\n        \"next\": \"CHECK-CLIENT-HTTP-RESPONSE\",\r\n        \"type\": \"SystemTask\",\r\n        \"lane_id\": \"actorId\",\r\n        \"category\": \"HTTP\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"from\": {\r\n              \"email\": {\r\n                \"$ref\": \"bag.billing.billing_contact_email\"\r\n              }\r\n            },\r\n            \"template_id\": {\r\n              \"$ref\": \"bag.cliente_template\"\r\n            },\r\n            \"personalizations\": [\r\n              {\r\n                \"to\": [\r\n                  {\r\n                    \"email\": {\r\n                      \"$ref\": \"bag.email_suporte\"\r\n                    }\r\n                  }\r\n                ],\r\n                \"dynamic_template_data\": {\r\n                  \"cnpj\": {\r\n                    \"$ref\": \"bag.billing.company_document\"\r\n                  },\r\n                  \"phone\": {\r\n                    \"$ref\": \"bag.billing.company_phone_number\"\r\n                  },\r\n                  \"processId\": {\r\n                    \"$ref\": \"bag.billing.processId\"\r\n                  },\r\n                  \"companyName\": {\r\n                    \"$ref\": \"bag.billing.company_name\"\r\n                  },\r\n                  \"contactName\": {\r\n                    \"$ref\": \"bag.billing.billing_contact_name\"\r\n                  },\r\n                  \"contactRole\": {\r\n                    \"$ref\": \"bag.billing.company_phone_number\"\r\n                  },\r\n                  \"contactEmail\": {\r\n                    \"$ref\": \"bag.billing.billing_contact_email\"\r\n                  },\r\n                  \"contactPhone\": {\r\n                    \"$ref\": \"bag.billing.billing_contact_phone\"\r\n                  }\r\n                }\r\n              }\r\n            ]\r\n          },\r\n          \"request\": {\r\n            \"url\": \"https://api.sendgrid.com/v3/mail/send\",\r\n            \"verb\": \"POST\",\r\n            \"headers\": {\r\n              \"Authorization\": {\r\n                \"$mustache\": \"Bearer {{&environment.SENDGRID_API_KEY}}\",\r\n                \"Content-Type\": \"application/json\"\r\n              }\r\n            }\r\n          }\r\n        },\r\n        \"nodeSpec\": \"postClientEmail\"\r\n      },\r\n      {\r\n        \"id\": \"CHECK-CLIENT-HTTP-RESPONSE\",\r\n        \"name\": \"checar código de resposta HTTP\",\r\n        \"next\": {\r\n          \"200\": \"ALERT-SUBSCRIPTION-SUCCESS\",\r\n          \"201\": \"ALERT-SUBSCRIPTION-SUCCESS\",\r\n          \"202\": \"ALERT-SUBSCRIPTION-SUCCESS\",\r\n          \"204\": \"ALERT-SUBSCRIPTION-SUCCESS\",\r\n          \"default\": \"ALERT-SEND-EMAIL-ERROR\"\r\n        },\r\n        \"type\": \"Flow\",\r\n        \"lane_id\": \"actorId\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"decision_key\": {\r\n              \"$ref\": \"result.status\"\r\n            }\r\n          }\r\n        },\r\n        \"nodeSpec\": \"checkHTTPResponse\"\r\n      },\r\n      {\r\n        \"id\": \"ALERT-SUBSCRIPTION-SUCCESS\",\r\n        \"name\": \"Notificar usuário\",\r\n        \"next\": \"REDIRECT-TO-SIGNATURE\",\r\n        \"type\": \"UserTask\",\r\n        \"lane_id\": \"actorId\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"icon\": \"success\",\r\n            \"text\": \"Seus dados de faturamento foram recebidos, em breve nosso suporte entrará em contato.\",\r\n            \"title\": \"Nova assinatura\"\r\n          },\r\n          \"action\": \"SHOW_ALERT\",\r\n          \"timeout\": 10,\r\n          \"activity_schema\": {\r\n            \"type\": \"object\"\r\n          }\r\n        },\r\n        \"example\": {\r\n          \"file\": \"showAlertInput\",\r\n          \"schema\": \"showAlertInput\"\r\n        },\r\n        \"nodeSpec\": \"showAlert\"\r\n      },\r\n      {\r\n        \"id\": \"REDIRECT-TO-SIGNATURE\",\r\n        \"name\": \"Mostrar formulário personalizado\",\r\n        \"next\": \"FINISH-CREATE-SUBSCRIPTION-SUCCESS\",\r\n        \"type\": \"UserTask\",\r\n        \"lane_id\": \"actorId\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"route\": {\r\n              \"$ref\": \"bag.origin\"\r\n            }\r\n          },\r\n          \"action\": \"REDIRECT_TO\",\r\n          \"timeout\": 60,\r\n          \"activity_schema\": {\r\n            \"type\": \"object\"\r\n          }\r\n        },\r\n        \"example\": {\r\n          \"file\": \"redirectToInput\",\r\n          \"schema\": \"redirectToInput\"\r\n        },\r\n        \"nodeSpec\": \"redirectTo\"\r\n      },\r\n      {\r\n        \"id\": \"FINISH-CREATE-SUBSCRIPTION-SUCCESS\",\r\n        \"name\": \"finalizar processo createSubscription com sucesso\",\r\n        \"next\": null,\r\n        \"type\": \"Finish\",\r\n        \"lane_id\": \"actorId\",\r\n        \"nodeSpec\": \"finishSuccess\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"mayManageConfigurations\",\r\n        \"name\": \"checks if actor data has claim may_manage_configurations\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"actor_data\",\r\n            \"bag\"\r\n          ],\r\n          [\r\n            \"eval\",\r\n            [\r\n              \"apply\",\r\n              \"or\",\r\n              [\r\n                \"map\",\r\n                [\r\n                  \"fn\",\r\n                  [\r\n                    \"v\"\r\n                  ],\r\n                  [\r\n                    \"=\",\r\n                    \"v\",\r\n                    [\r\n                      \"`\",\r\n                      \"may_manage_configurations\"\r\n                    ]\r\n                  ]\r\n                ],\r\n                [\r\n                  \"get\",\r\n                  \"actor_data\",\r\n                  [\r\n                    \"`\",\r\n                    \"claims\"\r\n                  ]\r\n                ]\r\n              ]\r\n            ]\r\n          ]\r\n        ]\r\n      },\r\n      {\r\n        \"id\": \"actorId\",\r\n        \"name\": \"restricted\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"actor_data\",\r\n            \"bag\"\r\n          ],\r\n          [\r\n            \"=\",\r\n            [\r\n              \"get\",\r\n              [\r\n                \"get\",\r\n                \"bag\",\r\n                [\r\n                  \"`\",\r\n                  \"is_authorized\"\r\n                ]\r\n              ],\r\n              [\r\n                \"`\",\r\n                \"actor_id\"\r\n              ]\r\n            ],\r\n            [\r\n              \"get\",\r\n              \"actor_data\",\r\n              [\r\n                \"`\",\r\n                \"actor_id\"\r\n              ]\r\n            ]\r\n          ]\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {\r\n    }\r\n  }\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/workflows",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows"
+							]
+						},
+						"description": "This endpoint allows you to create ou update a workflow.\n\n#### Body Request\n\nThe body must be a valid JSON with 3 key atributes:\n+ name: it determines if it will create a new worklfow or update an existing one. The name is case-sensitive and we recommend not o use symbols ou spaces.\n+ description: a friendly description for the workflow.\n+ blueprint_spec: a JSON object with instructions for execution.\n\n##### Blueprint Spec\n\n| field | type | description |\n| --- | --- | --- |\n| lanes | arrayOf(Objects) |  |\n| nodes | arrayOf(Objects) |  |\n| prepare | arrayOf(string) |  |\n| environment | Object |  |\n| requirements | arrayOf(string) |  |"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Process by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "03fe7c03-e99c-4ad2-8e70-60d9148cc601",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"pm.environment.set(\"process_id\",response.process_id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "affbc8af-d6e5-45a3-ac7f-695f4364d20f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/workflows/:workflow_id/create",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows",
+								":workflow_id",
+								"create"
+							],
+							"variable": [
+								{
+									"id": "1a7a2065-2cee-4e4f-af4a-15310bf4602e",
+									"key": "workflow_id",
+									"value": "{{workflow_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This endpoint creates a process from a workflow.\n\nThe process can only be created if the user is allowed to access the startNode.\n\nAfter creation the process will be at *unstarted* status.\n\nThe startNode input schema is not evaluated during process creation."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Process by Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "767d9ab7-21d3-441c-a5a8-240918923674",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"pm.environment.set(\"process_id\",response.process_id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "4565b3dd-a4d7-4452-aef7-86046f057d88",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/workflows/name/:workflow_name/create",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows",
+								"name",
+								":workflow_name",
+								"create"
+							],
+							"variable": [
+								{
+									"key": "workflow_name",
+									"value": "{{workflow_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This endpoint works about the same way as the create process by id.\n\nIt takes the latest version of the workflow with the name provided."
+					},
+					"response": []
+				},
+				{
+					"name": "Start Process by Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "678bf68c-b80c-4aa0-b9f7-01f3cf1ef03d",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"pm.environment.set(\"process_id\",response.process_id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "80642bd1-a1ab-4a1a-bf40-15ae90027485",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"board_id\": \"36ac9248-486b-11ec-81d3-0242ac130003\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/workflows/name/:workflow_name/start",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows",
+								"name",
+								":workflow_name",
+								"start"
+							],
+							"variable": [
+								{
+									"key": "workflow_name",
+									"value": "{{workflow_name}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This endpoint creates and run a process from the workflow name. It takes the latest blueprint version registered.\n\nThis endpoints works exactly as the _CREATE PROCESS_ and _RUN PROCESS_. The start node input schema evaluation is done after the process creation.\n\nThe started process will remain with two different start node states (*unstarted* and  *running*)."
+					},
+					"response": []
+				},
+				{
+					"name": "Convert Blueprint do Diagram",
+					"id": "00749c06-36c7-4b1b-9383-8cf23f092077",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"ATV_ADDRESS\",\r\n  \"description\": \"ATV_ADDRESS\",\r\n  \"blueprint_spec\": {\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"creatorOnly\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"actor_data\",\r\n            \"bag\"\r\n          ],\r\n          [\r\n            \"=\",\r\n            [\r\n              \"get\",\r\n              \"bag\",\r\n              [\r\n                \"`\",\r\n                \"creatorId\"\r\n              ]\r\n            ],\r\n            [\r\n              \"get\",\r\n              \"actor_data\",\r\n              [\r\n                \"`\",\r\n                \"actor_id\"\r\n              ]\r\n            ]\r\n          ]\r\n        ]\r\n      },\r\n      {\r\n        \"id\": \"99\",\r\n        \"name\": \"public\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"Start node\",\r\n        \"next\": \"2\",\r\n        \"type\": \"Start\",\r\n        \"lane_id\": \"99\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        }\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"name\": \"Set to bag node\",\r\n        \"next\": \"7\",\r\n        \"type\": \"SystemTask\",\r\n        \"lane_id\": \"99\",\r\n        \"category\": \"setToBag\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"creatorId\": {\r\n              \"$ref\": \"actor_data.actor_id\"\r\n            }\r\n          }\r\n        }\r\n      },\r\n      {\r\n        \"id\": \"3\",\r\n        \"name\": \"Http node\",\r\n        \"next\": \"4\",\r\n        \"type\": \"SystemTask\",\r\n        \"lane_id\": \"1\",\r\n        \"category\": \"http\",\r\n        \"parameters\": {\r\n          \"input\": {},\r\n          \"request\": {\r\n            \"url\": {\r\n              \"$mustache\": \"https://api.{{{environment.BASE_URL}}}/user/profile\"\r\n            },\r\n            \"verb\": \"GET\",\r\n            \"headers\": {\r\n              \"Authorization\": {\r\n                \"$mustache\": \"UserLogin apikey=\\\"{{{actor_data.lendico_token}}}\\\"\"\r\n              }\r\n            }\r\n          },\r\n          \"valid_response_codes\": [\r\n            200,\r\n            204\r\n          ]\r\n        }\r\n      },\r\n      {\r\n        \"id\": \"4\",\r\n        \"name\": \"Set to bag node\",\r\n        \"next\": \"5\",\r\n        \"type\": \"SystemTask\",\r\n        \"lane_id\": \"1\",\r\n        \"category\": \"setToBag\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"profile\": {\r\n              \"$ref\": \"result.data\"\r\n            }\r\n          }\r\n        }\r\n      },\r\n      {\r\n        \"id\": \"5\",\r\n        \"name\": \"Http node\",\r\n        \"next\": \"6\",\r\n        \"type\": \"SystemTask\",\r\n        \"lane_id\": \"1\",\r\n        \"category\": \"http\",\r\n        \"parameters\": {\r\n          \"input\": {},\r\n          \"request\": {\r\n            \"url\": {\r\n              \"$mustache\": \"https://lists.{{{environment.BASE_URL}}}/api/states?order_by=rank\"\r\n            },\r\n            \"verb\": \"GET\"\r\n          },\r\n          \"valid_response_codes\": [\r\n            200,\r\n            204\r\n          ]\r\n        }\r\n      },\r\n      {\r\n        \"id\": \"6\",\r\n        \"name\": \"Set to bag node\",\r\n        \"next\": \"7\",\r\n        \"type\": \"SystemTask\",\r\n        \"lane_id\": \"1\",\r\n        \"category\": \"setToBag\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"states\": {\r\n              \"$ref\": \"result.data.states\"\r\n            }\r\n          }\r\n        }\r\n      },\r\n      {\r\n        \"id\": \"7\",\r\n        \"name\": \"User task node\",\r\n        \"next\": \"8\",\r\n        \"type\": \"UserTask\",\r\n        \"lane_id\": \"1\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"cpf\": {\r\n              \"$ref\": \"bag.cpf\"\r\n            },\r\n            \"back\": \"voltar\",\r\n            \"name\": {\r\n              \"$ref\": \"bag.name\"\r\n            },\r\n            \"step\": 3,\r\n            \"states\": {\r\n              \"$ref\": \"bag.states\"\r\n            },\r\n            \"proceed\": \"prosseguir\",\r\n            \"profile\": {\r\n              \"$ref\": \"bag.profile\"\r\n            },\r\n            \"city_url\": {\r\n              \"$mustache\": \"https://lists.{{{environment.BASE_URL}}}/api/states/:stateId/cities?order_by=rank&limit=1000\"\r\n            },\r\n            \"current_user\": {\r\n              \"$ref\": \"bag.creatorId\"\r\n            },\r\n            \"best_proposal_url\": {\r\n              \"$mustache\": \"https://api.{{{environment.BASE_URL}}}/approval/best_proposal\"\r\n            },\r\n            \"authorization_header\": {\r\n              \"$mustache\": \"UserLogin apikey=\\\"{{{actor_data.lendico_token}}}\\\"\"\r\n            }\r\n          },\r\n          \"action\": \"ADDRESS_INFO\",\r\n          \"activity_manager\": \"commit\"\r\n        }\r\n      },\r\n      {\r\n        \"id\": \"8\",\r\n        \"name\": \"Flow node\",\r\n        \"next\": {\r\n          \"voltar\": \"20\",\r\n          \"default\": \"7\",\r\n          \"prosseguir\": \"10\"\r\n        },\r\n        \"type\": \"Flow\",\r\n        \"lane_id\": \"1\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"decision\": {\r\n              \"$ref\": \"result.activities[0].data.action\"\r\n            }\r\n          }\r\n        }\r\n      },\r\n      {\r\n        \"id\": \"10\",\r\n        \"name\": \"Http node\",\r\n        \"next\": \"11\",\r\n        \"type\": \"SystemTask\",\r\n        \"lane_id\": \"1\",\r\n        \"category\": \"http\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"$ref\": \"result.activities[0].data.data\"\r\n          },\r\n          \"request\": {\r\n            \"url\": {\r\n              \"$mustache\": \"https://api.{{{environment.BASE_URL}}}/user/profile\"\r\n            },\r\n            \"verb\": \"POST\",\r\n            \"headers\": {\r\n              \"Authorization\": {\r\n                \"$mustache\": \"UserLogin apikey=\\\"{{{actor_data.lendico_token}}}\\\"\"\r\n              }\r\n            }\r\n          },\r\n          \"valid_response_codes\": [\r\n            200,\r\n            204\r\n          ]\r\n        }\r\n      },\r\n      {\r\n        \"id\": \"11\",\r\n        \"name\": \"Start process node\",\r\n        \"next\": \"99\",\r\n        \"type\": \"SystemTask\",\r\n        \"lane_id\": \"1\",\r\n        \"category\": \"startProcess\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"cpf\": {\r\n              \"$ref\": \"bag.cpf\"\r\n            },\r\n            \"name\": {\r\n              \"$ref\": \"bag.name\"\r\n            }\r\n          },\r\n          \"actor_data\": {\r\n            \"$ref\": \"actor_data\"\r\n          },\r\n          \"workflow_name\": \"ATV_MOBILE_CONFIRMATION\"\r\n        }\r\n      },\r\n      {\r\n        \"id\": \"99\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"type\": \"Finish\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"20\",\r\n        \"name\": \"Start process node\",\r\n        \"next\": \"199\",\r\n        \"type\": \"SystemTask\",\r\n        \"lane_id\": \"1\",\r\n        \"category\": \"startProcess\",\r\n        \"parameters\": {\r\n          \"input\": {\r\n            \"cpf\": {\r\n              \"$ref\": \"bag.cpf\"\r\n            },\r\n            \"name\": {\r\n              \"$ref\": \"bag.name\"\r\n            }\r\n          },\r\n          \"actor_data\": {\r\n            \"$ref\": \"actor_data\"\r\n          },\r\n          \"workflow_name\": \"ATV_IDENTIFICATION_INFOS\"\r\n        }\r\n      },\r\n      {\r\n        \"id\": \"199\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"type\": \"Finish\",\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"prepare\": [],\r\n    \"environment\": {\r\n      \"ACQ_URL\": \"ACQ_URL\",\r\n      \"ATV_URL\": \"ATV_URL\",\r\n      \"RET_URL\": \"RET_URL\",\r\n      \"BASE_URL\": \"BASE_URL\",\r\n      \"PARTNERS_URL\": \"PARTNERS_URL\"\r\n    },\r\n    \"requirements\": [\r\n      \"core\"\r\n    ]\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/workflows/diagram",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows",
+								"diagram"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Convert Diagram do Blueprint",
+					"id": "067a0f8d-cd4d-4d04-8d55-1a9285db230b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<bpmn:definitions xmlns:bpmn=\"http://www.omg.org/spec/BPMN/20100524/MODEL\"\r\n\txmlns:bpmndi=\"http://www.omg.org/spec/BPMN/20100524/DI\" xmlns:dc=\"http://www.omg.org/spec/DD/20100524/DC\"\r\n\txmlns:di=\"http://www.omg.org/spec/DD/20100524/DI\">\r\n\t<bpmn:process id=\"Global_Process\" isExecutable=\"true\">\r\n\t\t<bpmn:laneSet id=\"Global_LaneSet\">\r\n\t\t\t<bpmn:lane id=\"Lane_1\" name=\"the_only_lane\">\r\n\t\t\t\t<bpmn:flowNodeRef>Node_1</bpmn:flowNodeRef>\r\n\t\t\t\t<bpmn:flowNodeRef>Node_2</bpmn:flowNodeRef>\r\n\t\t\t\t<bpmn:flowNodeRef>Node_3</bpmn:flowNodeRef>\r\n\t\t\t\t<bpmn:flowNodeRef>Node_4</bpmn:flowNodeRef>\r\n\t\t\t\t<bpmn:flowNodeRef>Node_5</bpmn:flowNodeRef>\r\n\t\t\t\t<bpmn:flowNodeRef>Node_6</bpmn:flowNodeRef>\r\n\t\t\t\t<bpmn:flowNodeRef>Node_7</bpmn:flowNodeRef>\r\n\t\t\t\t<bpmn:flowNodeRef>Node_8</bpmn:flowNodeRef>\r\n\t\t\t</bpmn:lane>\r\n\t\t</bpmn:laneSet>\r\n\t\t<bpmn:startEvent id=\"Node_1\" name=\"1&#10;Start node\">\r\n\t\t\t<bpmn:outgoing>Flow_1_2</bpmn:outgoing>\r\n\t\t</bpmn:startEvent>\r\n\t\t<bpmn:userTask id=\"Node_2\" name=\"2&#10;User Task\">\r\n\t\t\t<bpmn:incoming>Flow_1_2</bpmn:incoming>\r\n\t\t\t<bpmn:incoming>Flow_7_2</bpmn:incoming>\r\n\t\t\t<bpmn:outgoing>Flow_2_3</bpmn:outgoing>\r\n\t\t</bpmn:userTask>\r\n\t\t<bpmn:serviceTask id=\"Node_3\" name=\"3&#10;Set To Bag Task\">\r\n\t\t\t<bpmn:incoming>Flow_2_3</bpmn:incoming>\r\n\t\t\t<bpmn:outgoing>Flow_3_4</bpmn:outgoing>\r\n\t\t</bpmn:serviceTask>\r\n\t\t<bpmn:scriptTask id=\"Node_4\" name=\"4&#10;Scripted Task\">\r\n\t\t\t<bpmn:incoming>Flow_3_4</bpmn:incoming>\r\n\t\t\t<bpmn:outgoing>Flow_4_5</bpmn:outgoing>\r\n\t\t</bpmn:scriptTask>\r\n\t\t<bpmn:serviceTask id=\"Node_5\" name=\"5&#10;Set To Bag Task\">\r\n\t\t\t<bpmn:incoming>Flow_4_5</bpmn:incoming>\r\n\t\t\t<bpmn:outgoing>Flow_5_6</bpmn:outgoing>\r\n\t\t</bpmn:serviceTask>\r\n\t\t<bpmn:serviceTask id=\"Node_6\" name=\"6&#10;Set To Bag Task\">\r\n\t\t\t<bpmn:incoming>Flow_5_6</bpmn:incoming>\r\n\t\t\t<bpmn:outgoing>Flow_6_7</bpmn:outgoing>\r\n\t\t</bpmn:serviceTask>\r\n\t\t<bpmn:exclusiveGateway id=\"Node_7\" name=\"7&#10;Flow node\">\r\n\t\t\t<bpmn:incoming>Flow_6_7</bpmn:incoming>\r\n\t\t\t<bpmn:outgoing>Flow_7_8</bpmn:outgoing>\r\n\t\t\t<bpmn:outgoing>Flow_7_2</bpmn:outgoing>\r\n\t\t</bpmn:exclusiveGateway>\r\n\t\t<bpmn:endEvent id=\"Node_8\" name=\"8&#10;Finish node\">\r\n\t\t\t<bpmn:incoming>Flow_7_8</bpmn:incoming>\r\n\t\t</bpmn:endEvent>\r\n\t\t<bpmn:sequenceFlow id=\"Flow_1_2\" sourceRef=\"Node_1\" targetRef=\"Node_2\" />\r\n\t\t<bpmn:sequenceFlow id=\"Flow_2_3\" sourceRef=\"Node_2\" targetRef=\"Node_3\" />\r\n\t\t<bpmn:sequenceFlow id=\"Flow_3_4\" sourceRef=\"Node_3\" targetRef=\"Node_4\" />\r\n\t\t<bpmn:sequenceFlow id=\"Flow_4_5\" sourceRef=\"Node_4\" targetRef=\"Node_5\" />\r\n\t\t<bpmn:sequenceFlow id=\"Flow_5_6\" sourceRef=\"Node_5\" targetRef=\"Node_6\" />\r\n\t\t<bpmn:sequenceFlow id=\"Flow_6_7\" sourceRef=\"Node_6\" targetRef=\"Node_7\" />\r\n\t\t<bpmn:sequenceFlow id=\"Flow_7_8\" sourceRef=\"Node_7\" targetRef=\"Node_8\" />\r\n\t\t<bpmn:sequenceFlow id=\"Flow_7_2\" sourceRef=\"Node_7\" targetRef=\"Node_2\" />\r\n\t</bpmn:process>\r\n\t<bpmn:collaboration id=\"Global_Colab\">\r\n\t\t<bpmn:participant id=\"Global_Actor\" name=\"test_workflow\" processRef=\"Global_Process\" />\r\n\t</bpmn:collaboration>\r\n\t<bpmndi:BPMNDiagram id=\"Global_Diagram\">\r\n\t\t<bpmndi:BPMNPlane id=\"Global_Plane\" bpmnElement=\"Global_Colab\">\r\n\t\t\t<bpmndi:BPMNShape id=\"Node_1_di\" bpmnElement=\"Node_1\">\r\n\t\t\t\t<dc:Bounds x=\"114\" y=\"72\" width=\"36\" height=\"36\" />\r\n\t\t\t</bpmndi:BPMNShape>\r\n\t\t\t<bpmndi:BPMNShape id=\"Node_2_di\" bpmnElement=\"Node_2\">\r\n\t\t\t\t<dc:Bounds x=\"180\" y=\"50\" width=\"100\" height=\"80\" />\r\n\t\t\t</bpmndi:BPMNShape>\r\n\t\t\t<bpmndi:BPMNShape id=\"Node_3_di\" bpmnElement=\"Node_3\">\r\n\t\t\t\t<dc:Bounds x=\"310\" y=\"50\" width=\"100\" height=\"80\" />\r\n\t\t\t</bpmndi:BPMNShape>\r\n\t\t\t<bpmndi:BPMNShape id=\"Node_4_di\" bpmnElement=\"Node_4\">\r\n\t\t\t\t<dc:Bounds x=\"440\" y=\"50\" width=\"100\" height=\"80\" />\r\n\t\t\t</bpmndi:BPMNShape>\r\n\t\t\t<bpmndi:BPMNShape id=\"Node_5_di\" bpmnElement=\"Node_5\">\r\n\t\t\t\t<dc:Bounds x=\"570\" y=\"50\" width=\"100\" height=\"80\" />\r\n\t\t\t</bpmndi:BPMNShape>\r\n\t\t\t<bpmndi:BPMNShape id=\"Node_6_di\" bpmnElement=\"Node_6\">\r\n\t\t\t\t<dc:Bounds x=\"700\" y=\"50\" width=\"100\" height=\"80\" />\r\n\t\t\t</bpmndi:BPMNShape>\r\n\t\t\t<bpmndi:BPMNShape id=\"Node_7_di\" bpmnElement=\"Node_7\">\r\n\t\t\t\t<dc:Bounds x=\"855\" y=\"65\" width=\"50\" height=\"50\" />\r\n\t\t\t</bpmndi:BPMNShape>\r\n\t\t\t<bpmndi:BPMNShape id=\"Node_8_di\" bpmnElement=\"Node_8\">\r\n\t\t\t\t<dc:Bounds x=\"960\" y=\"72\" width=\"36\" height=\"36\" />\r\n\t\t\t</bpmndi:BPMNShape>\r\n\t\t\t<bpmndi:BPMNEdge id=\"Flow_1_2_di\" bpmnElement=\"Flow_1_2\">\r\n\t\t\t\t<di:waypoint x=\"150\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"160\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"160\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"180\" y=\"90\" />\r\n\t\t\t</bpmndi:BPMNEdge>\r\n\t\t\t<bpmndi:BPMNEdge id=\"Flow_2_3_di\" bpmnElement=\"Flow_2_3\">\r\n\t\t\t\t<di:waypoint x=\"280\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"290\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"290\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"310\" y=\"90\" />\r\n\t\t\t</bpmndi:BPMNEdge>\r\n\t\t\t<bpmndi:BPMNEdge id=\"Flow_3_4_di\" bpmnElement=\"Flow_3_4\">\r\n\t\t\t\t<di:waypoint x=\"410\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"420\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"420\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"440\" y=\"90\" />\r\n\t\t\t</bpmndi:BPMNEdge>\r\n\t\t\t<bpmndi:BPMNEdge id=\"Flow_4_5_di\" bpmnElement=\"Flow_4_5\">\r\n\t\t\t\t<di:waypoint x=\"540\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"550\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"550\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"570\" y=\"90\" />\r\n\t\t\t</bpmndi:BPMNEdge>\r\n\t\t\t<bpmndi:BPMNEdge id=\"Flow_5_6_di\" bpmnElement=\"Flow_5_6\">\r\n\t\t\t\t<di:waypoint x=\"670\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"680\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"680\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"700\" y=\"90\" />\r\n\t\t\t</bpmndi:BPMNEdge>\r\n\t\t\t<bpmndi:BPMNEdge id=\"Flow_6_7_di\" bpmnElement=\"Flow_6_7\">\r\n\t\t\t\t<di:waypoint x=\"800\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"810\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"810\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"855\" y=\"90\" />\r\n\t\t\t</bpmndi:BPMNEdge>\r\n\t\t\t<bpmndi:BPMNEdge id=\"Flow_7_8_di\" bpmnElement=\"Flow_7_8\">\r\n\t\t\t\t<di:waypoint x=\"905\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"915\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"915\" y=\"90\" />\r\n\t\t\t\t<di:waypoint x=\"960\" y=\"90\" />\r\n\t\t\t</bpmndi:BPMNEdge>\r\n\t\t\t<bpmndi:BPMNEdge id=\"Flow_7_2_di\" bpmnElement=\"Flow_7_2\">\r\n\t\t\t\t<di:waypoint x=\"880\" y=\"115\" />\r\n\t\t\t\t<di:waypoint x=\"880\" y=\"135\" />\r\n\t\t\t\t<di:waypoint x=\"230\" y=\"135\" />\r\n\t\t\t\t<di:waypoint x=\"230\" y=\"130\" />\r\n\t\t\t</bpmndi:BPMNEdge>\r\n\t\t\t<bpmndi:BPMNShape id=\"Lane_1_di\" bpmnElement=\"Lane_1\">\r\n\t\t\t\t<dc:Bounds x=\"80\" y=\"10\" width=\"1010\" height=\"160\" />\r\n\t\t\t</bpmndi:BPMNShape>\r\n\t\t\t<bpmndi:BPMNShape id=\"Global_Actor_di\" bpmnElement=\"Global_Actor\">\r\n\t\t\t\t<dc:Bounds x=\"50\" y=\"10\" width=\"1040\" height=\"160\" />\r\n\t\t\t</bpmndi:BPMNShape>\r\n\t\t</bpmndi:BPMNPlane>\r\n\t</bpmndi:BPMNDiagram>\r\n</bpmn:definitions>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/workflows/diagram/convert",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows",
+								"diagram",
+								"convert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Workflow",
+					"id": "682fd01f-472e-4938-bc81-0ac1be152f8a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/workflows/:workflow_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"workflows",
+								":workflow_id"
+							],
+							"variable": [
+								{
+									"key": "workflow_id",
+									"value": "{{workflow_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "Use this endpoint to remove the workflow.\n\nThe workflow can only be removed if no process have been created for this workflow."
+					},
+					"response": []
+				}
+			],
+			"id": "29a8eec6-ee9f-442e-a466-3b2afec9f0df",
+			"description": "Routes for managing workflows.\nCreate/Update, List/Read, Delete blueprints"
+		},
+		{
+			"name": "Processes",
+			"item": [
+				{
+					"name": "List Processes",
+					"id": "960f0fab-78f0-4756-a4b3-d749f54ffee4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "66da0cb0-e937-11e9-8ce0-fb7b0e91da24",
+									"disabled": true
+								}
+							]
+						},
+						"description": "This workflow list _ALL_ processes created."
+					},
+					"response": [
+						{
+							"id": "2ee53c0b-e001-4e7f-90b5-44168cb461ec",
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/processes",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"processes"
+									],
+									"query": [
+										{
+											"key": "filter",
+											"value": "66da0cb0-e937-11e9-8ce0-fb7b0e91da24",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.19.1"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 18 Oct 2020 13:45:08 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": "[\n    {\n        \"id\": \"uuid\",\n        \"created_at\": \"date-time\",\n        \"workflow_id\": \"uuid\",\n        \"current_state_id\": \"uuid\",\n        \"current_status\": \"string\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Find Process",
+					"id": "12b9231c-ed64-460d-9534-226e966f7234",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"workflow_name\": \"any\",\r\n    \"workflow_id\": \"{{$guid}}\",\r\n    \"process_id\": \"{{$guid}}\",\r\n    \"current_status\": \"string\",\r\n    \"limit\": 10,\r\n    \"offset\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/processes/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Available Activities from Actor",
+					"id": "20ed89a3-ccc4-46a7-9103-84b576c14cf5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes/available",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								"available"
+							],
+							"query": [
+								{
+									"key": "workflow_id",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "This endpoints returns all allowed and completed activities for the user provided.\n\nThis endpoint allows filtering by workflow id (send by query params)"
+					},
+					"response": []
+				},
+				{
+					"name": "List Done Activities for Actor",
+					"id": "5cc526c5-2900-4d33-85c2-52a9fb5d4823",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes/done",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								"done"
+							]
+						},
+						"description": "This endpoints returns all allowed and completed activities for the user provided."
+					},
+					"response": []
+				},
+				{
+					"name": "Process Current State",
+					"id": "67fa5330-088f-48bb-ae3a-ff770aadfb12",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes/:process_id/state",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								":process_id",
+								"state"
+							],
+							"variable": [
+								{
+									"id": "671b8740-5268-4de4-babc-036bd439a583",
+									"key": "process_id",
+									"value": "{{process_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This endpoint returns the current state of a process."
+					},
+					"response": []
+				},
+				{
+					"name": "Process History",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "09dd7ed7-a66d-4d7c-8d43-f8e8eaabfa35",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "39463a46-ad05-4706-9856-d7cf9be79c4e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes/:process_id/history",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								":process_id",
+								"history"
+							],
+							"variable": [
+								{
+									"id": "294d2c82-2cc8-4609-af93-b232d849f0d0",
+									"key": "process_id",
+									"value": "{{process_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This endpoints lists all states from a process ordered by descending step number."
+					},
+					"response": []
+				},
+				{
+					"name": "Current Activity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "15b2c2f0-90a0-4685-9c99-fbebc3cbec35",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"activity_manager_id\",response.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "f6a1f1c3-c8b5-49f7-988e-c72c78868bc3",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes/:process_id/activity",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								":process_id",
+								"activity"
+							],
+							"variable": [
+								{
+									"key": "process_id",
+									"value": "{{process_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This endpoint returns all allowed started activities for the provided process id.\n\nIt can return more than one activity if the process uses notify activities.\n\nThe **id** returned represents the activity manager id.\n\n**Reminder**: If the user provided cannot access any activity, the endpoint will return a 404 response code."
+					},
+					"response": []
+				},
+				{
+					"name": "Read Activity",
+					"id": "0f15dbc1-384b-43c7-ab84-940525f122de",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes/activityManager/:activity_manager_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								"activityManager",
+								":activity_manager_id"
+							],
+							"variable": [
+								{
+									"id": "8b2dde06-a7ae-49ad-9320-059b2f2a1a31",
+									"key": "activity_manager_id",
+									"value": "{{activity_manager_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This endpoint returns the data from a specific activity."
+					},
+					"response": []
+				},
+				{
+					"name": "Run Process",
+					"id": "b97fb550-4f4e-4e08-8f6d-e1ed229b4e8f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes/:process_id/run",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								":process_id",
+								"run"
+							],
+							"variable": [
+								{
+									"id": "edc3f475-5107-4d93-ac1e-5cb1c1266de1",
+									"key": "process_id",
+									"value": "{{process_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This endpoint is used to run a process currently at *unstarted*, *waiting* or *pending* status. \n\nIf used after process creation, that is when the startNode inputSchema is evaluated."
+					},
+					"response": []
+				},
+				{
+					"name": "Abort Process",
+					"id": "b30a19f2-feaa-45f5-95b9-de662e04572b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"input\":{}\n}"
+						},
+						"url": {
+							"raw": "{{host}}/processes/:process_id/abort",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								":process_id",
+								"abort"
+							],
+							"variable": [
+								{
+									"id": "f9688875-e710-4e90-a00f-85bd3021666d",
+									"key": "process_id",
+									"value": "{{process_id}}"
+								}
+							]
+						},
+						"description": "Esse endpoint permite abortar um processo em execução."
+					},
+					"response": []
+				},
+				{
+					"name": "Save Activity",
+					"id": "38ff33c2-6e48-4bc4-b75a-e82f7124ea65",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"input\": {\n\n\t}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/processes/:process_id/commit",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								":process_id",
+								"commit"
+							],
+							"variable": [
+								{
+									"id": "f174baf9-f161-4923-8ac6-dae56b6b6cd8",
+									"key": "process_id",
+									"value": "{{process_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This endpoint saves the payload of the current activity of a process.\n\nThis endpoint is not suited for blueprints that uses notify activity_managers. \n\n**Important**: This endpoint dos not affect the process current status."
+					},
+					"response": []
+				},
+				{
+					"name": "Push Activity",
+					"id": "373efcc7-7b83-43f3-86fd-19181f8798f1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes/:process_id/push",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								":process_id",
+								"push"
+							],
+							"variable": [
+								{
+									"id": "f36c28bb-e0f9-4735-8874-c3c0caecb63d",
+									"key": "process_id",
+									"value": "{{process_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This endpoint pushes the content from an activity to the process. \n\nBecause it uses the process id, this endpoint is not suited for blueprints that uses notify activity managers.\n\nThe endpoint pushes all activities previously saved at the current activity manager.\n\n**Important**: the endpoint does not save any payload. Save the content before pushing it to the process.\n\nAfter pushing, the process leaves the *waiting* status and goes to *running* status"
+					},
+					"response": []
+				},
+				{
+					"name": "Continue Process",
+					"id": "f943cf2a-1df4-465f-9346-2a5485dfa8ee",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/processes/:id/continue",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"processes",
+								":id",
+								"continue"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "74959a39-70c5-4da5-9bda-915a8967212b",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "c850c3ee-9ed4-4a4c-8d6e-1f6a359f7e10"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						],
+						"id": "b72ca494-c093-4ed8-9150-419e6defdd5b"
+					}
+				}
+			]
+		},
+		{
+			"name": "ActivityManager",
+			"item": [
+				{
+					"name": "Save Activity",
+					"id": "0e22e1c9-d6d3-4786-a2eb-09669194769c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"input\": {\n\n\t}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/activity_manager/:id/commit",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"activity_manager",
+								":id",
+								"commit"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{activity_manager_id}}"
+								}
+							]
+						},
+						"description": "This endpoint saves the payload of the current activity of a process.\n\nThis endpoint is not suited for blueprints that uses notify activity_managers. \n\n**Important**: This endpoint dos not affect the process current status."
+					},
+					"response": []
+				},
+				{
+					"name": "Submit Activity",
+					"id": "e843f4aa-8ecc-4b8b-882a-436cdfd162d5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/activity_manager/:activity_manager_id/submit",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"activity_manager",
+								":activity_manager_id",
+								"submit"
+							],
+							"variable": [
+								{
+									"id": "a84f22eb-e26e-426d-bf02-f6d0f80531a3",
+									"key": "activity_manager_id",
+									"value": "{{activity_manager_id}}",
+									"type": "string"
+								}
+							]
+						},
+						"description": "This endpoint joins the _Commit_ and _Push_ of an activity.\n\n**Important**: It uses de *activity_manager_id*\n\nInstead of using the process id, it uses the activity manager id so if can be used on any kind of activity.\n\n"
+					},
+					"response": []
+				}
+			],
+			"id": "1fb23918-196e-479d-9106-3602824a8760"
+		},
+		{
+			"name": "Activities",
+			"item": [
+				{
+					"name": "Available Activities from Actor (reduced)",
+					"id": "5b58f187-c32a-47d0-8394-d32d3d2af55b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/activities/available",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"activities",
+								"available"
+							],
+							"query": [
+								{
+									"key": "workflow_id",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "7f604e70-7833-4701-845f-029238574308"
+		},
+		{
+			"name": "Packages",
+			"item": [
+				{
+					"name": "Package",
+					"id": "453e550b-e688-4507-8319-51ef6a8266a8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/packages/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"packages",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Package",
+					"id": "e533830e-f536-4384-9f84-a188efcd09b4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/package",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"package"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Package",
+					"id": "5d788f06-ba10-4536-8e2e-bec27b93a40d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/package",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"package"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "2cda562d-3dda-415b-97e5-7b99802f56a5"
+		},
+		{
+			"name": "States",
+			"item": [
+				{
+					"name": "State By Id",
+					"id": "a78bdb44-2599-4809-9543-573e667e65de",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/states/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"states",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{state_id}}"
+								}
+							]
+						},
+						"description": "Fetch the process state thru its id."
+					},
+					"response": []
+				},
+				{
+					"name": "States by Parameters",
+					"id": "4e4a914d-bccb-494b-a185-6c5cebbad521",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/states/process/:id?nodeId=&stepNumber=",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"states",
+								"process",
+								":id"
+							],
+							"query": [
+								{
+									"key": "nodeId",
+									"value": ""
+								},
+								{
+									"key": "stepNumber",
+									"value": ""
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						},
+						"description": "Fetch the process state thru the process id plus node id or step number.\n\nOne of the parameters needs to be provided.\n\nIf both are sent, step number will take precedent, even if no state is found to the value provided.\n\nPlease remind that if the search is done by node id, it could result in more than one state."
+					},
+					"response": []
+				},
+				{
+					"name": "Calculate Execution",
+					"id": "c50ba935-5e7b-4a37-a4c0-f73926530e96",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/states/:id/execution",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"states",
+								":id",
+								"execution"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Node Spec",
+					"id": "dafeae16-dc9c-446a-9484-0e2d9c55cbf7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/states/:id/spec",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"states",
+								":id",
+								"spec"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "2a0162c7-f8dd-400d-a26e-2b3946a19b56",
+			"description": "Routes to fetch an specific state.\n\nThe route will return the same data from the process routes, but will add the parameters and the environment properties."
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "efffd8a7-7110-4657-8114-b6fd6ed7a6be",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "46b359e7-58aa-48a4-97a4-8eb97001b5ae",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "c2637d4b-1090-432a-be58-64d96590b040",
+			"key": "workflow_id",
+			"value": ""
+		},
+		{
+			"id": "837b489b-e5e5-4ef5-8711-2afdf57368dd",
+			"key": "sf_processId",
+			"value": ""
+		}
+	]
+}
