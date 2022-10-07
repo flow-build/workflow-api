@@ -1,3 +1,10 @@
+## [2.8.0](https://github.com/flow-build/workflow/compare/v2.7.2...v2.8.0) (2022-10-07)
+
+
+### Features
+
+* add environment variables for basicAuth node keys ([70d02c0](https://github.com/flow-build/workflow/commit/70d02c0d62c37e87e6f4836f2d04b16679861d47))
+
 ## [2.7.2](https://github.com/flow-build/workflow/compare/v2.7.1...v2.7.2) (2022-09-24)
 
 
