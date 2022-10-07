@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { Nodes, ProcessStatus, utils } = require("@flowbuild/engine");
 const { merge } = require("lodash");
 const Ajv = require("ajv");
@@ -67,9 +68,9 @@ class BasicAuthNode extends Nodes.SystemTaskNode {
       auth,
       headers,
       data: executionData,
-      maxContentLength: 20000,
-      maxBodyLength: 20000,
-      timeout: 10000,
+      maxContentLength: process.env.MAX_CONTENT_LENGTH || 20000,
+      maxBodyLength: process.env.MAX_BODY_LENGTH || 20000,
+      timeout: process.env.TIMEOUT || 30000,
     });
     return [{ status: result.status, data: result.data }, ProcessStatus.RUNNING];
   }
