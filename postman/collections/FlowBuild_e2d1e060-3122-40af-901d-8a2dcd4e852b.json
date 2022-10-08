@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "5cb4c4b9-cffa-4a01-96cb-5b1aec5bf428",
+		"_postman_id": "6e9cb38a-db1c-4913-91ad-2546e9ac4218",
 		"name": "FlowBuild",
 		"description": "Default API routes to access FlowBuild engine.\n\nThe routes are updated to the workflow-api version available on\n\n[https://github.com/flow-build/workflow-api](https://github.com/flow-build/workflow-api) on this [commit](https://github.com/flow-build/workflow-api/commit/890e32d85625b49b95255d222b9ddf581e6b5855)",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "2387160-6e9cb38a-db1c-4913-91ad-2546e9ac4218"
 	},
 	"item": [
 		{
@@ -11,7 +12,7 @@
 			"item": [
 				{
 					"name": "List Workflows",
-					"id": "b44c49bd-78d4-4b6a-9f19-a784bc93f0e8",
+					"id": "cbbe47b4-3ef6-4af2-8ade-6cad323efa34",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -31,7 +32,7 @@
 					},
 					"response": [
 						{
-							"id": "c79a70ba-66dc-4629-9d36-655ef7d5091f",
+							"id": "e08d53f7-df85-42d7-bfb0-79ee4e2fc179",
 							"name": "401",
 							"originalRequest": {
 								"method": "GET",
@@ -49,6 +50,7 @@
 							"status": "Unauthorized",
 							"code": 401,
 							"_postman_previewlanguage": "plain",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Server",
@@ -84,7 +86,7 @@
 							"body": "Unauthorized"
 						},
 						{
-							"id": "f70348bd-6a9e-48c0-9750-c9802545ec71",
+							"id": "3287d45c-cd6a-4de0-8a12-4a6ee6ddda1e",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
@@ -102,6 +104,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Server",
@@ -148,7 +151,7 @@
 				},
 				{
 					"name": "Read Workflow",
-					"id": "136b41b0-7c48-4068-b1cd-af762cd0adbd",
+					"id": "049c7dff-2eb8-4597-8713-722f1364b4b5",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -176,10 +179,8 @@
 							],
 							"variable": [
 								{
-									"id": "2d7e2baf-5ac2-4a19-a2f1-3d0dc047ce5a",
 									"key": "workflow_id",
-									"value": "{{workflow_id}}",
-									"type": "string"
+									"value": "{{workflow_id}}"
 								}
 							]
 						},
@@ -187,7 +188,7 @@
 					},
 					"response": [
 						{
-							"id": "ff39e89a-9c62-45fa-ba50-e1abe4e10871",
+							"id": "dba24265-b1d1-4de5-9580-7795a8b72cc6",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
@@ -212,6 +213,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Server",
@@ -258,7 +260,7 @@
 				},
 				{
 					"name": "Read Workflow By Name",
-					"id": "685d88f1-f739-4959-9591-47e936452703",
+					"id": "c3b62233-634d-4018-91e5-508a8f915c71",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -287,10 +289,8 @@
 							],
 							"variable": [
 								{
-									"id": "a4388d29-095d-411a-9f21-f335a15d785d",
 									"key": "workflow_name",
-									"value": "{{workflow_name}}",
-									"type": "string"
+									"value": "{{workflow_name}}"
 								}
 							]
 						}
@@ -299,7 +299,7 @@
 				},
 				{
 					"name": "List Processes from Workflow",
-					"id": "19761709-b1d1-4972-9e7f-e33565aed3f5",
+					"id": "63ab7d94-bdfb-4c16-8b3e-73bb31c5077d",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -332,7 +332,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e60a0670-2a0d-4bda-b317-9975c8161b9f",
+								"id": "7b3cf77a-30b0-4408-aaca-37d0e07633fc",
 								"exec": [
 									"const response = pm.response.json();\r",
 									"\r",
@@ -342,7 +342,7 @@
 							}
 						}
 					],
-					"id": "60199918-13c8-4a84-9f6f-12d4fa1fec9c",
+					"id": "de67aeb5-f5b9-4638-9eba-e37d7f8a0a7a",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -394,7 +394,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "03fe7c03-e99c-4ad2-8e70-60d9148cc601",
+								"id": "732b97e8-9416-449f-973c-a7163946964d",
 								"exec": [
 									"const response = pm.response.json();\r",
 									"pm.environment.set(\"process_id\",response.process_id);"
@@ -403,7 +403,7 @@
 							}
 						}
 					],
-					"id": "affbc8af-d6e5-45a3-ac7f-695f4364d20f",
+					"id": "c6291ac5-3395-46b8-98f4-c7b3c16fbd27",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -432,10 +432,8 @@
 							],
 							"variable": [
 								{
-									"id": "1a7a2065-2cee-4e4f-af4a-15310bf4602e",
 									"key": "workflow_id",
-									"value": "{{workflow_id}}",
-									"type": "string"
+									"value": "{{workflow_id}}"
 								}
 							]
 						},
@@ -449,7 +447,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "767d9ab7-21d3-441c-a5a8-240918923674",
+								"id": "12151449-3ad2-4b31-b247-1efc00661fbd",
 								"exec": [
 									"const response = pm.response.json();\r",
 									"pm.environment.set(\"process_id\",response.process_id);"
@@ -458,7 +456,7 @@
 							}
 						}
 					],
-					"id": "4565b3dd-a4d7-4452-aef7-86046f057d88",
+					"id": "705baaff-e013-4e27-b64a-f6475140deea",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -489,8 +487,7 @@
 							"variable": [
 								{
 									"key": "workflow_name",
-									"value": "{{workflow_name}}",
-									"type": "string"
+									"value": "{{workflow_name}}"
 								}
 							]
 						},
@@ -504,7 +501,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "678bf68c-b80c-4aa0-b9f7-01f3cf1ef03d",
+								"id": "005d25ff-4a5b-48d1-a581-b7afbc205ce8",
 								"exec": [
 									"const response = pm.response.json();\r",
 									"pm.environment.set(\"process_id\",response.process_id);"
@@ -513,7 +510,7 @@
 							}
 						}
 					],
-					"id": "80642bd1-a1ab-4a1a-bf40-15ae90027485",
+					"id": "95f19e56-ef51-408b-93e2-f1ba22508020",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -553,8 +550,7 @@
 							"variable": [
 								{
 									"key": "workflow_name",
-									"value": "{{workflow_name}}",
-									"type": "string"
+									"value": "{{workflow_name}}"
 								}
 							]
 						},
@@ -564,7 +560,7 @@
 				},
 				{
 					"name": "Convert Blueprint do Diagram",
-					"id": "00749c06-36c7-4b1b-9383-8cf23f092077",
+					"id": "a2b0481d-14cf-4d27-bc06-4bdaf31a95b4",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -605,7 +601,7 @@
 				},
 				{
 					"name": "Convert Diagram do Blueprint",
-					"id": "067a0f8d-cd4d-4d04-8d55-1a9285db230b",
+					"id": "118bd645-1608-4dc7-b244-656e78cc6f19",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -647,7 +643,7 @@
 				},
 				{
 					"name": "Delete Workflow",
-					"id": "682fd01f-472e-4938-bc81-0ac1be152f8a",
+					"id": "a7798eb9-9582-4457-8a4f-9337de099b3a",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -676,8 +672,7 @@
 							"variable": [
 								{
 									"key": "workflow_id",
-									"value": "{{workflow_id}}",
-									"type": "string"
+									"value": "{{workflow_id}}"
 								}
 							]
 						},
@@ -686,7 +681,7 @@
 					"response": []
 				}
 			],
-			"id": "29a8eec6-ee9f-442e-a466-3b2afec9f0df",
+			"id": "e5971aeb-8840-4e3a-b8b1-d7c58e0b0967",
 			"description": "Routes for managing workflows.\nCreate/Update, List/Read, Delete blueprints"
 		},
 		{
@@ -694,7 +689,7 @@
 			"item": [
 				{
 					"name": "List Processes",
-					"id": "960f0fab-78f0-4756-a4b3-d749f54ffee4",
+					"id": "a052b251-2aeb-4c8e-9e34-172562765e1a",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -731,7 +726,7 @@
 					},
 					"response": [
 						{
-							"id": "2ee53c0b-e001-4e7f-90b5-44168cb461ec",
+							"id": "e1b5f014-b1b6-4e07-872a-eb806385bbdf",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
@@ -756,6 +751,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Server",
@@ -802,7 +798,7 @@
 				},
 				{
 					"name": "Find Process",
-					"id": "12b9231c-ed64-460d-9534-226e966f7234",
+					"id": "0b72b373-7daa-4d31-8ce9-7518f8182528",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -833,7 +829,7 @@
 				},
 				{
 					"name": "List Available Activities from Actor",
-					"id": "20ed89a3-ccc4-46a7-9103-84b576c14cf5",
+					"id": "d40ec5d9-ed5a-4626-82b3-25568e560445",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -873,7 +869,7 @@
 				},
 				{
 					"name": "List Done Activities for Actor",
-					"id": "5cc526c5-2900-4d33-85c2-52a9fb5d4823",
+					"id": "4338900a-3c24-42c3-a493-6d926288facd",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -906,7 +902,7 @@
 				},
 				{
 					"name": "Process Current State",
-					"id": "67fa5330-088f-48bb-ae3a-ff770aadfb12",
+					"id": "53c5d0d0-b0d5-4afe-9ce0-10729d1e2e3d",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -935,10 +931,8 @@
 							],
 							"variable": [
 								{
-									"id": "671b8740-5268-4de4-babc-036bd439a583",
 									"key": "process_id",
-									"value": "{{process_id}}",
-									"type": "string"
+									"value": "{{process_id}}"
 								}
 							]
 						},
@@ -952,7 +946,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "09dd7ed7-a66d-4d7c-8d43-f8e8eaabfa35",
+								"id": "acfa82ff-e443-4708-9600-ab5f6b3db414",
 								"exec": [
 									""
 								],
@@ -960,7 +954,7 @@
 							}
 						}
 					],
-					"id": "39463a46-ad05-4706-9856-d7cf9be79c4e",
+					"id": "b32fa499-fe1d-4223-b104-e5177643b225",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -989,10 +983,8 @@
 							],
 							"variable": [
 								{
-									"id": "294d2c82-2cc8-4609-af93-b232d849f0d0",
 									"key": "process_id",
-									"value": "{{process_id}}",
-									"type": "string"
+									"value": "{{process_id}}"
 								}
 							]
 						},
@@ -1006,7 +998,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "15b2c2f0-90a0-4685-9c99-fbebc3cbec35",
+								"id": "531e7de5-e29f-4e68-8c3d-aad22b6ccf85",
 								"exec": [
 									"const response = pm.response.json();\r",
 									"\r",
@@ -1016,7 +1008,7 @@
 							}
 						}
 					],
-					"id": "f6a1f1c3-c8b5-49f7-988e-c72c78868bc3",
+					"id": "4acfb8c1-f0e2-494e-9741-d7e847569a14",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1046,8 +1038,7 @@
 							"variable": [
 								{
 									"key": "process_id",
-									"value": "{{process_id}}",
-									"type": "string"
+									"value": "{{process_id}}"
 								}
 							]
 						},
@@ -1057,7 +1048,7 @@
 				},
 				{
 					"name": "Read Activity",
-					"id": "0f15dbc1-384b-43c7-ab84-940525f122de",
+					"id": "81eb0753-f43f-4c5f-86b6-8716d9b8e9eb",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1086,10 +1077,8 @@
 							],
 							"variable": [
 								{
-									"id": "8b2dde06-a7ae-49ad-9320-059b2f2a1a31",
 									"key": "activity_manager_id",
-									"value": "{{activity_manager_id}}",
-									"type": "string"
+									"value": "{{activity_manager_id}}"
 								}
 							]
 						},
@@ -1099,7 +1088,7 @@
 				},
 				{
 					"name": "Run Process",
-					"id": "b97fb550-4f4e-4e08-8f6d-e1ed229b4e8f",
+					"id": "a16be7b9-0c75-427b-8345-0089ee47130c",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1128,10 +1117,8 @@
 							],
 							"variable": [
 								{
-									"id": "edc3f475-5107-4d93-ac1e-5cb1c1266de1",
 									"key": "process_id",
-									"value": "{{process_id}}",
-									"type": "string"
+									"value": "{{process_id}}"
 								}
 							]
 						},
@@ -1141,7 +1128,7 @@
 				},
 				{
 					"name": "Abort Process",
-					"id": "b30a19f2-feaa-45f5-95b9-de662e04572b",
+					"id": "1f8411e0-9998-436b-bbf5-3f8ef6b5bdd3",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1181,7 +1168,6 @@
 							],
 							"variable": [
 								{
-									"id": "f9688875-e710-4e90-a00f-85bd3021666d",
 									"key": "process_id",
 									"value": "{{process_id}}"
 								}
@@ -1193,7 +1179,7 @@
 				},
 				{
 					"name": "Save Activity",
-					"id": "38ff33c2-6e48-4bc4-b75a-e82f7124ea65",
+					"id": "58d9e932-22b9-43e7-bf38-28ccbac3e406",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1231,10 +1217,8 @@
 							],
 							"variable": [
 								{
-									"id": "f174baf9-f161-4923-8ac6-dae56b6b6cd8",
 									"key": "process_id",
-									"value": "{{process_id}}",
-									"type": "string"
+									"value": "{{process_id}}"
 								}
 							]
 						},
@@ -1244,7 +1228,7 @@
 				},
 				{
 					"name": "Push Activity",
-					"id": "373efcc7-7b83-43f3-86fd-19181f8798f1",
+					"id": "cd9b3f41-7095-4335-9a65-70430dc30fef",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1273,10 +1257,8 @@
 							],
 							"variable": [
 								{
-									"id": "f36c28bb-e0f9-4735-8874-c3c0caecb63d",
 									"key": "process_id",
-									"value": "{{process_id}}",
-									"type": "string"
+									"value": "{{process_id}}"
 								}
 							]
 						},
@@ -1286,7 +1268,7 @@
 				},
 				{
 					"name": "Continue Process",
-					"id": "f943cf2a-1df4-465f-9346-2a5485dfa8ee",
+					"id": "abccefa0-18e4-45b4-a0da-d352f1368a8a",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1314,7 +1296,7 @@
 					"response": []
 				}
 			],
-			"id": "74959a39-70c5-4da5-9bda-915a8967212b",
+			"id": "6f8a7d5f-3563-4822-898e-a50b9cbcf9e1",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -1323,7 +1305,7 @@
 						"exec": [
 							""
 						],
-						"id": "c850c3ee-9ed4-4a4c-8d6e-1f6a359f7e10"
+						"id": "355e39d0-0a94-4a70-bd4d-8547e321e475"
 					}
 				},
 				{
@@ -1333,7 +1315,7 @@
 						"exec": [
 							""
 						],
-						"id": "b72ca494-c093-4ed8-9150-419e6defdd5b"
+						"id": "e708dec1-80e5-4f21-a015-0e6469897ad2"
 					}
 				}
 			]
@@ -1343,7 +1325,7 @@
 			"item": [
 				{
 					"name": "Save Activity",
-					"id": "0e22e1c9-d6d3-4786-a2eb-09669194769c",
+					"id": "30c0dbce-53a5-43ff-9b09-ce17c96f7f6e",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1382,7 +1364,7 @@
 				},
 				{
 					"name": "Submit Activity",
-					"id": "e843f4aa-8ecc-4b8b-882a-436cdfd162d5",
+					"id": "54ecdbc3-dd0c-4fa6-88ca-93f252a5b4bd",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1411,10 +1393,8 @@
 							],
 							"variable": [
 								{
-									"id": "a84f22eb-e26e-426d-bf02-f6d0f80531a3",
 									"key": "activity_manager_id",
-									"value": "{{activity_manager_id}}",
-									"type": "string"
+									"value": "{{activity_manager_id}}"
 								}
 							]
 						},
@@ -1423,14 +1403,14 @@
 					"response": []
 				}
 			],
-			"id": "1fb23918-196e-479d-9106-3602824a8760"
+			"id": "e6343b8f-b76d-4425-a047-b3888a29d9e9"
 		},
 		{
 			"name": "Activities",
 			"item": [
 				{
 					"name": "Available Activities from Actor (reduced)",
-					"id": "5b58f187-c32a-47d0-8394-d32d3d2af55b",
+					"id": "1fe22777-e62a-4e32-a2bd-bb99a15d4df3",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1458,14 +1438,14 @@
 					"response": []
 				}
 			],
-			"id": "7f604e70-7833-4701-845f-029238574308"
+			"id": "7f54541e-8c02-4b26-92c0-98dd1c5198ef"
 		},
 		{
 			"name": "Packages",
 			"item": [
 				{
 					"name": "Package",
-					"id": "453e550b-e688-4507-8319-51ef6a8266a8",
+					"id": "5966333c-d011-4538-81ee-331443be3372",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1493,7 +1473,7 @@
 				},
 				{
 					"name": "Package",
-					"id": "e533830e-f536-4384-9f84-a188efcd09b4",
+					"id": "47651197-4e24-4f0a-97de-e3a7cab7e799",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1514,7 +1494,7 @@
 				},
 				{
 					"name": "Package",
-					"id": "5d788f06-ba10-4536-8e2e-bec27b93a40d",
+					"id": "34e79526-ccc7-4600-a724-1dda679fa1e7",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1534,14 +1514,14 @@
 					"response": []
 				}
 			],
-			"id": "2cda562d-3dda-415b-97e5-7b99802f56a5"
+			"id": "9c092704-8df4-49bc-b27e-a76d6ea0fced"
 		},
 		{
 			"name": "States",
 			"item": [
 				{
 					"name": "State By Id",
-					"id": "a78bdb44-2599-4809-9543-573e667e65de",
+					"id": "c6cd991e-536d-4d7d-b57e-6387ec567c2a",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1570,7 +1550,7 @@
 				},
 				{
 					"name": "States by Parameters",
-					"id": "4e4a914d-bccb-494b-a185-6c5cebbad521",
+					"id": "f196ab2f-f3bd-4d89-802e-067188722933",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1610,7 +1590,7 @@
 				},
 				{
 					"name": "Calculate Execution",
-					"id": "c50ba935-5e7b-4a37-a4c0-f73926530e96",
+					"id": "19a4ade4-05e1-4d07-a2f9-01246dc9f29c",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1639,7 +1619,7 @@
 				},
 				{
 					"name": "Fetch Node Spec",
-					"id": "dafeae16-dc9c-446a-9484-0e2d9c55cbf7",
+					"id": "32999e63-d0bd-476e-a5c3-05a6f1fe6526",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1667,7 +1647,7 @@
 					"response": []
 				}
 			],
-			"id": "2a0162c7-f8dd-400d-a26e-2b3946a19b56",
+			"id": "38412774-60f6-4b53-8acf-d89584d9b180",
 			"description": "Routes to fetch an specific state.\n\nThe route will return the same data from the process routes, but will add the parameters and the environment properties."
 		}
 	],
@@ -1685,7 +1665,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "efffd8a7-7110-4657-8114-b6fd6ed7a6be",
+				"id": "f491e07b-3d2a-4fbb-b61a-cff63d921971",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1695,7 +1675,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "46b359e7-58aa-48a4-97a4-8eb97001b5ae",
+				"id": "b2c2dc23-5c75-4106-81bb-ae8d929c526f",
 				"type": "text/javascript",
 				"exec": [
 					""

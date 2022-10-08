@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "432a0fcb-2e7a-4408-85c3-b5f8ae903d08",
+		"_postman_id": "2021feff-c3ae-4bbb-97b0-edc69afa6bc2",
 		"name": "Cockpit",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "2387160-2021feff-c3ae-4bbb-97b0-edc69afa6bc2"
 	},
 	"item": [
 		{
@@ -10,7 +11,7 @@
 			"item": [
 				{
 					"name": "Process Execution",
-					"id": "c91ca03f-e8b7-43d9-97ba-3a9f78ec408b",
+					"id": "3e3aa203-b250-47fc-9fad-21c510b66e4c",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -41,8 +42,7 @@
 							"variable": [
 								{
 									"key": "process_id",
-									"value": "{{process_id}}",
-									"type": "string"
+									"value": "{{process_id}}"
 								}
 							]
 						}
@@ -51,7 +51,7 @@
 				},
 				{
 					"name": "Set Process State",
-					"id": "dcdcfd07-44ea-488f-8fae-74b5b4aaafb5",
+					"id": "62fab93f-15d7-45d6-b5d2-337da8b9a9c4",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -103,7 +103,7 @@
 				},
 				{
 					"name": "Run Process from Set State",
-					"id": "812a3dbc-12ad-4f85-af63-84dce73fb79e",
+					"id": "64c5c18c-51bd-4329-9029-de61c690be31",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -141,10 +141,8 @@
 							],
 							"variable": [
 								{
-									"id": "3adb4b39-2fe0-45b4-be4b-3c94e02f6eb8",
 									"key": "id",
-									"value": "862bf500-a517-11ea-8dac-31da0af535c5",
-									"type": "string"
+									"value": "862bf500-a517-11ea-8dac-31da0af535c5"
 								}
 							]
 						},
@@ -154,7 +152,7 @@
 				},
 				{
 					"name": "Transfer Process State",
-					"id": "399fdd6e-94eb-4fae-aa73-b5189634664f",
+					"id": "bffd356f-4562-48c4-8f93-b9125ca39052",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -209,14 +207,14 @@
 					"response": []
 				}
 			],
-			"id": "add5eb22-f888-4398-9d68-5b651fd44069"
+			"id": "0011fd2e-49d3-4b60-88dc-1fd041aa577c"
 		},
 		{
 			"name": "Workflows",
 			"item": [
 				{
 					"name": "List Processes By Workflow ID",
-					"id": "af937e21-ec72-4a99-b844-15d9e0c74152",
+					"id": "c458ce3d-00f9-4545-b69a-e3bacc730f7f",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -256,7 +254,7 @@
 				},
 				{
 					"name": "Get Processes Stats",
-					"id": "67751240-8292-4575-84d0-9c8e69c124c3",
+					"id": "010fd5d7-03d8-4a73-93d9-699f94e65601",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -302,7 +300,7 @@
 				},
 				{
 					"name": "List Processes By Workflow Name",
-					"id": "af63d8b3-579f-4e6d-831b-c305fd8821cb",
+					"id": "202d95df-d15a-443c-bea2-1d826ca4ecfd",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -343,7 +341,7 @@
 				},
 				{
 					"name": "List States From a Node",
-					"id": "bcebda57-3e89-413a-abe9-21ae816cd2b6",
+					"id": "a47a2726-cb12-40cf-8b3b-d43130a5e097",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -375,12 +373,10 @@
 							],
 							"variable": [
 								{
-									"id": "6ee9f5f8-4082-4521-8af3-ab20b698c124",
 									"key": "workflow_name",
 									"value": "{{workflow_name}}"
 								},
 								{
-									"id": "833b11dd-81c3-4a6f-912e-9607a2fee566",
 									"key": "node_id",
 									"value": "2"
 								}
@@ -391,7 +387,7 @@
 				},
 				{
 					"name": "List Environment Variables",
-					"id": "5a3a74b6-ab6b-45ef-8457-3bae52a57a3b",
+					"id": "c4175971-0e66-4665-9144-bba8d1aa1f01",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -424,7 +420,7 @@
 				},
 				{
 					"name": "Validate Blueprint",
-					"id": "57f91e97-8546-436d-9577-049a1dbc211b",
+					"id": "41d1ec38-35a2-400d-99a2-2ea3c20c676e",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -466,7 +462,7 @@
 				},
 				{
 					"name": "Compare Blueprint",
-					"id": "7d335fb4-2e96-47d0-a6af-bd89e555b959",
+					"id": "4c13b71e-fcaa-484b-9fe6-c0e4e073019c",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -507,14 +503,14 @@
 					"response": []
 				}
 			],
-			"id": "321e0090-f801-4e6b-b89c-5c664955d39f"
+			"id": "71cc8831-2585-49ee-9f6c-98e60eaa4364"
 		},
 		{
 			"name": "Nodes",
 			"item": [
 				{
 					"name": "List Avaliable Nodes",
-					"id": "c4564f1c-2bd1-496c-b164-f71c68a693ed",
+					"id": "32bc240c-9e6c-46ca-8703-d85d5eb3b60e",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -547,7 +543,7 @@
 				},
 				{
 					"name": "Fetch Node Spec Schema",
-					"id": "d93ca4c3-434f-48e5-990a-732699ca1b7c",
+					"id": "fc4f6f69-d1f6-45db-8fdc-8aca65afb6d9",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -588,7 +584,7 @@
 					"response": []
 				}
 			],
-			"id": "46afd490-5a1c-4ce5-9a6a-09446a2bfa81"
+			"id": "b3c36c49-b41e-436b-a931-dc78a306913f"
 		}
 	],
 	"auth": {
@@ -605,7 +601,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "5015c701-88ba-4394-ae75-055bbde7e82b",
+				"id": "f7196c8e-b954-43bd-9c4c-7a93e2ce8b2d",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -615,7 +611,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "0ba55086-f58a-4d2d-a32c-5696211032d9",
+				"id": "2f9a9e4f-b92e-4472-9d38-99398c7f9cce",
 				"type": "text/javascript",
 				"exec": [
 					""

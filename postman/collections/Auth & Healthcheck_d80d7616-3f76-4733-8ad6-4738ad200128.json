@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "1dc6964e-e45e-48f7-a9e1-d016dfc6e290",
+		"_postman_id": "d36f89a2-0ad9-4cf3-b56b-1a874b9ac814",
 		"name": "Auth & Healthcheck",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "2387160-d36f89a2-0ad9-4cf3-b56b-1a874b9ac814"
 	},
 	"item": [
 		{
@@ -11,7 +12,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1b8a6c9a-f068-4900-b90a-f9fbc2e25fba",
+						"id": "d442ea7d-c468-4af7-9c4b-5045dd1d3be3",
 						"exec": [
 							""
 						],
@@ -19,7 +20,7 @@
 					}
 				}
 			],
-			"id": "d9823576-0056-47e5-9763-554175c554fa",
+			"id": "278398f7-a131-4813-899f-ee050c479487",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -47,7 +48,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "29853225-38df-4475-a57b-7f0fa114daf8",
+						"id": "5159752c-2dca-457b-903e-cf222c651cfb",
 						"exec": [
 							"const response = pm.response.json();\t\t\t\t\t\t\r",
 							"pm.environment.set(\"token\",response.jwtToken);"
@@ -56,7 +57,7 @@
 					}
 				}
 			],
-			"id": "c642d57e-d493-49b9-9e42-335528bb6df2",
+			"id": "6f3efd75-46ee-48e9-9627-722e13e35faf",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},

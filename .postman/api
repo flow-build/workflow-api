@@ -1,0 +1,19 @@
+id = 8b847e91-141c-4ceb-bfa4-7fcf6d30632e
+
+[relations]
+
+[relations.collections]
+rootDirectory = postman/collections
+files[] = {"id":"2387160-d36f89a2-0ad9-4cf3-b56b-1a874b9ac814","path":"Auth & Healthcheck_d80d7616-3f76-4733-8ad6-4738ad200128.json","metaData":{}}
+files[] = {"id":"2387160-2021feff-c3ae-4bbb-97b0-edc69afa6bc2","path":"Cockpit_6d7a0568-0eb3-442c-a4c5-0081ea4ef929.json","metaData":{}}
+files[] = {"id":"2387160-6e9cb38a-db1c-4913-91ad-2546e9ac4218","path":"FlowBuild_e2d1e060-3122-40af-901d-8a2dcd4e852b.json","metaData":{}}
+files[] = {"id":"2387160-81e44739-2999-4f0d-9855-5f26f493f763","path":"Tests_7aa1e169-177d-44a0-a7d2-7116348d54e6.json","metaData":{}}
+
+[relations.collections.metaData]
+
+[relations.apiDefinition]
+rootDirectory = postman/schemas
+files[] = {"path":"flowbuild.yaml","metaData":{}}
+
+[relations.apiDefinition.metaData]
+type = openapi:3
