@@ -14,22 +14,45 @@ npm -v
 Add a .env file with the following variables:
 
 - JWT_KEY (default = 1234)
+- KNEX_ENV (suggested value = prod)
+- NODE_ENV (suggested value = docker)
 - KOA_LOG_LEVEL (default = info)
-- ENGINE_LOG_LEVEL (default = error)
-- NODE_END (suggested value = docker)
-- KNEX_ENV (suggested value = test)
 - PORT (default to 3000)
+
 - MQTT (bool)
+- MQTT_HOST
+- MQTT_PORT
+- MQTT_PATH
+- MQTT_PROTOCOL
+
+- ENGINE_LOG_LEVEL (default = error)
+- ENGINE_HEARTBEAT (bool, turns on-off engine heartbeat)
+
 - PUBLISH_STATE_EVENTS (bool)
 - PUBLISH_ENGINE_LOGS (bool)
+- PUBLISH_SERVER_LOGS (bool)
+
 - POSTGRES_PORT
 - POSTGRES_HOST
-- POSTGRES_DB
+- POSTGRES_DATABASE
 - POSTGRES_USER
 - POSTGRES_PASSWORD
-- ENGINE_HEARTBEAT (bool, turns on-off engine heartbeat)
+
 - MAX_STEP_NUMBER (integer, maximum number of steps for a process)
 - MAX_CONTENT_LENGTH (integer, max content length for response on http node calls)
+- MAX_BODY_LENGTH (integer, max body length for response on BasicAuth nodes)
+- HTTP_TIMEOUT (integer, timeout in ms for BasicAuth nodes)
+
+- OTEL_ENABLED (bool, activates Open Telemetry config)
+- OTEL_SERVICE_NAME (string)
+- OTEL_COLLECTOR_URL
+
+- NEW_RELIC_ENABLED (bool, activates New Relic config for Open Telemetry. Needs to add API Key and OTEL URL)
+- NEW_RELIC_API_KEY
+
+- POSTMAN_API_KEY (for Newman test runs)
+- POSTMAN_TEST_COLLECTION
+- POSTMAN_ENVIRONMENT
 
 ## Run the project on docker:
 
