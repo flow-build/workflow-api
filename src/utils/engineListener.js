@@ -12,11 +12,12 @@ const processStateListener = async (processState) => {
       stepNumber: processState.step_number,
       nodeId: processState.node_id,
       status: processState.status,
-      workflow: processState.workflow_name
+      workflow: processState.workflow_name,
+      result: processState.result
     };
   
     mqtt.publishMessage(topic, message);
-    logger.info(`PS LISTENER: PID [${processState.id}], step [${processState.step_number}], status [${processState.status}]`);
+    logger.info(`PS LISTENER: PID [${processState.process_id}] SID [${processState.id}], step [${processState.step_number}], status [${processState.status}]`);
   }
 };
 

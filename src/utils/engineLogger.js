@@ -23,12 +23,13 @@ const startLogger = () => {
   let logLevel = "silly";
   let logMessage;
 
-  if(process.env.PUBLISH_ENGINE_LOGS) {
-    emitter.onAny(function(event, message) {
+  if(process.env.PUBLISH_ENGINE_LOGS === "true") {
+    emitter.onAny(function(event, message, variables) {
       const topic = `/logs`;
       const msg = {
         event,
         message,
+        variables,
         timestamp: new Date(),
       };
     
