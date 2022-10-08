@@ -1,3 +1,10 @@
+## [2.10.1](https://github.com/flow-build/workflow/compare/v2.10.0...v2.10.1) (2022-10-08)
+
+
+### Bug Fixes
+
+* update first time contributor action ([77a5d4e](https://github.com/flow-build/workflow/commit/77a5d4e9ac997869cad06c13ac4179d9aa4cdfb1))
+
 ## [2.10.0](https://github.com/flow-build/workflow/compare/v2.9.0...v2.10.0) (2022-10-08)
 
 
