@@ -41,9 +41,9 @@ const healthCheck = async (ctx, next) => {
         maxBody: process.env.MAX_BODY_LENGTH
       },
       OpenTelemetry: {
-        status: process.env.OTEL_ENABLED === true ? "enabled" : "disabled",
+        status: process.env.OTEL_ENABLED === "true" ? "enabled" : "disabled",
         serviceName: process.env.OTEL_SERVICE_NAME,
-        newRelic: process.env.NEW_RELIC_ENABLED === true ? "active" : "inactive",
+        newRelic: process.env.NEW_RELIC_ENABLED === "true" ? "active" : "inactive",
         collector: process.env.OTEL_COLLECTOR_URL
       }
     }
