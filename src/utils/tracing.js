@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { NodeSDK } = require("@opentelemetry/sdk-node");
 const { getNodeAutoInstrumentations } = require("@opentelemetry/auto-instrumentations-node");
 const { Resource } = require('@opentelemetry/resources');
@@ -12,8 +13,8 @@ const openTelemetry = process.env.OTEL_ENABLED
 const metadata = new grpc.Metadata();
 const collectorOptions = {}
 
-if(openTelemetry === true) {
-  if(process.env.NEW_RELIC_ENABLED === true) {
+if(openTelemetry === true || openTelemetry === "true") {
+  if(process.env.NEW_RELIC_ENABLED === true || process.env.NEW_RELIC_ENABLED === "true") {
     logger.info("Enabling New Relic")
     metadata.set('api-key', process.env.NEW_RELIC_API_KEY )  
     collectorOptions.metadata = metadata;
@@ -39,7 +40,7 @@ const sdk = new NodeSDK({
   serviceName: "flowbuild-local"
 });
 
-if(openTelemetry === true) {
+if(openTelemetry === true || openTelemetry === "true") {
   sdk.start().then(() => {
     logger.info("Open Telemetry Started")
     logger.info(`Service Name: ${process.env.OTEL_SERVICE_NAME}`)
