@@ -12,7 +12,6 @@ class HttpNoSSLNode extends Nodes.HttpSystemTaskNode {
 
   async _run(executionData) {
     const { verb, url, headers } = this.request;
-    console.log(this)
     const result = await axios({
       method: verb,
       url: url,
