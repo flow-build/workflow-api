@@ -1,3 +1,10 @@
+## [2.11.0-rc.1](https://github.com/flow-build/workflow/compare/v2.10.1...v2.11.0-rc.1) (2022-10-31)
+
+
+### Features
+
+* adds new http node with TLS reject disabled for testing and developing purposes ([b46d512](https://github.com/flow-build/workflow/commit/b46d51298ddf78a994c2d1f9d219b5baecaae4d4))
+
 ## [2.10.1](https://github.com/flow-build/workflow/compare/v2.10.0...v2.10.1) (2022-10-08)
 
 
