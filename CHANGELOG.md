@@ -1,3 +1,10 @@
+## [2.11.0-rc.2](https://github.com/flow-build/workflow/compare/v2.11.0-rc.1...v2.11.0-rc.2) (2022-10-31)
+
+
+### Features
+
+* updates flowbuild engine version with signal nodes ([647caee](https://github.com/flow-build/workflow/commit/647caeeb209663326e03249653e72a2d9ec4a5d5))
+
 ## [2.11.0-rc.1](https://github.com/flow-build/workflow/compare/v2.10.1...v2.11.0-rc.1) (2022-10-31)
 
 
