@@ -16,6 +16,7 @@ const healthCheck = async (ctx, next) => {
       latestEvent: engine.emitter.event
     },
     'diagram-builder': pkg.dependencies['@flowbuild/nodejs-diagram-builder'],
+    'indexer': pkg.dependencies['@flowbuild/indexer'],
     mqtt: {
       status: process.env.MQTT,
       hostname: mqttClient?._client?.options?.hostname,
@@ -35,11 +36,15 @@ const healthCheck = async (ctx, next) => {
         maxStepNumber: process.env.MAX_STEP_NUMBER
       },
       httpNodes: {
-        maxLength: process.env.MAX_CONTENT_LENGTH=123456789
+        maxLength: process.env.MAX_CONTENT_LENGTH,
+        timeout: process.env.HTTP_TIMEOUT,
+        maxBody: process.env.MAX_BODY_LENGTH
       },
-      newRelic: {
-        active: process.env.NEW_RELIC_ENABLED,
-        name: process.env.NEW_RELIC_APP_NAME
+      OpenTelemetry: {
+        status: process.env.OTEL_ENABLED === "true" ? "enabled" : "disabled",
+        serviceName: process.env.OTEL_SERVICE_NAME,
+        newRelic: process.env.NEW_RELIC_ENABLED === "true" ? "active" : "inactive",
+        collector: process.env.OTEL_COLLECTOR_URL
       }
     }
   }

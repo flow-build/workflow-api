@@ -1,4 +1,5 @@
 require("dotenv").config();
+require("./utils/tracing");
 
 const { startServer } = require("./app");
 

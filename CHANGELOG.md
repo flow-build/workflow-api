@@ -1,3 +1,56 @@
+## [2.10.1](https://github.com/flow-build/workflow/compare/v2.10.0...v2.10.1) (2022-10-08)
+
+
+### Bug Fixes
+
+* update first time contributor action ([77a5d4e](https://github.com/flow-build/workflow/commit/77a5d4e9ac997869cad06c13ac4179d9aa4cdfb1))
+
+## [2.10.0](https://github.com/flow-build/workflow/compare/v2.9.0...v2.10.0) (2022-10-08)
+
+
+### Features
+
+* **FKIW-11:** criação das rotas de workflow referentes ao cockpitRouter ([6f13974](https://github.com/flow-build/workflow/commit/6f139749343965f3b491bca11e88b31b1ac9528f))
+* **FLOW-10:** Construção das rotas dos endpoints no yaml de acordo com as especificações do código respectivo. Adequação das tags e responses ([878d1e0](https://github.com/flow-build/workflow/commit/878d1e0d98df72ab88ae50ae6ead8c7b0bd75af3))
+* **FLOW-10:** organização das rotas em blocos e organização das rotas de acordo com o mainRouter ([d0db4be](https://github.com/flow-build/workflow/commit/d0db4be54c58da6719a6cf9d0ee915d767c531e8))
+* **FLOW-11:** adequação das tags de acordo com os correspondentes outputs ([d319aef](https://github.com/flow-build/workflow/commit/d319aefbf71af154641acb89752035de0c02c576))
+* **FLOW-11:** adequação das tags de acordo com os correspondentes outputs ([5f3bf04](https://github.com/flow-build/workflow/commit/5f3bf04e3ad6dc15d50a43a0025f43986abec541))
+* **FLOW-11:** criação da rota /activities/available do mainRouter.js ([aa7ee40](https://github.com/flow-build/workflow/commit/aa7ee40d3075d2731acbd0eabeed4d8bfd2783f6))
+* **FLOW-11:** criação da rota /activity_manager/{activity_manager_id}/commit do mainRouter.js ([0b8b91f](https://github.com/flow-build/workflow/commit/0b8b91f5eadc135f1c6fe41ed7bd98fcfb7ad2bd))
+* **FLOW-11:** criação da rota /indexer do mainRouter.js ([f83a4a4](https://github.com/flow-build/workflow/commit/f83a4a4ec01775584b1d94076e79ba1a72c3a4ee))
+* **FLOW-11:** criação da rota /indexer/{id} do mainRouter.js ([dcde768](https://github.com/flow-build/workflow/commit/dcde7681194132fe386ef7d0e33953424ed11c73))
+* **FLOW-11:** criação da rota /indexer/entity/{id} do mainRouter.js ([05fbb8b](https://github.com/flow-build/workflow/commit/05fbb8b3721b079d20ad00bbba54c74213c34651))
+* **FLOW-11:** criação da rota /indexer/entity/type/{type} do mainRouter.js ([a0c4f57](https://github.com/flow-build/workflow/commit/a0c4f57eecb6c5ce0c48ecc97c8c6630174142d2))
+* **FLOW-11:** criação da rota /indexer/process/{id} do mainRouter.js ([44bf9a6](https://github.com/flow-build/workflow/commit/44bf9a65c35444f58810d31315b705d5e98e0250))
+* **FLOW-11:** criação da rota /process/{process_id}/continue do mainRouter.js ([1c08c88](https://github.com/flow-build/workflow/commit/1c08c884974a30c2527a6aa8faaec23a9118def0))
+* **FLOW-11:** criação da rota /states/{id} do mainRouter ([23d5e37](https://github.com/flow-build/workflow/commit/23d5e37caa4003508816f4b3b1bd03d1372f03c7))
+* **FLOW-11:** criação da rota /states/{id}/execution do mainRouter.js ([bf2b89e](https://github.com/flow-build/workflow/commit/bf2b89e34d26ba805887e3d9e3acea8617eabe38))
+* **FLOW-11:** criação da rota /states/{id}/spec do mainRouter.js ([aa657c0](https://github.com/flow-build/workflow/commit/aa657c07fd6cf7f06aa9ac8974ee37e8b875e851))
+* **FLOW-11:** criação da rota /states/process/{id} do mainRouter.js ([baadcee](https://github.com/flow-build/workflow/commit/baadceef49ecea9a50c6ce6d1422d273724d3c09))
+* **FLOW-11:** criação das rotas /workflows/diagram e /workflows/diagram/convert do mainRouter.js ([054b1b7](https://github.com/flow-build/workflow/commit/054b1b7f6898c492fa1d494f355e023ca030152b))
+* **FLOW-11:** criação das rotas referentes ao cockpitRouter ([16980de](https://github.com/flow-build/workflow/commit/16980ded2c39f774a7f91f3ae9822201aa154e2a))
+* **FLOW-11:** criação das rotas swagger e healthcheck do freeRouter ([7058cda](https://github.com/flow-build/workflow/commit/7058cdab99878996556501e6110d29e87785e641))
+
+
+### Bug Fixes
+
+* fix eval to active openTelemetry ([4c903fc](https://github.com/flow-build/workflow/commit/4c903fcc195cdb17eb3f41935a9a7f35ee4ad0fa))
+* **FLOW-9:** formatação final do documento em versão de teste ([aa4bb7a](https://github.com/flow-build/workflow/commit/aa4bb7a9f0892ea3f6b65470858fb4eb609de16b))
+
+## [2.9.0](https://github.com/flow-build/workflow/compare/v2.8.0...v2.9.0) (2022-10-08)
+
+
+### Features
+
+* :chart_with_upwards_trend: adds OTEL tracing ([7267a6b](https://github.com/flow-build/workflow/commit/7267a6b606ad55c97dc70a05346fde9248ab315b))
+
+## [2.8.0](https://github.com/flow-build/workflow/compare/v2.7.2...v2.8.0) (2022-10-07)
+
+
+### Features
+
+* add environment variables for basicAuth node keys ([70d02c0](https://github.com/flow-build/workflow/commit/70d02c0d62c37e87e6f4836f2d04b16679861d47))
+
 ## [2.7.2](https://github.com/flow-build/workflow/compare/v2.7.1...v2.7.2) (2022-09-24)
 
 

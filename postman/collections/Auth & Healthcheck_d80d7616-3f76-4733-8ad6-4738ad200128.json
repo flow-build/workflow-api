@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "d36f89a2-0ad9-4cf3-b56b-1a874b9ac814",
+		"name": "Auth & Healthcheck",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "2387160-d36f89a2-0ad9-4cf3-b56b-1a874b9ac814"
+	},
+	"item": [
+		{
+			"name": "Healthcheck",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d442ea7d-c468-4af7-9c4b-5045dd1d3be3",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "278398f7-a131-4813-899f-ee050c479487",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/healthcheck",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"healthcheck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5159752c-2dca-457b-903e-cf222c651cfb",
+						"exec": [
+							"const response = pm.response.json();\t\t\t\t\t\t\r",
+							"pm.environment.set(\"token\",response.jwtToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "6f3efd75-46ee-48e9-9627-722e13e35faf",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-secret",
+						"value": "1234",
+						"type": "string"
+					},
+					{
+						"key": "x-duration",
+						"value": "36000000",
+						"type": "string"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"actor_id\": \"{{$guid}}\",\r\n    \"claims\": [\"whatever\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/token",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,622 @@
+{
+	"info": {
+		"_postman_id": "2021feff-c3ae-4bbb-97b0-edc69afa6bc2",
+		"name": "Cockpit",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "2387160-2021feff-c3ae-4bbb-97b0-edc69afa6bc2"
+	},
+	"item": [
+		{
+			"name": "Processes",
+			"item": [
+				{
+					"name": "Process Execution",
+					"id": "3e3aa203-b250-47fc-9fad-21c510b66e4c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/cockpit/processes/:process_id/execution",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cockpit",
+								"processes",
+								":process_id",
+								"execution"
+							],
+							"variable": [
+								{
+									"key": "process_id",
+									"value": "{{process_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set Process State",
+					"id": "62fab93f-15d7-45d6-b5d2-337da8b9a9c4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"next_node_id\": \"13\",\n    \"bag\": {\n        \"teste\": \"qualquer\"\n    },\n    \"result\": {\n        \"campo\": \"qualquer\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{host}}/cockpit/processes/:process_id/state",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cockpit",
+								"processes",
+								":process_id",
+								"state"
+							],
+							"variable": [
+								{
+									"key": "process_id",
+									"value": "{{process_id}}"
+								}
+							]
+						},
+						"description": "Esse endpoint permite alterar o estado de um processo, informando os campos de:\r\n+ next_node_id\r\n+ bag\r\n+ result\r\n\r\nApós definição do novo estado, o processo estará em um estado inerte e sua execução só será retomada através de um comando de *State Run*.\r\n\r\nO comando padrão de Executar Processo não funcionará em um processo em estado alterado."
+					},
+					"response": []
+				},
+				{
+					"name": "Run Process from Set State",
+					"id": "64c5c18c-51bd-4329-9029-de61c690be31",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/cockpit/processes/:id/state/run",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cockpit",
+								"processes",
+								":id",
+								"state",
+								"run"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "862bf500-a517-11ea-8dac-31da0af535c5"
+								}
+							]
+						},
+						"description": "Esse endpoint resume a execução de um processo cujo estado foi alterado manualmente."
+					},
+					"response": []
+				},
+				{
+					"name": "Transfer Process State",
+					"id": "bffd356f-4562-48c4-8f93-b9125ca39052",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"next_node_id\": \"3\",\n    \"bag\": {\n        \"teste\": \"qualquer\"\n    },\n    \"result\": {\n        \"campo\": \"qualquer\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{host}}/cockpit/processes/:process_id/set/:state_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cockpit",
+								"processes",
+								":process_id",
+								"set",
+								":state_id"
+							],
+							"variable": [
+								{
+									"key": "process_id",
+									"value": "{{process_id}}"
+								},
+								{
+									"key": "state_id",
+									"value": "{{state_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "0011fd2e-49d3-4b60-88dc-1fd041aa577c"
+		},
+		{
+			"name": "Workflows",
+			"item": [
+				{
+					"name": "List Processes By Workflow ID",
+					"id": "c458ce3d-00f9-4545-b69a-e3bacc730f7f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/cockpit/workflows/:workflow_id/processes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cockpit",
+								"workflows",
+								":workflow_id",
+								"processes"
+							],
+							"variable": [
+								{
+									"key": "workflow_id",
+									"value": "{{workflow_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Processes Stats",
+					"id": "010fd5d7-03d8-4a73-93d9-699f94e65601",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/cockpit/workflows/stats",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cockpit",
+								"workflows",
+								"stats"
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "{{$isoTimestamp}}",
+									"disabled": true
+								},
+								{
+									"key": "workflow_id",
+									"value": "{{workflow_id}}",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Esse endpoint permite obter um resumo de processos para cada workflow cadastrado."
+					},
+					"response": []
+				},
+				{
+					"name": "List Processes By Workflow Name",
+					"id": "202d95df-d15a-443c-bea2-1d826ca4ecfd",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/cockpit/workflows/name/:workflow_name/processes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cockpit",
+								"workflows",
+								"name",
+								":workflow_name",
+								"processes"
+							],
+							"variable": [
+								{
+									"key": "workflow_name",
+									"value": "{{workflow_name}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List States From a Node",
+					"id": "a47a2726-cb12-40cf-8b3b-d43130a5e097",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/cockpit/workflows/name/:workflow_name/states/:node_id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cockpit",
+								"workflows",
+								"name",
+								":workflow_name",
+								"states",
+								":node_id"
+							],
+							"variable": [
+								{
+									"key": "workflow_name",
+									"value": "{{workflow_name}}"
+								},
+								{
+									"key": "node_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Environment Variables",
+					"id": "c4175971-0e66-4665-9144-bba8d1aa1f01",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/cockpit/workflows/variables",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cockpit",
+								"workflows",
+								"variables"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate Blueprint",
+					"id": "41d1ec38-35a2-400d-99a2-2ea3c20c676e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/cockpit/workflows/validate",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cockpit",
+								"workflows",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Compare Blueprint",
+					"id": "4c13b71e-fcaa-484b-9fe6-c0e4e073019c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"user_task\",\r\n  \"description\": \"user task workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"next\": \"2\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"UserTask\",\r\n        \"name\": \"User Task node\",\r\n        \"next\": \"3\",\r\n        \"lane_id\": \"1\",\r\n        \"parameters\": {\r\n          \"action\": \"do something\",\r\n          \"input\": {}\r\n        }\r\n      },\r\n      {\r\n        \"id\": \"3\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/cockpit/workflows/compare",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cockpit",
+								"workflows",
+								"compare"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "71cc8831-2585-49ee-9f6c-98e60eaa4364"
+		},
+		{
+			"name": "Nodes",
+			"item": [
+				{
+					"name": "List Avaliable Nodes",
+					"id": "32bc240c-9e6c-46ca-8703-d85d5eb3b60e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/cockpit/nodes/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cockpit",
+								"nodes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Node Spec Schema",
+					"id": "fc4f6f69-d1f6-45db-8fdc-8aca65afb6d9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"userTask\",\r\n    \"category\": \"any\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/cockpit/nodes/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"cockpit",
+								"nodes",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "b3c36c49-b41e-436b-a931-dc78a306913f"
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f7196c8e-b954-43bd-9c4c-7a93e2ce8b2d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "2f9a9e4f-b92e-4472-9d38-99398c7f9cce",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
