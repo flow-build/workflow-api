@@ -1,3 +1,10 @@
+## [2.11.0-rc.3](https://github.com/flow-build/workflow/compare/v2.11.0-rc.2...v2.11.0-rc.3) (2022-11-08)
+
+
+### Bug Fixes
+
+* updates engine version with fix for node parameters ([92a798f](https://github.com/flow-build/workflow/commit/92a798f485a5255abb31231781f1f85dc24fbaac))
+
 ## [2.11.0-rc.2](https://github.com/flow-build/workflow/compare/v2.11.0-rc.1...v2.11.0-rc.2) (2022-10-31)
 
 
