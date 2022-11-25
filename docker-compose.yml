@@ -1,4 +1,4 @@
-version: "3"
+version: "3.9"
 
 services:
   postgres:
@@ -11,7 +11,7 @@ services:
       - 5432:5432
 
   app:
-    image: node:16.15.0
+    image: node:18.12
     env_file:
       - ./.env.docker
     container_name: flowbuild_app
@@ -27,6 +27,12 @@ services:
     #command: ./scripts/start_dev.sh
     #command: bash -c " npm update && npm install knex -g && npm install nodemon -g && npm install && npm rebuild && npm run migrations && npm run seeds && npm run start "
     command: bash -c " npm install && npm audit fix && npm run migrations && npm run seeds && npm run start "
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 60s      
 
   socket:
     image: hivemq/hivemq4:latest
