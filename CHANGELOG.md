@@ -1,3 +1,10 @@
+## [2.11.0-rc.5](https://github.com/flow-build/workflow/compare/v2.11.0-rc.4...v2.11.0-rc.5) (2022-11-25)
+
+
+### Bug Fixes
+
+* fix typo on finish node process ([5a1d405](https://github.com/flow-build/workflow/commit/5a1d405ecddf62d5b598fd214e2fec7aa3170ed6))
+
 ## [2.11.0-rc.4](https://github.com/flow-build/workflow/compare/v2.11.0-rc.3...v2.11.0-rc.4) (2022-11-25)
 
 
