@@ -1,3 +1,10 @@
+## [2.11.0-rc.4](https://github.com/flow-build/workflow/compare/v2.11.0-rc.3...v2.11.0-rc.4) (2022-11-25)
+
+
+### Bug Fixes
+
+* **BREAKING_CHANGES:** :card_file_box: update FKs for events ([dfaff91](https://github.com/flow-build/workflow/commit/dfaff914a297d0b57bdf2a040de5476e6c3acf1f))
+
 ## [2.11.0-rc.3](https://github.com/flow-build/workflow/compare/v2.11.0-rc.2...v2.11.0-rc.3) (2022-11-08)
 
 
