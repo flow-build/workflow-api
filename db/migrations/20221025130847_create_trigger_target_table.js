@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-exports.up = function (knex, Promise) {
+exports.up = function (knex) {
   return knex.schema.createTable("trigger_target", (table) => {
     table.uuid("id").primary();
     table.uuid("trigger_id").notNullable();
@@ -12,6 +12,6 @@ exports.up = function (knex, Promise) {
   });
 };
 
-exports.down = function (knex, Promise) {
+exports.down = function (knex) {
   return knex.schema.dropTable("trigger_target");
 };
