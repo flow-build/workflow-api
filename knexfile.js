@@ -65,6 +65,12 @@ module.exports = {
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
     },
+    pool: {
+      min: 0,
+      max: 40,
+      acquireTimeoutMillis: 60000,
+      idleTimeoutMillis: 600000,
+    },
     migrations: {
       directory: path.join(BASE_PATH, "migrations"),
     },
