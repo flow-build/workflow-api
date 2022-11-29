@@ -8,7 +8,6 @@ const test_subprocess_child = require("./blueprints/test_subprocess_child");
 exports.seed = async function(knex) {
   const existingWorkflows = await knex.select('id').from('workflow');
   const existingIds = existingWorkflows.map(item => item.id)
-  console.log(existingIds)
   const baseSeed = [
     {
       id: "d373bef0-1152-11ea-9576-9584815cab84",
