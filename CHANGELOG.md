@@ -1,3 +1,10 @@
+## [2.11.0-rc.6](https://github.com/flow-build/workflow/compare/v2.11.0-rc.5...v2.11.0-rc.6) (2022-11-29)
+
+
+### Features
+
+* add pool config to prod ([96e5c86](https://github.com/flow-build/workflow/commit/96e5c86b8fb2da8f1f260b7be9715f287234e573))
+
 ## [2.11.0-rc.5](https://github.com/flow-build/workflow/compare/v2.11.0-rc.4...v2.11.0-rc.5) (2022-11-25)
 
 
