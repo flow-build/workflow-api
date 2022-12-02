@@ -6,6 +6,7 @@ const tokenizeNode = require("./tokenizeNode");
 const validateSchemaNode = require("./validateSchemaNode");
 const createUuidNode = require('./createUuidNode');
 const { BasicAuthNode } = require("./basicAuthNode");
+const remapDataNode = require('./remapDataNode');
 
 const setCustomNodes = () => {
   addSystemTaskCategory({ createIndex: createIndexNode });
@@ -20,6 +21,8 @@ const setCustomNodes = () => {
   logger.info("added createUuidNode");
   addSystemTaskCategory({ basicAuth: BasicAuthNode });
   logger.info("added basicAuthNode");
+  addSystemTaskCategory({ remapData: remapDataNode });
+  logger.info("added remapDataNode");
 };
 
 module.exports.setCustomNodes = setCustomNodes;
