@@ -7,7 +7,6 @@ class RemapDataNode extends Nodes.SystemTaskNode {
   static get schema() {
     return {
       type: "object",
-      required: ["id", "name", "next", "type", "lane_id", "parameters"],
       properties: {
         id: { type: "string" },
         name: { type: "string" },
@@ -30,6 +29,7 @@ class RemapDataNode extends Nodes.SystemTaskNode {
           },
         },
       },
+      required: ["id", "name", "next", "type", "lane_id", "parameters"]
     };
   }
 
