@@ -13,10 +13,10 @@ module.exports = {
         parameters: {
           input_schema: {
             type: "object",
-            required: ["origin_array", "remap_schema"],
+            required: ["data", "dictionary"],
             properties: {
-              origin_array: { type: "array" },
-              remap_schema: { type: "object" },
+              data: { type: "array" },
+              dictionary: { type: "object" },
             }
           },
         },
@@ -31,11 +31,11 @@ module.exports = {
         lane_id: "free",
         parameters: {
           input: {
-            origin_array: {
-              $ref: "bag.origin_array"
+            data: {
+              $ref: "bag.data"
             },
-            remap_schema: {
-              $ref: "bag.remap_schema"
+            dictionary: {
+              $ref: "bag.dictionary"
             }
           },
         },

@@ -2,6 +2,7 @@ const { ProcessStatus, Nodes } = require("@flowbuild/engine");
 const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
 const { logger } = require("../utils/logger");
+const _ = require('lodash');
 
 class RemapDataNode extends Nodes.SystemTaskNode {
   static get schema() {
@@ -20,10 +21,10 @@ class RemapDataNode extends Nodes.SystemTaskNode {
           properties: {
             input: {
               type: "object",
-              required: ["origin_array", "remap_schema"],
+              required: ["data", "dictionary"],
               properties: {
-                origin_array: { type: [ "object", "array" ] },
-                remap_schema: { type: "object" },
+                data: { type: [ "object", "array" ] },
+                dictionary: { type: "object" },
               },
             },
           },
@@ -48,24 +49,45 @@ class RemapDataNode extends Nodes.SystemTaskNode {
   async _run(executionData) {
     try {
       logger.debug("remapData Node running");
-      const { origin_array, remap_schema  } = executionData;
-      const remaped_array = origin_array.map((item) => {
-        const remaped_item = {};
-        for (const [key, value] of Object.entries(remap_schema)) {
-          if (!!value && value.length > 0) {
-            remaped_item[key] = item[value];
-          } else {
-            remaped_item[key] = item[key];
+      const { data, dictionary  } = executionData;
+      let status = 'success';
+      let messages = [];
+
+      let remapped_data = data.map((item) => {
+        const remapped_item = {};
+        for (const [key, value] of Object.entries(dictionary)) {
+          if (typeof value === 'string' && value.length > 0 && value.includes('.')) {
+            const object_value = _.get(item, value);
+            if (object_value !== undefined) {
+              remapped_item[key] = object_value;
+            }
+          } else if (value !== null && value.length > 0 && item[value] !== undefined) {
+            remapped_item[key] = item[value];
+          } else if (value === null || value.length === 0) {
+            remapped_item[key] = value;
+          }
+
+          if (remapped_item[key] === undefined) {
+            messages.push(`'${value}' from dictionary not found in data`);
           }
         }
-        return {
-          ...remaped_item
-        }
+        return remapped_item;
       });
+
+      if (messages.length > 0) {
+        if (Object.keys(remapped_data[0]).length > 0) {
+          status = 'warning';
+        } else {
+          status = 'error';
+          remapped_data = [];
+        }
+      }
 
       return [
         {
-          remaped_array
+          status,
+          messages,
+          data: remapped_data
         },
         ProcessStatus.RUNNING,
       ];
