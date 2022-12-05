@@ -1,6 +1,8 @@
-
-const { ProcessStatus, Nodes } = require("@flowbuild/engine");
+const { ProcessStatus, Nodes} = require("@flowbuild/engine");
 const Ajv = require("ajv");
+const addFormats = require("ajv-formats");
+const { logger } = require("../utils/logger");
+
 const _ = require("lodash")
 
 class FilterDataNode extends Nodes.SystemTaskNode {
@@ -8,7 +10,7 @@ class FilterDataNode extends Nodes.SystemTaskNode {
   static get schema() {
     return {
       type: "object",
-      required: ["data", "keys"],
+      required: [],
       properties: {
         data: {
           oneOf: [
@@ -40,22 +42,23 @@ class FilterDataNode extends Nodes.SystemTaskNode {
   static validate(spec) {
     const ajv = new Ajv({ allErrors: true });
     addFormats(ajv);
-    const validate = ajv.compile(FilterData.schema);
+    const validate = ajv.compile(FilterDataNode.schema);
     const validation = validate(spec);
     return [validation, JSON.stringify(validate.errors)];
   }
 
   validate() {
-    return FilterData.validate(this._spec);
+    return FilterDataNode.validate(this._spec);
   }
 
   async _run(executionData) {
     try {
-      const { key, data } = executionData;
+      const { key, data, values } = executionData;
       const result = []
       data.forEach(function (item){
         if (_.get(item, key) === values[0]) {
-          result.push(item)
+          result.push(item);
+          values.shift();
         }
       })
       return [{ data: result }, ProcessStatus.RUNNING];
