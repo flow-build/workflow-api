@@ -1,17 +1,37 @@
 
 const { ProcessStatus, Nodes } = require("@flowbuild/engine");
 const Ajv = require("ajv");
+const _ = require("lodash")
 
-
-class FilterData extends Nodes.SystemTaskNode {
+class FilterDataNode extends Nodes.SystemTaskNode {
 
   static get schema() {
     return {
       type: "object",
       required: ["data", "keys"],
       properties: {
-        data: { type: "array" },
-        values: { type: "array" },
+        data: {
+          oneOf: [
+            {
+              type: "array",
+              items: { type: "object" }
+            },
+            {
+              type: "object"
+            }
+          ]
+        },
+        values: {
+          oneOf: [
+            {
+              type: "array",
+              items: { type: "string" }
+            },
+            {
+              type: "object"
+            }
+          ]
+        },
         keys: { type: "string" }
       },
     };
@@ -31,10 +51,8 @@ class FilterData extends Nodes.SystemTaskNode {
 
   async _run(executionData) {
     try {
-      const keys = executionData.keys;
-      const values = executionData.values;
-      const data = executionData.data;
-      const result = data.filter((item) => item.data.cod_vend === keys.cod_vend);
+      const { keys, data } = executionData;
+      const result = data.filter((item) => _.get(item, keys) === values)
       return [{ data: result }, ProcessStatus.RUNNING];
     } catch (err) {
       logger.error("filterData node failed", err);
@@ -43,4 +61,4 @@ class FilterData extends Nodes.SystemTaskNode {
   }
 }
 
-module.exports = FilterData;
+module.exports = FilterDataNode;

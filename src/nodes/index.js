@@ -7,6 +7,7 @@ const validateSchemaNode = require("./validateSchemaNode");
 const createUuidNode = require('./createUuidNode');
 const { BasicAuthNode } = require("./basicAuthNode");
 const { HttpNoSSLNode } = require("./httpNoSSLNode")
+const FilterDataNode = require("./filterDataNode")
 
 const setCustomNodes = () => {
   addSystemTaskCategory({ createIndex: createIndexNode });
@@ -23,6 +24,8 @@ const setCustomNodes = () => {
   logger.info("added basicAuthNode");
   addSystemTaskCategory({ httpNoSSL: HttpNoSSLNode });
   logger.info("added httpNoSSL");
+  addSystemTaskCategory({ filterData: FilterDataNode });
+  logger.info("added filterDataNode");
 };
 
 module.exports.setCustomNodes = setCustomNodes;

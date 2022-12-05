@@ -1,11 +1,13 @@
+const _ = require('lodash')
+
 data = [ 
   { 
     id: 111, 
     created_at: "xxxx", 
     data: { 
       bla: "xxxx", 
-      field: { 
-        xyz: "123" 
+      distribuidor: { 
+        cod_filial: "123" 
       } 
     } 
   },
@@ -14,27 +16,17 @@ data = [
     created_at: "xxxx", 
     data: { 
       bla: "xxxx", 
-      field: { 
-        xyz: "999" 
+      distribuidor: { 
+        cod_filial: "999" 
       } 
     } 
   }
 ];
 
-key = "data.field.xyz";
-values = "123";
+key = "data.distribuidor.cod_filial";
+values = ["999"];
 
 
 
-function filterByKey(key){
-  return function filter(data){
-    return data.key === key;
-  }
-}
-
-const filteredData = data.filter(filterByKey(values));
-console.log(filteredData)
-//const filterArr = data.filter((item) => item.data.field.xyz === values[0])
-
-//filteredData = data.filter((item) => { return data.some((value) => { return value.turma === item})});
-//console.log(filterArr)
+const filterArr = data.filter((item) => _.get(item, key) === values[0])
+console.log(filterArr)
