@@ -23,8 +23,20 @@ class RemapDataNode extends Nodes.SystemTaskNode {
               type: "object",
               required: ["data", "dictionary"],
               properties: {
-                data: { type: [ "object", "array" ] },
-                dictionary: { type: "object" },
+                data: {
+                  oneOf: [
+                    {
+                      type: "array",
+                      items: { type: "object" }
+                    },
+                    {
+                      type: "object"
+                    }
+                  ]
+                },
+                dictionary: {
+                  type: "object"
+                },
               },
             },
           },
