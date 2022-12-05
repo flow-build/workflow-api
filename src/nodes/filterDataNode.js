@@ -16,28 +16,8 @@ class FilterDataNode extends Nodes.SystemTaskNode {
           type: "object",
           required: ["data, values, key"],
           properties: {
-            data: {
-              oneOf: [
-                { type: "array", format: "uuid" },
-                { 
-                  type: "object", 
-                  properties: {
-                    "$ref": { type: "object" },
-                  }
-                }
-              ]
-            },
-            values: {
-              oneOf: [
-                { type: "array", format: "uuid" },
-                { 
-                  type: "object", 
-                  properties: {
-                    "$ref": { type: "string" },
-                  }
-                }
-              ]
-            },
+            data: { type: "array" },
+            values: { type: "array" },
             key: { type: "string" },
           },
         },
