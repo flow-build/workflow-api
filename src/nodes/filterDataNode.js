@@ -32,7 +32,7 @@ class FilterDataNode extends Nodes.SystemTaskNode {
             }
           ]
         },
-        keys: { type: "string" }
+        key: { type: "string" }
       },
     };
   }
@@ -51,8 +51,13 @@ class FilterDataNode extends Nodes.SystemTaskNode {
 
   async _run(executionData) {
     try {
-      const { keys, data } = executionData;
-      const result = data.filter((item) => _.get(item, keys) === values)
+      const { key, data } = executionData;
+      const result = []
+      data.forEach(function (item){
+        if (_.get(item, key) === values[0]) {
+          result.push(item)
+        }
+      })
       return [{ data: result }, ProcessStatus.RUNNING];
     } catch (err) {
       logger.error("filterData node failed", err);
