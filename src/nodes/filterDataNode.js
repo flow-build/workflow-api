@@ -12,29 +12,35 @@ class FilterDataNode extends Nodes.SystemTaskNode {
       type: "object",
       required: [],
       properties: {
-        data: {
-          oneOf: [
-            {
-              type: "array",
-              items: { type: "object" }
+        input: {
+          type: "object",
+          required: ["data, values, key"],
+          properties: {
+            data: {
+              oneOf: [
+                { type: "array", format: "uuid" },
+                { 
+                  type: "object", 
+                  properties: {
+                    "$ref": { type: "object" },
+                  }
+                }
+              ]
             },
-            {
-              type: "object"
-            }
-          ]
-        },
-        values: {
-          oneOf: [
-            {
-              type: "array",
-              items: { type: "string" }
+            values: {
+              oneOf: [
+                { type: "array", format: "uuid" },
+                { 
+                  type: "object", 
+                  properties: {
+                    "$ref": { type: "string" },
+                  }
+                }
+              ]
             },
-            {
-              type: "object"
-            }
-          ]
+            key: { type: "string" },
+          },
         },
-        key: { type: "string" }
       },
     };
   }
