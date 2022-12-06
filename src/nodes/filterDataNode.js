@@ -44,11 +44,21 @@ class FilterDataNode extends Nodes.SystemTaskNode {
                     },
                     {
                       type: "string"
+                    },
+                    {
+                      type: "object"
                     }
                   ]
                 },
-                keys: {
-                  type: "string"
+                keys:{
+                  oneOf: [
+                    {
+                      type: "string"
+                    },
+                    {
+                      type: "object"
+                    }
+                  ]
                 }
               },
             },
