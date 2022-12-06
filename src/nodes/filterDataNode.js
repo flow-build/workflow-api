@@ -10,7 +10,6 @@ class FilterDataNode extends Nodes.SystemTaskNode {
   static get schema() {
     return {
       type: "object",
-      required: ["data", "values", "key"],
       properties: {
         id: { type: "string" },
         name: { type: "string" },
@@ -56,6 +55,7 @@ class FilterDataNode extends Nodes.SystemTaskNode {
           },
         },
       },
+      required: ["id", "name", "next", "type", "lane_id", "parameters"],
     };
   }
 
