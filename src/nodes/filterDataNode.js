@@ -12,13 +12,47 @@ class FilterDataNode extends Nodes.SystemTaskNode {
       type: "object",
       required: ["data", "values", "key"],
       properties: {
-        input: {
+        id: { type: "string" },
+        name: { type: "string" },
+        next: { type: "string" },
+        type: { type: "string" },
+        category: { type: "string" },
+        lane_id: { type: "string" },
+        parameters: {
           type: "object",
-          required: ["data, values, key"],
+          required: ["input"],
           properties: {
-            data: { type: "array" },
-            values: { type: "array" },
-            key: { type: "string" },
+            input: {
+              type: "object",
+              required: ["data", "values", "key"],
+              properties: {
+                data: {
+                  oneOf: [
+                    {
+                      type: "array",
+                      items: { type: "object" }
+                    },
+                    {
+                      type: "object"
+                    }
+                  ]
+                },
+                values: {
+                  oneOf: [
+                    {
+                      type: "array",
+                      items: { type: "string" }
+                    },
+                    {
+                      type: "string"
+                    }
+                  ]
+                },
+                keys: {
+                  type: "string"
+                }
+              },
+            },
           },
         },
       },
