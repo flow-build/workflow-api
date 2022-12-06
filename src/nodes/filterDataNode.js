@@ -10,7 +10,7 @@ class FilterDataNode extends Nodes.SystemTaskNode {
   static get schema() {
     return {
       type: "object",
-      required: [],
+      required: ["data", "values", "key"],
       properties: {
         input: {
           type: "object",
