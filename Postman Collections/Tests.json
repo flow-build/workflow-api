@@ -1,0 +1,6227 @@
+{
+	"info": {
+		"_postman_id": "61e8f5c7-1f1f-4f71-b07c-64ad2cbbf517",
+		"name": "Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Healthcheck",
+			"item": [
+				{
+					"name": "Base",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8707ffa6-51b6-4b0a-b8fe-00e331532001",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should respond version\", () => {\r",
+									"    pm.expect(response.version).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should respond engine version\", () => {\r",
+									"    pm.expect(response.engine).to.exist;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "1748fcac-59ae-44a4-809f-36b85495cf2c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/"
+					},
+					"response": []
+				},
+				{
+					"name": "Healthcheck",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "853388e9-0794-458b-8a28-2b1c569dab10",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should respond version\", () => {\r",
+									"    pm.expect(response.version).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should respond engine version\", () => {\r",
+									"    pm.expect(response.engine).to.exist;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "2152981f-95fb-42cb-b7a0-344677f5b66a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{host}}/healthcheck"
+					},
+					"response": []
+				}
+			],
+			"_postman_id": "9bb80259-cf3f-4fa0-a611-b58537fbf4f0",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "876dba8b-2cab-4cb5-be90-948fd239f3d4",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1b138f47-ccf8-4c95-a766-f6a8aad1551a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Token",
+			"item": [
+				{
+					"name": "Create Token - without payload",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f31fe43b-ca0a-48a9-aad5-615a1cd412c5",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should return jwtToken\", () => {\r",
+									"    pm.expect(response.jwtToken).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return payload\", () => {\r",
+									"    pm.expect(response.payload).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return actor_id\", () => {\r",
+									"    pm.expect(response.payload.actor_id).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return session_id\", () => {\r",
+									"    pm.expect(response.payload.session_id).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Claims should be empty\", () => {\r",
+									"    pm.expect(response.payload.claims).to.have.length(0);\r",
+									"})\r",
+									"\r",
+									"pm.environment.set(\"token\", response.jwtToken)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "52294a14-341c-4ac2-aed6-88c534e28de8",
+								"exec": [
+									"pm.collectionVariables.set(\"actor_id\",\"06dc94af-3a8a-40e3-be2c-4942c991e8b5\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "bb189948-b783-42e2-8a97-f712e9caee12",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{host}}/token"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Token - with actor_id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "673779d2-22e8-4bce-b4c5-833f3d45510a",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const providedActorId = pm.collectionVariables.get(\"actor_id\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should use provided actor_id\", () => {\r",
+									"    pm.expect(response.payload.actor_id).to.eql(providedActorId);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "44f9b383-0709-4e2b-bb5a-3f5c6fe6c767",
+								"exec": [
+									"pm.collectionVariables.set(\"actor_id\",\"3556a862-1663-4fed-b4a0-a028d1be2a4e\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "8259681c-b294-424b-ae94-ac252bee86fa",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"actor_id\": \"{{actor_id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/token"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Token - with duration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "42e33472-a377-44aa-a5c6-bd4eef02e542",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const definedDuration = pm.collectionVariables.get('duration');\r",
+									"const duration = response.payload.exp - response.payload.iat;\r",
+									"\r",
+									"pm.test(\"Should use defined duration\", () => {\r",
+									"    pm.expect(duration).to.eql(definedDuration);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2fb75947-be1b-48e8-b238-19a8e55a2dec",
+								"exec": [
+									"pm.collectionVariables.set(\"duration\", 6000)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "c3aa8716-95e1-4a73-9690-b0d227ae7b24",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-duration",
+								"value": "{{duration}}",
+								"type": "text"
+							}
+						],
+						"url": "{{host}}/token"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Token - with claims",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b9f9e6b7-e097-4f34-9025-20acab2cdc21",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const providedClaims = pm.collectionVariables.get(\"claims\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should use provided claims\", () => {\r",
+									"    pm.expect(JSON.stringify(response.payload.claims)).to.eql(providedClaims);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "09d07277-ff4c-4038-8b68-afc461fe3401",
+								"exec": [
+									"pm.collectionVariables.set(\"claims\",'[\"a\",\"b\"]')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "1dbc900e-dbbd-4326-b1a1-9230ff563d4b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"claims\": {{claims}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/token"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Token - with claims as string",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cb8d0bfe-972c-4952-a575-c7e593198149",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const providedClaims = pm.collectionVariables.get(\"claims\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should convert claims to an Array\", () => {\r",
+									"    pm.expect(response.payload.claims[0]).to.eql(providedClaims);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "40a1f049-371b-4140-a9e6-a735db5a3c18",
+								"exec": [
+									"pm.collectionVariables.set(\"claims\",\"abc\")"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "23a69c33-621d-4625-9807-372287b90f66",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"claims\": \"{{claims}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/token"
+					},
+					"response": []
+				}
+			],
+			"_postman_id": "5b015c33-3207-4195-93b0-62ae9b70aeb6",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "dce282a1-47ae-4b85-bb52-0549259d031e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c3c1b43a-848c-48b4-ad3c-24a0e3469060",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Packages",
+			"item": [
+				{
+					"name": "Create Package (without token)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "056141ea-21a6-4f40-82ab-90dbfe817572",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "e1ac0519-79cb-4003-857a-fecb9abc3ac7",
+								"exec": [
+									"pm.test(\"Should return 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "a9dc352e-4c35-426c-8f6e-af5938415b44",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$guid}}\",\r\n    \"description\": \"test package\",\r\n    \"code\": [\r\n        \"do\",\r\n        [\r\n            \"def\",\r\n            \"package_test_1\",\r\n            [\r\n                \"fn\",\r\n                [],\r\n                [\r\n                    \"prn\",\r\n                    [\r\n                        \"`\",\r\n                        \"Dummy test is running!\"\r\n                    ]\r\n                ]\r\n            ]\r\n        ]\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/packages"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Package",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8c6d1824-57f7-425f-aca5-fbf57595cf75",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should return package_id\", () => {\r",
+									"    pm.expect(response.package_id).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.collectionVariables.set(\"package_id\",response.package_id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "411e21bb-e2be-4020-a453-06f671496968",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$guid}}\",\r\n    \"description\": \"test package\",\r\n    \"code\": [\r\n        \"do\",\r\n        [\r\n            \"def\",\r\n            \"package_test_1\",\r\n            [\r\n                \"fn\",\r\n                [],\r\n                [\r\n                    \"prn\",\r\n                    [\r\n                        \"`\",\r\n                        \"Dummy test is running!\"\r\n                    ]\r\n                ]\r\n            ]\r\n        ]\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{host}}/packages"
+					},
+					"response": []
+				},
+				{
+					"name": "Read Package",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "31c2e3c1-5819-40fe-ade1-e19e73810f44",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const package_id = pm.collectionVariables.get(\"package_id\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should return id\", () => {\r",
+									"    pm.expect(response.id).to.eql(package_id);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return created_at\", () => {\r",
+									"    pm.expect(response.created_at).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return name\", () => {\r",
+									"    pm.expect(response.name).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return description\", () => {\r",
+									"    pm.expect(response.description).to.exist;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should return code\", () => {\r",
+									"    pm.expect(response.code).to.exist;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "ba0bd789-0e3f-40ba-b909-9c18d32926ed",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/packages/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"packages",
+								":id"
+							],
+							"variable": [
+								{
+									"id": "1cdd9387-b299-49e3-904a-bb0d9fc37bfb",
+									"key": "id",
+									"value": "{{package_id}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Package",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "83279b94-c13b-4fe5-a0f2-26e2c0a4f6b7",
+								"exec": [
+									"const response = pm.response.json();\r",
+									"const package_id = pm.collectionVariables.get(\"package_id\")\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(202);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should return 1 package deleted\", () => {\r",
+									"    pm.expect(response.deleted).to.eql(1);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"_postman_id": "7e1f9b9c-8550-4d33-8a41-951e19626f96",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/packages/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"packages",
+								":id"
+							],
+							"variable": [
+								{
+									"id": "531cb623-e6e4-414e-92ca-2fed15c37b93",
+									"key": "id",
+									"value": "{{package_id}}",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"_postman_id": "ee91797f-024c-493f-b0f2-f24b3e29b985"
+		},
+		{
+			"name": "Workflows",
+			"item": [
+				{
+					"name": "DELETE /:id",
+					"item": [
+						{
+							"name": "Setup",
+							"item": [
+								{
+									"name": "Create workflow_id_for_delete",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "7cce1111-aed8-4da5-b391-1ae34627cbcc",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "5caed57f-dcb0-4796-9025-db9ff5584be3",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.collectionVariables.set(\"workflow_id_for_delete\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "b7c8fd3f-fd3a-4794-9757-e6d087ef9f4d",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"test_for_delete\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{host}}/workflows"
+									},
+									"response": []
+								},
+								{
+									"name": "Create workflow_id",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "6cb57819-a375-4d6a-a4b9-c80295ee8c30",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "f64af8f4-c998-4471-94b9-e0e63f616d97",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.collectionVariables.set(\"workflow_id\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "90df0466-c539-492f-b34b-a7c384115887",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"test_for_delete_with_process\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{host}}/workflows"
+									},
+									"response": []
+								},
+								{
+									"name": "Create Process for workflow_id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "279216b3-8800-43f6-9313-ed9031d07c88",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "fd2f2973-9a1b-4bc0-bd28-b690239208ff",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id",
+												"create"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{workflow_id}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "ffdc285b-2588-4087-85fb-95f9d9704f70",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Success - 204",
+							"item": [
+								{
+									"name": "Delete Workflow (with id)",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "a44060de-d479-49b5-896e-faf45521fd35",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "61de7eeb-721b-4623-8009-bc706849660f",
+												"exec": [
+													"pm.test(\"Status code is 204\", function () {\r",
+													"    pm.response.to.have.status(204);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "627103ba-fa6f-404d-8c8c-5486eae1c150",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{workflow_id_for_delete}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "8fbb8630-d169-4b07-bcf0-447dbe774eaa",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Error - 422",
+							"item": [
+								{
+									"name": "Delete Workflow (id with process)",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "a1e58104-e095-4278-8560-c17a1591ce42",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "9f3563f6-03b7-4b05-a43b-2fa3165ada67",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 422\", function () {\r",
+													"    pm.response.to.have.status(422);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has message 'Cannot delete workflows with processes'\", function () {\r",
+													"    pm.expect(response.message).to.eql(\"Cannot delete workflows with processes\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "5e9e74f4-abda-4be2-bb4c-3a6e9ac5ccc8",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{workflow_id}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "cb78f74c-0f42-46e2-8e82-d0f84a33c1e7",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Error - 404",
+							"item": [
+								{
+									"name": "Delete Workflow (random id)",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "a1e286d5-2992-4e73-b3cc-16c7ea2075de",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "262dbc8b-c375-460b-be8c-68311fd41f53",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 404\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has message 'No such workflow'\", function () {\r",
+													"    pm.expect(response.message).to.eql(\"No such workflow\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "b9aaa3b6-88c1-4b00-b105-379d434909e3",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{$guid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "a3f43988-c51d-44f0-ba26-beaef4c2a920",
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_id": "b940c67e-5d2d-423a-a89a-8031af1e126c",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "POST /",
+					"item": [
+						{
+							"name": "Success - 201",
+							"item": [
+								{
+									"name": "Create Workflow (without id)",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "5c8e49d3-3569-4e39-94ee-14f6979f401f",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "52c55cf8-e0b1-4b02-812f-0253980c9197",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 201\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return workflow_id\", () => {\r",
+													"    pm.expect(response.workflow_id).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return hash\", () => {\r",
+													"    pm.expect(response.hash).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return version\", () => {\r",
+													"    pm.expect(response.version).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should have no warnings\", () => {\r",
+													"    pm.expect(response.warnings).to.exist;\r",
+													"    pm.expect(response.warnings).to.have.length(0);\r",
+													"})\r",
+													"\r",
+													"pm.collectionVariables.set(\"workflow_id\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "57a2e5dc-b983-49bd-ad9b-f7840ff307e1",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{host}}/workflows"
+									},
+									"response": []
+								},
+								{
+									"name": "Create Workflow (with id)",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "2a19eb40-3e9f-4828-a360-3ab6935bb09e",
+												"exec": [
+													"var uuid = require(\"uuid\")\r",
+													"\r",
+													"const id = uuid.v4();\r",
+													"\r",
+													"pm.collectionVariables.set(\"workflow_id\", id)"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "8a1074b0-93d4-43ab-b403-c2d94b143bf8",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"const workflow_id = pm.collectionVariables.get(\"workflow_id\")\r",
+													"\r",
+													"pm.test(\"Status code is 201\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return workflow_id\", () => {\r",
+													"    pm.expect(response.workflow_id).to.eql(workflow_id);\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return hash\", () => {\r",
+													"    pm.expect(response.hash).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return version\", () => {\r",
+													"    pm.expect(response.version).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should have no warnings\", () => {\r",
+													"    pm.expect(response.warnings).to.exist;\r",
+													"    pm.expect(response.warnings).to.have.length(0);\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "072b2a85-7da5-474a-bfc8-58ffdceb4348",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"workflow_id\": \"{{workflow_id}}\",\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{host}}/workflows"
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "056c509c-4627-4544-8ed3-03efdd11bff1",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Error - 401",
+							"item": [
+								{
+									"name": "Create Workflow (without token)",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "87145fd6-d057-4359-9628-96abf7a905a9",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "26106eb6-5530-4cdd-a33c-81934b13b515",
+												"exec": [
+													"pm.test(\"Should return 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "84ea26f5-84ae-4b1a-87c7-161c31ba8077",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"url": "{{host}}/workflows"
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "a7f14ec5-36db-4fd6-bea8-dfb9a61a9ff2",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Error - 400",
+							"item": [
+								{
+									"name": "Create Workflow (without body)",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "e4461419-e949-43f0-acfd-14b67c24d21a",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "2671942b-c77f-4651-a11d-01f6993c7c84",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return message\", () => {\r",
+													"    pm.expect(response.message).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return errors\", () => {\r",
+													"    pm.expect(response.error).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return 3 errors\", () => {\r",
+													"    pm.expect(response.error).to.have.length(3);\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "a754a82b-e8bb-4325-8602-455b225e5ee3",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": "{{host}}/workflows"
+									},
+									"response": []
+								},
+								{
+									"name": "Create Workflow (repeated id)",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "a9e53185-3f05-4291-9f92-941d17e65df7",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "90e3802f-258f-4d5b-90c7-e622325f27db",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"pm.collectionVariables.get(\"workflow_id\")\r",
+													"\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return message\", () => {\r",
+													"    pm.expect(response.message).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return error\", () => {\r",
+													"    pm.expect(response.error).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return that this id already exist\", () => {\r",
+													"    pm.expect(response.error).to.eql(\"workflow already exists\");\r",
+													"})\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "85a860bf-53e3-4980-9a2f-bf06f0a20cf6",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"workflow_id\": \"{{workflow_id}}\",\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{host}}/workflows"
+									},
+									"response": []
+								},
+								{
+									"name": "Create Workflow (not a uuid)",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "952911ae-b4d3-49bb-bc23-9647949fdaba",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "92c0e526-57bc-4513-be85-4e05031e94eb",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"pm.collectionVariables.get(\"workflow_id\")\r",
+													"\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return message\", () => {\r",
+													"    pm.expect(response.message).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return error\", () => {\r",
+													"    pm.expect(response.error).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return error\", () => {\r",
+													"    pm.expect(response.error[0].field).to.eql(\"/workflow_id\");\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "c6e18d92-833b-4a67-a700-ab0e8dc67c4f",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"workflow_id\": \"not_a_uuid\",\r\n    \"name\": \"basic\",\r\n    \"description\": \"system workflow\",\r\n    \"blueprint_spec\": {\r\n        \"requirements\": [\r\n            \"core\"\r\n        ],\r\n        \"prepare\": [],\r\n        \"nodes\": [\r\n            {\r\n                \"id\": \"1\",\r\n                \"type\": \"Start\",\r\n                \"name\": \"Start node\",\r\n                \"parameters\": {\r\n                    \"input_schema\": {}\r\n                },\r\n                \"next\": \"2\",\r\n                \"lane_id\": \"1\"\r\n            },\r\n            {\r\n                \"id\": \"3\",\r\n                \"type\": \"Finish\",\r\n                \"name\": \"Finish node\",\r\n                \"next\": null,\r\n                \"lane_id\": \"1\"\r\n            }\r\n        ],\r\n        \"lanes\": [\r\n            {\r\n                \"id\": \"1\",\r\n                \"name\": \"the_only_lane\",\r\n                \"rule\": [\r\n                    \"fn\",\r\n                    [\r\n                        \"&\",\r\n                        \"args\"\r\n                    ],\r\n                    true\r\n                ]\r\n            }\r\n        ],\r\n        \"environment\": {}\r\n    }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{host}}/workflows"
+									},
+									"response": []
+								},
+								{
+									"name": "Create Workflow (lane missing)",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "4d922d1e-b0bf-4adc-a27f-b05c2cc8c576",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "7445fd6f-7470-46da-8d49-a848156598cf",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return message\", () => {\r",
+													"    pm.expect(response.message).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return Invalid Connections\", () => {\r",
+													"    pm.expect(response.message).to.eql(\"Invalid Connections\");\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return error\", () => {\r",
+													"    pm.expect(response.error).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return error should point to lane\", () => {\r",
+													"    pm.expect(response.error[0].lane).to.be.false;\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "5366570a-8c36-4cab-9c63-ad9b95229d6b",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"4\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{host}}/workflows"
+									},
+									"response": []
+								},
+								{
+									"name": "Create Workflow (node missing)",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "ecc299e1-46b9-44a1-9b65-3610fec7515e",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "df750cc2-8959-4d7a-85ac-e7f0d79b08ae",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"pm.collectionVariables.get(\"workflow_id\")\r",
+													"\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return message\", () => {\r",
+													"    pm.expect(response.message).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return Invalid Connections\", () => {\r",
+													"    pm.expect(response.message).to.eql(\"Invalid Connections\");\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return error\", () => {\r",
+													"    pm.expect(response.error).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return error should point to next\", () => {\r",
+													"    pm.expect(response.error[0].next).to.be.false;\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "30b6142e-a59f-420c-93a4-883e65d6f313",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"3\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{host}}/workflows"
+									},
+									"response": []
+								},
+								{
+									"name": "Create Workflow (duplicated lane)",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "0f090a3d-194a-4dad-8fee-e32cb793595a",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "9739b9d3-3972-4775-87bb-9917b1e7912d",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"pm.collectionVariables.get(\"workflow_id\")\r",
+													"\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return message\", () => {\r",
+													"    pm.expect(response.message).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Should return error\", () => {\r",
+													"    pm.expect(response.error).to.exist;\r",
+													"})\r",
+													"\r",
+													"pm.test(\"Error should point to Lanes\", () => {\r",
+													"    pm.expect(response.error[0].field).to.eql(\"/blueprint_spec/lanes\");\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "45f822f9-c47e-4404-b2cc-ffa889c7a0b7",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      },\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\"fn\", [\"&\", \"args\"], true]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{host}}/workflows"
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "60aa319c-d66a-447a-bdee-a5cfc61d4473",
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_id": "f8501b68-590c-4da8-996b-c4fbb8819abb",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "POST /:id/create",
+					"item": [
+						{
+							"name": "Setup",
+							"item": [
+								{
+									"name": "Create the Workflow",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "1bc424bf-5526-40bc-a9a9-de34ed6a7ae5",
+												"exec": [
+													"pm.collectionVariables.set(\"workflow_name_for_create\",\"tests_name_for_create\")"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "335772d3-24fd-4230-bdff-b549b2f39a47",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.collectionVariables.set(\"workflow_id_for_create\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "d2a9ea92-5f8d-40e0-84b5-ac1b415c5543",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"{{workflow_name_for_create}}\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{host}}/workflows"
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "fea8fd2a-f995-4b60-b208-cd1d44fc3dae",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Success - 201",
+							"item": [
+								{
+									"name": "Create Process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "0e80ef02-0448-4a6e-83cc-0d1d2634be07",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"const workflow_id = pm.collectionVariables.get(\"workflow_id_for_create\")\r",
+													"\r",
+													"pm.test(\"Status code is 201\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return a process_id\", () => {\r",
+													"    pm.expect(response.process_id).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow data\", () => {\r",
+													"    pm.expect(response.workflow).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow version\", () => {\r",
+													"    pm.expect(response.workflow.version).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow name\", () => {\r",
+													"    pm.expect(response.workflow.name).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow id\", () => {\r",
+													"    pm.expect(response.workflow.id).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+													"    pm.expect(response.workflow.id).to.eql(workflow_id);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "da75db10-9499-4833-afd6-3daef4a20cf2",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id",
+												"create"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{workflow_id_for_create}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "e7b7bded-f551-4502-b458-0460a7495181",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Error - 404",
+							"item": [
+								{
+									"name": "Create Process (random id)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c67086b5-3907-428d-a53a-cbf65b5c7dd8",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 404\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should NOT return a process_id\", () => {\r",
+													"    pm.expect(response.process_id).to.be.undefined;\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "75d8bc79-0a95-4596-8718-7f27b9e31256",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id",
+												"create"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{$guid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "c70d5ffd-8202-4e39-95de-3981b606e73e",
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_id": "8580bb30-3b76-4c0a-a606-56b0e72ac7c7",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "POST /name/:name/create",
+					"item": [
+						{
+							"name": "Setup",
+							"item": [
+								{
+									"name": "Create the Workflow",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "df70b0c6-b3fc-4f42-a822-389437fff8c9",
+												"exec": [
+													"pm.collectionVariables.set(\"workflow_name_for_create\",\"tests_name_for_create\")"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "b4aed3e1-affc-425b-a6ae-f742be740e48",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.collectionVariables.set(\"workflow_id_for_create\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "6f1c80cd-0d5c-473c-b4f3-f582f3d02d32",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"{{workflow_name_for_create}}\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{host}}/workflows"
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "7971961d-09a6-40b4-9705-cd191433a8a0",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Success - 201",
+							"item": [
+								{
+									"name": "Create Process by Name",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "9cbfacf5-b78c-483a-ab7d-9c4c64920014",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"const workflow_id = pm.collectionVariables.get(\"workflow_id_for_create\")\r",
+													"const workflow_name = pm.collectionVariables.get(\"workflow_name_for_create\")\r",
+													"\r",
+													"pm.test(\"Status code is 201\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return a process_id\", () => {\r",
+													"    pm.expect(response.process_id).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow data\", () => {\r",
+													"    pm.expect(response.workflow).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow version\", () => {\r",
+													"    pm.expect(response.workflow.version).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow name\", () => {\r",
+													"    pm.expect(response.workflow.name).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+													"    pm.expect(response.workflow.name).to.eql(workflow_name);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow id\", () => {\r",
+													"    pm.expect(response.workflow.id).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+													"    pm.expect(response.workflow.id).to.eql(workflow_id);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "ce38797c-7f21-4df5-bffc-110d8be20efb",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/name/:name/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												"name",
+												":name",
+												"create"
+											],
+											"variable": [
+												{
+													"id": "dffa309d-aeea-48d4-b8e3-5c55bce17c65",
+													"key": "name",
+													"value": "{{workflow_name_for_create}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "8bcfa080-f641-4b0c-a564-a30b2525d94b",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Error - 404",
+							"item": [
+								{
+									"name": "Create Process by Name (random name)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d8690430-2061-4dbe-8f94-fda74d5d571f",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 404\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should NOT return a process_id\", () => {\r",
+													"    pm.expect(response.process_id).to.be.undefined;\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "8a379695-f3dc-44b6-b2b0-e285bcd4c927",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/name/:name/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												"name",
+												":name",
+												"create"
+											],
+											"variable": [
+												{
+													"id": "5b757cc9-2d33-472f-aa57-b698628f72cc",
+													"key": "name",
+													"value": "{{$randomWord}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "910928bb-a074-48a0-84b8-0ec2bf7f1025",
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_id": "08c3c048-1916-4efe-82da-ee88041b611f",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Start Process",
+					"item": [
+						{
+							"name": "Setup",
+							"item": [
+								{
+									"name": "Create the Workflow",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "7f022325-a334-4325-9eb8-9c096a46736c",
+												"exec": [
+													"pm.collectionVariables.set(\"workflow_name_for_start\",\"tests_name_for_start\")"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "55bf09dd-61ea-4ce0-a88f-5ec4f824821d",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.collectionVariables.set(\"workflow_id_for_start\", response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "1fee39b7-8957-4af7-82b5-a33fc26cad9a",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"{{workflow_name_for_start}}\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{host}}/workflows"
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "4bf0906b-25b2-4131-97a8-660fe31ae4ab",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Start Process by Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9da797b6-0fce-4b19-8053-fefcd6106470",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const workflow_id = pm.collectionVariables.get(\"workflow_id_for_start\")\r",
+											"const workflow_name = pm.collectionVariables.get(\"workflow_name_for_start\")\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow data\", () => {\r",
+											"    pm.expect(response.workflow).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow version\", () => {\r",
+											"    pm.expect(response.workflow.version).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow name\", () => {\r",
+											"    pm.expect(response.workflow.name).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+											"    pm.expect(response.workflow.name).to.eql(workflow_name);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow id\", () => {\r",
+											"    pm.expect(response.workflow.id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+											"    pm.expect(response.workflow.id).to.eql(workflow_id);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "e9dd6bd2-93b0-4bb1-bb53-c1819b3d59a4",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name/start",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name",
+										"start"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "{{workflow_name_for_start}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Start Process by Name (random name)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3bee5a5c-0235-429b-96a0-48debb584cf9",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should NOT return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.be.undefined;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "e40a2388-adbb-4f27-80da-f67283a55b85",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name/create",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name",
+										"create"
+									],
+									"variable": [
+										{
+											"id": "f88ebd25-2263-415d-a8dc-33e03901f9d2",
+											"key": "name",
+											"value": "{{$randomWord}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_id": "63386506-7c93-491b-a7bd-f7cc48e79da9",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "List Workflows",
+					"item": [
+						{
+							"name": "List Workflows",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "553be6b5-0497-48b3-ae23-1a7fc90513a6",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return more than 1 workflow\", () => {\r",
+											"    pm.expect(response.length).to.be.at.least(1);\r",
+											"});\r",
+											"\r",
+											"const first = response.find(i => i.name === \"basic\");\r",
+											"\r",
+											"pm.test(\"Should return workflow_id\", () => {\r",
+											"    pm.expect(first.workflow_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return created_at\", () => {\r",
+											"    pm.expect(first.created_at).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return name\", () => {\r",
+											"    pm.expect(first.name).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return description\", () => {\r",
+											"    pm.expect(first.description).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return version\", () => {\r",
+											"    pm.expect(first.version).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return hash\", () => {\r",
+											"    pm.expect(first.hash).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should NOT return blueprint_spec\", () => {\r",
+											"    pm.expect(first.blueprint_spec).to.be.undefined;\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.set(\"workflow_id\",first.workflow_id);\r",
+											"pm.collectionVariables.set(\"workflow_name\",first.name);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "ab7e6785-625f-4cbd-9bc2-6bdb8a8fee61",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{host}}/workflows"
+							},
+							"response": []
+						}
+					],
+					"_postman_id": "c6dfdf02-ee7f-4b38-a66f-98ea35418c0f",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Convert Diagram",
+					"item": [
+						{
+							"name": "Convert Diagram",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2e0164f4-ad7e-4f26-8c99-9c2e63888e68",
+										"exec": [
+											"var jsonObject = xml2Json(responseBody);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has body\", function () {\r",
+											"    pm.expect(responseBody).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "690b4c2c-d7e7-4146-bab0-009ec3628882",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{host}}/workflows/diagram"
+							},
+							"response": []
+						},
+						{
+							"name": "Convert Diagram (with workflow_id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "edbdcca9-ae52-4428-8eae-faadd75460f4",
+										"exec": [
+											"var jsonObject = xml2Json(responseBody);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has body\", function () {\r",
+											"    pm.expect(responseBody).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "3c44fa1d-d4bd-4c02-b48b-87bad90a3761",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"workflow_id\": \"{{workflow_id}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{host}}/workflows/diagram"
+							},
+							"response": []
+						},
+						{
+							"name": "Convert Diagram (random id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4aceea36-1760-4cb0-82a9-353799f963b0",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has message 'No such workflow'\", function () {\r",
+											"    pm.expect(response.message).to.eql(\"No such workflow\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "c735ba99-0b4e-41c8-867d-8297b15467c4",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"workflow_id\": \"{{$guid}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{host}}/workflows/diagram"
+							},
+							"response": []
+						},
+						{
+							"name": "Convert Diagram (not a uuid)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7e53a70d-a20f-47e4-a877-277b4de03292",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has message 'Invalid uuid'\", function () {\r",
+											"    pm.expect(response.message).to.eql(\"Invalid uuid\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "02344bb7-1a2d-4105-bfaa-26b8608af294",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"workflow_id\": \"not_a_uuid\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{host}}/workflows/diagram"
+							},
+							"response": []
+						}
+					],
+					"_postman_id": "e0d417ad-37b8-43f1-910b-4a20874a48c9",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Read Workflows",
+					"item": [
+						{
+							"name": "Read Workflows by Id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d7db10e8-29c7-4d73-94ab-6ade027f6e5e",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const workflow_id = pm.collectionVariables.get(\"workflow_id\")\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow_id provided\", () => {\r",
+											"    pm.expect(response.workflow_id).to.eql(workflow_id);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return workflow_id\", () => {\r",
+											"    pm.expect(response.workflow_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return created_at\", () => {\r",
+											"    pm.expect(response.created_at).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return name\", () => {\r",
+											"    pm.expect(response.name).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return description\", () => {\r",
+											"    pm.expect(response.description).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return version\", () => {\r",
+											"    pm.expect(response.version).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return hash\", () => {\r",
+											"    pm.expect(response.hash).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return blueprint_spec\", () => {\r",
+											"    pm.expect(response.blueprint_spec).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "cb351425-00d6-42bf-ab28-205c3e997f63",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{workflow_id}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Workflows by Id (non existent id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9d03975a-818f-449f-bdd0-7be028eb2979",
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "d24c440b-4ef7-4cac-aceb-224c771e30c0",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{$guid}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Workflows by Id (invalid id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "058a60b9-fe0c-4879-9526-8d535a1d28c1",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Message should be Invalid uuid\", () => {\r",
+											"    pm.expect(response.message).to.eql(\"Invalid uuid\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "e513e7ba-1608-4423-a818-327d92876760",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "not_a_uuid",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Workflows by Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4715f271-e87b-4ab1-b6f3-ba06aaca6dcb",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const workflow_id = pm.collectionVariables.get(\"workflow_id\")\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the workflow_id provided\", () => {\r",
+											"    pm.expect(response.workflow_id).to.eql(workflow_id);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return workflow_id\", () => {\r",
+											"    pm.expect(response.workflow_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return created_at\", () => {\r",
+											"    pm.expect(response.created_at).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return name\", () => {\r",
+											"    pm.expect(response.name).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return description\", () => {\r",
+											"    pm.expect(response.description).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return version\", () => {\r",
+											"    pm.expect(response.version).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return hash\", () => {\r",
+											"    pm.expect(response.hash).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return blueprint_spec\", () => {\r",
+											"    pm.expect(response.blueprint_spec).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "8f210b4d-fc33-41cd-9496-bb47b1dddeb2",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "{{workflow_name}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Workflows by Name (non existent Name)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8474012e-ca2d-40eb-b052-e167b14557ee",
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "f615da2a-1ac9-48b1-a92c-49b919b577c1",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "{{$randomWord}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_id": "b910d743-4a5b-49de-b10d-a29fc4ecb652",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "List Processes",
+					"item": [
+						{
+							"name": "Setup",
+							"item": [
+								{
+									"name": "Create a Workflow",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "180f1c41-6b93-4ac0-90eb-26da50dd7372",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "d3976f08-4d28-4473-a58f-6d78d86123ca",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.collectionVariables.set(\"workflow_id_for_list_process\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "a57c6776-e17e-46e2-b85c-c27b2187ca38",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{host}}/workflows"
+									},
+									"response": []
+								},
+								{
+									"name": "Create a Process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e4f3128a-86be-4360-bd07-9b6e11e5d659",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "fabc0814-19b3-467a-80a1-4cbb39139d57",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id",
+												"create"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{workflow_id_for_list_process}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create another Process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "abac4d8d-a2d4-4035-8457-9ad979de73ea",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "d806c261-b8ac-474a-a520-0447294ff13f",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id",
+												"create"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{workflow_id_for_list_process}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create other Workflow",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "19390071-5146-445c-abf2-f31592c65ab5",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "ecb0e2a9-fd58-41d6-b608-aff3f891c4a0",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.collectionVariables.set(\"workflow_id\",response.workflow_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "405fd4ef-6b3c-4b17-9ff6-dfeb51896f48",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"basic1\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{host}}/workflows"
+									},
+									"response": []
+								},
+								{
+									"name": "Create a process on the other workflow",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "3e0f6895-368c-4185-8d57-ebfe36c55111",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"const workflow_id = pm.collectionVariables.get(\"workflow_id\")\r",
+													"\r",
+													"pm.test(\"Status code is 201\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return a process_id\", () => {\r",
+													"    pm.expect(response.process_id).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow data\", () => {\r",
+													"    pm.expect(response.workflow).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow version\", () => {\r",
+													"    pm.expect(response.workflow.version).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow name\", () => {\r",
+													"    pm.expect(response.workflow.name).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return the workflow id\", () => {\r",
+													"    pm.expect(response.workflow.id).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"The workflow_id should be the same provided\", () => {\r",
+													"    pm.expect(response.workflow.id).to.eql(workflow_id);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "6ac6c3c4-390d-4706-9a89-f2231c26405e",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/:id/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												":id",
+												"create"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{workflow_id}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "aa86c806-e10b-4cce-83b2-dd5f8eee778d",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "List Processes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "53268d81-3cc6-468f-9d75-ced8d79b186b",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return more than 2 processes\", () => {\r",
+											"    pm.expect(response).to.have.length(2);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "b4dae550-5438-4e1c-a52e-a3795f767361",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/:id/processes",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										":id",
+										"processes"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{workflow_id_for_list_process}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_id": "1516fc4b-757d-4811-b928-8b77e40c7f66",
+					"_postman_isSubFolder": true
+				}
+			],
+			"_postman_id": "cce225ca-b8f4-43a8-ad6c-c882a9f2d06a"
+		},
+		{
+			"name": "Processes",
+			"item": [
+				{
+					"name": "Setup",
+					"item": [
+						{
+							"name": "Create basic workflow",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "d1bea0ca-56b8-4b30-acbf-37ddf5cd88cc",
+										"exec": [
+											"pm.collectionVariables.set(\"processes_workflow_name\",\"test_processes_any_name\")"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "9e4f5dff-db4c-4fa9-91ff-6e6f139d9f12",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.collectionVariables.set(\"processes_basic_wid\",response.workflow_id)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "562d3bf3-3648-4993-8bff-fe2f5a6648b0",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"processes_basic\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{host}}/workflows"
+							},
+							"response": []
+						},
+						{
+							"name": "Create userTask workflow",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "16a07307-dc18-4fdd-87f8-5fd0525352cc",
+										"exec": [
+											"pm.collectionVariables.set(\"processes_workflow_name\",\"test_processes_any_name\")"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "e9534e0a-327e-4056-92ba-dfab83a40e30",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.collectionVariables.set(\"processes_userTask_wid\",response.workflow_id)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "2627d68e-8d35-49da-9d5c-7be82632c5b4",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"processes_userTask\",\r\n  \"description\": \"userTask workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"UserTask\",\r\n        \"name\": \"User Task node\",\r\n        \"next\": \"3\",\r\n        \"lane_id\": \"1\",\r\n        \"parameters\": {\r\n          \"action\": \"do something\",\r\n          \"input\": {}\r\n        }\r\n      },\r\n      {\r\n        \"id\": \"3\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{host}}/workflows"
+							},
+							"response": []
+						},
+						{
+							"name": "Create timer workflow",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "157d5ddb-9079-4e47-b851-7a5bf58c4a04",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "b4cf1352-c491-4bf5-9ea1-848dda5172a1",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.collectionVariables.set(\"processes_timer_wid\",response.workflow_id)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "ff172ef4-bee5-4d75-a27f-eb329da64926",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"processes_timer\",\r\n  \"description\": \"timer workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"SystemTask\",\r\n        \"category\": \"timer\",\r\n        \"name\": \"timer node\",\r\n        \"next\": \"3\",\r\n        \"lane_id\": \"1\",\r\n        \"parameters\": {\r\n          \"input\": {},\r\n          \"timeout\": 3000\r\n        }\r\n      },\r\n      {\r\n        \"id\": \"3\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {}\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{host}}/workflows"
+							},
+							"response": []
+						},
+						{
+							"name": "Start a basic process #1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9da797b6-0fce-4b19-8053-fefcd6106470",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "902a0dbc-5df1-48c2-aa87-0092b2810d6c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name/start",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name",
+										"start"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "processes_basic",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Start a basic process #2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c913a657-d28f-45dc-9dea-ded6a7938925",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "0ab5d063-b989-4f57-92e4-4808d38a80f5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name/start",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name",
+										"start"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "processes_basic",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Start a userTask process #1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c29fed2b-3905-4b9d-a248-32a10460c619",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.set(\"processes_userTask_pid\", response.process_id)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "7425bb05-74a6-4bf0-b063-5be96b8c3deb",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name/start",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name",
+										"start"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "processes_userTask",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Start a userTask process #2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2eaf3d5b-fc30-41b1-9337-9620a2403b25",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.set(\"processes_userTask_pid2\", response.process_id)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "d8064803-7795-41b9-b07d-a9b921da5fec",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name/start",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name",
+										"start"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "processes_userTask",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Start a timer process #1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b5499ecb-6a44-435d-9168-2c4db776357c",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.set(\"processes_timer_pid\", response.process_id)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "bf56d806-94ab-4ca4-9fd8-fd0bc00f2c49",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/workflows/name/:name/start",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"workflows",
+										"name",
+										":name",
+										"start"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "processes_timer",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_id": "618031b4-395a-42ff-afbe-c495cdf67c71",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "List Processes",
+					"item": [
+						{
+							"name": "List Processes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "53268d81-3cc6-468f-9d75-ced8d79b186b",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return more than 4 processes\", () => {\r",
+											"    pm.expect(response.length).to.be.at.least(4);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "d03cd114-f02f-4e01-8327-503ede312a87",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{host}}/processes/"
+							},
+							"response": []
+						},
+						{
+							"name": "List Processes (workflow_id filter)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "53268d81-3cc6-468f-9d75-ced8d79b186b",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return 2 processes\", () => {\r",
+											"    pm.expect(response.length).to.equal(2);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "4c4dd0da-756a-41c6-9b66-15a96af283c0",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/processes/?workflow_id={{processes_basic_wid}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"processes",
+										""
+									],
+									"query": [
+										{
+											"key": "workflow_id",
+											"value": "{{processes_basic_wid}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_id": "0a5fd8e6-6660-4e0d-88f3-29919b95c862",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "List Available",
+					"item": [
+						{
+							"name": "List Available Processes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "53268d81-3cc6-468f-9d75-ced8d79b186b",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const userTaskWid = pm.collectionVariables.get(\"processes_userTask_wid\");\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const filtered = response.filter(item => item.workflow_id === userTaskWid);\r",
+											"pm.test(\"Should return 2 processes\", () => {\r",
+											"    pm.expect(filtered.length).to.equal(2);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "40169459-dcca-4311-952c-6b27af4f5bc8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{host}}/processes/available"
+							},
+							"response": []
+						}
+					],
+					"_postman_id": "e8626ed9-7dd0-4b11-91bb-4658fcb627b4",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "List Done",
+					"item": [
+						{
+							"name": "List Done Processes (Expect 0)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const userTaskWid = pm.collectionVariables.get(\"processes_userTask_wid\");\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const filtered = response.filter(item => item.workflow_id === userTaskWid);\r",
+											"pm.test(\"Should return 0 processes\", () => {\r",
+											"    pm.expect(filtered.length).to.equal(0);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "65bc4607-a7b4-4445-a1e4-359ab60b8653",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{host}}/processes/done"
+							},
+							"response": []
+						},
+						{
+							"name": "Commit Task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4e80f319-b919-48f1-a717-0ef057b3a9d2",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "8f6d73ca-458d-42b0-b385-3680e5ccecdc",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/processes/:pid/commit",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"processes",
+										":pid",
+										"commit"
+									],
+									"variable": [
+										{
+											"key": "pid",
+											"value": "{{processes_userTask_pid}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Push Task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ec482c5a-8ae2-4f9e-aafe-801e0e96fc8f",
+										"exec": [
+											"pm.test(\"Status code is 202\", function () {\r",
+											"    pm.response.to.have.status(202);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "6937fcd0-7f93-4317-bb60-2bbd977835a4",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/processes/:pid/push",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"processes",
+										":pid",
+										"push"
+									],
+									"variable": [
+										{
+											"key": "pid",
+											"value": "{{processes_userTask_pid}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List Done Processes (Expect 1)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const userTaskWid = pm.collectionVariables.get(\"processes_userTask_wid\");\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const filtered = response.filter(item => item.workflow_id === userTaskWid);\r",
+											"pm.test(\"Should return 1 process\", () => {\r",
+											"    pm.expect(filtered.length).to.equal(1);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "a9ef65c9-fb18-44b1-89de-127a64da2827",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{host}}/processes/done"
+							},
+							"response": []
+						}
+					],
+					"_postman_id": "f89277a8-70a2-4197-b104-a114d2ff028b",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Read State",
+					"item": [
+						{
+							"name": "Read State (existing process)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const userTaskWid = pm.collectionVariables.get(\"processes_userTask_wid\");\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should the right workflow_id\", () => {\r",
+											"    pm.expect(response.workflow_id).to.equal(userTaskWid);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "dae4dc13-a24c-4b16-bc39-c8cbd459c1e3",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/processes/:pid/state",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"processes",
+										":pid",
+										"state"
+									],
+									"variable": [
+										{
+											"key": "pid",
+											"value": "{{processes_userTask_pid}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read State (random process)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "67f4402c-5dc1-474f-bbec-4816fdb4e54b",
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "a46da660-d4a2-4482-8411-7d9a91eb21ad",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/processes/:pid/state",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"processes",
+										":pid",
+										"state"
+									],
+									"variable": [
+										{
+											"key": "pid",
+											"value": "{{$guid}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_id": "7f1b070a-860a-496b-a47a-b5551aa3a0d0",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Read History",
+					"item": [
+						{
+							"name": "Read History (existing process)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const userTaskWid = pm.collectionVariables.get(\"processes_userTask_wid\");\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should the right workflow_id\", () => {\r",
+											"    pm.expect(response.length).to.equal(5);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "a85000d3-151e-46a9-935e-b07c1a83b3f4",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/processes/:pid/history",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"processes",
+										":pid",
+										"history"
+									],
+									"variable": [
+										{
+											"key": "pid",
+											"value": "{{processes_userTask_pid}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read History (random process)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "67f4402c-5dc1-474f-bbec-4816fdb4e54b",
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "6cefb0d7-c75f-4f24-9b6d-1836a6ebfa10",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/processes/:pid/state",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"processes",
+										":pid",
+										"state"
+									],
+									"variable": [
+										{
+											"id": "10483cca-dc91-4110-8732-0708f985a628",
+											"key": "pid",
+											"value": "{{$guid}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_id": "50bb22b1-77ee-45c8-8e68-be2145528be6",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Read Activity",
+					"item": [
+						{
+							"name": "Read Activity (existing userTask process)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const userTaskWid = pm.collectionVariables.get(\"processes_userTask_wid\");\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should the right workflow_id\", () => {\r",
+											"    pm.expect(response.id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.set(\"processes_amid\", response.id)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "84aa0b29-d180-4fda-82ed-1992ec06638a",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/processes/:pid/activity",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"processes",
+										":pid",
+										"activity"
+									],
+									"variable": [
+										{
+											"key": "pid",
+											"value": "{{processes_userTask_pid2}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Activity (timer process)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9b95afcb-d924-42df-8ae8-b32d6ee90215",
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "a853166c-b7d4-4ab6-a5d2-a01b92f27044",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/processes/:pid/activity",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"processes",
+										":pid",
+										"activity"
+									],
+									"variable": [
+										{
+											"key": "pid",
+											"value": "{{processes_timer_pid}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Activity (random process)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "8b24c6fd-8073-4a83-b91e-0c85ae0d3bc3",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/processes/:pid/activity",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"processes",
+										":pid",
+										"activity"
+									],
+									"variable": [
+										{
+											"key": "pid",
+											"value": "{{$guid}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_id": "62f8ac4c-e118-4d38-9a4a-960cf1b6e6ab",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Read Activity Manager",
+					"item": [
+						{
+							"name": "Read ActivityManager (existing ActivityManager)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const amid = pm.collectionVariables.get(\"processes_amid\");\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should the right activity_manager_id\", () => {\r",
+											"    pm.expect(response.id).to.equal(amid);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "ead63b71-3465-43ba-ad4b-89d3d77db80d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/processes/activityManager/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"processes",
+										"activityManager",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{processes_amid}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read ActivityManager (random id)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a982ad68-7ef2-4f51-a9f0-d8ada03d8395",
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "c7122777-7c50-48f4-9ada-f02fff542546",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/processes/activityManager/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"processes",
+										"activityManager",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{$guid}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_id": "36fdfcf7-04fd-4f71-a890-e480a4e0da95",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Process Run",
+					"item": [
+						{
+							"name": "Main Flow",
+							"item": [
+								{
+									"name": "Create a userTask process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c29fed2b-3905-4b9d-a248-32a10460c619",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 201\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return a process_id\", () => {\r",
+													"    pm.expect(response.process_id).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.collectionVariables.set(\"processes_run_pid\", response.process_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "c4299970-9b37-4c0a-88de-eec1a25278c4",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/name/:name/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												"name",
+												":name",
+												"create"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": "processes_userTask",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read State",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status should be unstarted\", () => {\r",
+													"    pm.expect(response.current_status).to.equal(\"unstarted\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "8d40dd49-8795-4d9d-b5a9-b0a1dc219912",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:pid/state",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":pid",
+												"state"
+											],
+											"variable": [
+												{
+													"key": "pid",
+													"value": "{{processes_run_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Run Process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "96a948ef-10ca-4274-8f6d-db114b9457d1",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "64f26fd0-c697-493c-add4-de14015542fb",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:id/run",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":id",
+												"run"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{processes_run_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read State",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status should be waiting\", () => {\r",
+													"    pm.expect(response.current_status).to.equal(\"waiting\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "d62e621c-05b9-4c2c-bffa-d37cba9495eb",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:pid/state",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":pid",
+												"state"
+											],
+											"variable": [
+												{
+													"key": "pid",
+													"value": "{{processes_run_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Run Process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "96a948ef-10ca-4274-8f6d-db114b9457d1",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "6b87a6e7-9cc2-4ab6-96d7-8224b91690e5",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:id/run",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":id",
+												"run"
+											],
+											"variable": [
+												{
+													"id": "084dadee-4506-4565-b65b-bd6ebfbe2833",
+													"key": "id",
+													"value": "{{processes_run_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read State",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status should be finished\", () => {\r",
+													"    pm.expect(response.current_status).to.equal(\"finished\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "48a2ab1f-8b1e-4fd1-b06e-edee9d4ca941",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:pid/state",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":pid",
+												"state"
+											],
+											"variable": [
+												{
+													"key": "pid",
+													"value": "{{processes_run_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "2be790d9-418e-4d96-982f-39d44433cf64",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Stopped Process",
+							"item": [
+								{
+									"name": "Run Process (finished)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "72184c93-fb89-4ce1-8416-a9c18e7e088b",
+												"exec": [
+													"pm.test(\"Status code is 422\", function () {\r",
+													"    pm.response.to.have.status(422);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "c09b1eaa-c4aa-4c55-983a-486efbcbe83d",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:id/abort",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":id",
+												"abort"
+											],
+											"variable": [
+												{
+													"id": "4d342b93-4edf-44e1-81f8-5b2744f807d1",
+													"key": "id",
+													"value": "{{processes_run_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "d684eae6-e7c3-400a-8566-c51e5ec0f31c",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Random Process",
+							"item": [
+								{
+									"name": "Run Process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "96a948ef-10ca-4274-8f6d-db114b9457d1",
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "f85a54eb-01f4-405e-b8c2-4601cf7429d5",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:id/run",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":id",
+												"run"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{$guid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "ccad0415-b960-43f7-ab89-d51d56890481",
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_id": "36ea05b8-c2f8-4788-89d5-f631da0c4061",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Process Abort",
+					"item": [
+						{
+							"name": "Active Process",
+							"item": [
+								{
+									"name": "Create a userTask process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c29fed2b-3905-4b9d-a248-32a10460c619",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 201\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return a process_id\", () => {\r",
+													"    pm.expect(response.process_id).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.collectionVariables.set(\"processes_abort_pid\", response.process_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "e58bf3fd-4b44-4906-97d6-97448951f26f",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/name/:name/create",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												"name",
+												":name",
+												"create"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": "processes_userTask",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read State (unstarted)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status should be unstarted\", () => {\r",
+													"    pm.expect(response.current_status).to.equal(\"unstarted\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "5b438323-cac5-483a-868c-2f38880689e0",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:pid/state",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":pid",
+												"state"
+											],
+											"variable": [
+												{
+													"key": "pid",
+													"value": "{{processes_abort_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Abort Process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "96a948ef-10ca-4274-8f6d-db114b9457d1",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "e4082130-bd9e-4513-b0f5-4198610b62e0",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:id/abort",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":id",
+												"abort"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{processes_abort_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read State (interrupted)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status should be interrupted\", () => {\r",
+													"    pm.expect(response.current_status).to.equal(\"interrupted\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "b8e41661-9ab6-4f98-800f-a8375663e9bb",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:pid/state",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":pid",
+												"state"
+											],
+											"variable": [
+												{
+													"key": "pid",
+													"value": "{{processes_abort_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "adab34f3-9e79-4e2b-a2aa-bfd9b9cb8bf6",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Stopped Process",
+							"item": [
+								{
+									"name": "Abort Process (interrupted)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "96a948ef-10ca-4274-8f6d-db114b9457d1",
+												"exec": [
+													"pm.test(\"Status code is 422\", function () {\r",
+													"    pm.response.to.have.status(422);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "8e7dc159-c247-429e-ae73-95204c495ea2",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:id/abort",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":id",
+												"abort"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{processes_abort_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Abort Process (finished)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "96a948ef-10ca-4274-8f6d-db114b9457d1",
+												"exec": [
+													"pm.test(\"Status code is 422\", function () {\r",
+													"    pm.response.to.have.status(422);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "5b787c30-69bd-4a90-a0ca-8938682c4b85",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:id/abort",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":id",
+												"abort"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{processes_run_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "c4209b0e-b29f-4464-b619-13c88034f955",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Random Process",
+							"item": [
+								{
+									"name": "Abort Process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "96a948ef-10ca-4274-8f6d-db114b9457d1",
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "bc81c848-2bdc-42a6-a82d-b2ce2eb21388",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:id/abort",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":id",
+												"abort"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{$guid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "e7dd5db8-1aff-4a48-856a-deb673e188c4",
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_id": "7663df34-929f-474b-af80-cee6c8c2cda4",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Commit Activity",
+					"item": [
+						{
+							"name": "Existing Activity",
+							"item": [
+								{
+									"name": "Start a userTask process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c29fed2b-3905-4b9d-a248-32a10460c619",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 201\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return a process_id\", () => {\r",
+													"    pm.expect(response.process_id).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.collectionVariables.set(\"processes_commit_pid\", response.process_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "eec84f56-4654-4535-9d2b-48ce2b021f21",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/name/:name/start",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												"name",
+												":name",
+												"start"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": "processes_userTask",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read State (waiting)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"const userTaskWid = pm.collectionVariables.get(\"processes_userTask_wid\");\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Process should be waiting\", () => {\r",
+													"    pm.expect(response.current_status).to.equal(\"waiting\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "c84a2c42-c05d-44cd-8c1b-2ef4886f055b",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:pid/state",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":pid",
+												"state"
+											],
+											"variable": [
+												{
+													"key": "pid",
+													"value": "{{processes_commit_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Commit",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "719e7d0c-f660-4727-9df5-268914e46100",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:pid/commit",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":pid",
+												"commit"
+											],
+											"variable": [
+												{
+													"key": "pid",
+													"value": "{{processes_commit_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read State (keep waiting)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"const userTaskWid = pm.collectionVariables.get(\"processes_userTask_wid\");\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Process should be waiting\", () => {\r",
+													"    pm.expect(response.current_status).to.equal(\"waiting\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "89c4bd49-b181-4ab9-9c4f-0aef31640ab9",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:pid/state",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":pid",
+												"state"
+											],
+											"variable": [
+												{
+													"id": "f8568ba8-ca6f-47c8-85aa-200f8230d2af",
+													"key": "pid",
+													"value": "{{processes_commit_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "37d1e465-1393-4b11-b27f-54cef43b7521",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Random Activity",
+							"item": [
+								{
+									"name": "Commit",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 404\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "1fd39936-f5e4-416c-abc8-4539633e8749",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:pid/commit",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":pid",
+												"commit"
+											],
+											"variable": [
+												{
+													"key": "pid",
+													"value": "{{$guid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "dfa2720b-f577-48ca-97ac-fd9ebfbf1502",
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_id": "73926982-9297-49c2-b286-1ca26b50d72f",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Push Activity",
+					"item": [
+						{
+							"name": "Existing Activity",
+							"item": [
+								{
+									"name": "Start a userTask process",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e6988173-526c-440a-9bcc-f3b71aeb1f26",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 201\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should return a process_id\", () => {\r",
+													"    pm.expect(response.process_id).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.collectionVariables.set(\"processes_push_pid\", response.process_id)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "bc710787-d23b-40f0-8e15-33a8a8f5d449",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/workflows/name/:name/start",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"workflows",
+												"name",
+												":name",
+												"start"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": "processes_userTask",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read State (waiting)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "8bc16b94-14a8-471b-8dfe-ae004987a302",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"const userTaskWid = pm.collectionVariables.get(\"processes_userTask_wid\");\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Process should be waiting\", () => {\r",
+													"    pm.expect(response.current_status).to.equal(\"waiting\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "85408fc8-775d-4aae-855a-2cf5e80fbfc4",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:pid/state",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":pid",
+												"state"
+											],
+											"variable": [
+												{
+													"key": "pid",
+													"value": "{{processes_push_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Commit",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "16d6deba-f23f-4ff5-9db8-3b1b8607c9b2",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "464b4c14-5906-45f5-9ab6-8fb5c9cd1e3d",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:pid/commit",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":pid",
+												"commit"
+											],
+											"variable": [
+												{
+													"key": "pid",
+													"value": "{{processes_push_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Push",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "16d6deba-f23f-4ff5-9db8-3b1b8607c9b2",
+												"exec": [
+													"pm.test(\"Status code is 202\", function () {\r",
+													"    pm.response.to.have.status(202);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "8005db54-e366-4ec8-925c-29b7c78ed58d",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:pid/push",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":pid",
+												"push"
+											],
+											"variable": [
+												{
+													"key": "pid",
+													"value": "{{processes_push_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read State (not waiting)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c5611822-25bf-4f6b-9885-04fabb0f50ad",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"const userTaskWid = pm.collectionVariables.get(\"processes_userTask_wid\");\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Process should be waiting\", () => {\r",
+													"    pm.expect(response.current_status).not.to.equal(\"waiting\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "9ae21fc7-2956-4aea-a2ed-0a8e5780de4f",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:pid/state",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":pid",
+												"state"
+											],
+											"variable": [
+												{
+													"key": "pid",
+													"value": "{{processes_push_pid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "aeaed1ec-292c-45e0-b516-11b9b7985121",
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Random Activity",
+							"item": [
+								{
+									"name": "Commit",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "3c9d0161-7781-4fdd-ad12-02e31c181506",
+												"exec": [
+													"const response = pm.response.json();\r",
+													"\r",
+													"pm.test(\"Status code is 404\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"_postman_id": "433308c5-b00e-4e30-84f0-12ec7f401972",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{host}}/processes/:pid/commit",
+											"host": [
+												"{{host}}"
+											],
+											"path": [
+												"processes",
+												":pid",
+												"commit"
+											],
+											"variable": [
+												{
+													"id": "04018072-459b-4167-8b0e-753d3057c996",
+													"key": "pid",
+													"value": "{{$guid}}",
+													"type": "string"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_id": "0d42e2ac-c5bb-428b-bde0-c878228e93cd",
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_id": "7cc81b03-142d-4327-828d-fe434c246b77",
+					"_postman_isSubFolder": true
+				}
+			],
+			"_postman_id": "3625f4a8-990c-4052-b008-5f1228930b12"
+		},
+		{
+			"name": "Activity Manager",
+			"item": [],
+			"_postman_id": "97f90d93-6d4a-4c11-9d38-b844d41a31a7"
+		},
+		{
+			"name": "Activities",
+			"item": [],
+			"_postman_id": "007edb03-bcb5-4732-8070-553e9425bb63"
+		},
+		{
+			"name": "States",
+			"item": [
+				{
+					"name": "Setup",
+					"item": [
+						{
+							"name": "Create a Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "673779d2-22e8-4bce-b4c5-833f3d45510a",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.environment.set(\"token\", response.jwtToken);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "44f9b383-0709-4e2b-bb5a-3f5c6fe6c767",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "b5481577-2838-4d80-9f51-e892fd380ddf",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"actor_id\": \"{{$guid}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{host}}/token"
+							},
+							"response": []
+						},
+						{
+							"name": "Create workflow for testing",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "7cce1111-aed8-4da5-b391-1ae34627cbcc",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "5caed57f-dcb0-4796-9025-db9ff5584be3",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "a76c5117-8cc7-48d3-9638-1da70d19e4f5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"test_state_routes\",\r\n  \"description\": \"system workflow\",\r\n  \"blueprint_spec\": {\r\n    \"requirements\": [\r\n      \"core\"\r\n    ],\r\n    \"prepare\": [],\r\n    \"nodes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"type\": \"Start\",\r\n        \"name\": \"Start node\",\r\n        \"parameters\": {\r\n          \"input_schema\": {}\r\n        },\r\n        \"next\": \"2\",\r\n        \"lane_id\": \"1\"\r\n      },\r\n      {\r\n        \"id\": \"2\",\r\n        \"type\": \"Finish\",\r\n        \"name\": \"Finish node\",\r\n        \"next\": null,\r\n        \"parameters\": {\r\n            \"input\": {\r\n                \"paramsField\": { \"$ref\": \"parameters.one\" },\r\n                \"envField\": { \"$ref\": \"environment.KNEX_ENV\" }\r\n            }\r\n        },\r\n        \"lane_id\": \"1\"\r\n      }\r\n    ],\r\n    \"lanes\": [\r\n      {\r\n        \"id\": \"1\",\r\n        \"name\": \"the_only_lane\",\r\n        \"rule\": [\r\n          \"fn\",\r\n          [\r\n            \"&\",\r\n            \"args\"\r\n          ],\r\n          true\r\n        ]\r\n      }\r\n    ],\r\n    \"environment\": {\r\n        \"KNEX_ENV\": \"KNEX_ENV\"\r\n    },\r\n    \"parameters\": {\r\n        \"one\": \"field\"\r\n    }\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{host}}/workflows"
+							},
+							"response": []
+						},
+						{
+							"name": "Start Process by Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9da797b6-0fce-4b19-8053-fefcd6106470",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return a process_id\", () => {\r",
+											"    pm.expect(response.process_id).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.environment.set(\"process_id\", response.process_id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "4d4e7a51-3753-49c2-b2e7-cf76701dcf48",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": "{{host}}/workflows/name/test_state_routes/start"
+							},
+							"response": []
+						},
+						{
+							"name": "Read History",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "05d42de1-2265-42bf-9359-0468fce4f456",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.environment.set(\"stateId\", response[0].id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "9d0db233-b174-46ed-a72f-654d109c7cd7",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/processes/:pid/history",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"processes",
+										":pid",
+										"history"
+									],
+									"variable": [
+										{
+											"key": "pid",
+											"value": "{{process_id}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_id": "f641e9ee-ef0e-42f2-a24f-d7bf79f59855",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "GET /:id",
+					"item": [
+						{
+							"name": "Should return the state requested",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "63c89dce-72b1-4ffe-89d9-7f23b64d7d08",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const stateId = pm.environment.get(\"stateId\");\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The id should be the same from the request\", function () {\r",
+											"    pm.expect(response.id).to.equal(stateId);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"The step number should be 3 considering the tested blueprint\", function () {\r",
+											"    pm.expect(response.step_number).to.equal(3);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return environment\", () => {\r",
+											"    pm.expect(response.environment).to.exist;\r",
+											"})\r",
+											"\r",
+											"pm.test(\"Should return parameters\", () => {\r",
+											"    pm.expect(response.parameters).to.exist;\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "554ca0a7-d90c-4815-b112-4d911d78fb7d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/states/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"states",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{stateId}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should return 404 for a random id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b9f71e8f-b53a-434d-b19a-9d2030637b03",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const stateId = pm.environment.get(\"stateId\");\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return an error message\", function () {\r",
+											"    pm.expect(response.message).to.exist;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "ea35f832-873e-4dc9-8ad4-78e30a86c960",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/states/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"states",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{$guid}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_id": "2e57a820-a8bb-4305-b662-3a1012045e43",
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "GET /process/:id",
+					"item": [
+						{
+							"name": "Should return 400 if no parameter is provided",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "32fc30d7-4a7d-4471-ae2c-181c093542ca",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const stateId = pm.environment.get(\"stateId\");\r",
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return an error message\", function () {\r",
+											"    pm.expect(response.message).to.exist;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "31bd8623-b190-46a3-8d47-91fe3685d7c5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/states/process/:id",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"states",
+										"process",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{process_id}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should work for step number",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "004246ca-6a32-49e4-895b-9ec089b6942d",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const stateId = pm.environment.get(\"stateId\");\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return the correct step number\", function () {\r",
+											"    pm.expect(response.step_number).to.equal(2);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "6011ed7b-49a4-484b-9676-a939f7fb660f",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/states/process/:id?stepNumber=2",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"states",
+										"process",
+										":id"
+									],
+									"query": [
+										{
+											"key": "stepNumber",
+											"value": "2"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{process_id}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Should work for node id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7dc65161-fa45-41e2-99d5-1fcac7407310",
+										"exec": [
+											"const response = pm.response.json();\r",
+											"const stateId = pm.environment.get(\"stateId\");\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Should return 2 states\", function () {\r",
+											"    pm.expect(response.states).to.have.length(2);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Parameters should be in root object\", function () {\r",
+											"    pm.expect(response.parameters).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Environment should be in root object\", function () {\r",
+											"    pm.expect(response.environment).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"_postman_id": "317c79a5-4a8b-47a2-ab84-51b951ed8f46",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/states/process/:id?nodeId=1",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"states",
+										"process",
+										":id"
+									],
+									"query": [
+										{
+											"key": "nodeId",
+											"value": "1"
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{process_id}}",
+											"type": "string"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_id": "10060ab6-e9fc-4b0d-9d31-71b8538334c0",
+					"_postman_isSubFolder": true
+				}
+			],
+			"_postman_id": "9c3c6eb5-b0e8-4760-85da-563535cdc461",
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{token}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fd6ad5a0-a730-4c75-ac30-49a9b16d8456",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d42b71a1-7656-4010-8f51-087c84fabdf4",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Indexer",
+			"item": [],
+			"_postman_id": "92cd54af-f76d-4020-b1a6-257bcc998b06"
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "{{token}}"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "9349ce43-1641-4a4d-9674-d909bf25dbc1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "bd1097bd-707d-45d0-9ba2-8364ddd63f31",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "1b41a92b-bc2a-4848-adcc-c5d8ba268d98",
+			"key": "package_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "f5c76f35-77d5-4443-9fa5-f7089f3791d4",
+			"key": "workflow_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "e08c896d-15fa-4da4-b88a-5babf0ee0eb0",
+			"key": "actor_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "4e255a46-04e8-4806-8d31-441332337ff3",
+			"key": "workflow_name",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "3eca2084-7eff-4723-a870-6d2e1d1e3044",
+			"key": "workflow_id_for_delete",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "311028a6-c734-40a1-a68c-01c00fcc830b",
+			"key": "workflow_id_for_list_process",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "67ac3ab2-bb65-46fd-ade7-8439276593e6",
+			"key": "workflow_name_for_create",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "6d8219e1-7345-465f-ac4f-85ad5c705eaf",
+			"key": "workflow_id_for_create",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "6406432c-83f1-4a78-8092-f54004ca391f",
+			"key": "workflow_name_for_start",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "37502e14-6c53-41fe-87cd-ca703c34787c",
+			"key": "workflow_id_for_start",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "46bbdad8-7e43-4db9-b87a-52e41847350c",
+			"key": "processes_workflow_name",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "b17b6a8a-a2f3-4f34-8bac-4a4c48f5725c",
+			"key": "processes_basic_wid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "1c15c00e-55b2-47e3-929a-cf82c0f51689",
+			"key": "processes_userTask_wid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "78958615-eeb3-4b64-bab0-0c8d581c4e2f",
+			"key": "processes_timer_wid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "c8497154-f6f5-4d4b-b4a8-1d158a5a3055",
+			"key": "processes_userTask_pid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "ad27f46c-a0e2-4394-8656-50343c00ced5",
+			"key": "processes_userTask_pid2",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "a7e2dd1a-b244-4906-a6ff-4c6c7c32b003",
+			"key": "processes_timer_pid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "e3e1e45c-1f8c-4564-bdaa-51e967c09709",
+			"key": "processes_amid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "8a4d2cde-ea40-4f29-a467-b30409c434e0",
+			"key": "processes_run_pid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "14698e03-acd5-4888-808b-fe57889b246c",
+			"key": "processes_abort_pid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "6790da93-05e8-4350-91ac-afc4d3cdc848",
+			"key": "processes_commit_pid",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "ccae3f96-f4ea-407d-931d-83c990e4bd93",
+			"key": "processes_push_pid",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
