@@ -15,10 +15,9 @@ module.exports = {
             type: "object",
             properties: {
               data: { type: "array" },
-              key: { type: "string" },
-              values: { type: "array" },
+              primary_keys: { type: "object" },
             },
-            required: ["data", "key", "values"],
+            required: ["data", "primary_keys"],
           },
         },
         lane_id: "1",
@@ -33,8 +32,7 @@ module.exports = {
         parameters: {
           input: {
             data: { $ref: "bag.data" },
-            key: { $ref: "bag.key" },
-            values: { $ref: "bag.values" },
+            primary_keys: { $ref: "bag.primary_keys" }
           },
         },
       },

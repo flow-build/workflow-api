@@ -1,9 +1,7 @@
-const { ProcessStatus, Nodes} = require("@flowbuild/engine");
+const { ProcessStatus, Nodes } = require("@flowbuild/engine");
 const Ajv = require("ajv");
 const addFormats = require("ajv-formats");
 const { logger } = require("../utils/logger");
-
-const _ = require("lodash")
 
 class FilterDataNode extends Nodes.SystemTaskNode {
 
@@ -23,7 +21,7 @@ class FilterDataNode extends Nodes.SystemTaskNode {
           properties: {
             input: {
               type: "object",
-              required: ["data", "values", "key"],
+              required: ["data", "primary_keys"],
               properties: {
                 data: {
                   oneOf: [
@@ -36,24 +34,15 @@ class FilterDataNode extends Nodes.SystemTaskNode {
                     }
                   ]
                 },
-                values: {
+                primary_keys: {
                   oneOf: [
                     {
                       type: "array",
+                      items: { type: "object" }
+                    },
+                    {
+                      type: "array",
                       items: { type: "string" }
-                    },
-                    {
-                      type: "string"
-                    },
-                    {
-                      type: "object"
-                    }
-                  ]
-                },
-                keys:{
-                  oneOf: [
-                    {
-                      type: "string"
                     },
                     {
                       type: "object"
@@ -81,16 +70,41 @@ class FilterDataNode extends Nodes.SystemTaskNode {
     return FilterDataNode.validate(this._spec);
   }
 
+  static validateExecutionData(spec) {
+    const schema = {
+      type: "object",
+      required: ["data", "primary_keys"],
+      properties: {
+        data: { type: "array", items: { type: "object" } },
+        primary_keys: { type: "array", items: { type: "object" } }
+      }
+    }
+    return FilterDataNode.validate(spec, schema);
+  }
+
   async _run(executionData) {
     try {
-      const { key, data, values } = executionData;
-      const result = []
-      data.forEach(function (item){
-        if (_.get(item, key) === values[0]) {
-          result.push(item);
-          values.shift();
+      const { data, primary_keys } = executionData;
+      const keys = Object.keys(primary_keys);
+      let result = { unsorted: [] };
+      keys.forEach((key) => {
+        result[key] = [];
+      });
+
+      data.forEach((item) => {
+        let sorted = false;
+        keys.forEach((key) => {
+          let values = Object.values(primary_keys[key])[0];
+          let itemValue = item[Object.keys(primary_keys[key])[0]];
+          if (values.includes(itemValue)) {
+            result[key].push(item);
+            sorted = true;
+          }
+        });
+        if (!sorted) {
+          result["unsorted"].push(item);
         }
-      })
+      });
       return [{ data: result }, ProcessStatus.RUNNING];
     } catch (err) {
       logger.error("filterData node failed", err);
