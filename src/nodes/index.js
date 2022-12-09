@@ -25,7 +25,7 @@ const setCustomNodes = () => {
   addSystemTaskCategory({ remapData: remapDataNode });
   logger.info("added remapDataNode");
   addSystemTaskCategory({ filterData: filterDataNode });
-  logger.info("added remapDataNode");
+  logger.info("added filterDataNode");
 };
 
 module.exports.setCustomNodes = setCustomNodes;
