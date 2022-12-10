@@ -63,7 +63,7 @@ class FilterDataNode extends Nodes.SystemTaskNode {
       required: ["data", "primary_keys"],
       properties: {
         data: { type: "array", items: { type: "object" } },
-        primary_keys: { type: "object", items: { type: "string" } }
+        primary_keys: { type: "object" }
       }
     }
     return FilterDataNode.validate(spec, schema);
