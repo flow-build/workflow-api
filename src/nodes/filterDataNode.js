@@ -34,21 +34,7 @@ class FilterDataNode extends Nodes.SystemTaskNode {
                     }
                   ]
                 },
-                primary_keys: {
-                  oneOf: [
-                    {
-                      type: "array",
-                      items: { type: "object" }
-                    },
-                    {
-                      type: "array",
-                      items: { type: "string" }
-                    },
-                    {
-                      type: "object"
-                    }
-                  ]
-                }
+                primary_keys: { type: "object" }
               },
             },
           },
@@ -58,10 +44,11 @@ class FilterDataNode extends Nodes.SystemTaskNode {
     };
   }
 
-  static validate(spec) {
+  static validate(spec, schema = null) {
     const ajv = new Ajv({ allErrors: true });
     addFormats(ajv);
-    const validate = ajv.compile(FilterDataNode.schema);
+    const validationSchema = schema || FilterDataNode.schema;
+    const validate = ajv.compile(validationSchema);
     const validation = validate(spec);
     return [validation, JSON.stringify(validate.errors)];
   }
@@ -76,7 +63,7 @@ class FilterDataNode extends Nodes.SystemTaskNode {
       required: ["data", "primary_keys"],
       properties: {
         data: { type: "array", items: { type: "object" } },
-        primary_keys: { type: "array", items: { type: "object" } }
+        primary_keys: { type: "object", items: { type: "string" } }
       }
     }
     return FilterDataNode.validate(spec, schema);
@@ -84,6 +71,12 @@ class FilterDataNode extends Nodes.SystemTaskNode {
 
   async _run(executionData) {
     try {
+      logger.debug("filterData Node running");
+      const  [is_valid, validation_errors] = FilterDataNode.validateExecutionData(executionData);
+      if(!is_valid){
+        const errors = JSON.parse(validation_errors).map((err) => `field '${err.instancePath}' ${err.message}`);
+        throw JSON.stringify(errors);
+      }
       const { data, primary_keys } = executionData;
       const keys = Object.keys(primary_keys);
       let result = { unsorted: [] };
@@ -96,6 +89,9 @@ class FilterDataNode extends Nodes.SystemTaskNode {
         keys.forEach((key) => {
           let values = Object.values(primary_keys[key])[0];
           let itemValue = item[Object.keys(primary_keys[key])[0]];
+          if ( typeof values === 'undefined' ){
+            return
+          }
           if (values.includes(itemValue)) {
             result[key].push(item);
             sorted = true;
