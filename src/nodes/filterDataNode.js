@@ -8,13 +8,13 @@ class FilterDataNode extends Nodes.SystemTaskNode {
   static get schema() {
     return {
       type: "object",
+      required: ["id", "name", "next", "type", "lane_id", "parameters"],
       properties: {
         id: { type: "string" },
         name: { type: "string" },
-        next: { type: "string" },
-        type: { type: "string" },
         category: { type: "string" },
-        lane_id: { type: "string" },
+        type: { type: "string" },
+        next: { type: "string" },
         parameters: {
           type: "object",
           required: ["input"],
@@ -39,8 +39,8 @@ class FilterDataNode extends Nodes.SystemTaskNode {
             },
           },
         },
+        lane_id: { type: "string" },
       },
-      required: ["id", "name", "next", "type", "lane_id", "parameters"],
     };
   }
 
