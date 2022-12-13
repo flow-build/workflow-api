@@ -1,3 +1,25 @@
+## [2.13.0](https://github.com/flow-build/workflow/compare/v2.12.0...v2.13.0) (2022-12-13)
+
+
+### Features
+
+* add custom node filter data ([0558025](https://github.com/flow-build/workflow/commit/0558025cf961345d7559a448eff0c0305c6f8cf5))
+* change function to filter data and generate n result by n keys ([2d28c18](https://github.com/flow-build/workflow/commit/2d28c18dbce2d612030ba8cb2a41a2bf6250fb32))
+
+
+### Bug Fixes
+
+* add data, values and key to required list ([b5a22bd](https://github.com/flow-build/workflow/commit/b5a22bd3d5f8856dddc4fc1da14465cacf5fe75e))
+* add required variables ([b13d46a](https://github.com/flow-build/workflow/commit/b13d46a4f41b25b0553bf04946b4e9a0cffca9a5))
+* adjust required for get schema ([fd4580e](https://github.com/flow-build/workflow/commit/fd4580e5b27198098e2b4fe8feb6cb7fa2b032eb))
+* adjust required variables ([18cd2d1](https://github.com/flow-build/workflow/commit/18cd2d187bf9854ad440dc6746024198f9033abc))
+* adjust schema ([c21e733](https://github.com/flow-build/workflow/commit/c21e733f1e35ebc2417236f6ada624ff587b8ddc))
+* change logger info ([d29be9c](https://github.com/flow-build/workflow/commit/d29be9c138e341241b364a833448c2d28ad22bfa))
+* fix schema ref ([e14485a](https://github.com/flow-build/workflow/commit/e14485a505b1f44dcb05645206a30e052e98faa5))
+* fix schema validate, add check typeOf values and fix call to validate schema ([97620cf](https://github.com/flow-build/workflow/commit/97620cf07988270db63fb914749d47354fd91867))
+* remove type items from primary_keys validateExecutionData ([f4d7ea5](https://github.com/flow-build/workflow/commit/f4d7ea5aeb48e00f9b681659b799a5f9ee01c1d8))
+* resolve duplication on schema ([4419aa4](https://github.com/flow-build/workflow/commit/4419aa4e785c7afae134fa9d553d85f134d98bae))
+
 ## [2.12.0](https://github.com/flow-build/workflow/compare/v2.11.0...v2.12.0) (2022-12-13)
 
 
