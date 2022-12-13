@@ -76,12 +76,12 @@ class DeepCompareNode extends Nodes.SystemTaskNode {
     };
   }
 
-  static validate(spec, schema = null) {
+  static validate(data, schema = null) {
     const ajv = new Ajv({ allErrors: true });
     addFormats(ajv);
     const validationSchema = schema || DeepCompareNode.schema;
     const validate = ajv.compile(validationSchema);
-    const validation = validate(spec);
+    const validation = validate(data);
     return [validation, JSON.stringify(validate.errors)];
   }
 
@@ -89,90 +89,96 @@ class DeepCompareNode extends Nodes.SystemTaskNode {
     return DeepCompareNode.validate(this._spec);
   }
 
-  static validateExecutionData(spec) {
+  static validateExecutionData(data) {
     const schema = {
       type: "object",
-      required: ["input"],
+      required: ["base", "candidate", "commonKeys"],
       properties: {
-        input: {
-          type: "object",
-          required: ["base", "candidate", "commonKeys"],
-          properties: {
-            base: {
-              type: "array",
-              items: { type: "object" },
-            },
-            candidate: {
-              type: "array",
-              items: { type: "object" },
-            },
-          },
-          commonKeys: {
-            type: "array",
-            items: { type: "string" },
-          },
-          ignoreKeys: {
-            type: "array",
-            items: { type: "string" },
-          },
+        base: {
+          type: "array",
+          items: { type: "object" },
+        },
+        candidate: {
+          type: "array",
+          items: { type: "object" },
+        },
+        commonKeys: {
+          type: "array",
+          items: { type: "string" },
+          minItems: 1
+        },
+        ignoreKeys: {
+          type: "array",
+          items: { type: "string" },
         },
       },
     };
-    return DeepCompareNode.validate(spec, schema);
+    return DeepCompareNode.validate(data, schema);
   }
 
   static clean(data, keys, ignore = []) {
-    logger.silly('Called DeepCompareNode clean')
-    logger.silly(`[DeepCompareNode] data: ${JSON.stringify(data)}`)
-    const withoutIgnore = data.map(item => _.omit(item, ignore));
-    logger.silly(`[DeepCompareNode] withoutIgnore: ${JSON.stringify(withoutIgnore)}`)
-    const cleanData = _.uniqWith(withoutIgnore, _.isEqual)
-    logger.silly(`[DeepCompareNode] cleanData: ${JSON.stringify(cleanData)}`)
-    const keysOnly = cleanData.map(item => _.pick(item, keys));
-    logger.silly(`[DeepCompareNode] keysOnly: ${JSON.stringify(keysOnly)}`)
-    const keySet = _.uniqWith(keysOnly, _.isEqual)
-    logger.silly(`[DeepCompareNode] keySet: ${JSON.stringify(keySet)}`)
-    if(keySet.length < keysOnly.length) {
-      return { duplicates: true }
+    logger.silly("Called DeepCompareNode clean");
+    logger.silly(`[DeepCompareNode] data: ${JSON.stringify(data)}`);
+    const withoutIgnore = data.map((item) => _.omit(item, ignore));
+    logger.silly(`[DeepCompareNode] withoutIgnore: ${JSON.stringify(withoutIgnore)}`);
+    const cleanData = _.uniqWith(withoutIgnore, _.isEqual);
+    logger.silly(`[DeepCompareNode] cleanData: ${JSON.stringify(cleanData)}`);
+    const keysOnly = cleanData.map((item) => _.pick(item, keys));
+    logger.silly(`[DeepCompareNode] keysOnly: ${JSON.stringify(keysOnly)}`);
+    const keySet = _.uniqWith(keysOnly, _.isEqual);
+    logger.silly(`[DeepCompareNode] keySet: ${JSON.stringify(keySet)}`);
+    if (keySet.length < keysOnly.length) {
+      return { duplicates: true };
     } else {
-      return cleanData
+      return cleanData;
     }
   }
 
   async _run(executionData) {
     try {
-      logger.debug("DeepCompareNode Node running");
+      logger.debug("DeepCompare Node running");
+      logger.silly(`[DeepCompare] executionData: ${JSON.stringify(executionData)}`);
       const [is_valid, validation_errors] = DeepCompareNode.validateExecutionData(executionData);
       if (!is_valid) {
         const errors = JSON.parse(validation_errors).map((err) => `field '${err.instancePath}' ${err.message}`);
-        throw JSON.stringify(errors);
-      }
-      logger.debug("Cleaning base");
-      const base = DeepCompareNode.clean(executionData.base, executionData.commonKeys, executionData.ignoreKeys)
-      if(base.duplicates) {
         return [
           {
-            status: 'error',
-            message: 'duplicated commonKey at Base',
-            data: []
+            status: "error",
+            message: errors,
+            data: [],
           },
           ProcessStatus.RUNNING,
         ];
       }
-      
-      logger.debug("Cleaning candidate");
-      const candidate = DeepCompareNode.clean(executionData.base, executionData.commonKeys, executionData.ignoreKeys)
-      if(candidate.duplicates) {
+      logger.silly("[DeepCompare] Cleaning base");
+      const base = DeepCompareNode.clean(executionData.base, executionData.commonKeys, executionData.ignoreKeys);
+      if (base.duplicates) {
         return [
           {
-            status: 'error',
-            message: 'duplicated commonKey at Base',
-            data: []
+            status: "error",
+            message: "conflict at base",
+            data: [],
           },
           ProcessStatus.RUNNING,
         ];
       }
-     
+      logger.silly(`[DeepCompare] cleanBase: ${JSON.stringify(base)}`);
+
+      logger.silly("Cleaning candidate");
+      const candidate = DeepCompareNode.clean(executionData.candidate, executionData.commonKeys, executionData.ignoreKeys);
+      if (candidate.duplicates) {
+        return [
+          {
+            status: "error",
+            message: "conflict at candidate",
+            data: [],
+          },
+          ProcessStatus.RUNNING,
+        ];
+      }
+
+      logger.silly(`[DeepCompare] cleanCandidate: ${JSON.stringify(candidate)}`);
+
       const result = {
         onlyAtCandidate: [],
         onlyAtBase: [],
@@ -180,22 +186,30 @@ class DeepCompareNode extends Nodes.SystemTaskNode {
         changed: [],
       };
 
+      let candidateList = candidate;
       for (const baseItem of base) {
-        const keys = _.pick(baseItem, executionData.commonKeys)
-        const matchingCandidate = _.filter(candidate, keys)
-        if (matchingCandidate) {
-          if (_.isEqual(baseItem, matchingCandidate)) {
+        logger.silly(`[DeepCompare] baseItem: ${JSON.stringify(baseItem)}`);
+        const keys = _.pick(baseItem, executionData.commonKeys);
+        logger.silly(`[DeepCompare] keys: ${JSON.stringify(keys)}`);
+        const matchingCandidate = _.filter(candidate, keys);
+        logger.silly(`[DeepCompare] matchingCandidate: ${JSON.stringify(matchingCandidate)}`);
+        if (matchingCandidate.length > 0) {
+          if (_.isEqual(baseItem, matchingCandidate[0])) {
+            logger.silly(`[DeepCompare] baseItem = UNCHANGED`);
             result.unchanged.push(keys);
           } else {
+            logger.silly(`[DeepCompare] baseItem = CHANGED`);
             result.changed.push(keys);
           }
-          candidate.splice(matchingCandidate);
+          candidateList = _.reject(candidateList,keys);
+          logger.silly(`[DeepCompare] remaining candidates: ${JSON.stringify(candidateList)}`);
         } else {
+          logger.silly(`[DeepCompare] baseItem = ONLY AT BASE`);
           result.onlyAtBase.push(keys);
         }
       }
 
-      result.onlyAtCandidate = candidate.map(item => _.pick(item, executionData.commonKeys));
+      result.onlyAtCandidate = candidateList.map((item) => _.pick(item, executionData.commonKeys));
 
       return [
         {
