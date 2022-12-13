@@ -81,6 +81,4 @@ class BasicAuthNode extends Nodes.SystemTaskNode {
   }
 }
 
-module.exports = {
-  BasicAuthNode,
-};
+module.exports = BasicAuthNode;
