@@ -59,7 +59,7 @@ module.exports = {
         id: "DEEP-COMPARE-2",
         type: "SystemTask",
         category: "deepCompare",
-        name: "Duplicated Base",
+        name: "Conflict at Base",
         next: "DEEP-COMPARE-3",
         lane_id: "free",
         parameters: {
@@ -80,8 +80,8 @@ module.exports = {
         id: "DEEP-COMPARE-3",
         type: "SystemTask",
         category: "deepCompare",
-        name: "Duplicated Candidate",
-        next: "DEEP-COMPARE-4",
+        name: "Conflict at Candidate",
+        next: "END",
         lane_id: "free",
         parameters: {
           input: {
