@@ -1,3 +1,11 @@
+## [2.12.0](https://github.com/flow-build/workflow/compare/v2.11.0...v2.12.0) (2022-12-13)
+
+
+### Features
+
+* add deepCompare customNode ([ea68abd](https://github.com/flow-build/workflow/commit/ea68abdc042390b4ee576356467620298929c136))
+* import deepCompareNode ([514bece](https://github.com/flow-build/workflow/commit/514becec3e168b9ffed55141fe4a38bda5c2e024))
+
 ## [2.11.0](https://github.com/flow-build/workflow/compare/v2.10.1...v2.11.0) (2022-12-05)
 
 
