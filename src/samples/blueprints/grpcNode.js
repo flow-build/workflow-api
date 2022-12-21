@@ -1,4 +1,4 @@
-const { descriptor } = require('../grpcdescriptor')
+const { descriptor } = require("../grpcdescriptor");
 
 module.exports = {
   name: "grpc_node",
@@ -15,11 +15,13 @@ module.exports = {
         parameters: {
           input_schema: {
             type: "object",
-            required: ["server", "service", "method", "payload"],
+            required: ["payload"],
             properties: {
-              data: { type: "array" },
-              dictionary: { type: "object" },
-            }
+              server: { type: "string" },
+              service: { type: "string" },
+              method: { type: "string" },
+              payload: { type: "object" },
+            },
           },
         },
         lane_id: "free",
@@ -33,11 +35,11 @@ module.exports = {
         lane_id: "free",
         parameters: {
           input: {
-            server: { $js: "() => bag.server || grpc.postman-echo.com" },
-            service: { $js: "() => bag.service || HelloService" },
-            method: { $js: "() => bag.method || SayHello" },
+            server: { $js: "({bag}) => bag.server || 'grpc.postman-echo.com'" },
+            service: { $js: "({bag}) => bag.service || 'HelloService'" },
+            method: { $js: "({bag}) => bag.method || 'SayHello'" },
             payload: { $ref: "bag.payload" },
-            useReflection: true
+            useReflection: true,
           },
         },
       },
@@ -50,12 +52,12 @@ module.exports = {
         lane_id: "free",
         parameters: {
           input: {
-            server: { $js: "() => bag.server || grpc.postman-echo.com" },
-            service: { $js: "() => bag.service || HelloService" },
-            method: { $js: "() => bag.method || SayHello" },
+            server: { $js: "({bag}) => bag.server || 'grpc.postman-echo.com'" },
+            service: { $js: "({bag}) => bag.service || 'HelloService'" },
+            method: { $js: "({bag}) => bag.method || 'SayHello'" },
             payload: { $ref: "bag.payload" },
             useReflection: false,
-            descriptor
+            descriptor,
           },
         },
       },
