@@ -1,3 +1,10 @@
+## [2.13.0-rc.2](https://github.com/flow-build/workflow/compare/v2.13.0-rc.1...v2.13.0-rc.2) (2022-12-21)
+
+
+### Bug Fixes
+
+* :pushpin: add grpc dependencies ([200f8c7](https://github.com/flow-build/workflow/commit/200f8c74420245b53dc02da9b9484c2952a902ba))
+
 ## [2.13.0-rc.1](https://github.com/flow-build/workflow/compare/v2.12.0...v2.13.0-rc.1) (2022-12-21)
 
 
