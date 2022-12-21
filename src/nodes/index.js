@@ -8,6 +8,7 @@ const createUuidNode = require('./createUuidNode');
 const BasicAuthNode = require("./basicAuthNode");
 const remapDataNode = require('./remapDataNode');
 const DeepCompareNode = require('./deepCompareNode');
+const GrpcNode = require("./grpcNode")
 
 const setCustomNodes = () => {
   addSystemTaskCategory({ createIndex: createIndexNode });
@@ -26,6 +27,8 @@ const setCustomNodes = () => {
   logger.info("added remapDataNode");
   addSystemTaskCategory({ deepCompare: DeepCompareNode });
   logger.info("added deepCompareNode");
+  addSystemTaskCategory({ grpc: GrpcNode });
+  logger.info("added grpcNode");
 };
 
 module.exports.setCustomNodes = setCustomNodes;
