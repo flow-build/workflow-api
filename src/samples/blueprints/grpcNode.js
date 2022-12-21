@@ -1,3 +1,5 @@
+const { descriptor } = require('../grpcdescriptor')
+
 module.exports = {
   name: "grpc_node",
   description: "workflow for testing grpc node",
@@ -53,52 +55,7 @@ module.exports = {
             method: { $js: "() => bag.method || SayHello" },
             payload: { $ref: "bag.payload" },
             useReflection: false,
-            descriptor: {
-              "file": [
-                {
-                  "name": "test/rpc.proto",
-                  "messageType": [
-                    {
-                      "name": "HelloRequest",
-                      "field": [
-                        {
-                          "name": "greeting",
-                          "number": 1,
-                          "label": "LABEL_OPTIONAL",
-                          "type": "TYPE_STRING",
-                          "jsonName": "greeting"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "HelloResponse",
-                      "field": [
-                        {
-                          "name": "reply",
-                          "number": 1,
-                          "label": "LABEL_OPTIONAL",
-                          "type": "TYPE_STRING",
-                          "jsonName": "reply"
-                        }
-                      ]
-                    }
-                  ],
-                  "service": [
-                    {
-                      "name": "HelloService",
-                      "method": [
-                        {
-                          "name": "SayHello",
-                          "inputType": ".HelloRequest",
-                          "outputType": ".HelloResponse"
-                        }
-                      ]
-                    }
-                  ],
-                  "syntax": "proto3"
-                }
-              ]
-            }
+            descriptor
           },
         },
       },

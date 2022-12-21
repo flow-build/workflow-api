@@ -1,6 +1,7 @@
 require("dotenv").config();
 const _ = require("lodash");
 const GrpcNode = require("../nodes/grpcNode");
+const { descriptor } = require("../samples/grpcdescriptor");
 
 const nodeSchema = {
   id: "1",
@@ -22,52 +23,7 @@ const nodeSchema = {
   },
 };
 
-const descriptorExample = {
-  "file": [
-    {
-      "name": "test/rpc.proto",
-      "messageType": [
-        {
-          "name": "HelloRequest",
-          "field": [
-            {
-              "name": "greeting",
-              "number": 1,
-              "label": "LABEL_OPTIONAL",
-              "type": "TYPE_STRING",
-              "jsonName": "greeting"
-            }
-          ]
-        },
-        {
-          "name": "HelloResponse",
-          "field": [
-            {
-              "name": "reply",
-              "number": 1,
-              "label": "LABEL_OPTIONAL",
-              "type": "TYPE_STRING",
-              "jsonName": "reply"
-            }
-          ]
-        }
-      ],
-      "service": [
-        {
-          "name": "HelloService",
-          "method": [
-            {
-              "name": "SayHello",
-              "inputType": ".HelloRequest",
-              "outputType": ".HelloResponse"
-            }
-          ]
-        }
-      ],
-      "syntax": "proto3"
-    }
-  ]
-}
+const descriptorExample = descriptor
 
 const executionDataExample = {
   server: "grpc.postman-echo.com",
