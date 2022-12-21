@@ -40,6 +40,28 @@
 
 * adds new http node with TLS reject disabled for testing and developing purposes ([b46d512](https://github.com/flow-build/workflow/commit/b46d51298ddf78a994c2d1f9d219b5baecaae4d4))
 
+## [2.12.0](https://github.com/flow-build/workflow/compare/v2.11.0...v2.12.0) (2022-12-13)
+
+
+### Features
+
+* add deepCompare customNode ([ea68abd](https://github.com/flow-build/workflow/commit/ea68abdc042390b4ee576356467620298929c136))
+* import deepCompareNode ([514bece](https://github.com/flow-build/workflow/commit/514becec3e168b9ffed55141fe4a38bda5c2e024))
+
+## [2.11.0](https://github.com/flow-build/workflow/compare/v2.10.1...v2.11.0) (2022-12-05)
+
+
+### Features
+
+* add customNode remapData ([adb9573](https://github.com/flow-build/workflow/commit/adb957316c9570d6a9ea32b5ed9e978566f3c10f))
+* add new validationExecutionData method ([e061043](https://github.com/flow-build/workflow/commit/e061043267a36a2e3fda4adc941aa2bef051e549))
+* include dot notation & rename properties ([f49f1e9](https://github.com/flow-build/workflow/commit/f49f1e9766514d5645d1b6ec9d8e1aa9111b96d5))
+
+
+### Bug Fixes
+
+* adjust schema validation ([092e058](https://github.com/flow-build/workflow/commit/092e0583d079b4ffffb4194934818179e4a4b6c0))
+
 ## [2.10.1](https://github.com/flow-build/workflow/compare/v2.10.0...v2.10.1) (2022-10-08)
 
 

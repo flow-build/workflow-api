@@ -5,8 +5,10 @@ const retrieveProcessNode = require("./retrieveProcessNode");
 const tokenizeNode = require("./tokenizeNode");
 const validateSchemaNode = require("./validateSchemaNode");
 const createUuidNode = require('./createUuidNode');
-const { BasicAuthNode } = require("./basicAuthNode");
-const { HttpNoSSLNode } = require("./httpNoSSLNode")
+const BasicAuthNode = require("./basicAuthNode");
+const remapDataNode = require('./remapDataNode');
+const DeepCompareNode = require('./deepCompareNode');
+const GrpcNode = require("./grpcNode")
 
 const setCustomNodes = () => {
   addSystemTaskCategory({ createIndex: createIndexNode });
@@ -21,8 +23,12 @@ const setCustomNodes = () => {
   logger.info("added createUuidNode");
   addSystemTaskCategory({ basicAuth: BasicAuthNode });
   logger.info("added basicAuthNode");
-  addSystemTaskCategory({ httpNoSSL: HttpNoSSLNode });
-  logger.info("added httpNoSSL");
+  addSystemTaskCategory({ remapData: remapDataNode });
+  logger.info("added remapDataNode");
+  addSystemTaskCategory({ deepCompare: DeepCompareNode });
+  logger.info("added deepCompareNode");
+  addSystemTaskCategory({ grpc: GrpcNode });
+  logger.info("added grpcNode");
 };
 
 module.exports.setCustomNodes = setCustomNodes;
