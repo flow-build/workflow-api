@@ -1,3 +1,45 @@
+## [2.11.0-rc.6](https://github.com/flow-build/workflow/compare/v2.11.0-rc.5...v2.11.0-rc.6) (2022-11-29)
+
+
+### Features
+
+* add pool config to prod ([96e5c86](https://github.com/flow-build/workflow/commit/96e5c86b8fb2da8f1f260b7be9715f287234e573))
+
+## [2.11.0-rc.5](https://github.com/flow-build/workflow/compare/v2.11.0-rc.4...v2.11.0-rc.5) (2022-11-25)
+
+
+### Bug Fixes
+
+* fix typo on finish node process ([5a1d405](https://github.com/flow-build/workflow/commit/5a1d405ecddf62d5b598fd214e2fec7aa3170ed6))
+
+## [2.11.0-rc.4](https://github.com/flow-build/workflow/compare/v2.11.0-rc.3...v2.11.0-rc.4) (2022-11-25)
+
+
+### Bug Fixes
+
+* **BREAKING_CHANGES:** :card_file_box: update FKs for events ([dfaff91](https://github.com/flow-build/workflow/commit/dfaff914a297d0b57bdf2a040de5476e6c3acf1f))
+
+## [2.11.0-rc.3](https://github.com/flow-build/workflow/compare/v2.11.0-rc.2...v2.11.0-rc.3) (2022-11-08)
+
+
+### Bug Fixes
+
+* updates engine version with fix for node parameters ([92a798f](https://github.com/flow-build/workflow/commit/92a798f485a5255abb31231781f1f85dc24fbaac))
+
+## [2.11.0-rc.2](https://github.com/flow-build/workflow/compare/v2.11.0-rc.1...v2.11.0-rc.2) (2022-10-31)
+
+
+### Features
+
+* updates flowbuild engine version with signal nodes ([647caee](https://github.com/flow-build/workflow/commit/647caeeb209663326e03249653e72a2d9ec4a5d5))
+
+## [2.11.0-rc.1](https://github.com/flow-build/workflow/compare/v2.10.1...v2.11.0-rc.1) (2022-10-31)
+
+
+### Features
+
+* adds new http node with TLS reject disabled for testing and developing purposes ([b46d512](https://github.com/flow-build/workflow/commit/b46d51298ddf78a994c2d1f9d219b5baecaae4d4))
+
 ## [2.12.0](https://github.com/flow-build/workflow/compare/v2.11.0...v2.12.0) (2022-12-13)
 
 

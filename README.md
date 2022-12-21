@@ -4,9 +4,6 @@
 ```
 node -v
 v16.15
-
-npm -v
-8.5.2
 ```
 
 ## Environment variables
@@ -125,6 +122,10 @@ If you would like to test the routes itself, you can use Newman to do that, by r
 
 ```bash
 newman run postman \newman\tests.postman_collection.json -e postman\newman\local_environment.json
+
+newman run https://api.getpostman.com/collections/{{POSTMAN_TEST_COLLECTION}}?apikey={{POSTMAN_API_KEY}}
+--environment https://api.getpostman.com/environments/{{POSTMAN_ENVIRONMENT}}?apikey={{POSTMAN_API_KEY}}
+
 ``` 
 ## Bibliography
 
