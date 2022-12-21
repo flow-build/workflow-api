@@ -79,6 +79,7 @@ class RemapDataNode extends Nodes.SystemTaskNode {
         if (typeof value === "object") {
           let nested_remapped_data = RemapDataNode.remapData([item], dictionary[key]);
           remapped_item[key] = nested_remapped_data.remapped_data[0];
+          messages = messages.concat(nested_remapped_data.messages);
         } else if (typeof value === "string" && value.length > 0 && value.includes(".")) {
           const object_value = _.get(item, value);
           if (object_value !== undefined) {

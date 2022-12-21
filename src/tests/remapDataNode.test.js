@@ -206,25 +206,44 @@ describe("run node", () => {
             id: 1,
             date: "01/01/2005",
             number: "123456",
-            user: { name: "name_test" },
-            address: { street: "21th street", }
+            user: {
+              profile: {
+                name: "name_test"
+              }
+            },
+            address: {
+              street: "21th street",
+              infos: {
+                number: 12
+              }
+            }
           },
           {
             id: 2,
             date: "12/10/1997",
             number: "1098765",
-            user: { name: "second_name" },
-            address: { street: "Boulevard avenue", }
+            user: {
+              profile: {
+                name: "second_name"
+              }
+            },
+            address: {
+              street: "Boulevard avenue",
+              infos: {
+                number: 30
+              }
+            }
           }
         ],
         dictionary: {
           identification: "id",
           profile: {
-            name: "user.name",
+            name: "user.profile.name",
             mobile_number: "number",
             additional_data: {
               address_street: "address.street",
-              date_of_change: "date"
+              date_of_change: "date",
+              residence_number: "address.infos.number"
             }
           }
         },
@@ -255,11 +274,13 @@ describe("run node", () => {
     expect(nodeResult.result.data[0].profile.mobile_number).toEqual("123456");
     expect(nodeResult.result.data[0].profile.additional_data.address_street).toEqual("21th street");
     expect(nodeResult.result.data[0].profile.additional_data.date_of_change).toEqual("01/01/2005");
+    expect(nodeResult.result.data[0].profile.additional_data.residence_number).toEqual(12);
     expect(nodeResult.result.data[1].identification).toEqual(2);
     expect(nodeResult.result.data[1].profile.name).toEqual("second_name");
     expect(nodeResult.result.data[1].profile.mobile_number).toEqual("1098765");
     expect(nodeResult.result.data[1].profile.additional_data.address_street).toEqual("Boulevard avenue");
     expect(nodeResult.result.data[1].profile.additional_data.date_of_change).toEqual("12/10/1997");
+    expect(nodeResult.result.data[1].profile.additional_data.residence_number).toEqual(30);
   });
 
   test("should throw error on result with invalid key on dictionary", async () => {
