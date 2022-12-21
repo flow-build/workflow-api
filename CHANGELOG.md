@@ -1,3 +1,10 @@
+## [2.14.0](https://github.com/flow-build/workflow/compare/v2.13.0...v2.14.0) (2022-12-21)
+
+
+### Features
+
+* adds grpc custom node ([d872db2](https://github.com/flow-build/workflow/commit/d872db25acce90eb5934a94edb37ff88f485fc47))
+
 ## [2.13.0](https://github.com/flow-build/workflow/compare/v2.12.0...v2.13.0) (2022-12-13)
 
 
