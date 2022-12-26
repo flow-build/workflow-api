@@ -40,6 +40,7 @@ class GrpcNode extends Nodes.SystemTaskNode {
                   oneOf: [{ type: "string" }, { type: "object" }],
                 },
                 descriptor: { type: "object" },
+                useSsl: { type: "boolean" },
                 useReflection: { type: "boolean" },
               },
             },
