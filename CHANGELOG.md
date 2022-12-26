@@ -1,3 +1,11 @@
+## [2.14.1](https://github.com/flow-build/workflow/compare/v2.14.0...v2.14.1) (2022-12-26)
+
+
+### Bug Fixes
+
+* add useSsl to node schema ([a082d35](https://github.com/flow-build/workflow/commit/a082d3522bf4f797f8d0d5ab3a2c0eb67c010187))
+* adds useSsl parameter to grpc node ([80e6c6c](https://github.com/flow-build/workflow/commit/80e6c6cb0fa7eb543fdba7ce4405d65c0c6cb574))
+
 ## [2.14.0](https://github.com/flow-build/workflow/compare/v2.13.0...v2.14.0) (2022-12-21)
 
 
