@@ -40,6 +40,7 @@ class GrpcNode extends Nodes.SystemTaskNode {
                   oneOf: [{ type: "string" }, { type: "object" }],
                 },
                 descriptor: { type: "object" },
+                useSsl: { type: "boolean" },
                 useReflection: { type: "boolean" },
               },
             },
@@ -70,6 +71,7 @@ class GrpcNode extends Nodes.SystemTaskNode {
         server: { type: "string" },
         service: { type: "string" },
         method: { type: "string" },
+        useSsl: { type: "boolean" },
         payload: {
           oneOf: [{ type: "string" }, { type: "object" }],
         },
@@ -89,22 +91,25 @@ class GrpcNode extends Nodes.SystemTaskNode {
     return GrpcNode.validate(spec, schema);
   }
 
-  static stub(packageDefinition, service, server) {
+  static stub(packageDefinition, service, server, useSsl) {
     const myService = grpc.loadPackageDefinition(packageDefinition)[service];
+    if(useSsl) {
+      return promiseWrapper(new myService(server, grpc.credentials.createSsl()));  
+    }
     return promiseWrapper(new myService(server, grpc.credentials.createInsecure()));
   }
 
   async _run(executionData) {
     try {
       logger.debug("[GrpcNode] running");
-      logger.debug(`[GrpcNode] executionData: ${JSON.stringify(executionData)}`);
+      logger.silly(`[GrpcNode] executionData: ${JSON.stringify(executionData)}`);
       const [is_valid, validation_errors] = GrpcNode.validateExecutionData(executionData);
-      logger.debug(`[GrpcNode] executionData validation: ${is_valid}`);
+      logger.silly(`[GrpcNode] executionData validation: ${is_valid}`);
       if (!is_valid) {
         const errors = JSON.parse(validation_errors).map((err) => `field '${err.instancePath}' ${err.message}`);
         throw JSON.stringify(errors);
       }
-      const { server, service, payload, method, descriptor, useReflection } = executionData;
+      const { server, service, payload, method, descriptor, useReflection, useSsl } = executionData;
       let packageDefinition;
       if (useReflection) {
         logger.debug(`[GrpcNode] building reflection definition from: ${server}`);
@@ -119,7 +124,7 @@ class GrpcNode extends Nodes.SystemTaskNode {
       }
 
       logger.debug(`[GrpcNode] creating a promisified stub for: ${service}`);
-      const response = await GrpcNode.stub(packageDefinition, service, server)[method](payload);
+      const response = await GrpcNode.stub(packageDefinition, service, server, useSsl)[method](payload);
       return [
         {
           status: "success",
