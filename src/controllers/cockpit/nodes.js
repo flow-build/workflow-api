@@ -1,7 +1,8 @@
 const { getNode, NodeUtils } = require("@flowbuild/engine")
 const { getCockpit } = require("../../engine");
+const _ = require('lodash')
 
-const getNodes = async (ctx, next) => {
+const getNodesTypes = async (ctx, next) => {
   const types = NodeUtils.getNodeTypes();
   const categories = NodeUtils.getNodeCategories();
 
@@ -26,7 +27,7 @@ const getNodes = async (ctx, next) => {
   return next()
 }
 
-const fetchNode = async (ctx,next) => {
+const fetchNodeSpec = async (ctx,next) => {
   let body = ctx.request.body;
 
   if(body.type.toLowerCase() === 'systemtask' && !body.category) {
@@ -54,10 +55,76 @@ const fetchNode = async (ctx,next) => {
       message: e.toString()
     }
   }
+}
+
+function buildEndpoint(node) {
+  if(!node.parameters?.request?.url) {
+    return undefined
+  }
+
+  const verb = node.parameters?.request?.verb;
+  const url = node.parameters?.request?.url?.$mustache || node.parameters?.request?.url?.$js || node.parameters?.request?.url
   
+  return `${verb} ${url}`
+}
+
+function nodes(workflow) {
+  const dNodes = workflow.nodes.map(node => {
+    return {
+      workflow: {
+        id: workflow.id,
+        name: workflow.name,
+        version: workflow.version,
+      },
+      node: node,
+      endpoint: buildEndpoint(node)
+    }
+  })
+  return dNodes;
+}
+
+function filterNodes(nodes, type, category) {
+  const categories = _.isArray(category) ? category : [category?.toLowerCase()];
+  const types = _.isArray(type) ? type : [type?.toLowerCase()];
+  return nodes.filter(item => {
+    if(category) {
+      if(categories.includes(item.node.category?.toLowerCase())) {
+        return item
+      } 
+    } else {
+      if(types.includes(item.node.type.toLowerCase())) {
+        return item
+      }
+    }    
+  })
+}
+
+const getNodes = async (ctx, next) => {
+  const { type, category } = ctx.request.body;
+  console.log(`type: ${type}, category: ${category}`)
+  const cockpit = getCockpit();
+  const workflows = await cockpit.getWorkflows();
+
+  const myNodes = workflows.map((item) => {
+    const iworkflow = {
+      id: item.id,
+      name: item.name,
+      version: item.version,
+      nodes: item.blueprint_spec.nodes
+    }
+    const t = nodes(iworkflow);
+    return t;
+  }).flat();
+
+  ctx.status = 200;
+  ctx.body = filterNodes(myNodes, type, category)
+
+  return next();
+
 }
 
 module.exports = {
-  getNodes,
-  fetchNode
+  getNodesTypes,
+  fetchNodeSpec,
+  getNodes
 }
