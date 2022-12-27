@@ -78,29 +78,32 @@ class FilterDataNode extends Nodes.SystemTaskNode {
         throw JSON.stringify(errors);
       }
       const { data, primary_keys } = executionData;
+
       const keys = Object.keys(primary_keys);
       let result = { unsorted: [] };
       keys.forEach((key) => {
         result[key] = [];
       });
 
-      data.forEach((item) => {
-        let sorted = false;
+      data.forEach((items) => {
         keys.forEach((key) => {
-          let values = Object.values(primary_keys[key])[0];
-          let itemValue = item[Object.keys(primary_keys[key])[0]];
-          if ( typeof values === 'undefined' ){
-            return
-          }
-          if (values.includes(itemValue)) {
-            result[key].push(item);
-            sorted = true;
-          }
+          primary_keys[key].forEach((valueKey) => {
+            let arr = [];
+            let keys = Object.keys(valueKey);
+
+            keys.forEach((key) => {
+              arr.push(valueKey[key] === items[key])
+            });
+
+            if (arr.every((b) => b)) {
+              result[key].push(items)
+            } else {
+              result.unsorted.push(items)
+            }
+          })
         });
-        if (!sorted) {
-          result["unsorted"].push(item);
-        }
       });
+
       return [{ data: result }, ProcessStatus.RUNNING];
     } catch (err) {
       logger.error("filterData node failed", err);
