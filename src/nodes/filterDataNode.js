@@ -73,7 +73,7 @@ class FilterDataNode extends Nodes.SystemTaskNode {
     try {
       logger.debug("filterData Node running");
       const [is_valid, validation_errors] = FilterDataNode.validateExecutionData(executionData);
-      if (!is_valid) {
+      if(!is_valid){
         const errors = JSON.parse(validation_errors).map((err) => `field '${err.instancePath}' ${err.message}`);
         throw JSON.stringify(errors);
       }
