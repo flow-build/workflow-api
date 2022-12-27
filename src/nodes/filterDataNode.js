@@ -101,11 +101,7 @@ class FilterDataNode extends Nodes.SystemTaskNode {
               return false
             }
           });
-          if (validatorPrimaryKeys) {
-            return true
-          } else {
-            return false
-          }
+          return validatorPrimaryKeys
         });
         if (validatorKeys) {
           result[resultKey].push(items)
