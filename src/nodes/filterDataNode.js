@@ -90,17 +90,17 @@ class FilterDataNode extends Nodes.SystemTaskNode {
           primary_keys[key].forEach((valueKey) => {
             let arr = [];
             let keys = Object.keys(valueKey);
-
             keys.forEach((key) => {
               arr.push(valueKey[key] === items[key])
             });
-
             if (arr.every((b) => b)) {
-              result[key].push(items)
-            } else {
-              result.unsorted.push(items)
-            }
-          })
+              result[key].push(items);
+              sorted = true;
+            } 
+          });
+          if (!sorted) {
+            result.unsorted.push(items);
+          }
         });
       });
 
