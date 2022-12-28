@@ -1,3 +1,10 @@
+## [2.15.0](https://github.com/flow-build/workflow/compare/v2.14.1...v2.15.0) (2022-12-28)
+
+
+### Features
+
+* adjust to receive primary data set ([40dde72](https://github.com/flow-build/workflow/commit/40dde72fd61ffebe0d5aeb94eef752e955106c04))
+
 ## [2.14.1](https://github.com/flow-build/workflow/compare/v2.14.0...v2.14.1) (2022-12-26)
 
 
