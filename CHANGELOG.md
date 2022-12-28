@@ -1,3 +1,17 @@
+## [2.16.0](https://github.com/flow-build/workflow/compare/v2.15.0...v2.16.0) (2022-12-28)
+
+
+### Features
+
+* rewrite return value ([b4a7511](https://github.com/flow-build/workflow/commit/b4a7511766bb945e512cb6be280453cad74cafed))
+
+
+### Bug Fixes
+
+* adjust unsorted insertion ([be4cf7d](https://github.com/flow-build/workflow/commit/be4cf7dd8d7a20afbbf620f7e10cb6ffa08c3b80))
+* adjust unsorted insertion on filter data ([d1ab825](https://github.com/flow-build/workflow/commit/d1ab82530558365a30431dd28003f445fadf2fb2))
+* remove unecessary spaces ([6a735e1](https://github.com/flow-build/workflow/commit/6a735e1e39fc7d318dfe3d4b976fd121c1ca3ecb))
+
 ## [2.15.0](https://github.com/flow-build/workflow/compare/v2.14.1...v2.15.0) (2022-12-28)
 
 
