@@ -72,7 +72,7 @@ class FilterDataNode extends Nodes.SystemTaskNode {
   async _run(executionData) {
     try {
       logger.debug("filterData Node running");
-      const  [is_valid, validation_errors] = FilterDataNode.validateExecutionData(executionData);
+      const [is_valid, validation_errors] = FilterDataNode.validateExecutionData(executionData);
       if(!is_valid){
         const errors = JSON.parse(validation_errors).map((err) => `field '${err.instancePath}' ${err.message}`);
         throw JSON.stringify(errors);
@@ -86,22 +86,28 @@ class FilterDataNode extends Nodes.SystemTaskNode {
       });
 
       data.forEach((items) => {
-        keys.forEach((key) => {
-          primary_keys[key].forEach((valueKey) => {
+        let resultKey
+        let validatorKeys = keys.some((key) => {
+          let validatorPrimaryKeys = primary_keys[key].some((valueKey) => {
             let arr = [];
             let keys = Object.keys(valueKey);
-
             keys.forEach((key) => {
               arr.push(valueKey[key] === items[key])
             });
-
             if (arr.every((b) => b)) {
-              result[key].push(items)
+              resultKey = key
+              return true
             } else {
-              result.unsorted.push(items)
+              return false
             }
-          })
+          });
+          return validatorPrimaryKeys
         });
+        if (validatorKeys) {
+          result[resultKey].push(items)
+        } else {
+          result.unsorted.push(items)
+        }
       });
 
       return [{ data: result }, ProcessStatus.RUNNING];
