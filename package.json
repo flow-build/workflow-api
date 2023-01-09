@@ -56,7 +56,7 @@
     "koa-bodyparser": "4.3.0",
     "koa-compose": "4.1.0",
     "koa-helmet": "6.1.0",
-    "koa-jwt": "4.0.3",
+    "koa-jwt": "4.0.4",
     "koa-logger": "3.2.1",
     "koa-logger-winston": "0.0.2",
     "koa-static": "5.0.0",
