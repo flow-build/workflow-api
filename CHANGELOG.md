@@ -1,3 +1,10 @@
+## [2.13.0-rc.3](https://github.com/flow-build/workflow/compare/v2.13.0-rc.2...v2.13.0-rc.3) (2023-01-11)
+
+
+### Features
+
+* forcing version update ([51fe59a](https://github.com/flow-build/workflow/commit/51fe59a0dbcba91c48822d913fd001c266edfac3))
+
 ## [2.13.0-rc.2](https://github.com/flow-build/workflow/compare/v2.13.0-rc.1...v2.13.0-rc.2) (2022-12-21)
 
 
