@@ -51,7 +51,7 @@
     "grpc-client-promise-wrapper": "^1.0.5",
     "grpc-reflection-js": "0.1.2",
     "jsrsasign": "10.6.1",
-    "knex": "2.3.0",
+    "knex": "2.4.0",
     "koa": "2.14.1",
     "koa-bodyparser": "4.3.0",
     "koa-compose": "4.1.0",
