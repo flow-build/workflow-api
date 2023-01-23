@@ -1,6 +1,6 @@
 {
   "name": "@flowbuild/workflow",
-  "version": "2.13.0-rc.5",
+  "version": "2.13.0-rc.6",
   "description": "",
   "main": "index.js",
   "scripts": {
