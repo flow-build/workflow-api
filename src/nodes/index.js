@@ -7,6 +7,7 @@ const validateSchemaNode = require("./validateSchemaNode");
 const createUuidNode = require('./createUuidNode');
 const BasicAuthNode = require("./basicAuthNode");
 const remapDataNode = require('./remapDataNode');
+const filterDataNode = require('./filterDataNode');
 const DeepCompareNode = require('./deepCompareNode');
 const GrpcNode = require("./grpcNode")
 
@@ -25,6 +26,8 @@ const setCustomNodes = () => {
   logger.info("added basicAuthNode");
   addSystemTaskCategory({ remapData: remapDataNode });
   logger.info("added remapDataNode");
+  addSystemTaskCategory({ filterData: filterDataNode });
+  logger.info("added filterDataNode");
   addSystemTaskCategory({ deepCompare: DeepCompareNode });
   logger.info("added deepCompareNode");
   addSystemTaskCategory({ grpc: GrpcNode });
