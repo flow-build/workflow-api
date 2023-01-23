@@ -1,3 +1,25 @@
+## [2.17.0-rc.1](https://github.com/flow-build/workflow/compare/v2.16.0...v2.17.0-rc.1) (2023-01-23)
+
+
+### Features
+
+* add pool config to prod ([96e5c86](https://github.com/flow-build/workflow/commit/96e5c86b8fb2da8f1f260b7be9715f287234e573))
+* adds new http node with TLS reject disabled for testing and developing purposes ([b46d512](https://github.com/flow-build/workflow/commit/b46d51298ddf78a994c2d1f9d219b5baecaae4d4))
+* forcing version update ([51fe59a](https://github.com/flow-build/workflow/commit/51fe59a0dbcba91c48822d913fd001c266edfac3))
+* updates engine version to 2.19.0-beta.2 ([75f9b4e](https://github.com/flow-build/workflow/commit/75f9b4e3d1deb1bbfb41554484bf0d09e6d00909))
+* updates flowbuild engine version with signal nodes ([647caee](https://github.com/flow-build/workflow/commit/647caeeb209663326e03249653e72a2d9ec4a5d5))
+
+
+### Bug Fixes
+
+* :pushpin: add grpc dependencies ([200f8c7](https://github.com/flow-build/workflow/commit/200f8c74420245b53dc02da9b9484c2952a902ba))
+* **BREAKING_CHANGES:** :card_file_box: update FKs for events ([dfaff91](https://github.com/flow-build/workflow/commit/dfaff914a297d0b57bdf2a040de5476e6c3acf1f))
+* fix typo on finish node process ([5a1d405](https://github.com/flow-build/workflow/commit/5a1d405ecddf62d5b598fd214e2fec7aa3170ed6))
+* updates engine version to resolve issue ([ecec70b](https://github.com/flow-build/workflow/commit/ecec70b3ecb9c9c8eaa883211bd4912b06b964d7))
+* updates engine version with fix for node parameters ([92a798f](https://github.com/flow-build/workflow/commit/92a798f485a5255abb31231781f1f85dc24fbaac))
+* updates engine with http node payload fix ([88ff25d](https://github.com/flow-build/workflow/commit/88ff25d577bf1d2f0c01375f86c35c3cc72d4c82))
+* updates package versions to solve sec issues ([a53100e](https://github.com/flow-build/workflow/commit/a53100ed697f23c97c57884977c3f360f3bdfe85))
+
 ## [2.13.0-rc.6](https://github.com/flow-build/workflow/compare/v2.13.0-rc.5...v2.13.0-rc.6) (2023-01-23)
 
 
