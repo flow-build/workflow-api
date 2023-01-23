@@ -1,3 +1,10 @@
+## [2.13.0-rc.6](https://github.com/flow-build/workflow/compare/v2.13.0-rc.5...v2.13.0-rc.6) (2023-01-23)
+
+
+### Bug Fixes
+
+* updates engine with http node payload fix ([88ff25d](https://github.com/flow-build/workflow/commit/88ff25d577bf1d2f0c01375f86c35c3cc72d4c82))
+
 ## [2.13.0-rc.5](https://github.com/flow-build/workflow/compare/v2.13.0-rc.4...v2.13.0-rc.5) (2023-01-20)
 
 
