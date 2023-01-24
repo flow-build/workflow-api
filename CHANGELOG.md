@@ -1,3 +1,10 @@
+## [2.17.0-rc.2](https://github.com/flow-build/workflow/compare/v2.17.0-rc.1...v2.17.0-rc.2) (2023-01-24)
+
+
+### Bug Fixes
+
+* updates engine version in order to fix x step creation BUG ([00ccd5f](https://github.com/flow-build/workflow/commit/00ccd5f17b453ffca8737252303448629d746945))
+
 ## [2.17.0-rc.1](https://github.com/flow-build/workflow/compare/v2.16.0...v2.17.0-rc.1) (2023-01-23)
 
 
