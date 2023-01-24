@@ -1,3 +1,10 @@
+## [2.16.1](https://github.com/flow-build/workflow/compare/v2.16.0...v2.16.1) (2023-01-24)
+
+
+### Bug Fixes
+
+* updates package versions to solve sec issues ([a53100e](https://github.com/flow-build/workflow/commit/a53100ed697f23c97c57884977c3f360f3bdfe85))
+
 ## [2.16.0](https://github.com/flow-build/workflow/compare/v2.15.0...v2.16.0) (2022-12-28)
 
 
