@@ -1,19 +1,16 @@
-// require("leaked-handles")
 require("dotenv").config();
 const axios = require("axios");
 const { v1: uuid } = require("uuid");
-const supertest = require('supertest');
 
 const { db } = require("./utils/db");
 const { startServer } = require("../app");
 const workflowSamples = require("../samples/workflows");
-const { delay, cleanDb } = require("./utils/auxiliar");
+const { cleanDb } = require("./utils/auxiliar");
 const { config } = require("./utils/requestConfig");
 
 const { tearDownEnvironment, createTestEngine, createTestCockpit } = require("./utils/fixtures");
 
 let server = {};
-let request = {};
 
 //TODO: Validar output schema de cada chamada
 
@@ -23,7 +20,6 @@ beforeAll(() => {
   createTestCockpit(db);
 
   server = startServer(3001);
-  request = supertest(server);
   axios.defaults.baseURL = `${config.baseURL}/workflows`;
   axios.defaults.headers = config.headers;
   axios.defaults.validateStatus = config.validateStatus;
@@ -367,11 +363,3 @@ describe("GET /:id/processes", () => {
     expect(processes).toHaveLength(2);
   });
 });
-
-const _clean = async () => {
-  await db("activity").del();
-  await db("activity_manager").del();
-  await db("process_state").del();
-  await db("process").del();
-  await db("workflow").del();
-};

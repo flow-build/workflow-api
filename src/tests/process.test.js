@@ -1,4 +1,3 @@
-// require("leaked-handles")
 require("dotenv").config();
 const { v1: uuid } = require("uuid");
 const axios = require("axios");
@@ -45,10 +44,7 @@ beforeAll(async () => {
     await axios.post(`/workflows/name/${workflowSamples.basicStartFinish.name}/start`, {});
     await axios.post(`/workflows/name/${workflowSamples.singleUserTask.name}/start`, {});
   }
-});
-
-beforeEach(async () => {
-  // await delay(200);
+  await delay(200); // make sure db has time to save everithing
 });
 
 afterAll(async () =>  tearDownEnvironment(server, db));
