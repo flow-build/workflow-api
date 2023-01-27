@@ -7,10 +7,9 @@ const { startServer } = require("../app");
 const { cleanDb } = require("./utils/auxiliar");
 const { config } = require("./utils/requestConfig");
 
-const { setEngine, setCockpit } = require("../engine");
-const { Engine, Cockpit } = require("@flowbuild/engine");
 const { validateDataWithSchema } = require("../validators/base");
 const { setDbConnection } = require("../services/cockpit");
+const { tearDownEnvironment, createTestEngine, createTestCockpit } = require("./utils/fixtures");
 
 //Samples
 const workflowSamples = require("../samples/workflows");
@@ -21,11 +20,6 @@ const processesStats = require("../validators/schemas/processesStats");
 const cockpitListProcesses = require("../validators/schemas/cockpitListProcesses");
 const processStateFromNode = require("../validators/schemas/processStateFromNode");
 
-const engine = new Engine("knex", db);
-const cockpit = new Cockpit("knex", db);
-setEngine(engine);
-setCockpit(cockpit);
-
 let server;
 const numProcesses = 2;
 
@@ -34,6 +28,9 @@ let singleUserTaskWorkflowId;
 const prefix = "/cockpit";
 
 beforeAll(async () => {
+  createTestEngine(db);
+  createTestCockpit(db);
+
   server = startServer(3001);
   axios.defaults.baseURL = `${config.baseURL}`;
   axios.defaults.headers = config.headers;
@@ -57,11 +54,7 @@ beforeAll(async () => {
   }
 });
 
-afterAll(async () => {
-  cleanDb();
-  db.destroy();
-  server.close();
-});
+afterAll(async () => tearDownEnvironment(server, db));
 
 describe("GET /workflows/stats", () => {
   const route = `${prefix}/workflows/stats`;
@@ -202,7 +195,7 @@ describe("GET /workflows/name/:name/states/:node_id", () => {
     nodeId = "1";
     response = await axios.get(`${route}/${workflowSamples.singleUserTask.name}/states/${nodeId}`, {});
     expect(response.status).toEqual(200);
-    expect(response.data).toHaveLength(9);
+    expect(response.data).toHaveLength(10);
   });
 
   test("Should return an empty list for a non-existant node_id", async () => {

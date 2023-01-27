@@ -6,7 +6,6 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const cleanDb = async () => {
   await db.raw("truncate table workflow cascade");
   await db("timer").del();
-  await delay(1000);
   await db("index").del();
 };
 

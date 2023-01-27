@@ -4,19 +4,16 @@ const axios = require("axios");
 const { db } = require("./utils/db");
 const { startServer } = require("../app");
 const packageSamples = require("../samples/packages");
-const { delay, cleanDb } = require("./utils/auxiliar");
+const { delay } = require("./utils/auxiliar");
 const { config } = require("./utils/requestConfig");
 
-const { setEngine, setCockpit } = require("../engine");
-const { Engine, Cockpit } = require("@flowbuild/engine");
-const engine = new Engine("knex", db);
-const cockpit = new Cockpit("knex", db);
-setEngine(engine);
-setCockpit(cockpit);
+const { tearDownEnvironment, createTestEngine, createTestCockpit } = require("./utils/fixtures");
 
 let server;
 
 beforeAll(() => {
+  createTestEngine(db);
+  createTestCockpit(db);
   server = startServer(3001);
   axios.defaults.baseURL = `${config.baseURL}/packages`;
   axios.defaults.headers = config.headers;
@@ -31,11 +28,7 @@ afterEach(async () => {
   await db.delete().from("packages").where("name", "package_test_1");
 });
 
-afterAll(async () => {
-  await cleanDb();
-  await db.destroy();
-  server.close();
-});
+afterAll(async () =>  tearDownEnvironment(server, db));
 
 describe("POST /", () => {
   test("should return 201 for valid input", async () => {

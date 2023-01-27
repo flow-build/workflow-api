@@ -3,8 +3,7 @@ const { v1: uuid } = require("uuid");
 const axios = require("axios");
 const { db } = require("./utils/db");
 const { startServer } = require("../app");
-const { setEngine, setCockpit } = require("../engine");
-const { Engine, Cockpit } = require("@flowbuild/engine");
+const { tearDownEnvironment, createTestEngine, createTestCockpit } = require("./utils/fixtures");
 
 const { setDbConnection } = require("../services/cockpit");
 const { cleanDb, delay } = require("./utils/auxiliar");
@@ -20,10 +19,7 @@ const { validateDataWithSchema } = require("../validators/base");
 const processExecution = require("../validators/schemas/processExecution");
 const { World } = require("./utils/world");
 
-const engine = new Engine("knex", db);
-const cockpit = new Cockpit("knex", db);
-setEngine(engine);
-setCockpit(cockpit);
+const logger = (...args) => process.env.TESTS_VERBOSE ? logger(...args) : undefined
 
 let server;
 let basicProcessId;
@@ -37,6 +33,9 @@ const world = new World({
 const prefix = "/cockpit";
 
 beforeAll(async () => {
+  createTestEngine(db);
+  createTestCockpit(db);
+
   server = startServer(3001);
   axios.defaults.baseURL = `${config.baseURL}`;
   axios.defaults.headers = config.headers;
@@ -52,20 +51,16 @@ beforeAll(async () => {
 
   response = await axios.post(`/workflows/name/${basic.name}/start`, {});
   basicProcessId = response.data.process_id;
-  console.log('basicProcessId', basicProcessId)
+  logger('basicProcessId', basicProcessId)
   response = await axios.post(`/workflows/name/${singleUserTask.name}/start`, {});
   singleUserProcessId = response.data.process_id;
-  console.log('singleUserProcessId', singleUserProcessId)
+  logger('singleUserProcessId', singleUserProcessId)
   response = await axios.post(`/workflows/name/${notifyUserTask.name}/start`, {});
   notifyProcessId = response.data.process_id;
-  console.log('notifyProcessId', notifyProcessId)
+  logger('notifyProcessId', notifyProcessId)
 });
 
-afterAll(async () => {
-  await cleanDb();
-  await db.destroy();
-  await server.close();
-});
+afterAll(async () => tearDownEnvironment(server, db));
 
 describe("GET /processes/:id/execution", () => {
   test("Should return 200", async () => {

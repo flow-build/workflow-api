@@ -8,6 +8,7 @@ const { config } = require("./utils/requestConfig");
 let server;
 
 beforeAll(() => {
+  process.env.ENGINE_HEARTBEAT = false;
   server = startServer(3001);
   axios.defaults.baseURL = `${config.baseURL}/token`;
   axios.defaults.headers = config.headers;

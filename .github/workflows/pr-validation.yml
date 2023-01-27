@@ -40,5 +40,7 @@ jobs:
         run: npm run migrations:local
       - name: run seeds
         run: npm run seeds:local
+      - name: start tests
+        run: npm run tests
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3

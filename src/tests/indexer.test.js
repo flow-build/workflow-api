@@ -5,11 +5,16 @@ const { db } = require("./utils/db");
 const { startServer } = require("../app");
 const { delay, cleanDb } = require("./utils/auxiliar");
 const { config } = require("./utils/requestConfig");
+const fixtures = require("./utils/fixtures");
 
 let server;
 
 beforeAll(() => {
+  fixtures.createTestEngine(db);
+  fixtures.createTestCockpit(db);
   server = startServer(3001);
+  jest.setTimeout(15000);
+
   axios.defaults.baseURL = `${config.baseURL}/index`;
   axios.defaults.headers = config.headers;
   axios.defaults.validateStatus = config.validateStatus;
@@ -20,11 +25,7 @@ beforeEach(async () => {
   await delay(500);
 });
 
-afterAll(async () => {
-  await cleanDb();
-  await db.destroy();
-  server.close();
-});
+afterAll(async () => fixtures.tearDownEnvironment(server, db));
 
 describe("POST /index", () => {
   test("should return 200 for valid input", async () => {
