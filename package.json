@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "tests": "jest --coverage --runInBand --forceExit",
+    "tests": "ENGINE_LOG_LEVEL=error KOA_LOG_LEVEL=error jest --coverage --runInBand --forceExit",
     "test:single": "jest -i --detectOpenHandles --forceExit",
     "seeds": "knex --env ${KNEX_ENV} --knexfile knexfile.js seed:run",
     "seeds:local": "knex --env dockerLocal --knexfile knexfile.js seed:run",
