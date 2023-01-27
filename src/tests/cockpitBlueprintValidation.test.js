@@ -7,20 +7,17 @@ const workflowSamples = require("../samples/workflows");
 const { cleanDb } = require("./utils/auxiliar");
 const { config } = require("./utils/requestConfig");
 
-const { setEngine, setCockpit } = require("../engine");
-const { Engine, Cockpit } = require("@flowbuild/engine");
+const { tearDownEnvironment, createTestEngine, createTestCockpit } = require("./utils/fixtures");
 const { setDbConnection } = require("../services/cockpit");
-
-const engine = new Engine("knex", db);
-const cockpit = new Cockpit("knex", db);
-setEngine(engine);
-setCockpit(cockpit);
 
 let server;
 
 const prefix = "/cockpit";
 
 beforeAll(async () => {
+  createTestEngine(db);
+  createTestCockpit(db);
+
   server = startServer(3001);
   axios.defaults.baseURL = `${config.baseURL}`;
   axios.defaults.headers = config.headers;
@@ -33,11 +30,7 @@ beforeAll(async () => {
   await axios.post("/workflows", workflowSamples.singleUserTask);
 });
 
-afterAll(async () => {
-  await cleanDb();
-  await db.destroy();
-  await server.close();
-});
+afterAll(async () => tearDownEnvironment(server, db));
 
 describe("POST /workflows/validate", () => {
   const route = `${prefix}/workflows/validate/`;

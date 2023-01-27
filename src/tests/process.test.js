@@ -1,19 +1,17 @@
+// require("leaked-handles")
 require("dotenv").config();
 const { v1: uuid } = require("uuid");
 const axios = require("axios");
+
 const { db } = require("./utils/db");
 const { startServer } = require("../app");
 const workflowSamples = require("../samples/workflows");
 const { delay, cleanDb } = require("./utils/auxiliar");
 const { config } = require("./utils/requestConfig");
 
-const { setEngine, setCockpit } = require("../engine");
-const { Engine, Cockpit } = require("@flowbuild/engine");
+const { tearDownEnvironment, createTestEngine, createTestCockpit } = require("./utils/fixtures");
+
 const { World } = require("./utils/world");
-const engine = new Engine("knex", db);
-const cockpit = new Cockpit("knex", db);
-setEngine(engine);
-setCockpit(cockpit);
 
 let server;
 let basicWorkflowId;
@@ -27,6 +25,9 @@ const world = new World({
 
 beforeAll(async () => {
   process.env.ENGINE_HEARTBEAT=false
+  createTestEngine(db);
+  createTestCockpit(db);
+
   server = startServer(3001);
   axios.defaults.baseURL = config.baseURL;
   axios.defaults.headers = config.headers;
@@ -47,14 +48,10 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-  await delay(500);
+  // await delay(200);
 });
 
-afterAll(async () => {
-  cleanDb();
-  db.destroy();
-  server.close();
-});
+afterAll(async () =>  tearDownEnvironment(server, db));
 
 describe("GET /", () => {
   const route = `${prefix}/`;
