@@ -1,3 +1,10 @@
+## [2.16.2](https://github.com/flow-build/workflow/compare/v2.16.1...v2.16.2) (2023-01-27)
+
+
+### Bug Fixes
+
+* **tests:** :white_check_mark: Fix unstable tests ([eee8e9e](https://github.com/flow-build/workflow/commit/eee8e9ec3f3c619d9d4c578391d75a4e1290b712))
+
 ## [2.16.1](https://github.com/flow-build/workflow/compare/v2.16.0...v2.16.1) (2023-01-24)
 
 
