@@ -1,3 +1,10 @@
+## [2.17.0-rc.3](https://github.com/flow-build/workflow/compare/v2.17.0-rc.2...v2.17.0-rc.3) (2023-01-30)
+
+
+### Bug Fixes
+
+* add username & password to mqtt connection ([c750955](https://github.com/flow-build/workflow/commit/c750955a6da269a40001cefe2115477b2e3dd82a))
+
 ## [2.17.0-rc.2](https://github.com/flow-build/workflow/compare/v2.17.0-rc.1...v2.17.0-rc.2) (2023-01-24)
 
 
