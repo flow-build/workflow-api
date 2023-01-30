@@ -1,3 +1,10 @@
+## [2.16.3](https://github.com/flow-build/workflow/compare/v2.16.2...v2.16.3) (2023-01-30)
+
+
+### Bug Fixes
+
+* add username and password to mqtt broker connection ([80cb4a5](https://github.com/flow-build/workflow/commit/80cb4a5065a9c79263a3bf25552318fde054b60f))
+
 ## [2.16.2](https://github.com/flow-build/workflow/compare/v2.16.1...v2.16.2) (2023-01-27)
 
 
