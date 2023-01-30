@@ -24,6 +24,8 @@ Add a .env file with the following variables:
 - MQTT_PORT
 - MQTT_PATH
 - MQTT_PROTOCOL
+- MQTT_USERNAME (optional)
+- MQTT_PASSWORD (optional)
 
 - ENGINE_LOG_LEVEL (default = error)
 - ENGINE_HEARTBEAT (bool, turns on-off engine heartbeat)
