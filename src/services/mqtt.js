@@ -9,7 +9,7 @@ async function connect() {
     logger.info("trying to connect to MQTT Broker");
     const clientId = `flowBuild_${nanoid(10)}`;
 
-    logger.info(`[mqtt] HOST: ${process.env.MQTT_HOST}, client: ${clientId}`);
+    logger.info(`[mqtt] HOST: ${process.env.MQTT_HOST}, client: ${clientId}, protocol: ${process.env.MQTT_PROTOCOL}`);
 
     client = mqtt.connect({
       hostname: process.env.MQTT_HOST,
@@ -17,6 +17,8 @@ async function connect() {
       protocol: process.env.MQTT_PROTOCOL || "ws",
       path: process.env.MQTT_PATH || "/mqtt",
       clientId: clientId,
+      username: process.env.MQTT_USERNAME,
+      password: process.env.MQTT_PASSWORD
     });
 
     logger.info("[mqtt] connected to MQTT Broker");
@@ -28,10 +30,10 @@ async function connect() {
 async function publishMessage(topic, message) {
   let response;
   if (process.env.MQTT === "true") {
-    logger.silly(`[mqtt] publishing message to topic ${topic}`);
+    logger.info(`[mqtt] publishing message to topic ${topic}`);
     if (client) {
       response = await client.publish(topic, JSON.stringify(message), { qos: 1 });
-      logger.debug(`[mqtt] Broker messageId: ${response.messageId} on topic ${topic}`);
+      logger.verbose(`[mqtt] Broker messageId: ${response.messageId} on topic ${topic}`);
     } else {
       logger.info("[mqtt] No client");
     }

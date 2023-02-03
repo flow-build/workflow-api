@@ -6,7 +6,13 @@ const { config } = require("./utils/requestConfig");
 
 let server;
 
+const {db} = require("./utils/db")
+const fixtures = require("./utils/fixtures")
+
 beforeAll(() => {
+  fixtures.createTestEngine(db);
+  fixtures.createTestCockpit(db);
+
   server = startServer(3001);
   axios.defaults.baseURL = `${config.baseURL}/`;
   axios.defaults.headers = config.headers;
@@ -17,9 +23,7 @@ beforeEach(async () => {
   await delay(100);
 });
 
-afterAll(async () => {
-  await server.close();
-});
+afterAll(async () => fixtures.tearDownEnvironment(server, db));
 
 describe("GET /", () => {
   test("should return 200", async () => {
