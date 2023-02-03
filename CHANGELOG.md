@@ -1,3 +1,10 @@
+## [2.17.0-rc.4](https://github.com/flow-build/workflow/compare/v2.17.0-rc.3...v2.17.0-rc.4) (2023-02-03)
+
+
+### Features
+
+* adds warn logs to http node on beta version ([58d8e75](https://github.com/flow-build/workflow/commit/58d8e7585f284e7798683c6558b845d33322ac92))
+
 ## [2.17.0-rc.3](https://github.com/flow-build/workflow/compare/v2.17.0-rc.2...v2.17.0-rc.3) (2023-01-30)
 
 
