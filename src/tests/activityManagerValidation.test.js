@@ -4,14 +4,9 @@ const { db } = require("./utils/db");
 const { startServer } = require("../app");
 const { delay, cleanDb } = require("./utils/auxiliar");
 const { config } = require("./utils/requestConfig");
+const { tearDownEnvironment, createTestEngine, createTestCockpit } = require("./utils/fixtures");
 
-//ENGINE DEPS
-const { setEngine, setCockpit } = require("../engine");
-const { Engine, Cockpit } = require("@flowbuild/engine");
-const engine = new Engine("knex", db);
-const cockpit = new Cockpit("knex", db);
-setEngine(engine);
-setCockpit(cockpit);
+const logger = (...args) => process.env.TESTS_VERBOSE ? logger(...args) : undefined
 
 //SAMPLES
 const activitySchemaValidation = require("../samples/blueprints/activitySchemaValidation");
@@ -20,6 +15,9 @@ let server;
 let activityManagerId;
 
 beforeAll(async () => {
+  createTestEngine(db);
+  createTestCockpit(db);
+
   server = startServer(3001);
   axios.defaults.baseURL = config.baseURL;
   axios.defaults.headers = config.headers;
@@ -38,19 +36,15 @@ beforeEach(async () => {
     {}
   );
   const processId = process.data.process_id;
-  await delay(1500);
-  console.log(`PID ${processId}`);    
+  await delay(200)
+  logger(`PID ${processId}`);    
   //OBTER O ID DO ACTIVITY_MANAGER
   const activityManager = await axios.get(`/processes/${processId}/activity`);
-  console.log(`AMID ${activityManager.data.id}`);
+  logger(`AMID ${activityManager.data.id}`);
   activityManagerId = activityManager.data.id;
 });
 
-afterAll(async () => {
-  cleanDb();
-  db.destroy();
-  server.close();
-});
+afterAll(async () => tearDownEnvironment(server, db));
 
 describe("Validation @ POST activity_manager/:id/submit", () => {
   test.each([
@@ -76,7 +70,7 @@ describe("Validation @ POST activity_manager/:id/submit", () => {
     const payload = { date: '2021-09-15' };
 
     let response = await axios.post(`activity_manager/${activityManagerId}/submit`, payload);
-    console.log(response)
+    logger(response)
     expect(response.status).toBe(202);
   });
 });
@@ -105,7 +99,7 @@ describe("Validation @ POST activity_manager/:id/commit", () => {
     const payload = { date: '2021-09-15' };
 
     let response = await axios.post(`activity_manager/${activityManagerId}/commit`, payload);
-    console.log(response)
+    logger(response)
     expect(response.status).toBe(200);
   });
 });

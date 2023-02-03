@@ -1,24 +1,24 @@
 require("dotenv").config();
 const axios = require("axios");
 const { v1: uuid } = require("uuid");
-const { setEngine, setCockpit } = require("../engine");
-const { Engine, Cockpit } = require("@flowbuild/engine");
+
 const { db } = require("./utils/db");
 const { startServer } = require("../app");
 const workflowSamples = require("../samples/workflows");
-const { delay, cleanDb } = require("./utils/auxiliar");
+const { cleanDb } = require("./utils/auxiliar");
 const { config } = require("./utils/requestConfig");
-const engine = new Engine("knex", db);
-const cockpit = new Cockpit("knex", db);
-setEngine(engine);
-setCockpit(cockpit);
 
-let server;
+const { tearDownEnvironment, createTestEngine, createTestCockpit } = require("./utils/fixtures");
+
+let server = {};
 
 //TODO: Validar output schema de cada chamada
 
 beforeAll(() => {
   process.env.ENGINE_HEARTBEAT=false
+  createTestEngine(db);
+  createTestCockpit(db);
+
   server = startServer(3001);
   axios.defaults.baseURL = `${config.baseURL}/workflows`;
   axios.defaults.headers = config.headers;
@@ -27,14 +27,9 @@ beforeAll(() => {
 
 beforeEach(async () => {
   await cleanDb();
-  await delay(1000);
 });
 
-afterAll(async () => {
-  await _clean();
-  await db.destroy();
-  server.close();
-});
+afterAll(async () => tearDownEnvironment(server, db));
 
 describe("POST /workflows", () => {
   test("should return 201 for valid input", async () => {
@@ -368,11 +363,3 @@ describe("GET /:id/processes", () => {
     expect(processes).toHaveLength(2);
   });
 });
-
-const _clean = async () => {
-  await db("activity").del();
-  await db("activity_manager").del();
-  await db("process_state").del();
-  await db("process").del();
-  await db("workflow").del();
-};

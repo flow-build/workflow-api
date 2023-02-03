@@ -6,12 +6,12 @@ const { startServer } = require("../app");
 const workflowSamples = require("../samples/workflows");
 const { delay, cleanDb } = require("./utils/auxiliar");
 const { config } = require("./utils/requestConfig");
-const { setEngine, setCockpit } = require("../engine");
-const { Engine, Cockpit } = require("@flowbuild/engine");
-const engine = new Engine("knex", db);
-const cockpit = new Cockpit("knex", db);
-setEngine(engine);
-setCockpit(cockpit);
+const { World } = require("./utils/world");
+
+const { tearDownEnvironment, createTestEngine, createTestCockpit } = require("./utils/fixtures");
+
+const logger = (...args) => process.env.TESTS_VERBOSE ? logger(...args) : undefined
+
 const world = new World({
   baseUrl: config.baseURL,
   headers: config.headers 
@@ -24,6 +24,9 @@ let activityManagerId;
 
 beforeAll(async () => {
   process.env.ENGINE_HEARTBEAT=false
+  createTestEngine(db);
+  createTestCockpit(db);
+
   server = startServer(3001);
   axios.defaults.baseURL = config.baseURL;
   axios.defaults.headers = config.headers;
@@ -41,19 +44,15 @@ beforeEach(async () => {
   await world.waitProcessStop(processId);
   //OBTER O ID DO ACTIVITY_MANAGER
   const activityManager = await axios.get(`/processes/${processId}/activity`);
-  console.log(`AMID ${activityManager.data.id}`);
+  logger(`AMID ${activityManager.data.id}`);
   activityManagerId = activityManager.data.id;
 });
 
-afterAll(async () => {
-  cleanDb();
-  db.destroy();
-  server.close();
-});
+afterAll(async () => tearDownEnvironment(server, db));
 
 describe("POST /:id/commit", () => {
   test("should return 200 for existing id and should not affect the process status", async () => {
-    console.log("should return 200 for existing id and should not affect the process status");
+    logger("should return 200 for existing id and should not affect the process status");
     const commitCall = await axios.post(`${prefix}/${activityManagerId}/commit`);
     expect(commitCall.status).toBe(200);
 
@@ -62,7 +61,7 @@ describe("POST /:id/commit", () => {
   });
 
   test("should keep returning 200 for an existing id previous committed", async () => {
-    console.log("should keep returning 200 for an existing id previous committed");
+    logger("should keep returning 200 for an existing id previous committed");
     const firstCall = await axios.post(`${prefix}/${activityManagerId}/commit`);
     expect(firstCall.status).toBe(200);
 
@@ -71,7 +70,7 @@ describe("POST /:id/commit", () => {
   });
 
   test("should return 404 for an random non-existing id", async () => {
-    console.log("should return 404 for an random non-existing id");
+    logger("should return 404 for an random non-existing id");
     const randomId = uuid();
     const commitCall = await axios.post(`${prefix}/${randomId}/commit`);
     expect(commitCall.status).toBe(404);
@@ -79,7 +78,7 @@ describe("POST /:id/commit", () => {
 });
 describe("POST /:id/submit", () => {
   test("should return 202 for existing id and should affect the process status", async () => {
-    console.log("should return 202 for existing id and should affect the process status");
+    logger("should return 202 for existing id and should affect the process status");
     const submitCall = await axios.post(`${prefix}/${activityManagerId}/submit`);
     expect(submitCall.status).toBe(202);
     await delay(1500);
@@ -88,7 +87,7 @@ describe("POST /:id/submit", () => {
   });
 
   test("should return 422 for an existing id already submitted", async () => {
-    console.log("should return 422 for an existing id already submitted");
+    logger("should return 422 for an existing id already submitted");
     const firstCall = await axios.post(`${prefix}/${activityManagerId}/submit`);
     expect(firstCall.status).toBe(202);
 
@@ -97,14 +96,14 @@ describe("POST /:id/submit", () => {
   });
 
   test("should return 422 for an id from a interrupted process", async () => {
-    console.log("should return 422 for an id from a interrupted process");
+    logger("should return 422 for an id from a interrupted process");
     await axios.post(`/processes/${processId}/abort`);
     const firstCall = await axios.post(`${prefix}/${activityManagerId}/submit`);
     expect(firstCall.status).toBe(422);
   });
 
   test("should return 404 for an random non-existing id", async () => {
-    console.log("should return 404 for an random non-existing id");
+    logger("should return 404 for an random non-existing id");
     const randomId = uuid();
     const commitCall = await axios.post(`${prefix}/${randomId}/submit`);
     expect(commitCall.status).toBe(404);

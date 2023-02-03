@@ -7,9 +7,10 @@ const config = {
       Authorization: `Bearer ${tokenSamples.validToken}`,
     },
     post: {
-      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Type": "application/json",
     },
   },
+  timeout: 2000,
   validateStatus: function (status) {
     return status <= 500;
   },

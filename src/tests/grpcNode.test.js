@@ -3,6 +3,8 @@ const _ = require("lodash");
 const GrpcNode = require("../nodes/grpcNode");
 const { descriptor } = require("../samples/grpcdescriptor");
 
+const logger = (...args) => process.env.TESTS_VERBOSE ? logger(...args) : undefined
+
 const nodeSchema = {
   id: "1",
   name: "rightSchema",
@@ -114,7 +116,7 @@ describe("run node - Reflection Mode", () => {
   test("should work", async () => {
     const myNode = new GrpcNode(nodeSchema);
     const nodeResult = await myNode.run({});
-    console.log(nodeResult);
+    logger(nodeResult);
     expect(nodeResult.status).toBe("running");
     expect(nodeResult.result.data).toBeDefined();
     expect(nodeResult.result.data.reply).toBeDefined();
@@ -125,7 +127,7 @@ describe("run node - Reflection Mode", () => {
     schema.parameters.input.server = "www.fdte.io"
     const myNode = new GrpcNode(schema);
     const nodeResult = await myNode.run({});
-    console.log(nodeResult);
+    logger(nodeResult);
     expect(nodeResult.status).toBe("error");
     expect(nodeResult.error).toBeDefined();
   });
@@ -135,7 +137,7 @@ describe("run node - Reflection Mode", () => {
     schema.parameters.input.service = "notAService"
     const myNode = new GrpcNode(schema);
     const nodeResult = await myNode.run({});
-    console.log(nodeResult);
+    logger(nodeResult);
     expect(nodeResult.status).toBe("error");
     expect(nodeResult.error).toBeDefined();
   });
@@ -145,7 +147,7 @@ describe("run node - Reflection Mode", () => {
     schema.parameters.input.method = "notAMethod"
     const myNode = new GrpcNode(schema);
     const nodeResult = await myNode.run({});
-    console.log(nodeResult);
+    logger(nodeResult);
     expect(nodeResult.status).toBe("error");
     expect(nodeResult.error).toBeDefined();
   });
@@ -159,7 +161,7 @@ describe("run node - Descriptor Mode", () => {
   test("should work", async () => {
     const myNode = new GrpcNode(nodeDescriptorSchema);
     const nodeResult = await myNode.run({});
-    console.log(nodeResult);
+    logger(nodeResult);
     expect(nodeResult.status).toBe("running");
     expect(nodeResult.result.data).toBeDefined();
     expect(nodeResult.result.data.reply).toBeDefined();
@@ -170,7 +172,7 @@ describe("run node - Descriptor Mode", () => {
     schema.parameters.input.server = "www.fdte.io"
     const myNode = new GrpcNode(schema);
     const nodeResult = await myNode.run({});
-    console.log(nodeResult);
+    logger(nodeResult);
     expect(nodeResult.status).toBe("error");
     expect(nodeResult.error).toBeDefined();
   });
@@ -180,7 +182,7 @@ describe("run node - Descriptor Mode", () => {
     schema.parameters.input.service = "notAService"
     const myNode = new GrpcNode(schema);
     const nodeResult = await myNode.run({});
-    console.log(nodeResult);
+    logger(nodeResult);
     expect(nodeResult.status).toBe("error");
     expect(nodeResult.error).toBeDefined();
   });
@@ -190,7 +192,7 @@ describe("run node - Descriptor Mode", () => {
     schema.parameters.input.method = "notAMethod"
     const myNode = new GrpcNode(schema);
     const nodeResult = await myNode.run({});
-    console.log(nodeResult);
+    logger(nodeResult);
     expect(nodeResult.status).toBe("error");
     expect(nodeResult.error).toBeDefined();
   });
