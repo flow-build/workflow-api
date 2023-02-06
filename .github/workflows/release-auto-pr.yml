@@ -5,6 +5,8 @@ on:
     branches:
       - master
       - development
+      - alpha
+      - beta
 
 jobs:
   release:
@@ -69,6 +71,7 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and push latest
+        if: ${{ github.ref_name == 'master' }}
         uses: docker/build-push-action@v3
         with:
           context: .
