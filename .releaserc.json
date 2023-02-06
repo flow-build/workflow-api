@@ -3,11 +3,9 @@
         {
             "name": "master"
         },
-        {
-            "name": "development",
-            "channel": "pre/rc",
-            "prerelease": "rc"
-        }
+        { "name": "development", "channel": "rc", "prerelease": true },
+        { "name": "beta", "prerelease": true },
+        { "name": "alpha", "prerelease": true }
     ],
     "plugins": [
         "@semantic-release/npm",
