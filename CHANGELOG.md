@@ -1,3 +1,11 @@
+## [2.17.0-alpha.1](https://github.com/flow-build/workflow/compare/v2.16.3...v2.17.0-alpha.1) (2023-02-06)
+
+
+### Features
+
+* adds newrelic no server.js ([752301c](https://github.com/flow-build/workflow/commit/752301cbd1c54a023b7f7b736aa12cc79f1af6a7))
+* update release configuration ([e17fdc6](https://github.com/flow-build/workflow/commit/e17fdc67ab902067d9f7170cbf9db5bfb45f06c9))
+
 ## [2.16.3](https://github.com/flow-build/workflow/compare/v2.16.2...v2.16.3) (2023-01-30)
 
 
