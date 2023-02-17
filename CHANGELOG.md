@@ -1,3 +1,12 @@
+## [2.17.0-rc.5](https://github.com/flow-build/workflow/compare/v2.17.0-rc.4...v2.17.0-rc.5) (2023-02-17)
+
+
+### Features
+
+* **routers:** :safety_vest: Add validation for GET processes ([f93e321](https://github.com/flow-build/workflow/commit/f93e32132cddcc8c6a354ea31ab6f46e896e1fa4))
+* **routers:** :sparkles: Add pagination options for GET processes ([a006bea](https://github.com/flow-build/workflow/commit/a006bea148ca10177828f0dc1ff340bbf5f28147))
+* **validators:** :safety_vest: Add get process pagination schema ([de65ee7](https://github.com/flow-build/workflow/commit/de65ee7ffed1cdb3e2127ca4c30256ad2d17cafb))
+
 ## [2.17.0-rc.4](https://github.com/flow-build/workflow/compare/v2.17.0-rc.3...v2.17.0-rc.4) (2023-02-03)
 
 
