@@ -1,3 +1,24 @@
+## [2.16.3](https://github.com/flow-build/workflow/compare/v2.16.2...v2.16.3) (2023-01-30)
+
+
+### Bug Fixes
+
+* add username and password to mqtt broker connection ([80cb4a5](https://github.com/flow-build/workflow/commit/80cb4a5065a9c79263a3bf25552318fde054b60f))
+
+## [2.16.2](https://github.com/flow-build/workflow/compare/v2.16.1...v2.16.2) (2023-01-27)
+
+
+### Bug Fixes
+
+* **tests:** :white_check_mark: Fix unstable tests ([eee8e9e](https://github.com/flow-build/workflow/commit/eee8e9ec3f3c619d9d4c578391d75a4e1290b712))
+
+## [2.16.1](https://github.com/flow-build/workflow/compare/v2.16.0...v2.16.1) (2023-01-24)
+
+
+### Bug Fixes
+
+* updates package versions to solve sec issues ([a53100e](https://github.com/flow-build/workflow/commit/a53100ed697f23c97c57884977c3f360f3bdfe85))
+
 ## [2.17.0-rc.5](https://github.com/flow-build/workflow/compare/v2.17.0-rc.4...v2.17.0-rc.5) (2023-02-17)
 
 
