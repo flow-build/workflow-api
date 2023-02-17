@@ -74,8 +74,17 @@ const fetchProcessList = async (ctx, next) => {
 
   const cockpit = getCockpit();
   const query_params = ctx.request.query;
-  const workflowId = query_params.workflow_id;
-  const filters = workflowId ? { workflow_id: workflowId } : {};
+
+  const limit = Number(query_params.limit || 20);
+  const page = Number(query_params.page || 1);
+
+  const filters = { 
+    workflow_id: query_params.workflow_id,
+    state: query_params.state,
+    limit: limit,
+    offset: limit*(page - 1)
+  };
+
   const processes = await cockpit.fetchProcessList(filters);
   ctx.status = 200;
   ctx.body = _.map(processes, (process) => {

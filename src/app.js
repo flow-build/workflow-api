@@ -25,7 +25,7 @@ const { jwtSecret } = require("./utils/jwtSecret");
 const { setPersist } = require("./middlewares/persist");
 
 const startServer = (port) => {
-  const engineLogLevel = process.env.ENGINE_LOG_LEVEL || "error";
+  const engineLogLevel = process.env.ENGINE_LOG_LEVEL || "warn";
   elog.startLogger();
   let engine = getEngine();
   if (!engine) {
