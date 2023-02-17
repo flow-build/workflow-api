@@ -71,6 +71,38 @@ class RemapDataNode extends Nodes.SystemTaskNode {
     return RemapDataNode.validate(spec, schema);
   }
 
+  static remapData(data, dictionary) {
+    let messages = [];
+    let remapped_data = data.map((item) => {
+      const remapped_item = {};
+      for (const [key, value] of Object.entries(dictionary)) {
+        if (typeof value === "object") {
+          let nested_remapped_data = RemapDataNode.remapData([item], dictionary[key]);
+          remapped_item[key] = nested_remapped_data.remapped_data[0];
+          messages = messages.concat(nested_remapped_data.messages);
+        } else if (typeof value === "string" && value.length > 0 && value.includes(".")) {
+          const object_value = _.get(item, value);
+          if (object_value !== undefined) {
+            remapped_item[key] = object_value;
+          }
+        } else if (value !== null && value.length > 0 && item[value] !== undefined) {
+          remapped_item[key] = item[value];
+        } else if (value === null || value.length === 0) {
+          remapped_item[key] = value;
+        }
+
+        if (remapped_item[key] === undefined) {
+          messages.push(`'${value}' from dictionary not found in data`);
+        }
+      }
+      return remapped_item;
+    });
+    return {
+      remapped_data,
+      messages
+    }
+  }
+
   async _run(executionData) {
     try {
       logger.debug("remapData Node running");
@@ -81,28 +113,8 @@ class RemapDataNode extends Nodes.SystemTaskNode {
       }
       const { data, dictionary } = executionData;
       let status = "success";
-      let messages = [];
 
-      let remapped_data = data.map((item) => {
-        const remapped_item = {};
-        for (const [key, value] of Object.entries(dictionary)) {
-          if (typeof value === "string" && value.length > 0 && value.includes(".")) {
-            const object_value = _.get(item, value);
-            if (object_value !== undefined) {
-              remapped_item[key] = object_value;
-            }
-          } else if (value !== null && value.length > 0 && item[value] !== undefined) {
-            remapped_item[key] = item[value];
-          } else if (value === null || value.length === 0) {
-            remapped_item[key] = value;
-          }
-
-          if (remapped_item[key] === undefined) {
-            messages.push(`'${value}' from dictionary not found in data`);
-          }
-        }
-        return remapped_item;
-      });
+      let { remapped_data, messages } = RemapDataNode.remapData(data, dictionary);
 
       if (messages.length > 0) {
         if (Object.keys(remapped_data[0]).length > 0) {
