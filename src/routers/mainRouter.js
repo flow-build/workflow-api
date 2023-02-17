@@ -61,7 +61,7 @@ module.exports = (opts = {}) => {
 
   const processes = new Router();
   processes.prefix("/processes");
-  processes.get("/", processCtrl.fetchProcessList);
+  processes.get("/", processValid.listProcesses, processCtrl.fetchProcessList);
   processes.post("/", processValid.findProcesses, processCtrl.listProcesses);
   processes.get("/available", activityCtrl.fetchAvailableActivitiesForActor);
   processes.get("/done", activityCtrl.fetchDoneActivitiesForActor);

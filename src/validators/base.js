@@ -1,40 +1,46 @@
-const Ajv = require("ajv");
+const Ajv = require("ajv/dist/2019");
 const addFormats = require("ajv-formats");
 const { logger } = require("../utils/logger");
 const { validate } = require("uuid");
 
-const validateBodyWithSchema = (schema) => {
+const validateRequestFieldWithSchema = (schema, ...propertiesList) => {
   return async (ctx, next) => {
-    logger.debug("called validateBodySchema");
+    const propertiesListString = propertiesList.join(' ')
+    logger.debug(`called validateRequestFieldWithSchema [${propertiesListString}]`);
+
     const _ajv = new Ajv({ allErrors: true });
     addFormats(_ajv);
     const validateSchema = _ajv.compile(schema);
-    const is_valid = await validateSchema(ctx.request.body);
-    if (!is_valid) {
-      logger.debug("invalid schema # %i errors", validateSchema.errors.length);
-      ctx.status = 400;
-      ctx.body = {
-        message: "Invalid Request Body",
-        error: validateSchema.errors.map((e) => {
-          let response;
-          response = {
-            field: e.instancePath,
-            message: e.message,
-          };
-          return response;
-        }),
-      };
-      return;
+
+    const field = propertiesList.reduce((obj, key) => obj[key], ctx)
+    const is_valid = await validateSchema(field);
+
+    if (is_valid) {
+      return next();
     }
-    return await next();
+
+    logger.debug(`Invalid schema # ${validateSchema.errors.length} errors`);
+    ctx.status = 400;
+    ctx.body = {
+      message: `Invalid ${propertiesListString}`,
+      error: validateSchema.errors.map(error => ({
+        field: error.instancePath || error.params?.unevaluatedProperty,
+        message: error.message,
+      })),
+    };
   };
 };
 
-validateDataWithSchema = async (schema, data) => {
+const validateBodyWithSchema = (schema) => validateRequestFieldWithSchema(schema, 'request', 'body')
+const validateQueryWithSchema = (schema) => validateRequestFieldWithSchema(schema, 'request', 'query')
+
+const validateDataWithSchema = async (schema, data) => {
   logger.silly("called validateSchema");
+
   const _ajv = new Ajv({ allErrors: true });
   addFormats(_ajv);
   const validateSchema = _ajv.compile(schema);
+
   const is_valid = await validateSchema(data);
   return {
     is_valid: is_valid,
@@ -42,26 +48,23 @@ validateDataWithSchema = async (schema, data) => {
   };
 };
 
-validateUUID = async (ctx, next) => {
+const validateUUID = async (ctx, next) => {
   const id = ctx.params.id || ctx.request.query.workflow_id;
   logger.debug(`validating id [${id}]`);
-  if (id) {
-    const is_valid = validate(id);
-    if (!is_valid) {
-      ctx.status = 400;
-      ctx.body = {
-        message: "Invalid uuid",
-      };
-    } else {
-      return await next();
-    }
-  } else {
+
+  if (!id || validate(id)) {
     return next();
   }
+
+  ctx.status = 400;
+  ctx.body = {
+    message: "Invalid uuid",
+  };
 };
 
 module.exports = {
-  validateBodyWithSchema: validateBodyWithSchema,
+  validateBodyWithSchema,
+  validateQueryWithSchema,
   validateUUID,
   validateDataWithSchema,
 };
