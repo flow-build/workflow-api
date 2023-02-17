@@ -1,3 +1,16 @@
+## [2.17.0-rc.6](https://github.com/flow-build/workflow/compare/v2.17.0-rc.5...v2.17.0-rc.6) (2023-02-17)
+
+
+### Features
+
+* adds newrelic no server.js ([752301c](https://github.com/flow-build/workflow/commit/752301cbd1c54a023b7f7b736aa12cc79f1af6a7))
+
+
+### Bug Fixes
+
+* add username and password to mqtt broker connection ([80cb4a5](https://github.com/flow-build/workflow/commit/80cb4a5065a9c79263a3bf25552318fde054b60f))
+* **tests:** :white_check_mark: Fix unstable tests ([eee8e9e](https://github.com/flow-build/workflow/commit/eee8e9ec3f3c619d9d4c578391d75a4e1290b712))
+
 ## [2.16.3](https://github.com/flow-build/workflow/compare/v2.16.2...v2.16.3) (2023-01-30)
 
 
