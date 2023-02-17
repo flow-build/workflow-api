@@ -1,3 +1,11 @@
+## [2.17.0](https://github.com/flow-build/workflow/compare/v2.16.3...v2.17.0) (2023-02-17)
+
+
+### Features
+
+* add possibility to get nested objects on dictionary ([42dd74d](https://github.com/flow-build/workflow/commit/42dd74d30ac7e56a5f2a820d2fd90d9932ddfddd))
+* adds warn logs to http node ([714e031](https://github.com/flow-build/workflow/commit/714e031b645132fb2990d270d626a36ef942af8f))
+
 ## [2.16.3](https://github.com/flow-build/workflow/compare/v2.16.2...v2.16.3) (2023-01-30)
 
 
