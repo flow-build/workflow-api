@@ -1,3 +1,13 @@
+## [2.18.0](https://github.com/flow-build/workflow/compare/v2.17.0...v2.18.0) (2023-02-23)
+
+
+### Features
+
+* :sparkles: add timers information to healthcheck ([334f39e](https://github.com/flow-build/workflow/commit/334f39e2cf0529fec45f421f0212128e9e70434e))
+* :sparkles: allow the definition of a namespace to topics ([09758ae](https://github.com/flow-build/workflow/commit/09758ae7ebe34f7d0b120dfa0bf92c3efe02ae52))
+* :sparkles: allow to set diferent jwt key, algorithm and payload structure ([881246c](https://github.com/flow-build/workflow/commit/881246cb650f4d28b0fda01d2f0b6301ee9dbd8c))
+* adds newrelic no server.js ([752301c](https://github.com/flow-build/workflow/commit/752301cbd1c54a023b7f7b736aa12cc79f1af6a7))
+
 ## [2.17.0](https://github.com/flow-build/workflow/compare/v2.16.3...v2.17.0) (2023-02-17)
 
 
