@@ -173,7 +173,7 @@ validateEnvironmentVariable = (spec) => {
       validateInfo.push (error_message);
     }
     if (!nodesString.includes(`environment.${variable}`)) {
-      const error_message = `Variable ${variable} not declared in any node`;
+      const error_message = `Variable ${variable} not used in any node`;
       validateInfo.push (error_message);
     }
   }
