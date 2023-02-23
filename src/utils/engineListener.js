@@ -1,10 +1,11 @@
 require("dotenv").config();
 const { logger } = require("./logger");
 const mqtt = require("../services/mqtt");
+const namespace = process.env.MQTT_NAMESPACE;
 
 const processStateListener = async (processState) => {
   if(process.env.PUBLISH_STATE_EVENTS) {
-    const topic = `/process/${processState.process_id}/state`;
+    const topic = (namespace) ? `/${namespace}/process/${processState.process_id}/state` : `/process/${processState.process_id}/state`;
 
     const message = {
       stateId: processState.id,
@@ -27,7 +28,7 @@ const activityManagerListener = async (activityManager) => {
     return
   }
 
-  const topic = `/process/${activityManager._process_id}/am/create`;
+  const topic = (namespace) ? `/${namespace}/process/${activityManager._process_id}/am/create` : `/process/${activityManager._process_id}/am/create`;
 
   const message = {
     process_id: activityManager._process_id,
@@ -39,14 +40,14 @@ const activityManagerListener = async (activityManager) => {
   mqtt.publishMessage(topic, message);
 
   if (activityManager?._props?.result?.session_id) {
-    const sessionTopic = `/session/${activityManager._props.result.session_id}/am/create`;
+    const sessionTopic = (namespace) ? `/${namespace}/session/${activityManager._props.result.session_id}/am/create` : `/session/${activityManager._props.result.session_id}/am/create`;
     mqtt.publishMessage(sessionTopic, message);
   } else {
     logger.info("AM LISTENER: No session provided");
   }
 
   if (activityManager?._props?.result?.actor_id) {
-    const actorTopic = `/actor/${activityManager._props.result.actor_id}/am/create`;
+    const actorTopic = (namespace) ? `/${namespace}/actor/${activityManager._props.result.actor_id}/am/create` : `/actor/${activityManager._props.result.actor_id}/am/create`;
     mqtt.publishMessage(actorTopic, message);
   } else {
     logger.info("AM LISTENER: No actor provided");

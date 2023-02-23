@@ -1,19 +1,28 @@
 const pkg = require('../../package.json');
 const { logger } = require('../utils/logger');
 const { getClient } = require('../services/mqtt')
-const { getEngine } = require("../engine");
+const { getEngine, getCockpit } = require("../engine");
 
 const healthCheck = async (ctx, next) => {
   logger.verbose('Called healthCheck');
-  ctx.status = 200;
+  
   const engine = getEngine();
+  const cockpit = getCockpit();
   const mqttClient = getClient();
+
+  const expiredTimers = await cockpit.fetchTimersReady();
+  const activeTimers = await cockpit.fetchTimersActive();
+
   ctx.body = {
     message: 'Flowbuild API is fine!',
     version: pkg.version,
     engine: {
       version: pkg.dependencies['@flowbuild/engine'],
       latestEvent: engine.emitter.event
+    },
+    timers: {
+      ready: expiredTimers.length,
+      active: activeTimers.length
     },
     'diagram-builder': pkg.dependencies['@flowbuild/nodejs-diagram-builder'],
     'indexer': pkg.dependencies['@flowbuild/indexer'],
@@ -48,6 +57,13 @@ const healthCheck = async (ctx, next) => {
       }
     }
   }
+
+  if(process.env.MAX_READY_TIMERS && expiredTimers.length > process.env.MAX_READY_TIMERS) {
+    ctx.status = 409;
+    return next();
+  }
+
+  ctx.status = 200;
 
   return next();
 };
