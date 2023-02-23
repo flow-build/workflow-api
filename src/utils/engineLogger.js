@@ -32,11 +32,11 @@ const startLogger = () => {
         variables,
         timestamp: new Date(),
       };
-    
+
       mqtt.publishMessage(topic, msg);
     });
   }
-  
+
   emitter.on("PROCESS.START_NODE_RUN", (message) => {
     logLevel = "verbose";
     logMessage = message;
