@@ -2,7 +2,7 @@ name: Welcome first time contributors
 
 on:
   pull_request:
-    types: 
+    types:
       - opened
   issues:
     types:
