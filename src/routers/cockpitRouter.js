@@ -9,6 +9,7 @@ const cockpitValidator = require("../validators/cockpit");
 const wv = require("../validators/workflow");
 const workflowCtrl = require("../controllers/workflow");
 const cp = require("../controllers/cockpit/process");
+const pt = require('../controllers/cockpit/processTree');
 const { getNodes, fetchNode } = require("../controllers/cockpit/nodes")
 
 module.exports = (opts = {}) => {
@@ -46,6 +47,7 @@ module.exports = (opts = {}) => {
   processes.post("/:id/state", validateUUID, cockpitValidator.validateSetProcessState, cp.setProcessState);
   processes.post("/:id/state/run", validateUUID, cp.runPendingProcess);
   processes.post("/:id/set/:state_id", validateUUID, cp.transferProcessState);
+  processes.get("/:id/tree", validateUUID, pt.getProcessTree);
   
   const nodes = new Router();
   nodes.prefix("/nodes");
