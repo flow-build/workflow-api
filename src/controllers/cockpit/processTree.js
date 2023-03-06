@@ -8,7 +8,7 @@ const getProcessTree = async (ctx, next) => {
   logger.verbose("called getProcessTree");
 
   const process_id = ctx.params.id;
-  const myTree = await tree.getPathByRoot(process_id);
+  const myTree = await tree.getPath(process_id);
 
   const cockpit = getCockpit();
   const promises = myTree.map(async p => {

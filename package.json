@@ -32,7 +32,7 @@
     "@flowbuild/engine": "2.21.1",
     "@flowbuild/indexer": "1.0.2",
     "@flowbuild/nodejs-diagram-builder": "1.1.0",
-    "@flowbuild/process-tree": "1.0.3",
+    "@flowbuild/process-tree": "1.0.4",
     "@grpc/grpc-js": "1.8.11",
     "@grpc/proto-loader": "0.7.5",
     "@koa/router": "12.0.0",
