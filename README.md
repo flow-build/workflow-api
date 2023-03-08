@@ -3,53 +3,92 @@
 
 ```
 node -v
-v16.15
+v18.12
+
+npm -v
+9.2.0
 ```
 
 ## Environment variables
 
 Add a .env file with the following variables:
 
-- JWT_KEY (default = 1234)
-- KNEX_ENV (suggested value = prod)
 - NODE_ENV (suggested value = docker)
-- KOA_LOG_LEVEL (default = info)
-- PORT (default to 3000)
+- KOA_LOG_LEVEL (error, warn, *info*, http, verbose, debug, silly)
+- PORT (default=*3000*)
 
-- MQTT (bool)
-- MQTT_HOST
-- MQTT_PORT
-- MQTT_PATH
-- MQTT_PROTOCOL
-- MQTT_USERNAME (optional)
-- MQTT_PASSWORD (optional)
+### DATABASE CONNECTION
 
-- ENGINE_LOG_LEVEL (default = error)
-- ENGINE_HEARTBEAT (bool, turns on-off engine heartbeat)
-
-- PUBLISH_STATE_EVENTS (bool)
-- PUBLISH_ENGINE_LOGS (bool)
-- PUBLISH_SERVER_LOGS (bool)
-
+- KNEX_ENV (text, docker, dockerLocal, *prod*)
 - POSTGRES_PORT
 - POSTGRES_HOST
 - POSTGRES_DATABASE
 - POSTGRES_USER
 - POSTGRES_PASSWORD
 
+### TOKEN CONFIGURATION
+
+- JWT_KEY (default=*1234*)
+- JWT_ALG (default=*HS256*, if set to RS256, the application will convert the JWT_KEY to a public certificate.)
+- JWT_PASSTHROUGH (boolean, default=*true*)
+- JWT_EXTRA_KEYS (_optional_, defines extra properties from token payload that should be sent to process' actor_data)
+- JWT_PATH_ACTOR_ID (default=*actor_id*, specifies the path to the actor id in the token payload)
+- JWT_PATH_CLAIMS (default=*claims*. Claims value should always be an array)
+- JWT_PATH_SESSION_ID (_optional_, default=*session_id*)
+
+### MQTT CONFIGURATION
+
+- MQTT (bool)
+- MQTT_HOST
+- MQTT_PORT
+- MQTT_PATH
+- MQTT_PROTOCOL
+- MQTT_USERNAME (_optional_, required for wss connections)
+- MQTT_PASSWORD (_optional_, required for wss connections)
+- MQTT_NAMESPACE (if present, this string will the prepended to any topic published)
+
+### ENGINE CONFIGURATION
+
+- ENGINE_LOG_LEVEL (default=*error*)
+- ENGINE_HEARTBEAT (*true*/false string, turns on-off engine heartbeat)
+- HEART_BEAT (integer, default=1000, interval between beats in ms)
+- PUBLISH_STATE_EVENTS (*true*/false string, enables states to be published to message broker)
+- PUBLISH_ENGINE_LOGS (*true*/false string, enables engine logs to be published to message broker)
+- PUBLISH_SERVER_LOGS (*true*/false string, enables api logs to be published to message broker)
 - MAX_STEP_NUMBER (integer, maximum number of steps for a process)
 - MAX_CONTENT_LENGTH (integer, max content length for response on http node calls)
 - MAX_BODY_LENGTH (integer, max body length for response on BasicAuth nodes)
 - HTTP_TIMEOUT (integer, timeout in ms for BasicAuth nodes)
+- TIMER_BATCH (integer, default=*40*)
+- ORPHAN_BATCH (integer, default=*40*)
+
+### HEALTHCHECK
+
+- MAX_READY_TIMERS (_optional_, integer, defines the amount of ready timers before the server is declared unhealthy)
+
+### MONITORING
 
 - OTEL_ENABLED (bool, activates Open Telemetry config)
 - OTEL_SERVICE_NAME (string)
 - OTEL_COLLECTOR_URL
 
-- NEW_RELIC_ENABLED (bool, activates New Relic config for Open Telemetry. Needs to add API Key and OTEL URL)
-- NEW_RELIC_API_KEY
+#### NEW RELIC CONFIGURATION
 
-- POSTMAN_API_KEY (for Newman test runs)
+- NEW_RELIC_ENABLED (bool, activates New Relic config for direct or OTEL Monitoring.)
+- NEW_RELIC_API_KEY (required if New Relic is enabled)
+- NEW_RELIC_NO_CONFIG_FILE (recommended=*true*)
+- NEW_RELIC_LOG (recommended=*stdout*)
+- NEW_RELIC_LOG_ENABLED (recommended=*true*)
+- NEW_RELIC_LOG_LEVEL (recommended=*trace*)
+- NEW_RELIC_DISTRIBUTEC_TRACING_ENABLED (recommended=*true*)
+- NEW_RELIC_APPLICATION_LOGGING_ENABLED (recommended=*true*)
+- NEW_RELIC_APP_NAME
+
+### POSTMAN
+
+For Newman test runs
+
+- POSTMAN_API_KEY
 - POSTMAN_TEST_COLLECTION
 - POSTMAN_ENVIRONMENT
 

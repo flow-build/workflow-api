@@ -4,8 +4,8 @@ const koaLogger = require("koa-logger-winston");
 const jwt = require("koa-jwt");
 const { userAgent } = require("koa-useragent");
 const helmet = require("koa-helmet");
-const serve = require('koa-static');
-const pathToSwaggerUi = require('swagger-ui-dist').absolutePath()
+const serve = require("koa-static");
+const pathToSwaggerUi = require("swagger-ui-dist").absolutePath();
 
 const freeRouter = require("./routers/freeRouter");
 const mainRouter = require("./routers/mainRouter");
@@ -21,7 +21,7 @@ const elog = require("./utils/engineLogger");
 const listeners = require("./utils/engineListener");
 const mqtt = require("./services/mqtt");
 const { db } = require("./utils/db");
-const { jwtSecret } = require("./utils/jwtSecret");
+const { jwtSecret, jwtAlgorithms, jwtPassthrough } = require("./utils/jwtSecret");
 const { setPersist } = require("./middlewares/persist");
 
 const startServer = (port) => {
@@ -65,16 +65,23 @@ const startServer = (port) => {
 
   app.use(koaLogger(_log.logger));
 
-  app.use(serve(pathToSwaggerUi, { index: false }))
-  app.use(serve('public/swagger-ui', { index: false }))
-  app.use(serve('res/swagger', { index: false }))
+  app.use(serve(pathToSwaggerUi, { index: false }));
+  app.use(serve("public/swagger-ui", { index: false }));
+  app.use(serve("res/swagger", { index: false }));
 
   app.use(freeRouter({ corsOptions }).routes());
 
   app.use(
     mainRouter({
       corsOptions,
-      middlewares: [jwt({ secret: jwtSecret, debug: true })],
+      middlewares: [
+        jwt({
+          passthrough: jwtPassthrough,
+          secret: jwtSecret,
+          debug: true,
+          algorithms: [jwtAlgorithms]
+        }),
+      ],
     }).routes()
   );
 

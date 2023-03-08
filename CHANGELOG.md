@@ -3,13 +3,31 @@
 
 ### Features
 
-* adds newrelic no server.js ([752301c](https://github.com/flow-build/workflow/commit/752301cbd1c54a023b7f7b736aa12cc79f1af6a7))
+* :sparkles: add process tree to process state listener ([f73a307](https://github.com/flow-build/workflow/commit/f73a3075dfb22cc4bd7687b12df3950052a40929))
+* **controllers:** :sparkles: add get process tree route to cockpit ([a38b38a](https://github.com/flow-build/workflow/commit/a38b38ad0e58375339099fad98ba34d9d31174a4))
 
 
 ### Bug Fixes
 
-* add username and password to mqtt broker connection ([80cb4a5](https://github.com/flow-build/workflow/commit/80cb4a5065a9c79263a3bf25552318fde054b60f))
-* **tests:** :white_check_mark: Fix unstable tests ([eee8e9e](https://github.com/flow-build/workflow/commit/eee8e9ec3f3c619d9d4c578391d75a4e1290b712))
+* **controllers:** update function signature ([110e654](https://github.com/flow-build/workflow/commit/110e6543b4dc0a2614de03695986cb0641a55045))
+
+## [2.18.0](https://github.com/flow-build/workflow/compare/v2.17.0...v2.18.0) (2023-02-23)
+
+
+### Features
+
+* :sparkles: add timers information to healthcheck ([334f39e](https://github.com/flow-build/workflow/commit/334f39e2cf0529fec45f421f0212128e9e70434e))
+* :sparkles: allow the definition of a namespace to topics ([09758ae](https://github.com/flow-build/workflow/commit/09758ae7ebe34f7d0b120dfa0bf92c3efe02ae52))
+* :sparkles: allow to set diferent jwt key, algorithm and payload structure ([881246c](https://github.com/flow-build/workflow/commit/881246cb650f4d28b0fda01d2f0b6301ee9dbd8c))
+* adds newrelic no server.js ([752301c](https://github.com/flow-build/workflow/commit/752301cbd1c54a023b7f7b736aa12cc79f1af6a7))
+
+## [2.17.0](https://github.com/flow-build/workflow/compare/v2.16.3...v2.17.0) (2023-02-17)
+
+
+### Features
+
+* add possibility to get nested objects on dictionary ([42dd74d](https://github.com/flow-build/workflow/commit/42dd74d30ac7e56a5f2a820d2fd90d9932ddfddd))
+* adds warn logs to http node ([714e031](https://github.com/flow-build/workflow/commit/714e031b645132fb2990d270d626a36ef942af8f))
 
 ## [2.16.3](https://github.com/flow-build/workflow/compare/v2.16.2...v2.16.3) (2023-01-30)
 
