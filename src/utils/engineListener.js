@@ -2,8 +2,24 @@ require("dotenv").config();
 const { logger } = require("./logger");
 const mqtt = require("../services/mqtt");
 const namespace = process.env.MQTT_NAMESPACE;
+const { Tree } = require("@flowbuild/process-tree");
+const { db } = require('./db')
+const tree = new Tree(db);
 
 const processStateListener = async (processState) => {
+
+  if(processState.step_number === 1) {
+    const processId = processState.process_id;
+    const parentId = processState.bag.parent_process_data?.id || processState.actor_data.parentProcessData?.id;
+    if(parentId) {
+      logger.debug(`PS LISTENER: Process Tree, appendChild PID ${processId}`)
+      await tree.appendChild({ parentId, processId })
+    } else {
+      logger.debug(`PS LISTENER: Process Tree, create tree PID ${processId}`)
+      await tree.createTree(processId)
+    }
+  }
+
   if(process.env.PUBLISH_STATE_EVENTS) {
     const topic = (namespace) ? `/${namespace}/process/${processState.process_id}/state` : `/process/${processState.process_id}/state`;
 
