@@ -32,6 +32,11 @@ const healthCheck = async (ctx, next) => {
       protocol: mqttClient?._client?.options?.protocol,
       client: mqttClient?._client?.options?.clientId
     },
+    rabbitMQ: {
+      status: process.env.AMQP,
+      hostname: process.env.BROKER_HOST,
+      queue: process.env.BROKER_QUEUE
+    },
     configuration: {
       logLevels: {
         engine: process.env.ENGINE_LOG_LEVEL,

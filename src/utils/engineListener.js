@@ -1,5 +1,7 @@
 require("dotenv").config();
 const { logger } = require("./logger");
+const rabbitMQ = require("../services/rabbitMQ");
+const queue = process.env.BROKER_QUEUE;
 const mqtt = require("../services/mqtt");
 const namespace = process.env.MQTT_NAMESPACE;
 const { Tree } = require("@flowbuild/process-tree");
@@ -44,29 +46,46 @@ const activityManagerListener = async (activityManager) => {
     return
   }
 
-  const topic = (namespace) ? `/${namespace}/process/${activityManager._process_id}/am/create` : `/process/${activityManager._process_id}/am/create`;
+  if (process.env.MQTT === "true") {
+    const topic = (namespace) ? `/${namespace}/process/${activityManager._process_id}/am/create` : `/process/${activityManager._process_id}/am/create`;
 
-  const message = {
-    process_id: activityManager._process_id,
-    id: activityManager._id,
-    status: activityManager._status,
-    props: activityManager._props,
-  };
+    const message = {
+      process_id: activityManager._process_id,
+      id: activityManager._id,
+      status: activityManager._status,
+      props: activityManager._props,
+    };
 
-  mqtt.publishMessage(topic, message);
+    mqtt.publishMessage(topic, message);
 
-  if (activityManager?._props?.result?.session_id) {
-    const sessionTopic = (namespace) ? `/${namespace}/session/${activityManager._props.result.session_id}/am/create` : `/session/${activityManager._props.result.session_id}/am/create`;
-    mqtt.publishMessage(sessionTopic, message);
-  } else {
-    logger.info("AM LISTENER: No session provided");
-  }
+    if (activityManager?._props?.result?.session_id) {
+      const sessionTopic = (namespace) ? `/${namespace}/session/${activityManager._props.result.session_id}/am/create` : `/session/${activityManager._props.result.session_id}/am/create`;
+      mqtt.publishMessage(sessionTopic, message);
+    } else {
+      logger.info("AM LISTENER: No session provided");
+    }
 
-  if (activityManager?._props?.result?.actor_id) {
-    const actorTopic = (namespace) ? `/${namespace}/actor/${activityManager._props.result.actor_id}/am/create` : `/actor/${activityManager._props.result.actor_id}/am/create`;
-    mqtt.publishMessage(actorTopic, message);
-  } else {
-    logger.info("AM LISTENER: No actor provided");
+    if (activityManager?._props?.result?.actor_id) {
+      const actorTopic = (namespace) ? `/${namespace}/actor/${activityManager._props.result.actor_id}/am/create` : `/actor/${activityManager._props.result.actor_id}/am/create`;
+      mqtt.publishMessage(actorTopic, message);
+    } else {
+      logger.info("AM LISTENER: No actor provided");
+    }
+  } else if (process.env.AMQP === "true") {
+    if (activityManager?._status == "started" && activityManager?._activities?.length === 0) {
+      const payload = {
+        input: {
+          activityManagerId: activityManager?._id,
+          processId: activityManager?._process_id,
+          ...activityManager?._props?.result,
+        },
+        action: activityManager?._props?.action,
+        schema: activityManager?._parameters,
+      };
+  
+      rabbitMQ.publishMessage(queue, payload);
+      return;
+    }
   }
 };
 

@@ -23,6 +23,7 @@ const mqtt = require("./services/mqtt");
 const { db } = require("./utils/db");
 const { jwtSecret, jwtAlgorithms, jwtPassthrough } = require("./utils/jwtSecret");
 const { setPersist } = require("./middlewares/persist");
+const rabbitMQ = require("./services/rabbitMQ");
 
 const startServer = (port) => {
   const engineLogLevel = process.env.ENGINE_LOG_LEVEL || "warn";
@@ -42,6 +43,10 @@ const startServer = (port) => {
 
   if (process.env.MQTT === "true") {
     mqtt.connect();
+  }
+
+  if (process.env.AMQP === "true") {
+    rabbitMQ.connect();
   }
 
   listeners.activateNotifiers(engine);
