@@ -1,6 +1,7 @@
+require('dotenv').config();
 const pkg = require('../../package.json');
 const { logger } = require('../utils/logger');
-const { getClient } = require('../services/mqtt')
+const { getClient } = require('../services/broker/mqtt');
 const { getEngine, getCockpit } = require("../engine");
 
 const healthCheck = async (ctx, next) => {
@@ -12,6 +13,20 @@ const healthCheck = async (ctx, next) => {
 
   const expiredTimers = await cockpit.fetchTimersReady();
   const activeTimers = await cockpit.fetchTimersActive();
+
+  let rabbitMQ, broker = undefined;
+  if (process.env.AMQP === "true") {
+    rabbitMQ = {
+      status: process.env.AMQP,
+      hostname: process.env.BROKER_HOST,
+      queue: process.env.BROKER_QUEUE
+    },
+    broker = {
+      activityManager: process.env.ACTIVITY_MANAGER_BROKER,
+      processState: process.env.PROCESS_STATE_BROKER,
+      engineLogs: process.env.ENGINE_LOGS_BROKER
+    }
+  }
 
   ctx.body = {
     message: 'Flowbuild API is fine!',
@@ -32,11 +47,7 @@ const healthCheck = async (ctx, next) => {
       protocol: mqttClient?._client?.options?.protocol,
       client: mqttClient?._client?.options?.clientId
     },
-    rabbitMQ: {
-      status: process.env.AMQP,
-      hostname: process.env.BROKER_HOST,
-      queue: process.env.BROKER_QUEUE
-    },
+    rabbitMQ,
     configuration: {
       logLevels: {
         engine: process.env.ENGINE_LOG_LEVEL,
@@ -59,7 +70,8 @@ const healthCheck = async (ctx, next) => {
         serviceName: process.env.OTEL_SERVICE_NAME,
         newRelic: process.env.NEW_RELIC_ENABLED === "true" ? "active" : "inactive",
         collector: process.env.OTEL_COLLECTOR_URL
-      }
+      },
+      broker
     }
   }
 

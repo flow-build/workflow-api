@@ -1,7 +1,7 @@
 require("dotenv").config();
 const amqp = require("amqplib");
-const { logger } = require("../utils/logger");
-const { AMQP, BROKER_PASSWORD, BROKER_USERNAME, BROKER_HOST, BROKER_QUEUE } = process.env;
+const { logger } = require("../../utils/logger");
+const { BROKER_PASSWORD, BROKER_USERNAME, BROKER_HOST, BROKER_QUEUE } = process.env;
 
 let channel;
 async function connect() {
@@ -10,7 +10,7 @@ async function connect() {
     logger.info(`[rabbitMQ] HOST: ${BROKER_HOST}`);
     const conn = await amqp.connect(`amqp://${BROKER_USERNAME}:${BROKER_PASSWORD}@${BROKER_HOST}`);
 
-    await createQueue(conn)
+    await createQueue(conn);
 
     channel = await conn.createChannel();
 
@@ -20,17 +20,25 @@ async function connect() {
   }
 }
 
-async function publishMessage(queue, message) {
+async function publishMessage(content) {
   logger.info('[rabbitMQ] Called publishMessage');
-  let response
-  if (channel && AMQP === "true") {
-    logger.info(`[rabbitMQ] publishing message to queue ${queue}`);
-    await channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)));
-    logger.verbose(`[rabbitMQ] Broker message on queue ${queue}`);
+  const message = {
+    input: {
+      activityManagerId: content?._id,
+      processId: content?._process_id,
+      ...content?._props?.result,
+    },
+    action: content?._props?.action,
+    schema: content?._parameters,
+  };
+
+  if (channel) {
+    logger.info(`[rabbitMQ] publishing message to queue ${BROKER_QUEUE}`);
+    await channel.sendToQueue(BROKER_QUEUE, Buffer.from(JSON.stringify(message)));
+    logger.verbose(`[rabbitMQ] Broker message on queue ${BROKER_QUEUE}`);
   } else {
-    logger.info("[rabbitMQ] No channel");
+    logger.info("[rabbitMQ] No channel to publish message");
   }
-  return response;
 }
 
 async function createQueue(conn) {
