@@ -20,7 +20,8 @@ const healthCheck = async (ctx, next) => {
       status: process.env.AMQP,
       hostname: process.env.BROKER_HOST,
       queue: process.env.BROKER_QUEUE
-    },
+    }
+
     broker = {
       activityManager: process.env.ACTIVITY_MANAGER_BROKER,
       processState: process.env.PROCESS_STATE_BROKER,

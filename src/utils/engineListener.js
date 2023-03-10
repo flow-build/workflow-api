@@ -45,31 +45,29 @@ const activityManagerListener = async (activityManager) => {
     return
   }
 
-  if (activityManager?._status == "started" && activityManager?._activities?.length === 0) {
-    const topic = (namespace) ? `/${namespace}/process/${activityManager._process_id}/am/create` : `/process/${activityManager._process_id}/am/create`;
+  const topic = (namespace) ? `/${namespace}/process/${activityManager._process_id}/am/create` : `/process/${activityManager._process_id}/am/create`;
 
-    const message = {
-      process_id: activityManager._process_id,
-      id: activityManager._id,
-      status: activityManager._status,
-      props: activityManager._props,
-    };
+  const message = {
+    process_id: activityManager._process_id,
+    id: activityManager._id,
+    status: activityManager._status,
+    props: activityManager._props,
+  };
 
-    broker.publishMessage({ topic, message, context: activityManager }, ACTIVITY_MANAGER_BROKER);
+  broker.publishMessage({ topic, message, context: activityManager }, ACTIVITY_MANAGER_BROKER);
 
-    if (activityManager?._props?.result?.session_id) {
-      const sessionTopic = (namespace) ? `/${namespace}/session/${activityManager._props.result.session_id}/am/create` : `/session/${activityManager._props.result.session_id}/am/create`;
-      broker.publishMessage({ sessionTopic, message, activityManager }, ACTIVITY_MANAGER_BROKER);
-    } else {
-      logger.info("AM LISTENER: No session provided");
-    }
+  if (activityManager?._props?.result?.session_id) {
+    const sessionTopic = (namespace) ? `/${namespace}/session/${activityManager._props.result.session_id}/am/create` : `/session/${activityManager._props.result.session_id}/am/create`;
+    broker.publishMessage({ sessionTopic, message, activityManager }, ACTIVITY_MANAGER_BROKER);
+  } else {
+    logger.info("AM LISTENER: No session provided");
+  }
 
-    if (activityManager?._props?.result?.actor_id) {
-      const actorTopic = (namespace) ? `/${namespace}/actor/${activityManager._props.result.actor_id}/am/create` : `/actor/${activityManager._props.result.actor_id}/am/create`;
-      broker.publishMessage({ actorTopic, message, activityManager }, ACTIVITY_MANAGER_BROKER);
-    } else {
-      logger.info("AM LISTENER: No actor provided");
-    }
+  if (activityManager?._props?.result?.actor_id) {
+    const actorTopic = (namespace) ? `/${namespace}/actor/${activityManager._props.result.actor_id}/am/create` : `/actor/${activityManager._props.result.actor_id}/am/create`;
+    broker.publishMessage({ actorTopic, message, activityManager }, ACTIVITY_MANAGER_BROKER);
+  } else {
+    logger.info("AM LISTENER: No actor provided");
   }
 }
 
