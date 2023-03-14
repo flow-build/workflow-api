@@ -1,3 +1,11 @@
+## [2.20.0](https://github.com/flow-build/workflow/compare/v2.19.0...v2.20.0) (2023-03-14)
+
+
+### Features
+
+* add optional rabbitmq service ([96b9f31](https://github.com/flow-build/workflow/commit/96b9f31a7d042eee3062db1c1b3efa6214bc9b8f))
+* update engine to 2.22.2 ([5f337ec](https://github.com/flow-build/workflow/commit/5f337ece88f9b24e8769f64d0cf12b5eecd864ff))
+
 ## [2.19.0](https://github.com/flow-build/workflow/compare/v2.18.0...v2.19.0) (2023-03-08)
 
 
