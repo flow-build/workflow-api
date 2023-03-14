@@ -47,6 +47,20 @@ Add a .env file with the following variables:
 - MQTT_PASSWORD (_optional_, required for wss connections)
 - MQTT_NAMESPACE (if present, this string will the prepended to any topic published)
 
+### AMQP CONFIGURATION
+
+- AMQP (bool)
+- BROKER_HOST
+- BROKER_QUEUE
+- BROKER_USERNAME
+- BROKER_PASSWORD 
+
+### CHOOSING BROKERS TO USE (AMQP OR MQTT)
+
+- ACTIVITY_MANAGER_BROKER
+- PROCESS_STATE_BROKER
+- ENGINE_LOGS_BROKER
+
 ### ENGINE CONFIGURATION
 
 - ENGINE_LOG_LEVEL (default=*error*)

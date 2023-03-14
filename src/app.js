@@ -19,7 +19,7 @@ const { setCustomNodes } = require("../src/nodes");
 const _log = require("./utils/logger");
 const elog = require("./utils/engineLogger");
 const listeners = require("./utils/engineListener");
-const mqtt = require("./services/mqtt");
+const broker = require("./services/broker/index");
 const { db } = require("./utils/db");
 const { jwtSecret, jwtAlgorithms, jwtPassthrough } = require("./utils/jwtSecret");
 const { setPersist } = require("./middlewares/persist");
@@ -40,9 +40,7 @@ const startServer = (port) => {
   }
   setCustomNodes();
 
-  if (process.env.MQTT === "true") {
-    mqtt.connect();
-  }
+  broker.connect();
 
   listeners.activateNotifiers(engine);
 

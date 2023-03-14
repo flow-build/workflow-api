@@ -1,6 +1,7 @@
 require("dotenv").config();
 const { createLogger, format, transports } = require("winston");
-const mqtt = require("../services/mqtt");
+const broker = require("../services/broker/index");
+const { ENGINE_LOGS_BROKER } = process.env;
 
 const engineLogger = createLogger({
   transports: [
@@ -33,7 +34,7 @@ const startLogger = () => {
         timestamp: new Date(),
       };
     
-      mqtt.publishMessage(topic, msg);
+      broker.publishMessage({ topic, message: msg }, ENGINE_LOGS_BROKER);
     });
   }
   

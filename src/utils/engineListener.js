@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { logger } = require("./logger");
-const mqtt = require("../services/mqtt");
 const namespace = process.env.MQTT_NAMESPACE;
+const broker = require("../services/broker/index");
 const { Tree } = require("@flowbuild/process-tree");
 const { db } = require('./db')
 const tree = new Tree(db);
@@ -33,7 +33,7 @@ const processStateListener = async (processState) => {
       result: processState.result
     };
   
-    mqtt.publishMessage(topic, message);
+    broker.publishMessage({ topic, message }, process.env.PROCESS_STATE_BROKER);
     logger.info(`PS LISTENER: PID [${processState.process_id}] SID [${processState.id}], step [${processState.step_number}], status [${processState.status}]`);
   }
 };
@@ -53,26 +53,26 @@ const activityManagerListener = async (activityManager) => {
     props: activityManager._props,
   };
 
-  mqtt.publishMessage(topic, message);
+  broker.publishMessage({ topic, message, context: activityManager }, process.env.ACTIVITY_MANAGER_BROKER);
 
   if (activityManager?._props?.result?.session_id) {
     const sessionTopic = (namespace) ? `/${namespace}/session/${activityManager._props.result.session_id}/am/create` : `/session/${activityManager._props.result.session_id}/am/create`;
-    mqtt.publishMessage(sessionTopic, message);
+    broker.publishMessage({ sessionTopic, message, activityManager }, process.env.ACTIVITY_MANAGER_BROKER);
   } else {
     logger.info("AM LISTENER: No session provided");
   }
 
   if (activityManager?._props?.result?.actor_id) {
     const actorTopic = (namespace) ? `/${namespace}/actor/${activityManager._props.result.actor_id}/am/create` : `/actor/${activityManager._props.result.actor_id}/am/create`;
-    mqtt.publishMessage(actorTopic, message);
+    broker.publishMessage({ actorTopic, message, activityManager }, process.env.ACTIVITY_MANAGER_BROKER);
   } else {
     logger.info("AM LISTENER: No actor provided");
   }
-};
+}
 
 const activateNotifiers = (engine) => {
   engine.setProcessStateNotifier(processStateListener);
-  engine.setActivityManagerNotifier(activityManagerListener);
+  engine.setActivityManagerNotifier(activityManagerListener); 
 };
 
 module.exports = {

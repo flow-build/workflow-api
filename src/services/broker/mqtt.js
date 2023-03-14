@@ -1,7 +1,7 @@
 require("dotenv").config();
 const mqtt = require("async-mqtt");
 const { nanoid } = require("nanoid");
-const { logger } = require("../utils/logger");
+const { logger } = require("../../utils/logger");
 
 let client;
 async function connect() {
@@ -29,15 +29,15 @@ async function connect() {
 
 async function publishMessage(topic, message) {
   let response;
-  if (process.env.MQTT === "true") {
-    logger.info(`[mqtt] publishing message to topic ${topic}`);
-    if (client) {
-      response = await client.publish(topic, JSON.stringify(message), { qos: 1 });
-      logger.verbose(`[mqtt] Broker messageId: ${response.messageId} on topic ${topic}`);
-    } else {
-      logger.info("[mqtt] No client");
-    }
+
+  logger.info(`[mqtt] publishing message to topic ${topic}`);
+  if (client) {
+    response = await client.publish(topic, JSON.stringify(message), { qos: 1 });
+    logger.verbose(`[mqtt] Broker messageId: ${response.messageId} on topic ${topic}`);
+  } else {
+    logger.info("[mqtt] No client");
   }
+
   return response;
 }
 
