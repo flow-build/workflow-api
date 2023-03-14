@@ -5,7 +5,6 @@ const broker = require("../services/broker/index");
 const { Tree } = require("@flowbuild/process-tree");
 const { db } = require('./db')
 const tree = new Tree(db);
-const { ACTIVITY_MANAGER_BROKER, PROCESS_STATE_BROKER } = process.env;
 
 const processStateListener = async (processState) => {
 
@@ -34,7 +33,7 @@ const processStateListener = async (processState) => {
       result: processState.result
     };
   
-    broker.publishMessage({ topic, message }, PROCESS_STATE_BROKER);
+    broker.publishMessage({ topic, message }, process.env.PROCESS_STATE_BROKER);
     logger.info(`PS LISTENER: PID [${processState.process_id}] SID [${processState.id}], step [${processState.step_number}], status [${processState.status}]`);
   }
 };
@@ -54,18 +53,18 @@ const activityManagerListener = async (activityManager) => {
     props: activityManager._props,
   };
 
-  broker.publishMessage({ topic, message, context: activityManager }, ACTIVITY_MANAGER_BROKER);
+  broker.publishMessage({ topic, message, context: activityManager }, process.env.ACTIVITY_MANAGER_BROKER);
 
   if (activityManager?._props?.result?.session_id) {
     const sessionTopic = (namespace) ? `/${namespace}/session/${activityManager._props.result.session_id}/am/create` : `/session/${activityManager._props.result.session_id}/am/create`;
-    broker.publishMessage({ sessionTopic, message, activityManager }, ACTIVITY_MANAGER_BROKER);
+    broker.publishMessage({ sessionTopic, message, activityManager }, process.env.ACTIVITY_MANAGER_BROKER);
   } else {
     logger.info("AM LISTENER: No session provided");
   }
 
   if (activityManager?._props?.result?.actor_id) {
     const actorTopic = (namespace) ? `/${namespace}/actor/${activityManager._props.result.actor_id}/am/create` : `/actor/${activityManager._props.result.actor_id}/am/create`;
-    broker.publishMessage({ actorTopic, message, activityManager }, ACTIVITY_MANAGER_BROKER);
+    broker.publishMessage({ actorTopic, message, activityManager }, process.env.ACTIVITY_MANAGER_BROKER);
   } else {
     logger.info("AM LISTENER: No actor provided");
   }

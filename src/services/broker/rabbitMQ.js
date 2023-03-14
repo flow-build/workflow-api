@@ -6,7 +6,7 @@ const { BROKER_PASSWORD, BROKER_USERNAME, BROKER_HOST, BROKER_QUEUE } = process.
 let channel;
 async function connect() {
   try {
-    logger.info("trying to connect no RABBITMQ Broker");
+    logger.info("trying to connect to RABBITMQ Broker");
     logger.info(`[rabbitMQ] HOST: ${BROKER_HOST}`);
     const conn = await amqp.connect(`amqp://${BROKER_USERNAME}:${BROKER_PASSWORD}@${BROKER_HOST}`);
 
@@ -41,6 +41,10 @@ async function publishMessage(content) {
   }
 }
 
+function getChannel() { 
+  return channel;
+}
+
 async function createQueue(conn) {
   const channelCreated = await conn.createChannel();
 
@@ -55,4 +59,5 @@ async function createQueue(conn) {
 module.exports = {
   publishMessage,
   connect,
+  getChannel,
 }
