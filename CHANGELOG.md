@@ -1,3 +1,11 @@
+## [2.20.1](https://github.com/flow-build/workflow/compare/v2.20.0...v2.20.1) (2023-03-15)
+
+
+### Bug Fixes
+
+* adjust app start from nodemon to node ([10012c1](https://github.com/flow-build/workflow/commit/10012c11abd4e629876f628a523f282073aeafca))
+* pin app port to 3000 ([b5ca7fa](https://github.com/flow-build/workflow/commit/b5ca7fa0efa32d99f1d5498f11effea15dfa6444))
+
 ## [2.20.0](https://github.com/flow-build/workflow/compare/v2.19.0...v2.20.0) (2023-03-14)
 
 
