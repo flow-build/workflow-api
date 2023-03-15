@@ -10,7 +10,7 @@
     "seeds:local": "knex --env dockerLocal --knexfile knexfile.js seed:run",
     "migrations": "knex --env ${KNEX_ENV} --knexfile knexfile.js migrate:latest",
     "migrations:local": "knex --env dockerLocal --knexfile knexfile.js migrate:latest",
-    "start": "nodemon src/server.js",
+    "start": "node src/server.js",
     "watch": "nodemon --inspect=0.0.0.0 src/server.js",
     "get-version": "echo $npm_package_version",
     "release": "semantic-release",
