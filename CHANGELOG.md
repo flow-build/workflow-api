@@ -1,3 +1,10 @@
+## [2.20.2](https://github.com/flow-build/workflow/compare/v2.20.1...v2.20.2) (2023-03-16)
+
+
+### Bug Fixes
+
+* adjust mqtt topic key ([e916dbd](https://github.com/flow-build/workflow/commit/e916dbd2b55e602755675d5e55a0fb55ed91b0dd))
+
 ## [2.20.1](https://github.com/flow-build/workflow/compare/v2.20.0...v2.20.1) (2023-03-15)
 
 
