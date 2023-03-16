@@ -44,7 +44,7 @@ const activityManagerListener = async (activityManager) => {
     return
   }
 
-  const topic = (namespace) ? `/${namespace}/process/${activityManager._process_id}/am/create` : `/process/${activityManager._process_id}/am/create`;
+  let topic = (namespace) ? `/${namespace}/process/${activityManager._process_id}/am/create` : `/process/${activityManager._process_id}/am/create`;
 
   const message = {
     process_id: activityManager._process_id,
@@ -56,15 +56,15 @@ const activityManagerListener = async (activityManager) => {
   broker.publishMessage({ topic, message, context: activityManager }, process.env.ACTIVITY_MANAGER_BROKER);
 
   if (activityManager?._props?.result?.session_id) {
-    const sessionTopic = (namespace) ? `/${namespace}/session/${activityManager._props.result.session_id}/am/create` : `/session/${activityManager._props.result.session_id}/am/create`;
-    broker.publishMessage({ sessionTopic, message, activityManager }, process.env.ACTIVITY_MANAGER_BROKER);
+    topic = (namespace) ? `/${namespace}/session/${activityManager._props.result.session_id}/am/create` : `/session/${activityManager._props.result.session_id}/am/create`;
+    broker.publishMessage({ topic, message, activityManager }, process.env.ACTIVITY_MANAGER_BROKER);
   } else {
     logger.info("AM LISTENER: No session provided");
   }
 
   if (activityManager?._props?.result?.actor_id) {
-    const actorTopic = (namespace) ? `/${namespace}/actor/${activityManager._props.result.actor_id}/am/create` : `/actor/${activityManager._props.result.actor_id}/am/create`;
-    broker.publishMessage({ actorTopic, message, activityManager }, process.env.ACTIVITY_MANAGER_BROKER);
+    topic = (namespace) ? `/${namespace}/actor/${activityManager._props.result.actor_id}/am/create` : `/actor/${activityManager._props.result.actor_id}/am/create`;
+    broker.publishMessage({ topic, message, activityManager }, process.env.ACTIVITY_MANAGER_BROKER);
   } else {
     logger.info("AM LISTENER: No actor provided");
   }
