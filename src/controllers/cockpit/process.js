@@ -242,6 +242,43 @@ const getStatesFromNode = async (ctx, next) => {
   return next();
 };
 
+const expireProcess = async (ctx, next) => {
+  logger.verbose("Cockpit expireProcess");
+
+  const process_id = ctx.params.id;
+  const actor_data = ctx.state.actor_data;
+  const result = ctx.request.body;
+
+  const cockpit = getCockpit();
+  const process = await cockpit.fetchProcess(process_id);
+  console.log(process)
+  if(!process) {
+    ctx.status = 404;
+    ctx.body = { message: "Process not found" }
+    return next();
+  }
+
+  if(['finished','expired','running'].includes(process._current_status)) {
+    ctx.status = 409;
+    ctx.body = { 
+      message: "Cannot expire process",
+      current_status: process._current_status
+    }
+    return next();
+  }
+
+  try {
+    const response = await cockpit.expireProcess(process_id, actor_data, result);
+    ctx.status = 200;
+    ctx.body = response;
+  } catch (e) {
+    ctx.status = 400;
+    ctx.body = { message: `Failed at ${e.message}`, error: e };
+  }
+
+  return next();
+}
+
 module.exports = {
   getProcessesByWorkflowId,
   getProcessesByWorkflowName,
@@ -250,4 +287,5 @@ module.exports = {
   setProcessState,
   transferProcessState,
   runPendingProcess,
+  expireProcess
 };
