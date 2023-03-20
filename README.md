@@ -28,6 +28,9 @@ Add a .env file with the following variables:
 
 ### TOKEN CONFIGURATION
 
+The default configuration is set to use a own generated JWT token.
+If an external token is to be used, the JWT_ variables need to be passed. 
+
 - JWT_KEY (default=*1234*)
 - JWT_ALG (default=*HS256*, if set to RS256, the application will convert the JWT_KEY to a public certificate.)
 - JWT_PASSTHROUGH (boolean, default=*true*)
@@ -76,7 +79,20 @@ Add a .env file with the following variables:
 - TIMER_BATCH (integer, default=*40*)
 - ORPHAN_BATCH (integer, default=*40*)
 
+#### TIMER CONFIGURATION
+
+Timer management can be handled outside the heartbeat, by a external Timer Worker running timers using an Redis Queue using bullMQ. 
+To enable this option, the engine must be configured to publish timers on the queue thru 3 variables that configures the bullMQ.
+
+- TIMER_QUEUE (string)
+- TIMER_HOST (URL)
+- TIMER_PORT
+
 ### HEALTHCHECK
+
+Healthcheck route (GET / or GET /healthcheck), by default, checks the router and db connection.
+The server can be configured to evaluate the number of ready timers (timers expired but not yet triggered) to access engine health.
+This setting should not be enabled if the timers area being handled by the timer worker.
 
 - MAX_READY_TIMERS (_optional_, integer, defines the amount of ready timers before the server is declared unhealthy)
 
