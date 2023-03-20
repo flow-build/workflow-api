@@ -6,6 +6,8 @@ const nodeSchema = {
         type: "object",
         properties: {
           input_schema: { type: "object" },
+          timeout: { type: "integer" },
+          duration: { type: "string" }
         },
       },
     },
@@ -163,8 +165,7 @@ const categorySchema = {
       },
       input: { type: "object" },
     },
-    required: ["timeout", "input"],
-    additionalProperties: false,
+    required: ["input"]
   },
   startprocess: {
     type: "object",
