@@ -11,7 +11,7 @@
     "migrations": "knex --env ${KNEX_ENV} --knexfile knexfile.js migrate:latest",
     "migrations:local": "knex --env dockerLocal --knexfile knexfile.js migrate:latest",
     "start": "node src/server.js",
-    "watch": "nodemon --inspect=0.0.0.0 src/server.js",
+    "dev": "nodemon src/server.js",
     "get-version": "echo $npm_package_version",
     "release": "semantic-release",
     "export": "node ./scripts/export.js",
@@ -29,7 +29,7 @@
     "supertest": "6.3.3"
   },
   "dependencies": {
-    "@flowbuild/engine": "2.22.2",
+    "@flowbuild/engine": "2.24.3",
     "@flowbuild/indexer": "1.0.2",
     "@flowbuild/nodejs-diagram-builder": "1.1.0",
     "@flowbuild/process-tree": "1.0.4",
@@ -48,14 +48,14 @@
     "ajv-formats": "2.1.1",
     "amqplib": "0.10.3",
     "async-mqtt": "2.6.3",
-    "axios": "1.3.3",
+    "axios": "1.3.4",
     "dotenv": "16.0.3",
     "grpc-client-promise-wrapper": "1.0.5",
     "grpc-reflection-js": "0.1.2",
-    "jsrsasign": "10.6.1",
+    "jsrsasign": "10.7.0",
     "knex": "2.4.2",
     "koa": "2.14.1",
-    "koa-bodyparser": "4.3.0",
+    "koa-bodyparser": "4.4.0",
     "koa-compose": "4.1.0",
     "koa-helmet": "6.1.0",
     "koa-jwt": "4.0.4",
@@ -66,14 +66,14 @@
     "koa2-cors": "2.0.6",
     "lodash": "4.17.21",
     "nanoid": "3.3.4",
-    "newrelic": "9.10.2",
-    "npm": "9.6.0",
-    "pg": "8.9.0",
+    "newrelic": "9.13.0",
+    "npm": "9.6.2",
+    "pg": "8.10.0",
     "raw-body": "2.5.2",
     "swagger-ui-dist": "4.17.0",
     "uuid": "8.3.2",
     "winston": "3.8.2",
-    "ws": "8.12.1"
+    "ws": "8.13.0"
   },
   "keywords": [],
   "author": "FDTE-DSD",
@@ -84,6 +84,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/flow-build/workflow.git"
+  },
+  "nodemonConfig": {
+    "ext": "js",
+    "ignore": ["**/samples/**"] 
   },
   "homepage": "https://github.com/flow-build/workflow#readme"
 }

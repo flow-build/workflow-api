@@ -50,3 +50,10 @@ services:
   #   ports:
   #     - 5672:5672
   #     - 15672:15672
+
+  redis:
+    image: redis:7-bullseye
+    container_name: flowbuild_redis
+    restart: always
+    ports:
+      - 6379:6379

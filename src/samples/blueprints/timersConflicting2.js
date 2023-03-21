@@ -1,36 +1,37 @@
 module.exports = {
-  name: "timer_process",
-  description: "timer task workflow",
+  name: "timerConflicting2",
+  description: "Process that expires before the intermediate timer run out",
   blueprint_spec: {
     requirements: ["core"],
     prepare: [],
     nodes: [
       {
-        id: "1",
+        id: "START",
         type: "Start",
-        name: "Start node",
-        next: "2",
+        name: "Start process",
+        next: "TIMER",
         parameters: {
           input_schema: {},
+          timeout: 5
         },
         lane_id: "1",
       },
       {
-        id: "2",
+        id: "TIMER",
         type: "SystemTask",
         category: "timer",
-        name: "Timer node",
-        next: "3",
+        name: "Timer node with higher duration than process",
+        next: "END",
         lane_id: "1",
         parameters: {
           input: {},
-          timeout: 30,
+          duration: "PT10S",
         },
       },
       {
-        id: "3",
+        id: "END",
         type: "Finish",
-        name: "Finish node",
+        name: "Finish process",
         next: null,
         lane_id: "1",
       },
@@ -39,7 +40,7 @@ module.exports = {
       {
         id: "1",
         name: "the_only_lane",
-        rule: ["fn", ["&", "args"], true],
+        rule: { $js: "() => true" },
       },
     ],
     environment: {},

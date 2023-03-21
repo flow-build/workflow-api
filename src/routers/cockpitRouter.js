@@ -10,6 +10,7 @@ const wv = require("../validators/workflow");
 const workflowCtrl = require("../controllers/workflow");
 const cp = require("../controllers/cockpit/process");
 const pt = require('../controllers/cockpit/processTree');
+const cam = require("../controllers/cockpit/activityManager")
 const { getNodes, fetchNode } = require("../controllers/cockpit/nodes")
 
 module.exports = (opts = {}) => {
@@ -48,15 +49,21 @@ module.exports = (opts = {}) => {
   processes.post("/:id/state/run", validateUUID, cp.runPendingProcess);
   processes.post("/:id/set/:state_id", validateUUID, cp.transferProcessState);
   processes.get("/:id/tree", validateUUID, pt.getProcessTree);
+  processes.post("/:id/expire", validateUUID, cp.expireProcess);
   
   const nodes = new Router();
   nodes.prefix("/nodes");
   nodes.get('/', getNodes)
   nodes.post("/", cockpitValidator.validateFetchNodeSchema, fetchNode)
 
+  const activityManager = new Router();
+  activityManager.prefix("/activities");
+  activityManager.post("/:id/expire", validateUUID, cam.expire)
+
   router.use(processes.routes());
   router.use(workflows.routes());
   router.use(nodes.routes());
+  router.use(activityManager.routes());
 
   return router;
 };
