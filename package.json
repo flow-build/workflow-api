@@ -1,6 +1,6 @@
 {
   "name": "@flowbuild/workflow",
-  "version": "2.20.2",
+  "version": "2.21.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -87,7 +87,9 @@
   },
   "nodemonConfig": {
     "ext": "js",
-    "ignore": ["**/samples/**"] 
+    "ignore": [
+      "**/samples/**"
+    ]
   },
   "homepage": "https://github.com/flow-build/workflow#readme"
 }
