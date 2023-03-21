@@ -251,7 +251,6 @@ const expireProcess = async (ctx, next) => {
 
   const cockpit = getCockpit();
   const process = await cockpit.fetchProcess(process_id);
-  console.log(process)
   if(!process) {
     ctx.status = 404;
     ctx.body = { message: "Process not found" }
