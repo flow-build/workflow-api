@@ -1,3 +1,11 @@
+## [2.21.0](https://github.com/flow-build/workflow/compare/v2.20.2...v2.21.0) (2023-03-21)
+
+
+### Features
+
+* add expireActivityManager method ([75f6196](https://github.com/flow-build/workflow/commit/75f619690b815b08573f3a8d2fecf6a116c20170))
+* add expireProcess ([821274d](https://github.com/flow-build/workflow/commit/821274dce90ee9bd3e9c71450559551b3d14d938))
+
 ## [2.20.2](https://github.com/flow-build/workflow/compare/v2.20.1...v2.20.2) (2023-03-16)
 
 
