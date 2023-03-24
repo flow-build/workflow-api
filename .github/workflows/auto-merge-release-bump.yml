@@ -26,7 +26,7 @@ jobs:
     steps:
       - name: Autoapproving
         uses: hmarr/auto-approve-action@v3
-        if: github.actor == 'flowbuild-bot'
+        if: ${{github.actor == 'flowbuild-bot'}} || ${{github.actor == 'bot-flowbuild'}}
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: Automerging
         uses: pascalgn/automerge-action@v0.15.6
-        if: github.actor == 'flowbuild-bot'
+        if: ${{github.actor == 'flowbuild-bot'}} || ${{github.actor == 'bot-flowbuild'}}
         env:
           GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
           GITHUB_LOGIN: flowbuild-bot
