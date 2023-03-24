@@ -1,3 +1,10 @@
+## [2.21.1](https://github.com/flow-build/workflow/compare/v2.21.0...v2.21.1) (2023-03-24)
+
+
+### Bug Fixes
+
+* update engine to allow disabling timer batch ([86f2abd](https://github.com/flow-build/workflow/commit/86f2abdb4b77c602cbdec9d936aa5600c9ae236f))
+
 ## [2.21.0](https://github.com/flow-build/workflow/compare/v2.20.2...v2.21.0) (2023-03-21)
 
 
