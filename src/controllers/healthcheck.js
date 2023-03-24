@@ -12,8 +12,8 @@ const healthCheck = async (ctx, next) => {
   const mqttClient = getClient();
 
   const expiredTimers = await cockpit.fetchTimersReady();
-  const activeTimers = await cockpit.fetchTimersActive();
-
+  const activeTimers = await cockpit.fetchTimersActive();  
+  
   let rabbitMQ, broker = undefined;
   if (process.env.AMQP === "true") {
     rabbitMQ = {
@@ -37,7 +37,9 @@ const healthCheck = async (ctx, next) => {
       latestEvent: engine.emitter.event
     },
     timers: {
-      ready: expiredTimers.length,
+      batch: process.env.TIMER_BATCH,
+      queue: process.env.TIMER_QUEUE,
+      ready: process.env.TIMER_BATCH === 0 ? expiredTimers.length : "engine timer processing disabled",
       active: activeTimers.length
     },
     'diagram-builder': pkg.dependencies['@flowbuild/nodejs-diagram-builder'],
