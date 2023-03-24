@@ -1,34 +1,18 @@
 name: Automerge release bump PR
 
-on:
-  pull_request:
-    types:
-      - labeled
-      - unlabeled
-      - synchronize
-      - opened
-      - edited
-      - ready_for_review
-      - reopened
-      - unlocked
-  pull_request_review:
-    types:
-      - submitted
-  check_suite: 
-    types:
-      - completed
-  status: {}
+on: pull_request_target
   
 jobs:
-
   autoapprove:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    if: ${{github.actor == 'flowbuild-bot'}} || ${{github.actor == 'bot-flowbuild'}}
     steps:
       - name: Autoapproving
         uses: hmarr/auto-approve-action@v3
-        if: ${{github.actor == 'flowbuild-bot'}} || ${{github.actor == 'bot-flowbuild'}}
         with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          review-message: "Auto approved automated PR"
 
   automerge:
     needs: [autoapprove]
