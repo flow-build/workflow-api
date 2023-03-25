@@ -27,5 +27,7 @@ jobs:
           MERGE_LABELS: ""
           MERGE_METHOD: "squash"
           MERGE_COMMIT_MESSAGE: "pull-request-title"
-          MERGE_RETRIES: "10"
-          MERGE_RETRY_SLEEP: "10000"
+          MERGE_RETRIES: "5"
+          MERGE_RETRY_SLEEP: "60000"
+          MERGE_FILTER_AUTHOR: bot-flowbuilld <bot.flowbuild@gmail.com>
+          MERGE_DELETE_BRANCH: true
