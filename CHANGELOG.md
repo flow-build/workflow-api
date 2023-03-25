@@ -1,3 +1,10 @@
+## [2.21.2](https://github.com/flow-build/workflow/compare/v2.21.1...v2.21.2) (2023-03-25)
+
+
+### Bug Fixes
+
+* add option to choose status to listen on engineListener ([99affbb](https://github.com/flow-build/workflow/commit/99affbbe0beded0af0e2fa8e3244540700835595))
+
 ## [2.21.1](https://github.com/flow-build/workflow/compare/v2.21.0...v2.21.1) (2023-03-24)
 
 
