@@ -64,10 +64,9 @@ If an external token is to be used, the JWT_ variables need to be passed.
 - PROCESS_STATE_BROKER
 - ENGINE_LOGS_BROKER
 
-### CHOOSING PROCESS_STATE AND ACTIVITY_MANAGER STATUS TO LISTEN
+### ACTIVITY_MANAGER CONFIGURATION
 
-- AM_STATUS_TO_LISTEN=started,completed (default=not provided, examples: *started* | *started,completed*)
-- PS_STATUS_TO_LISTEN=waiting (default=not provided, examples: *waiting* | *waiting,finished*)
+- ACTIVITY_MANAGER_SEND_ONLY_ON_CREATION (bool)
 
 ### ENGINE CONFIGURATION
 
