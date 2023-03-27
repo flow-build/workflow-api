@@ -1,3 +1,10 @@
+## [2.22.0](https://github.com/flow-build/workflow/compare/v2.21.3...v2.22.0) (2023-03-27)
+
+
+### Features
+
+* add kafka broker and publish node ([9728c1a](https://github.com/flow-build/workflow/commit/9728c1a5e99b2ec05cff6ed24510ac68ac67b02f))
+
 ## [2.21.3](https://github.com/flow-build/workflow/compare/v2.21.2...v2.21.3) (2023-03-25)
 
 
