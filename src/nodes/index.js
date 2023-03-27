@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { logger } = require("../utils/logger");
 const { addSystemTaskCategory } = require("@flowbuild/engine");
 const createIndexNode = require("./createIndexNode");
@@ -9,7 +10,8 @@ const BasicAuthNode = require("./basicAuthNode");
 const remapDataNode = require('./remapDataNode');
 const filterDataNode = require('./filterDataNode');
 const DeepCompareNode = require('./deepCompareNode');
-const GrpcNode = require("./grpcNode")
+const GrpcNode = require("./grpcNode");
+const KafkaPublishNode = require("./kafkaPublishNode");
 
 const setCustomNodes = () => {
   addSystemTaskCategory({ createIndex: createIndexNode });
@@ -32,6 +34,11 @@ const setCustomNodes = () => {
   logger.info("added deepCompareNode");
   addSystemTaskCategory({ grpc: GrpcNode });
   logger.info("added grpcNode");
+  if(process.env.KAFKA) {
+    addSystemTaskCategory({ kafkaPublish: KafkaPublishNode });
+    logger.info("added kafkaPublishNode");
+  }
+  
 };
 
 module.exports.setCustomNodes = setCustomNodes;
