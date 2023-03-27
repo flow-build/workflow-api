@@ -75,8 +75,6 @@ class KafkaPublishNode extends Nodes.SystemTaskNode {
         throw JSON.stringify(errors);
       }
       const { message, event, topic } = executionData;
-      console.log("kafka executionData", executionData);
-
       const result = await kafka.publishMessage({
         topic,
         message: { ...message, ...{ processId: executionData.process_id } },
