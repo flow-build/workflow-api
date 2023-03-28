@@ -1,4 +1,6 @@
-FROM node:18.12 as base
+FROM node:18-alpine as base
+
+RUN apk update && apk add bash && apk add curl
 
 RUN mkdir /usr/app
 WORKDIR /usr/app
