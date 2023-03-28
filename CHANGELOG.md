@@ -1,3 +1,11 @@
+## [2.22.1](https://github.com/flow-build/workflow/compare/v2.22.0...v2.22.1) (2023-03-28)
+
+
+### Bug Fixes
+
+* add option to choose status to listen on engineListener ([b8a1651](https://github.com/flow-build/workflow/commit/b8a16517d95adba480bc640201d86652d192bc17))
+* enable activityManagerListener to send message only on creation ([b59c5af](https://github.com/flow-build/workflow/commit/b59c5af77a2bd1c96b51a3f97b3cb385fba1e94a))
+
 ## [2.22.0](https://github.com/flow-build/workflow/compare/v2.21.3...v2.22.0) (2023-03-27)
 
 
