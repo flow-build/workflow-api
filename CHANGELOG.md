@@ -1,3 +1,10 @@
+## [2.22.2](https://github.com/flow-build/workflow/compare/v2.22.1...v2.22.2) (2023-03-28)
+
+
+### Bug Fixes
+
+* change implementation to kafkajs ([b86da37](https://github.com/flow-build/workflow/commit/b86da37b950f1d9eb99b590f50234a501402963d))
+
 ## [2.22.1](https://github.com/flow-build/workflow/compare/v2.22.0...v2.22.1) (2023-03-28)
 
 
