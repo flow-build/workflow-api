@@ -1,3 +1,10 @@
+## [2.22.4](https://github.com/flow-build/workflow/compare/v2.22.3...v2.22.4) (2023-03-29)
+
+
+### Bug Fixes
+
+* update engine to adjust continue process ([c0c5b1e](https://github.com/flow-build/workflow/commit/c0c5b1e1b552f0c585481380ef7fdc4f67e40fde))
+
 ## [2.22.3](https://github.com/flow-build/workflow/compare/v2.22.2...v2.22.3) (2023-03-29)
 
 
