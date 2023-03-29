@@ -1,3 +1,11 @@
+## [2.22.3](https://github.com/flow-build/workflow/compare/v2.22.2...v2.22.3) (2023-03-29)
+
+
+### Bug Fixes
+
+* adjust option to send message only on creation ([2ce757a](https://github.com/flow-build/workflow/commit/2ce757a7985ca3464e4f71d149027046fb40d84a))
+* set broker default to MQTT ([856975a](https://github.com/flow-build/workflow/commit/856975a4a1b63dfad139347ebf4f60f14389d2f0))
+
 ## [2.22.2](https://github.com/flow-build/workflow/compare/v2.22.1...v2.22.2) (2023-03-28)
 
 
