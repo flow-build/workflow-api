@@ -40,7 +40,10 @@ const processStateListener = async (processState) => {
 
 const activityManagerListener = async (activityManager) => {
   logger.info(`AM LISTENER: AMID [${activityManager._id}]`);
-  const skipListener = (process.env.ACTIVITY_MANAGER_SEND_ONLY_ON_CREATION === "true" && activityManager._activities?.length > 0);
+  const skipListener = (
+    process.env.ACTIVITY_MANAGER_SEND_ONLY_ON_CREATION === "true" 
+    && (activityManager._activities?.length > 0 || activityManager._status !== "started")
+  );
 
   if (!activityManager._id || skipListener) {
     return
