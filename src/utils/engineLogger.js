@@ -34,7 +34,7 @@ const startLogger = () => {
         timestamp: new Date(),
       };
     
-      broker.publishMessage({ topic, message: msg }, ENGINE_LOGS_BROKER);
+      broker.publishMessage({ topic, message: msg }, ENGINE_LOGS_BROKER || "MQTT");
     });
   }
   
