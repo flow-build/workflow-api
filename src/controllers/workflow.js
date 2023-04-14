@@ -3,6 +3,9 @@ const { getEngine, getCockpit } = require("../engine");
 const { compareBlueprints } = require("../services/compareBlueprints");
 const { logger } = require("../utils/logger");
 const { validateEnvironmentVariable } = require("../validators/workflow");
+const { publishMessage } = require("../services/broker")
+const { identifyTarget } = require("../utils/identifyTarget")
+const namespace = process.env.MQTT_NAMESPACE;
 
 const serializeWorkflow = (workflow) => {
   return {
@@ -47,6 +50,28 @@ const saveWorkflow = async (ctx, next) => {
     logger.debug("Workflow Created");
     if (!response.error) {
       const workflow = await engine.fetchWorkflow(response.id);
+      const [hasTarget, event] = identifyTarget(blueprint_spec)
+      if (hasTarget) {
+        let topic = `workflow.create`
+        if (process.env.WORKFLOW_EVENTS_BROKER === 'MQTT') {
+          topic = (namespace) ?
+            `/${namespace}/workflow/${workflow.id}/create`
+            : `/workflow/${workflow.id}/create`
+        }
+        publishMessage({
+          context: {
+            topic,
+            message: {
+              name,
+              workflow_id: workflow.id,
+              hash: workflow._blueprint_hash,
+              event: event,
+              version: workflow._version,
+              warnings: environmentValidation,
+            }
+          }
+        }, process.env.WORKFLOW_EVENTS_BROKER)
+      }
       ctx.status = 201;
       ctx.body = {
         workflow_id: workflow.id,
