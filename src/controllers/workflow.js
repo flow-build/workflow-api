@@ -5,7 +5,7 @@ const { logger } = require("../utils/logger");
 const { validateEnvironmentVariable } = require("../validators/workflow");
 const { publishMessage } = require("../services/broker")
 const { identifyTarget } = require("../utils/identifyTarget")
-const namespace = process.env.MQTT_NAMESPACE;
+const namespace = process.env.WORKFLOW_EVENTS_NAMESPACE || process.env.NODE_ENV;
 
 const serializeWorkflow = (workflow) => {
   return {
@@ -52,7 +52,9 @@ const saveWorkflow = async (ctx, next) => {
       const workflow = await engine.fetchWorkflow(response.id);
       const [hasTarget, event] = identifyTarget(blueprint_spec)
       if (hasTarget) {
-        let topic = `workflow.create`
+        let topic = (namespace) ?
+          `${namespace}.workflow.create`
+          : `workflow.create`
         if (process.env.WORKFLOW_EVENTS_BROKER === 'MQTT') {
           topic = (namespace) ?
             `/${namespace}/workflow/${workflow.id}/create`
