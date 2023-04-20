@@ -53,8 +53,8 @@ const saveWorkflow = async (ctx, next) => {
       const [hasTarget, event] = identifyTarget(blueprint_spec)
       if (hasTarget) {
         let topic = (namespace) ?
-          `${namespace}.workflow.create`
-          : `workflow.create`
+          `${namespace}.wem.workflow.target.create`
+          : `wem.workflow.target.create`
         if (process.env.WORKFLOW_EVENTS_BROKER === 'MQTT') {
           topic = (namespace) ?
             `/${namespace}/workflow/${workflow.id}/create`
