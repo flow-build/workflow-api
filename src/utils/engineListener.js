@@ -89,6 +89,19 @@ const eventNodeNotifier = async (eventData) => {
       }
     }, process.env.WORKFLOW_EVENTS_BROKER || "KAFKA")
   }
+
+  else if (event.family === 'trigger') {
+    const { definition } = event
+    await broker.publishMessage({
+      context: {
+        topic: `WORKFLOW_EVENT-${definition}`,
+        message: {
+          process_input: execution_data,
+          process_id: execution_data?.target_process_id || '',
+        }
+      }
+    }, process.env.WORKFLOW_EVENTS_BROKER || "KAFKA")
+  }
 }
 
 const activateNotifiers = (engine) => {
