@@ -1,3 +1,15 @@
+## [2.23.0](https://github.com/flow-build/workflow/compare/v2.22.4...v2.23.0) (2023-04-26)
+
+
+### Features
+
+* adds new listener for EventNode notifications and adjust topic names ([1125f75](https://github.com/flow-build/workflow/commit/1125f75dbe434ddda9ae11ff3826b67006a2557d))
+* adds trigger event emition ([511b790](https://github.com/flow-build/workflow/commit/511b7909bf4c9da0afc9e73e9244d95dc1e2065f))
+* separates workflow publishing and sets all workflows to be published ([14444c4](https://github.com/flow-build/workflow/commit/14444c4779866198cc1cb8041f9a52c29b4eff3f))
+* updates engine version ([acf526e](https://github.com/flow-build/workflow/commit/acf526e0ff0110037bfcf117063f2534409e2ed5))
+* updates topic name creation ([5c5f52b](https://github.com/flow-build/workflow/commit/5c5f52bbd6f5ce37d70b3a8d0571358ac3a7df02))
+* updates workflow creation controller to emit event ([24d2732](https://github.com/flow-build/workflow/commit/24d27320f93c6413fff1b81b874917febdbd8199))
+
 ## [2.22.4](https://github.com/flow-build/workflow/compare/v2.22.3...v2.22.4) (2023-03-29)
 
 
