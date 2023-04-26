@@ -68,6 +68,11 @@ If an external token is to be used, the JWT_ variables need to be passed.
 - KAFKA_API_SECRET
 - KAFKA_SESSION_TIMEOUT
 
+### EVENT Nodes CONFIGURATION (also WEM CONFIGURATION)
+
+- WORKFLOW_EVENTS_BROKER (Values: KAFKA|MQTT|AMQP. If not defined, it won't send)
+- WORKFLOW_EVENTS_NAMESPACE
+
 ### CHOOSING BROKERS TO USE (AMQP OR MQTT)
 
 - ACTIVITY_MANAGER_BROKER
