@@ -3,6 +3,7 @@ const { getEngine, getCockpit } = require("../engine");
 const { compareBlueprints } = require("../services/compareBlueprints");
 const { logger } = require("../utils/logger");
 const { validateEnvironmentVariable } = require("../validators/workflow");
+const { publishWorkflow } = require("../utils/publishWorkflow");
 
 const serializeWorkflow = (workflow) => {
   return {
@@ -47,6 +48,7 @@ const saveWorkflow = async (ctx, next) => {
     logger.debug("Workflow Created");
     if (!response.error) {
       const workflow = await engine.fetchWorkflow(response.id);
+      publishWorkflow(workflow)
       ctx.status = 201;
       ctx.body = {
         workflow_id: workflow.id,

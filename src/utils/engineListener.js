@@ -41,7 +41,7 @@ const processStateListener = async (processState) => {
 const activityManagerListener = async (activityManager) => {
   logger.info(`AM LISTENER: AMID [${activityManager._id}]`);
   const skipListener = (
-    process.env.ACTIVITY_MANAGER_SEND_ONLY_ON_CREATION === "true" 
+    process.env.ACTIVITY_MANAGER_SEND_ONLY_ON_CREATION === "true"
     && (activityManager._activities?.length > 0 || activityManager._status !== "started")
   );
 
@@ -75,9 +75,39 @@ const activityManagerListener = async (activityManager) => {
   }
 }
 
+const eventNodeNotifier = async (eventData) => {
+  const namespace = process.env.WORKFLOW_EVENTS_NAMESPACE || process.env.NODE_ENV;
+  const { event, execution_data } = eventData
+  if (event.family === 'target') {
+    await broker.publishMessage({
+      context: {
+        topic: `${namespace ? `${namespace}.` : ''}wem.process.target.create`,
+        message: {
+          event,
+          execution_data
+        }
+      }
+    }, process.env.WORKFLOW_EVENTS_BROKER || "KAFKA")
+  }
+
+  else if (event.family === 'trigger') {
+    const { definition } = event
+    await broker.publishMessage({
+      context: {
+        topic: `WORKFLOW_EVENT-${definition}`,
+        message: {
+          process_input: execution_data,
+          process_id: execution_data?.target_process_id || '',
+        }
+      }
+    }, process.env.WORKFLOW_EVENTS_BROKER || "KAFKA")
+  }
+}
+
 const activateNotifiers = (engine) => {
   engine.setProcessStateNotifier(processStateListener);
   engine.setActivityManagerNotifier(activityManagerListener);
+  engine.setEventNodeNotifier(eventNodeNotifier);
 };
 
 module.exports = {
