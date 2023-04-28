@@ -1,3 +1,10 @@
+## [2.24.0](https://github.com/flow-build/workflow/compare/v2.23.1...v2.24.0) (2023-04-28)
+
+
+### Features
+
+* add the workflow name in the response when a blueprint is published ([d6e12be](https://github.com/flow-build/workflow/commit/d6e12be0492f4fdf2fa2fd93fb4c074b0f021ca7))
+
 ## [2.23.1](https://github.com/flow-build/workflow/compare/v2.23.0...v2.23.1) (2023-04-28)
 
 
