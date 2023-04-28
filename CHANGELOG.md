@@ -1,3 +1,10 @@
+## [2.23.1](https://github.com/flow-build/workflow/compare/v2.23.0...v2.23.1) (2023-04-28)
+
+
+### Bug Fixes
+
+* **middlewares:** add by default all token keys to extData ([4560b98](https://github.com/flow-build/workflow/commit/4560b98eb61c056a23cafd6000503891752dbd93))
+
 ## [2.23.0](https://github.com/flow-build/workflow/compare/v2.22.4...v2.23.0) (2023-04-26)
 
 
