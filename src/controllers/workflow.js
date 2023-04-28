@@ -52,6 +52,7 @@ const saveWorkflow = async (ctx, next) => {
       ctx.status = 201;
       ctx.body = {
         workflow_id: workflow.id,
+        workflow_name: workflow.name,
         hash: workflow._blueprint_hash,
         version: workflow._version,
         warnings: environmentValidation,
