@@ -27,6 +27,12 @@ async function getProcessById(id) {
   return process;
 }
 
+async function getStateExecutionContext(state_id) {
+  const cockpit = getCockpit();
+  const response = await cockpit.fetchStateExecutionContext(state_id);
+  return response;
+}
+
 function serializeState(state) {
   return {
     id: state._id,
@@ -104,6 +110,35 @@ const fetchById = async (ctx, next) => {
   const processId = state._process_id;
   const process = await getProcessById(processId);
   const response = await buildStateResponse(state, process);
+
+  ctx.status = 200;
+  ctx.body = response;
+
+  return next();
+};
+
+const fetchStateExecution = async (ctx, next) => {
+  logger.verbose("called fetchStateExecution");
+  const stateId = ctx.params.id;
+
+  const response = await getStateExecutionContext(stateId);
+
+  ctx.status = 200;
+  ctx.body = response;
+
+  return next();
+};
+
+const fetchMultipleStateExecution = async (ctx, next) => {
+  logger.verbose("called fetchMultipleStateExecution");
+  const processId = ctx.params.process_id;
+  const nodeId = ctx.params.node_id;
+
+  const states = await getStateByNodeId(processId, nodeId);
+  const response = await Promise.all(states.map((state) => {
+    const stateId = state.id;
+    return getStateExecutionContext(stateId)
+  }));
 
   ctx.status = 200;
   ctx.body = response;
@@ -214,4 +249,6 @@ module.exports = {
   fetchStateByParameters,
   fetchSpec,
   calculateExecutionData,
+  fetchStateExecution,
+  fetchMultipleStateExecution
 };
