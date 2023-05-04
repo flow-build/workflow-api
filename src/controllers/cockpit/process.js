@@ -275,7 +275,6 @@ const expireProcess = async (ctx, next) => {
 module.exports = {
   getProcessesByWorkflowId,
   getProcessesByWorkflowName,
-  getProcessExecution,
   getProcessStateExecutionHistory,
   getStatesFromNode,
   setProcessState,
