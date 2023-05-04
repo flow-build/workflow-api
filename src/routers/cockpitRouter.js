@@ -44,8 +44,7 @@ module.exports = (opts = {}) => {
 
   const processes = new Router();
   processes.prefix("/processes");
-  processes.get("/:id/execution", validateUUID, cp.getProcessExecution);
-  processes.get("/:id/historyExecution", validateUUID, cp.getProcessStateExecutionHistory);
+  processes.get("/:id/execution", validateUUID, cp.getProcessStateExecutionHistory);
   processes.post("/:id/state", validateUUID, cockpitValidator.validateSetProcessState, cp.setProcessState);
   processes.post("/:id/state/run", validateUUID, cp.runPendingProcess);
   processes.post("/:id/set/:state_id", validateUUID, cp.transferProcessState);
