@@ -90,10 +90,18 @@ const fetchProcessStateHistory = async (ctx, next) => {
 
   const cockpit = getCockpit();
   const processId = ctx.params.id;
-  const states = await cockpit.fetchProcessStateHistory(processId);
+  const qs = ctx.query
+  const filters = {
+    fromStep: qs.fromStep || null
+  }
+  const states = await cockpit.fetchProcessStateHistory(processId, filters);
   if (states) {
-    ctx.status = 200;
-    ctx.body = _.map(states, (state) => serializeState(state));
+    if (states.length) {
+      ctx.status = 200;
+      ctx.body = _.map(states, (state) => serializeState(state));
+      return next();
+    }
+    ctx.status = 204;
   } else {
     ctx.status = 404;
   }
@@ -199,7 +207,7 @@ const fetchStateByParameters = async (ctx, next) => {
       message: "no state found with the parameter provided",
       params: {
         nodeId,
-        stepNumber  
+        stepNumber
       }
     };
   }
@@ -216,9 +224,9 @@ const continueProcess = async (ctx, next) => {
   const input = ctx.request.body;
 
   const result = await engine.continueProcess(processId, actorData, input); //TODO: implement a default value to signal that the process has continued due to a continue call
-  if(result?.error) {
+  if (result?.error) {
     ctx.status = 422;
-    ctx.body =  result.error;
+    ctx.body = result.error;
     return next();
   }
 
