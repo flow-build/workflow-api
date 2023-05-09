@@ -1,3 +1,18 @@
+## [2.25.0](https://github.com/flow-build/workflow/compare/v2.24.0...v2.25.0) (2023-05-09)
+
+
+### Features
+
+* adds historyExecution route on cockpit router ([5a85236](https://github.com/flow-build/workflow/commit/5a85236411855d5523ebfea96267a36420dcbec5))
+* adds new routes to fetch state execution context ([c7db792](https://github.com/flow-build/workflow/commit/c7db7920f869b736802869457d5f024d4add9c5e))
+* updates fetchProcessHistory controller to add fromStep query parameter ([afa6b44](https://github.com/flow-build/workflow/commit/afa6b4466890f729331df6925746b32cc4297704))
+
+
+### Bug Fixes
+
+* changes endpoint, overwriting old '/execution' route ([8d54b04](https://github.com/flow-build/workflow/commit/8d54b043d0c2ff4352989f3098d023a791063db3))
+* removes export from unexisting name ([95e89d7](https://github.com/flow-build/workflow/commit/95e89d74e31692f4605c93910fd683402d9e25a4))
+
 ## [2.24.0](https://github.com/flow-build/workflow/compare/v2.23.1...v2.24.0) (2023-04-28)
 
 
