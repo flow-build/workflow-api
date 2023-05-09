@@ -195,27 +195,21 @@ const getProcessesByWorkflowName = async (ctx, next) => {
   return next();
 };
 
-const getProcessExecution = async (ctx, next) => {
-  logger.verbose("Cockpit getProcessExecution");
+const getProcessStateExecutionHistory = async (ctx, next) => {
+  logger.verbose("Cockpit getProcessStateExecutionHistory");
 
   const process_id = ctx.params.id;
+  const qs = ctx.query
+  const filters = {
+    fromStep: qs.fromStep || null
+  }
+
   const cockpit = getCockpit();
-  const process = await cockpit.fetchProcess(process_id);
 
   try {
-    const result = await cockpitService.fetchProcessExecution(process_id);
+    const result = await cockpit.getProcessStateExecutionHistory(process_id, filters);
     ctx.status = 200;
-    ctx.body = result.map((s) => {
-      let response = {
-        state_id: s.id,
-        step_number: s.step_number,
-        node_type: process._blueprint_spec.nodes.find((n) => n.id === s.node_id).type,
-        node: s.node_id + " - " + process._blueprint_spec.nodes.find((n) => n.id === s.node_id).name,
-        next_node_id: s.next_node_id,
-        status: s.status,
-      };
-      return response;
-    });
+    ctx.body = result
   } catch (e) {
     ctx.status = 400;
     ctx.body = { message: `Failed at ${e.message}`, error: e };
@@ -251,15 +245,15 @@ const expireProcess = async (ctx, next) => {
 
   const cockpit = getCockpit();
   const process = await cockpit.fetchProcess(process_id);
-  if(!process) {
+  if (!process) {
     ctx.status = 404;
     ctx.body = { message: "Process not found" }
     return next();
   }
 
-  if(['finished','expired','running'].includes(process._current_status)) {
+  if (['finished', 'expired', 'running'].includes(process._current_status)) {
     ctx.status = 409;
-    ctx.body = { 
+    ctx.body = {
       message: "Cannot expire process",
       current_status: process._current_status
     }
@@ -281,7 +275,7 @@ const expireProcess = async (ctx, next) => {
 module.exports = {
   getProcessesByWorkflowId,
   getProcessesByWorkflowName,
-  getProcessExecution,
+  getProcessStateExecutionHistory,
   getStatesFromNode,
   setProcessState,
   transferProcessState,

@@ -44,13 +44,13 @@ module.exports = (opts = {}) => {
 
   const processes = new Router();
   processes.prefix("/processes");
-  processes.get("/:id/execution", validateUUID, cp.getProcessExecution);
+  processes.get("/:id/execution", validateUUID, cp.getProcessStateExecutionHistory);
   processes.post("/:id/state", validateUUID, cockpitValidator.validateSetProcessState, cp.setProcessState);
   processes.post("/:id/state/run", validateUUID, cp.runPendingProcess);
   processes.post("/:id/set/:state_id", validateUUID, cp.transferProcessState);
   processes.get("/:id/tree", validateUUID, pt.getProcessTree);
   processes.post("/:id/expire", validateUUID, cp.expireProcess);
-  
+
   const nodes = new Router();
   nodes.prefix("/nodes");
   nodes.get('/', getNodes)

@@ -81,6 +81,8 @@ module.exports = (opts = {}) => {
   states.get("/:id/execution", baseValid.validateUUID, statesCtrl.calculateExecutionData);
   states.get("/:id/spec", baseValid.validateUUID, statesCtrl.fetchSpec);
   states.get("/process/:id", baseValid.validateUUID, statesCtrl.fetchStateByParameters);
+  states.get("/:id/context", baseValid.validateUUID, statesCtrl.fetchStateExecution);
+  states.get("/process/:process_id/node/:node_id", baseValid.validateUUID, statesCtrl.fetchMultipleStateExecution);
 
   const activityManager = new Router();
   activityManager.prefix("/activity_manager");
