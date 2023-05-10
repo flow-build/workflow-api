@@ -1,3 +1,10 @@
+## [2.25.1](https://github.com/flow-build/workflow/compare/v2.25.0...v2.25.1) (2023-05-10)
+
+
+### Bug Fixes
+
+* updates '@flowbuild/nodejs-diagram-builder' package version ([3f2570c](https://github.com/flow-build/workflow/commit/3f2570c97aa94e9dbdfe5467801a5f137fac4406))
+
 ## [2.25.0](https://github.com/flow-build/workflow/compare/v2.24.0...v2.25.0) (2023-05-09)
 
 
