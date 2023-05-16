@@ -1,5 +1,5 @@
 const { publishMessage } = require("../services/broker")
-const { getEngine } = require("../engine");
+const { utils: { ENGINE_ID } } = require("@flowbuild/engine");
 
 const brokerMapping = {
   MQTT: "MQTT",
@@ -15,12 +15,11 @@ const sendBeacon = async (ctx, next) => {
   const broker = brokerMapping[brokerQS] || "MQTT";
 
   const mqtt_namespace = process.env.MQTT_NAMESPACE;
-  const engine = getEngine();
 
   if (actorId) {
     const payload = {
       timestamp: Date.now(),
-      engine_id: engine.id,
+      engine_id: ENGINE_ID,
       mqtt_host: process.env.MQTT_HOST,
       flowbuild_host: process.env.FLOWBUILD_URL
     };
