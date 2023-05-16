@@ -16,6 +16,8 @@ const processCtrl = require("../controllers/process");
 const packageCtrl = require("../controllers/package");
 const workflowCtrl = require("../controllers/workflow");
 const statesCtrl = require('../controllers/state');
+const connectionCtrl = require('../controllers/connection');
+
 const { indexController } = require("@flowbuild/indexer");
 
 module.exports = (opts = {}) => {
@@ -38,6 +40,10 @@ module.exports = (opts = {}) => {
       router[route.verb](route.path, ...route.methods);
     }
   }
+
+  const connection = new Router();
+  connection.prefix("/connection");
+  connection.post("/beacon", connectionCtrl.sendBeacon);
 
   const workflows = new Router();
   workflows.prefix("/workflows");
@@ -109,6 +115,7 @@ module.exports = (opts = {}) => {
   indexer.delete("/entity/:id", indexController.deleteIndexFromEntity);
   indexer.delete("/:id", indexController.deleteIndex);
 
+  router.use(connection.routes());
   router.use(processes.routes());
   router.use(states.routes());
   router.use(workflows.routes());
