@@ -11,6 +11,7 @@ const sendBeacon = async (ctx, next) => {
   console.log('sendBeacon called')
   const actorId = ctx.state?.actor_data?.actor_id || '';
 
+  const token = ctx.request?.body?.token || "";
   const brokerQS = ctx.request?.query?.broker;
   const broker = brokerMapping[brokerQS] || "MQTT";
 
@@ -21,7 +22,8 @@ const sendBeacon = async (ctx, next) => {
       timestamp: Date.now(),
       engine_id: ENGINE_ID,
       mqtt_host: process.env.MQTT_HOST,
-      flowbuild_host: process.env.FLOWBUILD_URL
+      flowbuild_host: process.env.FLOWBUILD_URL,
+      token
     };
 
     switch (broker) {
