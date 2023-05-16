@@ -14,10 +14,9 @@ const sendBeacon = async (ctx, next) => {
   const token = ctx.request?.body?.token || "";
   const brokerQS = ctx.request?.query?.broker;
   const broker = brokerMapping[brokerQS] || "MQTT";
+  const isEnabled = process.env[broker]
 
-  const mqtt_namespace = process.env.MQTT_NAMESPACE;
-
-  if (actorId) {
+  if (actorId && isEnabled === 'true') {
     const payload = {
       timestamp: Date.now(),
       engine_id: ENGINE_ID,
@@ -28,13 +27,19 @@ const sendBeacon = async (ctx, next) => {
 
     switch (broker) {
       case brokerMapping.MQTT:
+        const mqtt_namespace = process.env.MQTT_NAMESPACE;
         const topic = mqtt_namespace
           ? `/${mqtt_namespace}/beacon/${actorId}`
           : `/beacon/${actorId}`
         await publishMessage({ topic, message: payload }, broker);
         break;
-      default:
+      case brokerMapping.KAFKA:
         await publishMessage({ context: { topic: `beacon.${actorId}`, message: payload } }, broker);
+        break;
+      case brokerMapping.AMQP:
+        await publishMessage({ context: { message: payload } }, broker);
+        break;
+      default:
         break;
     }
 
@@ -43,8 +48,9 @@ const sendBeacon = async (ctx, next) => {
   }
   ctx.status = 400;
   ctx.body = {
-    message: 'No actor_id provided'
+    message: `valid actor_id: ${!!actorId} | ${broker} is enabled: ${isEnabled}`
   }
+  return
 }
 
 module.exports = {
