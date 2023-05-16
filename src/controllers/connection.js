@@ -29,8 +29,8 @@ const sendBeacon = async (ctx, next) => {
     switch (broker) {
       case brokerMapping.MQTT:
         const topic = mqtt_namespace
-          ? `${mqtt_namespace}/beacon/${actorId}`
-          : `beacon/${actorId}`
+          ? `/${mqtt_namespace}/beacon/${actorId}`
+          : `/beacon/${actorId}`
         await publishMessage({ topic, message: payload }, broker);
         break;
       default:
