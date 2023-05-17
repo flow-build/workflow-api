@@ -14,8 +14,6 @@ const serializeEnv = (env) => {
   if (env?._origin !== 'environment') {
     variable.created_at = env.created_at;
     variable.updated_at = env._updated_at;
-  } else {
-
   }
 
   return variable;

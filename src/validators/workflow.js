@@ -164,7 +164,7 @@ isUnique = (array) => {
   return array.length === uniqueArray.length;
 };
 
-validateEnvironmentVariable = async (spec) => {
+const validateEnvironmentVariable = async (spec) => {
   let validateInfo = [];
   const cockpit = getCockpit();
 
