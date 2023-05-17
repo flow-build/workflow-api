@@ -1,3 +1,10 @@
+## [2.26.0](https://github.com/flow-build/workflow/compare/v2.25.1...v2.26.0) (2023-05-16)
+
+
+### Features
+
+* update engine to abort & expire process keep bag on state ([0e6ad4c](https://github.com/flow-build/workflow/commit/0e6ad4cf4dcafc51712d4e13d77ab773da6c41bd))
+
 ## [2.25.1](https://github.com/flow-build/workflow/compare/v2.25.0...v2.25.1) (2023-05-10)
 
 
