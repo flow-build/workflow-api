@@ -7,6 +7,7 @@ const cleanDb = async () => {
   await db.raw("truncate table workflow cascade");
   await db("timer").del();
   await db("index").del();
+  await db("environment_variable").del();
 };
 
 const validateWorkflow = (base, target) => {

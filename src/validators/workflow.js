@@ -163,18 +163,20 @@ isUnique = (array) => {
   return array.length === uniqueArray.length;
 };
 
-validateEnvironmentVariable = (spec) => {
+validateEnvironmentVariable = (spec, environmentVariables) => {
   let validateInfo = [];
 
   const nodesString = JSON.stringify(spec.nodes);
   for (const variable in spec.environment) {
-    if (!process.env[variable.toUpperCase()]) {
+    const specVar = spec?.environment[variable];
+    const environmentVar = environmentVariables?.find((environmentVar) => environmentVar?._key === specVar);
+    if (!process.env[variable.toUpperCase()] && !environmentVar) {
       const error_message = `Variable ${variable} not found at the environment`;
-      validateInfo.push (error_message);
+      validateInfo.push(error_message);
     }
     if (!nodesString.includes(`environment.${variable}`)) {
       const error_message = `Variable ${variable} not declared in any node`;
-      validateInfo.push (error_message);
+      validateInfo.push(error_message);
     }
   }
 
