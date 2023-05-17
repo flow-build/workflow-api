@@ -2,6 +2,7 @@ const { validateBodyWithSchema, validateDataWithSchema } = require("./base");
 const { logger } = require("../utils/logger");
 const { nodeSchema, categorySchema } = require("./schemas/nodes");
 const { workflowSchema } = require("./schemas/workflow");
+const { getCockpit } = require("../engine");
 
 validateSaveWorkflow = validateBodyWithSchema(workflowSchema);
 
@@ -163,19 +164,19 @@ isUnique = (array) => {
   return array.length === uniqueArray.length;
 };
 
-validateEnvironmentVariable = (spec, environmentVariables) => {
+validateEnvironmentVariable = async (spec) => {
   let validateInfo = [];
+  const cockpit = getCockpit();
 
   const nodesString = JSON.stringify(spec.nodes);
-  for (const variable in spec.environment) {
-    const specVar = spec?.environment[variable];
-    const environmentVar = environmentVariables?.find((environmentVar) => environmentVar?._key === specVar);
-    if (!process.env[variable.toUpperCase()] && !environmentVar) {
-      const error_message = `Variable ${variable} not found at the environment`;
+  for await (const [key, value] of Object.entries(spec.environment)) {
+    const variable = await cockpit.fetchEnvironmentVariable(value);
+    if (!variable) {
+      const error_message = `Variable ${key} not found at the environment`;
       validateInfo.push(error_message);
     }
-    if (!nodesString.includes(`environment.${variable}`)) {
-      const error_message = `Variable ${variable} not declared in any node`;
+    if (!nodesString.includes(`environment.${key}`)) {
+      const error_message = `Variable ${key} not declared in any node`;
       validateInfo.push(error_message);
     }
   }

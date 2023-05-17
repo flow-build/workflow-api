@@ -28,7 +28,6 @@ const saveWorkflow = async (ctx, next) => {
   logger.verbose("Called saveWorkflow");
 
   const engine = getEngine();
-  const cockpit = getCockpit();
   const { workflow_id, name, description, blueprint_spec } = ctx.request.body;
 
   try {
@@ -45,8 +44,7 @@ const saveWorkflow = async (ctx, next) => {
   try {
 
     const response = await engine.saveWorkflow(name, description, blueprint_spec, workflow_id);
-    const environmentVariables = await cockpit.fetchAllEnvironmentVariables();
-    const environmentValidation = validateEnvironmentVariable(blueprint_spec, environmentVariables);
+    const environmentValidation = await validateEnvironmentVariable(blueprint_spec);
     logger.debug("Workflow Created");
     if (!response.error) {
       const workflow = await engine.fetchWorkflow(response.id);

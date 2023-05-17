@@ -4,13 +4,21 @@ const { getCockpit } = require("../../engine");
 const _ = require("lodash");
 
 const serializeEnv = (env) => {
-  return {
+  const variable = {
     key: env.key,
     value: env.value,
     type: env.type,
-    created_at: env.created_at,
-    updated_at: env.updated_at,
-  };
+    origin: env._origin,
+  }
+
+  if (env?._origin !== 'environment') {
+    variable.created_at = env.created_at;
+    variable.updated_at = env._updated_at;
+  } else {
+
+  }
+
+  return variable;
 };
 
 const serializeAllEnvs = (environmentEnvs) => {
@@ -19,7 +27,7 @@ const serializeAllEnvs = (environmentEnvs) => {
       key: env?.key,
       value: env?.value,
       type: env?.type,
-      origin: 'table'
+      origin: env?._origin,
     }
   });
 
@@ -43,7 +51,7 @@ const saveEnvironmentVariable = async (ctx, next) => {
     const existingEnvironmentVariable = await cockpit.fetchEnvironmentVariable(key);
     let environmentVariable;
 
-    if (!existingEnvironmentVariable) {
+    if (!existingEnvironmentVariable || existingEnvironmentVariable._origin === 'environment') {
       logger.debug("Environment Variable Created");
       environmentVariable = await cockpit.createEnvironmentVariable(key, value);
       ctx.status = 201;
