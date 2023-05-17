@@ -1,12 +1,6 @@
 const { publishMessage } = require("../services/broker")
 const { utils: { ENGINE_ID } } = require("@flowbuild/engine");
 
-const brokerMapping = {
-  MQTT: "MQTT",
-  AMQP: "AMQP",
-  KAFKA: "KAFKA"
-};
-
 const sendBeacon = async (ctx, next) => {
   console.log('sendBeacon called')
   const actorId = ctx.state?.actor_data?.actor_id || '';
