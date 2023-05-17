@@ -12,11 +12,8 @@ const sendBeacon = async (ctx, next) => {
   const actorId = ctx.state?.actor_data?.actor_id || '';
 
   const token = ctx.request?.body?.token || "";
-  const brokerQS = ctx.request?.query?.broker;
-  const broker = brokerMapping[brokerQS] || "MQTT";
-  const isEnabled = process.env[broker]
 
-  if (actorId && isEnabled === 'true') {
+  if (actorId) {
     const payload = {
       timestamp: Date.now(),
       engine_id: ENGINE_ID,
@@ -25,30 +22,42 @@ const sendBeacon = async (ctx, next) => {
       token
     };
 
-    switch (broker) {
-      case brokerMapping.MQTT:
-        const mqtt_namespace = process.env.MQTT_NAMESPACE;
-        const topic = mqtt_namespace
-          ? `/${mqtt_namespace}/beacon/${actorId}`
-          : `/beacon/${actorId}`
-        await publishMessage({ topic, message: payload }, broker);
-        break;
-      case brokerMapping.KAFKA:
-        await publishMessage({ context: { topic: `beacon.${actorId}`, message: payload } }, broker);
-        break;
-      case brokerMapping.AMQP:
-        await publishMessage({ context: { message: payload } }, broker);
-        break;
-      default:
-        break;
+    const emittedTo = []
+    if (process.env.MQTT) {
+      const mqtt_namespace = process.env.MQTT_NAMESPACE;
+      const topic = mqtt_namespace
+        ? `/${mqtt_namespace}/beacon/${actorId}`
+        : `/beacon/${actorId}`
+      await publishMessage({ topic, message: payload }, "MQTT");
+      emittedTo.push("MQTT");
     }
 
-    ctx.status = 202;
+    if (process.env.KAFKA) {
+      await publishMessage({ context: { topic: `beacon.${actorId}`, message: payload } }, "KAFKA");
+      emittedTo.push("KAFKA");
+    }
+
+    if (process.env.AMQP) {
+      await publishMessage({ context: { message: payload } }, "AMQP");
+      emittedTo.push("AMQP");
+    }
+
+    if (!emittedTo.length) {
+      ctx.status = 500;
+      ctx.body = {
+        message: `No broker is enable on Flowbuild Server`
+      }
+      return
+    }
+    ctx.status = 200;
+    ctx.body = {
+      message: `emitted message to ${emittedTo}`
+    }
     return
   }
   ctx.status = 400;
   ctx.body = {
-    message: `valid actor_id: ${!!actorId} | ${broker} is enabled: ${isEnabled}`
+    message: `invalid actor_id`
   }
   return
 }
