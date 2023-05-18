@@ -1,3 +1,20 @@
+## [2.27.0](https://github.com/flow-build/workflow/compare/v2.26.0...v2.27.0) (2023-05-18)
+
+
+### Features
+
+* adds /connection/beacon route and its controller ([3553dd3](https://github.com/flow-build/workflow/commit/3553dd3383ce63fe58a05cb22a56e871a9b3cffa))
+* adds error detailing failure in case of broker not enabled ([7f876d8](https://github.com/flow-build/workflow/commit/7f876d8d99c526b2be8a5a7088725f1324e0b858))
+* moves /connection route to cockpit and adds optional 'token' data ([7a2e1af](https://github.com/flow-build/workflow/commit/7a2e1af9f9dd45cfeb85d7e4e075afd12bee2cb5))
+* sets default topic name if namespace is not set ([886f300](https://github.com/flow-build/workflow/commit/886f300e70f149d36f6b848ec446554eb59242f3))
+* updates beacon route behavior and responses ([5124554](https://github.com/flow-build/workflow/commit/5124554037ec9e468b51f1238af2c5b63bf82c6e))
+
+
+### Bug Fixes
+
+* adjust mqtt topics ([5dbcd59](https://github.com/flow-build/workflow/commit/5dbcd591952703835073abc38a5a8802434a1c59))
+* gets engine_id from @flowbuild/engine utility ([f1422c9](https://github.com/flow-build/workflow/commit/f1422c99bcef0250aabb5cb9d1b5d30f25345634))
+
 ## [2.26.0](https://github.com/flow-build/workflow/compare/v2.25.1...v2.26.0) (2023-05-16)
 
 
