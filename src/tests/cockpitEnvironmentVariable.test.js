@@ -64,7 +64,7 @@ describe("GET /cockpit/envs", () => {
   test("Should return 200 with envs", async () => {
     const response = await axios.get(route);
     expect(response.status).toEqual(200);
-    expect(response.data.length).toBeGreaterThan(1);
+    expect(response.data).toHaveLength(1);
     expect(response.data[0].key).toBe("API_HOST");
     expect(response.data[0].value).toBe("0.0.0.0");
     expect(response.data[0].origin).toBe("table");
@@ -77,6 +77,14 @@ describe("GET /cockpit/envs/:key", () => {
     expect(response.status).toEqual(200);
     expect(response.data.key).toBe("API_HOST");
     expect(response.data.value).toBe("0.0.0.0");
+    expect(response.data.type).toBe("string");
+  });
+
+  test("Should return 200 with env from environment (when does not exist on table)", async () => {
+    const response = await axios.get(`${prefix}/envs/MQTT`);
+    expect(response.status).toEqual(200);
+    expect(response.data.key).toBe("MQTT");
+    expect(response.data.value).toBe("true");
     expect(response.data.type).toBe("string");
   });
 

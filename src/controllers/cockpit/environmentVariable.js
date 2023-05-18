@@ -19,26 +19,6 @@ const serializeEnv = (env) => {
   return variable;
 };
 
-const serializeAllEnvs = (environmentEnvs) => {
-  const allEnvs = environmentEnvs?.map((env) => {
-    return {
-      key: env?.key,
-      value: env?.value,
-      type: env?.type,
-      origin: env?._origin,
-    }
-  });
-
-  Object.entries(process.env).map(([key, value]) => {
-    const tableEnv = allEnvs?.find((env) => env.key === key);
-    if (!tableEnv) {
-      allEnvs.push({ key, value, origin: 'environment' });
-    }
-  });
-
-  return allEnvs;
-};
-
 const saveEnvironmentVariable = async (ctx, next) => {
   logger.verbose("called saveEnvironmentVariable");
 
@@ -77,7 +57,7 @@ const getEnvironmentVariables = async (ctx, next) => {
     const environmentVariables = await cockpit.fetchAllEnvironmentVariables();
 
     ctx.status = 200;
-    ctx.body = serializeAllEnvs(environmentVariables);
+    ctx.body = environmentVariables.map((env) => serializeEnv(env));
   } catch (err) {
     ctx.status = 500;
     ctx.body = { message: `Failed at ${err.message}`, error: err };
