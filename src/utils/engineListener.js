@@ -103,7 +103,8 @@ const eventNodeNotifier = async (eventData) => {
         topic: `WORKFLOW_EVENT-${definition}`,
         message: {
           process_input: execution_data,
-          process_id: execution_data?.target_process_id || '',
+          target_process_id: execution_data?.target_process_id || '',
+          trigger_process_id: execution_data?.trigger_process_id || '',
         }
       }
     }, process.env.WORKFLOW_EVENTS_BROKER || "KAFKA")
