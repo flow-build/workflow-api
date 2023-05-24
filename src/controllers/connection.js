@@ -27,7 +27,7 @@ const sendBeacon = async (ctx, next) => {
     }
 
     if (process.env.KAFKA) {
-      await publishMessage({ context: { topic: `beacon.${actorId}`, message: payload } }, "KAFKA");
+      await publishMessage({ context: { topic: `beacon`, message: payload } }, "KAFKA");
       emittedTo.push("KAFKA");
     }
 
