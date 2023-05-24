@@ -1,3 +1,11 @@
+## [2.28.0](https://github.com/flow-build/workflow/compare/v2.27.0...v2.28.0) (2023-05-24)
+
+
+### Features
+
+* adds extra data on state message to brokers ([3a9df7a](https://github.com/flow-build/workflow/commit/3a9df7a60c74d4516f0be73f7a94becd10e49c43))
+* adjustment to always send all process ids available ([42ecdfa](https://github.com/flow-build/workflow/commit/42ecdfa01e81f96a35e1ef13f58a0b2c3a9b783a))
+
 ## [2.27.0](https://github.com/flow-build/workflow/compare/v2.26.0...v2.27.0) (2023-05-18)
 
 
