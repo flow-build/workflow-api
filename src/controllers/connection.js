@@ -19,15 +19,19 @@ const sendBeacon = async (ctx, next) => {
     const emittedTo = []
     if (process.env.MQTT) {
       const mqtt_namespace = process.env.MQTT_NAMESPACE;
-      const topic = mqtt_namespace
+      const mqttTopic = mqtt_namespace
         ? `/${mqtt_namespace}/beacon/${actorId}`
         : `/beacon/${actorId}`
-      await publishMessage({ topic, message: payload }, "MQTT");
+      await publishMessage({ topic: mqttTopic, message: payload }, "MQTT");
       emittedTo.push("MQTT");
     }
 
     if (process.env.KAFKA) {
-      await publishMessage({ context: { topic: `beacon`, message: payload } }, "KAFKA");
+      const kafka_namespace = process.env.KAFKA_NAMESPACE;
+      const kafkaTopic = kafka_namespace
+        ? `${kafka_namespace}.beacon`
+        : `beacon`
+      await publishMessage({ context: { topic: kafkaTopic, message: payload } }, "KAFKA");
       emittedTo.push("KAFKA");
     }
 
