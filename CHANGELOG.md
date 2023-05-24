@@ -1,3 +1,11 @@
+## [2.29.0](https://github.com/flow-build/workflow/compare/v2.28.0...v2.29.0) (2023-05-24)
+
+
+### Features
+
+* changes topic used to publish KAFKA beacon message ([2560683](https://github.com/flow-build/workflow/commit/256068380446b8060e21130f5df6c8d499a1e9b6))
+* sets KAFKA_NAMESPACE var to name topic on beacon ([16872b8](https://github.com/flow-build/workflow/commit/16872b8cd00baeb94329494b682de0b0cc3d5dec))
+
 ## [2.28.0](https://github.com/flow-build/workflow/compare/v2.27.0...v2.28.0) (2023-05-24)
 
 
