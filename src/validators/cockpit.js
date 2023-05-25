@@ -21,7 +21,17 @@ const validateFetchNodeSchema = validateBodyWithSchema({
   additionalProperties: false
 })
 
+const validateEnvironmentSchema = validateBodyWithSchema({
+  type: "object",
+  properties: {
+    key: { type: "string" },
+    value: { type: ["string", "number", "boolean"] },
+  },
+  required: ["key", "value"],
+})
+
 module.exports = {
   validateSetProcessState,
-  validateFetchNodeSchema
+  validateFetchNodeSchema,
+  validateEnvironmentSchema,
 };

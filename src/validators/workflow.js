@@ -2,6 +2,7 @@ const { validateBodyWithSchema, validateDataWithSchema } = require("./base");
 const { logger } = require("../utils/logger");
 const { nodeSchema, categorySchema } = require("./schemas/nodes");
 const { workflowSchema } = require("./schemas/workflow");
+const { getCockpit } = require("../engine");
 
 validateSaveWorkflow = validateBodyWithSchema(workflowSchema);
 
@@ -163,18 +164,33 @@ isUnique = (array) => {
   return array.length === uniqueArray.length;
 };
 
-validateEnvironmentVariable = (spec) => {
+const validateEnvironmentVariable = async (spec) => {
   let validateInfo = [];
+  const cockpit = getCockpit();
 
   const nodesString = JSON.stringify(spec.nodes);
-  for (const variable in spec.environment) {
-    if (!process.env[variable.toUpperCase()]) {
-      const error_message = `Variable ${variable} not found at the environment`;
-      validateInfo.push (error_message);
+  for await (const [key, value] of Object.entries(spec.environment)) {
+    const variable = await cockpit.fetchEnvironmentVariable(value);
+    if (!variable) {
+      const error_message = `Variable ${key} not found at the environment`;
+      validateInfo.push(error_message);
     }
-    if (!nodesString.includes(`environment.${variable}`)) {
-      const error_message = `Variable ${variable} not declared in any node`;
-      validateInfo.push (error_message);
+    if (!nodesString.includes(`environment.${key}`)) {
+      const error_message = `Variable ${key} not declared in any node`;
+      validateInfo.push(error_message);
+    }
+  }
+
+  return validateInfo;
+}
+
+const validateNodesExtract = (spec) => {
+  let validateInfo = [];
+
+  for (const node of spec.nodes) {
+    if (node?.extract !== node?.extract?.toLowerCase()) {
+      const warning_message = `Node ${node.id}: extract will be saved in lower case - ${node?.extract?.toLowerCase()}`;
+      validateInfo.push(warning_message);
     }
   }
 
@@ -186,5 +202,6 @@ module.exports = {
   createProcess: validateCreateProcess,
   validateNodes,
   validateConnections,
-  validateEnvironmentVariable
+  validateEnvironmentVariable,
+  validateNodesExtract,
 };

@@ -9,8 +9,9 @@ const cockpitValidator = require("../validators/cockpit");
 const wv = require("../validators/workflow");
 const workflowCtrl = require("../controllers/workflow");
 const cp = require("../controllers/cockpit/process");
-const pt = require('../controllers/cockpit/processTree');
-const cam = require("../controllers/cockpit/activityManager")
+const pt = require("../controllers/cockpit/processTree");
+const cam = require("../controllers/cockpit/activityManager");
+const ev = require("../controllers/cockpit/environmentVariable");
 const connectionCtrl = require('../controllers/connection');
 
 const { getNodes, fetchNode } = require("../controllers/cockpit/nodes")
@@ -66,11 +67,19 @@ module.exports = (opts = {}) => {
   activityManager.prefix("/activities");
   activityManager.post("/:id/expire", validateUUID, cam.expire)
 
-  router.use(connection.routes());
+  const envs = new Router();
+  envs.prefix("/envs");
+  envs.get("/", ev.getEnvironmentVariables);
+  envs.get("/:key", ev.getEnvironmentVariable);
+  envs.post("/", cockpitValidator.validateEnvironmentSchema, ev.saveEnvironmentVariable);
+  envs.delete("/:key", ev.deleteEnvironmentVariable);
+
   router.use(processes.routes());
   router.use(workflows.routes());
   router.use(nodes.routes());
   router.use(activityManager.routes());
+  router.use(connection.routes());
+  router.use(envs.routes());
 
   return router;
 };
