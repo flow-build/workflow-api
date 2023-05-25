@@ -184,10 +184,24 @@ const validateEnvironmentVariable = async (spec) => {
   return validateInfo;
 }
 
+validateNodesExtract = (spec) => {
+  let validateInfo = [];
+
+  for (const node of spec.nodes) {
+    if (node?.extract !== node?.extract?.toLowerCase()) {
+      const warning_message = `Node ${node.id}: extract will be saved in lower case - ${node?.extract?.toLowerCase()}`;
+      validateInfo.push(warning_message);
+    }
+  }
+
+  return validateInfo;
+}
+
 module.exports = {
   saveWorkflow: validateSaveWorkflow,
   createProcess: validateCreateProcess,
   validateNodes,
   validateConnections,
-  validateEnvironmentVariable
+  validateEnvironmentVariable,
+  validateNodesExtract,
 };

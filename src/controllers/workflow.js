@@ -2,7 +2,7 @@ const _ = require("lodash");
 const { getEngine, getCockpit } = require("../engine");
 const { compareBlueprints } = require("../services/compareBlueprints");
 const { logger } = require("../utils/logger");
-const { validateEnvironmentVariable } = require("../validators/workflow");
+const { validateEnvironmentVariable, validateNodesExtract } = require("../validators/workflow");
 const { publishWorkflow } = require("../utils/publishWorkflow");
 
 const serializeWorkflow = (workflow) => {
@@ -44,7 +44,9 @@ const saveWorkflow = async (ctx, next) => {
   try {
 
     const response = await engine.saveWorkflow(name, description, blueprint_spec, workflow_id);
-    const environmentValidation = await validateEnvironmentVariable(blueprint_spec);
+    const warnings = {};
+    warnings.environment = await validateEnvironmentVariable(blueprint_spec);
+    warnings.nodes = validateNodesExtract(blueprint_spec); 
     logger.debug("Workflow Created");
     if (!response.error) {
       const workflow = await engine.fetchWorkflow(response.id);
@@ -55,7 +57,7 @@ const saveWorkflow = async (ctx, next) => {
         workflow_name: workflow.name,
         hash: workflow._blueprint_hash,
         version: workflow._version,
-        warnings: environmentValidation,
+        warnings: warnings,
       };
     } else {
       ctx.status = 400;
