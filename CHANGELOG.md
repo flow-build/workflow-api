@@ -1,3 +1,17 @@
+## [2.30.0](https://github.com/flow-build/workflow/compare/v2.29.0...v2.30.0) (2023-05-25)
+
+
+### Features
+
+* add /cockpit/envs routes ([73a71d1](https://github.com/flow-build/workflow/commit/73a71d1fd11660acb819f2cca3ddf1f87c62f761))
+* update engine to add blueprint _extract and node extract properties ([aad7342](https://github.com/flow-build/workflow/commit/aad73427dea90637a8dd68dd9f1016f7f7522979))
+* update engine to add process_id on GET /cockpit/processes/:id/execution ([7f0f979](https://github.com/flow-build/workflow/commit/7f0f979a785799628b5f86c965c11e527b45ad41))
+
+
+### Bug Fixes
+
+* adjust GET /cockpit/envs to return only table variables ([152fb5d](https://github.com/flow-build/workflow/commit/152fb5d723b9ebaf55f635976d4e965e3c4cc402))
+
 ## [2.29.0](https://github.com/flow-build/workflow/compare/v2.28.0...v2.29.0) (2023-05-24)
 
 
