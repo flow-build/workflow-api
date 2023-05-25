@@ -6,7 +6,7 @@ const { validate } = require("uuid");
 const validateBodyWithSchema = (schema) => {
   return async (ctx, next) => {
     logger.debug("called validateBodySchema");
-    const _ajv = new Ajv({ allErrors: true });
+    const _ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
     addFormats(_ajv);
     const validateSchema = _ajv.compile(schema);
     const is_valid = await validateSchema(ctx.request.body);
