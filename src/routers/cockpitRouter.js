@@ -12,6 +12,8 @@ const cp = require("../controllers/cockpit/process");
 const pt = require("../controllers/cockpit/processTree");
 const cam = require("../controllers/cockpit/activityManager");
 const ev = require("../controllers/cockpit/environmentVariable");
+const connectionCtrl = require('../controllers/connection');
+
 const { getNodes, fetchNode } = require("../controllers/cockpit/nodes")
 
 module.exports = (opts = {}) => {
@@ -32,6 +34,10 @@ module.exports = (opts = {}) => {
       router[route.verb](route.path, ...route.methods);
     }
   }
+
+  const connection = new Router();
+  connection.prefix("/connection");
+  connection.post("/beacon", connectionCtrl.sendBeacon);
 
   const workflows = new Router();
   workflows.prefix("/workflows");
@@ -72,6 +78,7 @@ module.exports = (opts = {}) => {
   router.use(workflows.routes());
   router.use(nodes.routes());
   router.use(activityManager.routes());
+  router.use(connection.routes());
   router.use(envs.routes());
 
   return router;

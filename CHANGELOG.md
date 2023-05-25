@@ -1,3 +1,36 @@
+## [2.29.0](https://github.com/flow-build/workflow/compare/v2.28.0...v2.29.0) (2023-05-24)
+
+
+### Features
+
+* changes topic used to publish KAFKA beacon message ([2560683](https://github.com/flow-build/workflow/commit/256068380446b8060e21130f5df6c8d499a1e9b6))
+* sets KAFKA_NAMESPACE var to name topic on beacon ([16872b8](https://github.com/flow-build/workflow/commit/16872b8cd00baeb94329494b682de0b0cc3d5dec))
+
+## [2.28.0](https://github.com/flow-build/workflow/compare/v2.27.0...v2.28.0) (2023-05-24)
+
+
+### Features
+
+* adds extra data on state message to brokers ([3a9df7a](https://github.com/flow-build/workflow/commit/3a9df7a60c74d4516f0be73f7a94becd10e49c43))
+* adjustment to always send all process ids available ([42ecdfa](https://github.com/flow-build/workflow/commit/42ecdfa01e81f96a35e1ef13f58a0b2c3a9b783a))
+
+## [2.27.0](https://github.com/flow-build/workflow/compare/v2.26.0...v2.27.0) (2023-05-18)
+
+
+### Features
+
+* adds /connection/beacon route and its controller ([3553dd3](https://github.com/flow-build/workflow/commit/3553dd3383ce63fe58a05cb22a56e871a9b3cffa))
+* adds error detailing failure in case of broker not enabled ([7f876d8](https://github.com/flow-build/workflow/commit/7f876d8d99c526b2be8a5a7088725f1324e0b858))
+* moves /connection route to cockpit and adds optional 'token' data ([7a2e1af](https://github.com/flow-build/workflow/commit/7a2e1af9f9dd45cfeb85d7e4e075afd12bee2cb5))
+* sets default topic name if namespace is not set ([886f300](https://github.com/flow-build/workflow/commit/886f300e70f149d36f6b848ec446554eb59242f3))
+* updates beacon route behavior and responses ([5124554](https://github.com/flow-build/workflow/commit/5124554037ec9e468b51f1238af2c5b63bf82c6e))
+
+
+### Bug Fixes
+
+* adjust mqtt topics ([5dbcd59](https://github.com/flow-build/workflow/commit/5dbcd591952703835073abc38a5a8802434a1c59))
+* gets engine_id from @flowbuild/engine utility ([f1422c9](https://github.com/flow-build/workflow/commit/f1422c99bcef0250aabb5cb9d1b5d30f25345634))
+
 ## [2.26.0](https://github.com/flow-build/workflow/compare/v2.25.1...v2.26.0) (2023-05-16)
 
 

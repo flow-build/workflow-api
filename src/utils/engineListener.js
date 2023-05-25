@@ -30,7 +30,13 @@ const processStateListener = async (processState) => {
       nodeId: processState.node_id,
       status: processState.status,
       workflow: processState.workflow_name,
-      result: processState.result
+      result: processState.result,
+      error: processState.error,
+      stateDate: processState.created_at,
+      bag: processState.bag,
+      actorData: processState.actor_data,
+      processCreatedAt: processState.process_created_at,
+      workflowId: processState.workflow_id,
     };
 
     broker.publishMessage({ topic, message }, process.env.PROCESS_STATE_BROKER || "MQTT");
@@ -97,7 +103,8 @@ const eventNodeNotifier = async (eventData) => {
         topic: `WORKFLOW_EVENT-${definition}`,
         message: {
           process_input: execution_data,
-          process_id: execution_data?.target_process_id || '',
+          target_process_id: execution_data?.target_process_id || '',
+          trigger_process_id: execution_data?.trigger_process_id || '',
         }
       }
     }, process.env.WORKFLOW_EVENTS_BROKER || "KAFKA")

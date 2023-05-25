@@ -184,7 +184,7 @@ const validateEnvironmentVariable = async (spec) => {
   return validateInfo;
 }
 
-validateNodesExtract = (spec) => {
+const validateNodesExtract = (spec) => {
   let validateInfo = [];
 
   for (const node of spec.nodes) {
