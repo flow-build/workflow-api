@@ -29,7 +29,7 @@
     "supertest": "6.3.3"
   },
   "dependencies": {
-    "@flowbuild/engine": "2.27.0",
+    "@flowbuild/engine": "2.31.1",
     "@flowbuild/indexer": "1.0.2",
     "@flowbuild/nodejs-diagram-builder": "1.1.0",
     "@flowbuild/process-tree": "1.0.4",
