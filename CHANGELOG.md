@@ -1,3 +1,15 @@
+## [2.31.0](https://github.com/flow-build/workflow/compare/v2.30.0...v2.31.0) (2023-06-20)
+
+
+### Features
+
+* add graphQL custom node ([c9a7a3c](https://github.com/flow-build/workflow/commit/c9a7a3ced1d40dd1da1f2ab9b19fd7d93042ae9c))
+
+
+### Bug Fixes
+
+* fix typos ([97d1e60](https://github.com/flow-build/workflow/commit/97d1e60e665721334ed43acf846220f32e557ba7))
+
 ## [2.30.0](https://github.com/flow-build/workflow/compare/v2.29.0...v2.30.0) (2023-05-25)
 
 
