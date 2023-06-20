@@ -1,3 +1,10 @@
+## [2.31.1](https://github.com/flow-build/workflow/compare/v2.31.0...v2.31.1) (2023-06-20)
+
+
+### Bug Fixes
+
+* fix typo on filename casing ([0a299c5](https://github.com/flow-build/workflow/commit/0a299c5bad9c69c2d93642a081b727964abe8219))
+
 ## [2.31.0](https://github.com/flow-build/workflow/compare/v2.30.0...v2.31.0) (2023-06-20)
 
 
