@@ -5,13 +5,14 @@ const createIndexNode = require("./createIndexNode");
 const retrieveProcessNode = require("./retrieveProcessNode");
 const tokenizeNode = require("./tokenizeNode");
 const validateSchemaNode = require("./validateSchemaNode");
-const createUuidNode = require('./createUuidNode');
+const createUuidNode = require("./createUuidNode");
 const BasicAuthNode = require("./basicAuthNode");
-const remapDataNode = require('./remapDataNode');
-const filterDataNode = require('./filterDataNode');
-const DeepCompareNode = require('./deepCompareNode');
+const remapDataNode = require("./remapDataNode");
+const filterDataNode = require("./filterDataNode");
+const DeepCompareNode = require("./deepCompareNode");
 const GrpcNode = require("./grpcNode");
 const KafkaPublishNode = require("./kafkaPublishNode");
+const GraphQlNode = require("./graphqlNode");
 
 const setCustomNodes = () => {
   addSystemTaskCategory({ createIndex: createIndexNode });
@@ -34,11 +35,12 @@ const setCustomNodes = () => {
   logger.info("added deepCompareNode");
   addSystemTaskCategory({ grpc: GrpcNode });
   logger.info("added grpcNode");
-  if(process.env.KAFKA) {
+  if (process.env.KAFKA) {
     addSystemTaskCategory({ kafkaPublish: KafkaPublishNode });
     logger.info("added kafkaPublishNode");
   }
-  
+  addSystemTaskCategory({ graphQl: GraphQlNode });
+  logger.info("added graphQlNode");
 };
 
 module.exports.setCustomNodes = setCustomNodes;
