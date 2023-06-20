@@ -51,7 +51,6 @@ class GraphQlNode extends Nodes.SystemTaskNode {
   }
 
   async _run(execution_data) {
-    console.log("executionData:", execution_data);
     const { request, input } = execution_data;
 
     const actions = {
@@ -73,8 +72,6 @@ class GraphQlNode extends Nodes.SystemTaskNode {
 
     const gqlData = actions[input.action](input);
 
-    //console.log('gqlData', gqlData)
-
     const requestConfig = {
       method: request.verb,
       url: request.route,
@@ -87,7 +84,6 @@ class GraphQlNode extends Nodes.SystemTaskNode {
     };
 
     const result = await axios(requestConfig);
-    //console.log('response:', result.data)
 
     return [
       { status: result.status, data: result.data.data },
