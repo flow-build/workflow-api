@@ -50,8 +50,8 @@ class GraphQlNode extends Nodes.SystemTaskNode {
     return GraphQlNode.validate(this._spec);
   }
 
-  async _run(execution_data) {
-    const { request, input } = execution_data;
+  async _run(executionData) {
+    const { request, input } = executionData;
 
     const actions = {
       query: (input) => {
