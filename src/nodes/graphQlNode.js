@@ -86,7 +86,7 @@ class GraphQlNode extends Nodes.SystemTaskNode {
     const result = await axios(requestConfig);
 
     return [
-      { status: result.status, data: result.data.data },
+      { status: result.status, data: result.data },
       ProcessStatus.RUNNING,
     ];
   }
