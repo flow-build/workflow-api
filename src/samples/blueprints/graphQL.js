@@ -33,7 +33,7 @@ module.exports = {
             operation: "request",
             fields: ["headers"],
             headers: {
-              "Contenc-Type": "application/json",
+              "Content-Type": "application/json",
             },
           },
         },
@@ -71,8 +71,8 @@ module.exports = {
       {
         id: "CONFIG",
         type: "SystemTask",
-        category: "graphQl",
-        name: "graphQL query call",
+        category: "setToBag",
+        name: "adds data to bag to test $ref",
         next: "GRAPHQL_REF",
         lane_id: "free",
         parameters: {
@@ -89,7 +89,7 @@ module.exports = {
               },
             },
             headers: {
-              "Contenc-Type": "application/json",
+              "Content-Type": "application/json",
             },
           },
         },
