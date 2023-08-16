@@ -1,3 +1,10 @@
+## [2.31.2](https://github.com/flow-build/workflow/compare/v2.31.1...v2.31.2) (2023-08-16)
+
+
+### Bug Fixes
+
+* updates engine version to 2.32.1 to remove unecessary bp validation ([dbf1d33](https://github.com/flow-build/workflow/commit/dbf1d336ee1cd97913d051309d87d20198c0bc55))
+
 ## [2.31.1](https://github.com/flow-build/workflow/compare/v2.31.0...v2.31.1) (2023-06-20)
 
 
