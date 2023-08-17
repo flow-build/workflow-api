@@ -1,3 +1,10 @@
+## [2.32.0](https://github.com/flow-build/workflow/compare/v2.31.2...v2.32.0) (2023-08-17)
+
+
+### Features
+
+* adds knex pool connection configs ([0bf2a3d](https://github.com/flow-build/workflow/commit/0bf2a3d5e3b5e31f56ae5d9a5cc4d9b8ba6718b9))
+
 ## [2.31.2](https://github.com/flow-build/workflow/compare/v2.31.1...v2.31.2) (2023-08-16)
 
 
