@@ -15,6 +15,10 @@ module.exports = {
     migrations: {
       directory: path.join(BASE_PATH, "migrations"),
     },
+    pool: {
+      min: 0,
+      max: parseInt(process.env.DB_MAX_POOL_CONNECTION ?? 10, 10),
+    },
     seeds: {
       directory: path.join(BASE_PATH, "seeds"),
     },
@@ -26,6 +30,10 @@ module.exports = {
       user: "postgres",
       password: process.env.POSTGRES_PASSWORD || "postgres",
       database: "workflow",
+    },
+    pool: {
+      min: 0,
+      max: parseInt(process.env.DB_MAX_POOL_CONNECTION ?? 10, 10),
     },
     migrations: {
       directory: path.join(BASE_PATH, "migrations"),
@@ -65,6 +73,10 @@ module.exports = {
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
       ssl: { rejectUnauthorized: false },
+    },
+    pool: {
+      min: 0,
+      max: parseInt(process.env.DB_MAX_POOL_CONNECTION ?? 10, 10),
     },
     migrations: {
       directory: path.join(BASE_PATH, "migrations"),

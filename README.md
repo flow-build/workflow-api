@@ -26,6 +26,7 @@ Add a .env file with the following variables:
 - POSTGRES_DATABASE
 - POSTGRES_USER
 - POSTGRES_PASSWORD
+- DB_MAX_POOL_CONNECTION (default=10)
 
 ### TOKEN CONFIGURATION
 
