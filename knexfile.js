@@ -17,7 +17,7 @@ module.exports = {
     },
     pool: {
       min: 0,
-      max: process.env.DB_MAX_POOL_CONNECTION ?? 10,
+      max: parseInt(process.env.DB_MAX_POOL_CONNECTION ?? 10, 10),
     },
     seeds: {
       directory: path.join(BASE_PATH, "seeds"),
@@ -33,7 +33,7 @@ module.exports = {
     },
     pool: {
       min: 0,
-      max: process.env.DB_MAX_POOL_CONNECTION ?? 10,
+      max: parseInt(process.env.DB_MAX_POOL_CONNECTION ?? 10, 10),
     },
     migrations: {
       directory: path.join(BASE_PATH, "migrations"),
@@ -76,7 +76,7 @@ module.exports = {
     },
     pool: {
       min: 0,
-      max: process.env.DB_MAX_POOL_CONNECTION ?? 10,
+      max: parseInt(process.env.DB_MAX_POOL_CONNECTION ?? 10, 10),
     },
     migrations: {
       directory: path.join(BASE_PATH, "migrations"),
