@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const healthcheck_1 = require("../controllers/healthcheck");
+const token_1 = require("../controllers/token");
+const express_1 = require("express");
+const router = (0, express_1.Router)();
+router.get("/", healthcheck_1.healthcheck);
+router.get("/healthcheck", healthcheck_1.healthcheck);
+router.get("/token", token_1.get);
+exports.default = router;
