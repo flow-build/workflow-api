@@ -11,7 +11,7 @@
     "migrations": "knex --env ${KNEX_ENV} --knexfile knexfile.js migrate:latest",
     "migrations:local": "knex --env dockerLocal --knexfile knexfile.js migrate:latest",
     "start": "node dist/server.js",
-    "dev": "tsx watch src/server.ts",
+    "dev": "ts-node src/server.ts",
     "get-version": "echo $npm_package_version",
     "release": "semantic-release",
     "export": "node ./scripts/export.js",
@@ -38,7 +38,6 @@
     "semantic-release": "24.2.7",
     "supertest": "7.1.3",
     "ts-node": "10.9.2",
-    "tsx": "4.20.3",
     "typescript-eslint": "8.37.0"
   },
   "dependencies": {

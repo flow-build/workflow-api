@@ -90,7 +90,7 @@ export default class CreateUuidNode extends (Nodes.SystemTaskNode as any) {
   }
 
   async _run(executionData: CreateUuidNodeExecutionData): Promise<[CreateUuidNodeResult, string]> {
-    let result: CreateUuidNodeResult = { id: '' }
+    const result: CreateUuidNodeResult = { id: "" }
 
     function getVersion(uVersion?: "v1" | "v4") {
       if (!uVersion) return uuid.v1()
@@ -105,11 +105,12 @@ export default class CreateUuidNode extends (Nodes.SystemTaskNode as any) {
 
     try {
       if (executionData.type === "nanoid") {
-        const size = executionData.options?.size;
+        const size = executionData.options?.size
         if (typeof size === "number") {
-          result.id = nanoid(size);
-        } else {
-          result.id = nanoid();
+          result.id = nanoid(size)
+        }
+        else {
+          result.id = nanoid()
         }
       }
       else {

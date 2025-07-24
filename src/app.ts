@@ -12,7 +12,6 @@ import { db } from "./utils/db"
 import { activateNotifiers } from "./utils/engineListener"
 import { startLogger } from "./utils/engineLogger"
 import { jwtAlgorithms, jwtPassthrough, jwtSecret } from "./utils/jwtSecret"
-import { logger as _log } from "./utils/logger"
 import { getCockpit, getEngine, setCockpit, setEngine } from "./engine"
 
 import { Cockpit, Engine } from "@flowbuild/engine"
@@ -22,6 +21,7 @@ import { expressjwt } from "express-jwt"
 import helmet from "helmet"
 
 const app: Application = express()
+
 app.use(helmet())
 app.use(setPersist(db))
 app.use(captureUserAgentAndIp)

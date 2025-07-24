@@ -1,4 +1,3 @@
-// @ts-ignore: Suppress missing type declaration for @flowbuild/indexer
 import { db } from "../utils/db"
 import { logger } from "../utils/logger"
 

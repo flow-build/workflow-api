@@ -13,7 +13,7 @@ async function processStateListener(processState: any) {
     const processId = processState.process_id
     const parentId
       = processState.bag.parent_process_data?.id
-      || processState.actor_data.parentProcessData?.id
+        || processState.actor_data.parentProcessData?.id
     if (parentId) {
       logger.debug(`PS LISTENER: Process Tree, appendChild PID ${processId}`)
       await tree.appendChild({ parentId, processId })
@@ -61,8 +61,8 @@ async function activityManagerListener(activityManager: any) {
   )
   const skipListener
     = process.env.ACTIVITY_MANAGER_SEND_ONLY_ON_CREATION === "true"
-    && (activityManager._activities?.length > 0
-      || activityManager._status !== "started")
+      && (activityManager._activities?.length > 0
+        || activityManager._status !== "started")
 
   if (!activityManager._id || skipListener) {
     return

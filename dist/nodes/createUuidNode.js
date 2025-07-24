@@ -88,11 +88,12 @@ class CreateUuidNode extends engine_1.Nodes.SystemTaskNode {
         };
     }
     static validate(spec) {
+        var _a;
         const ajv = new ajv_1.default({ allErrors: true });
         (0, ajv_formats_1.default)(ajv);
         const validate = ajv.compile(CreateUuidNode.schema);
         const validation = validate(spec);
-        return [validation, JSON.stringify(validate.errors)];
+        return [validation, JSON.stringify((_a = validate.errors) !== null && _a !== void 0 ? _a : "")];
     }
     validate() {
         return CreateUuidNode.validate(this._spec);
@@ -112,8 +113,9 @@ class CreateUuidNode extends engine_1.Nodes.SystemTaskNode {
             }
             try {
                 if (executionData.type === "nanoid") {
-                    if ((_a = executionData.options) === null || _a === void 0 ? void 0 : _a.size) {
-                        result.id = (0, nanoid_1.nanoid)(executionData.options.size);
+                    const size = (_a = executionData.options) === null || _a === void 0 ? void 0 : _a.size;
+                    if (typeof size === "number") {
+                        result.id = (0, nanoid_1.nanoid)(size);
                     }
                     else {
                         result.id = (0, nanoid_1.nanoid)();

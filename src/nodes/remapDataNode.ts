@@ -118,6 +118,7 @@ export default class RemapDataNode extends (Nodes.SystemTaskNode as any) {
       const { data, dictionary } = executionData
       let status = "success"
 
+      // eslint-disable-next-line prefer-const
       let { remapped_data, messages } = RemapDataNode.remapData(data, dictionary)
 
       if (messages.length > 0) {

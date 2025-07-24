@@ -8,7 +8,7 @@
     "moduleResolution": "node",
     "outDir": "./dist",
     "rootDir": "./src",
-    "removeComments": true, /* Specify what module code is generated. */
+    "removeComments": true, /* Remove comments from output JS. */
     "resolveJsonModule": true,
     "strict": true,
     "strictPropertyInitialization": false,
@@ -18,15 +18,19 @@
       "express"
     ],
     "lib": [
-      "es2020",
-      "dom"
+      "es2020"
     ],
     "typeRoots": [
       "./src/types",
       "./node_modules/@types"
-    ]
+    ],
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
   ]
 }
